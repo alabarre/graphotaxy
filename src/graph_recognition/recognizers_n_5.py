@@ -563,7 +563,7 @@ def is_cograph_contraction(graph: nx.Graph) -> bool:
 def is_quasi_median(graph: nx.Graph) -> bool:
     """
     A graph is quasi-median if every interval in G induces a median graph and for any three
-    vertices u,v,w: I(u,v) \cap I(u,w) = {u} implies that d(v, w) >= max(d(u, v), d(u, w)).
+    vertices u, v, w: I(u,v) ∩ I(u,w) = {u} implies that d(v, w) >= max(d(u, v), d(u, w)).
 
     https://www.graphclasses.org/classes/gc_263.html
 
