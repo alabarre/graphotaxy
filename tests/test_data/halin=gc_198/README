@@ -1,0 +1,9 @@
+Comments by Anthony Labarre 2025-07-09:
+
+- I had to remove >>graph6<<\n because it triggers an exception with nx read_graph6
+
+ISSUE:
+
+K_4 is apparently the only Halin graphs of size 4. The problem is that they are supposed to be K_4-free, according to ISGCI. So ... ?
+mailed ISGCI on 2025-07-09, waiting for an answer
+marked corresponding file with .IGNORE for now

@@ -1,0 +1,1133 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><key id="d3" for="node" attr.name="color" attr.type="string"/>
+<key id="d2" for="node" attr.name="reason" attr.type="string"/>
+<key id="d1" for="node" attr.name="category" attr.type="string"/>
+<key id="d0" for="node" attr.name="name" attr.type="string"/>
+<graph edgedefault="directed"><node id="gc_1272">
+  <data key="d0">monopolar</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_705">
+  <data key="d0">clique-perfect ∩ triangle-free</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1020">
+  <data key="d0">(C_{n+3} U K_{1},diamond,paw)-free</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_999">
+  <data key="d0">odd-signable ∩ triangle-free</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1191">
+  <data key="d0">(0,2)-graph</data>
+  <data key="d1">-</data>
+  <data key="d2">is_02_graph returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_639">
+  <data key="d0">P_{6}-free ∩ tripartite</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_868">
+  <data key="d0">PURE-3-DIR</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_457">
+  <data key="d0">weak bisplit</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_635">
+  <data key="d0">(H,triangle)-free</data>
+  <data key="d1">-</data>
+  <data key="d2">is_gc_635 returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_540">
+  <data key="d0">(1,2)-colorable</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1268">
+  <data key="d0">probe (1,2)-colorable</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_92">
+  <data key="d0">2-split</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_414">
+  <data key="d0">disk</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-hard</data>
+</node>
+<node id="gc_1008">
+  <data key="d0">semi-square intersection</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_978">
+  <data key="d0">2-thin</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="AUTO_2248">
+  <data key="d0">(5-pan,A,P_{6},X_{186},co(3P_{3}),co(P_{3} U P_{4}),co(X_{102}),co(X_{180}),co(X_{181}),co(X_{182}),co(X_{183}),co(X_{184}),co(X_{185}),co(X_{187}),co(X_{188}),co(X_{189}),co(X_{190}),co(X_{191}),co(X_{192}),co(X_{193}),house,twin-C_{5})-free</data>
+  <data key="d1">-</data>
+  <data key="d2">is_AUTO_2248 returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_929">
+  <data key="d0">(3K_{2},triangle)-free</data>
+  <data key="d1">-</data>
+  <data key="d2">is_gc_929 returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_914">
+  <data key="d0">(2P_{3},triangle)-free</data>
+  <data key="d1">+</data>
+  <data key="d2">is_gc_914 returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_922">
+  <data key="d0">(P_{6},triangle)-free</data>
+  <data key="d1">+</data>
+  <data key="d2">is_gc_922 returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_923">
+  <data key="d0">(P_{2} U P_{4},triangle)-free</data>
+  <data key="d1">+</data>
+  <data key="d2">is_gc_923 returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_870">
+  <data key="d0">1-string</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_132">
+  <data key="d0">circle</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_866">
+  <data key="d0">PURE-k-DIR</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1061">
+  <data key="d0">B_{k}-VPG</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_1267">
+  <data key="d0">probe co-bipartite</data>
+  <data key="d1">-</data>
+  <data key="d2">is_probe_co_bipartite returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_418">
+  <data key="d0">(p,q&lt;=2)-colorable</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1269">
+  <data key="d0">probe (2,2)-colorable</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_878">
+  <data key="d0">(2,2)-interval</data>
+  <data key="d1">?</data>
+  <data key="d2">Open</data>
+</node>
+<node id="gc_877">
+  <data key="d0">unit 2-interval</data>
+  <data key="d1">?</data>
+  <data key="d2">Open</data>
+</node>
+<node id="gc_864">
+  <data key="d0">2-DIR</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_1070">
+  <data key="d0">B_{0}-VPG ∩ triangle-free</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1173">
+  <data key="d0">unit grid intersection</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1337">
+  <data key="d0">B_{0}-CPG</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_1064">
+  <data key="d0">B_{1}-VPG</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_1179">
+  <data key="d0">rectangle intersection</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_935">
+  <data key="d0">3-DIR</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_1204">
+  <data key="d0">2-SEG</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-hard</data>
+</node>
+<node id="gc_862">
+  <data key="d0">SEG</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_925">
+  <data key="d0">(K_{2} U claw,triangle)-free</data>
+  <data key="d1">+</data>
+  <data key="d2">is_gc_925 returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_1085">
+  <data key="d0">unit 2-circular arc</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_133">
+  <data key="d0">circular arc</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_771">
+  <data key="d0">2-connected</data>
+  <data key="d1">+</data>
+  <data key="d2">is_biconnected returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_1092">
+  <data key="d0">hamiltonian</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_876">
+  <data key="d0">balanced 2-interval</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_902">
+  <data key="d0">treewidth 5</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1195">
+  <data key="d0">2-strongly regular</data>
+  <data key="d1">+</data>
+  <data key="d2">is_2_strongly_regular returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_348">
+  <data key="d0">p-connected</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1113">
+  <data key="d0">well-dominated</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1163">
+  <data key="d0">complete Hamming</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1019">
+  <data key="d0">unit Helly circle</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_314">
+  <data key="d0">polar</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_950">
+  <data key="d0">co-interval mixed</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_536">
+  <data key="d0">spider graph</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="AUTO_1462">
+  <data key="d0">(P_{2} U P_{3},house)-free</data>
+  <data key="d1">+</data>
+  <data key="d2">is_AUTO_1462 returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_395">
+  <data key="d0">nK_{2}-free, fixed n</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1276">
+  <data key="d0">(5-pan,T_{2},X_{172})-free</data>
+  <data key="d1">-</data>
+  <data key="d2">is_gc_1276 returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_816">
+  <data key="d0">E-free</data>
+  <data key="d1">-</data>
+  <data key="d2">is_gc_816 returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_490">
+  <data key="d0">(5,2)</data>
+  <data key="d1">-</data>
+  <data key="d2">is_gc_359 returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_970">
+  <data key="d0">co-line</data>
+  <data key="d1">+</data>
+  <data key="d2">is_AUTO_2073 returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="AUTO_2098">
+  <data key="d0">co(XC_{10})-free</data>
+  <data key="d1">-</data>
+  <data key="d2">is_co_xc_10_free returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_674">
+  <data key="d0">4K_{1}-free</data>
+  <data key="d1">-</data>
+  <data key="d2">is_gc_674 returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_936">
+  <data key="d0">3-DIR contact</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_863">
+  <data key="d0">k-DIR</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_201">
+  <data key="d0">3-Helly</data>
+  <data key="d1">+</data>
+  <data key="d2">is_pseudo_modular returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_614">
+  <data key="d0">XC_{10}-free ∩ pseudo-modular</data>
+  <data key="d1">-</data>
+  <data key="d2">is_pseudo_median returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_33">
+  <data key="d0">isometric-hereditary pseudo-modular</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_794">
+  <data key="d0">disk-Helly</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1083">
+  <data key="d0">unit 3-interval</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_897">
+  <data key="d0">(K_{5},X_{126},X_{174},co(3K_{2}))-minor-free</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1210">
+  <data key="d0">(4,0)-colorable</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="AUTO_2121">
+  <data key="d0">co(XC_{11})-free</data>
+  <data key="d1">-</data>
+  <data key="d2">is_co_maximum_degree_4 returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_789">
+  <data key="d0">probe permutation</data>
+  <data key="d1">?</data>
+  <data key="d2">Open</data>
+</node>
+<node id="gc_953">
+  <data key="d0">co-planar</data>
+  <data key="d1">-</data>
+  <data key="d2">is_co_planar returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_952">
+  <data key="d0">CONV</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_1101">
+  <data key="d0">4-regular</data>
+  <data key="d1">-</data>
+  <data key="d2">is_4_regular returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="AUTO_2584">
+  <data key="d0">6K_{1}-free</data>
+  <data key="d1">+</data>
+  <data key="d2">is_AUTO_2584 returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_699">
+  <data key="d0">clique-perfect</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_482">
+  <data key="d0">cliquewidth 3</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_994">
+  <data key="d0">strongly even-signable</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1181">
+  <data key="d0">apex</data>
+  <data key="d1">-</data>
+  <data key="d2">is_apex returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_1104">
+  <data key="d0">5-regular</data>
+  <data key="d1">-</data>
+  <data key="d2">is_5_regular returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_375">
+  <data key="d0">induced-hereditary pseudo-modular</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_436">
+  <data key="d0">C_{6}-free</data>
+  <data key="d1">-</data>
+  <data key="d2">is_gc_436 returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_1288">
+  <data key="d0">pairwise compatibility</data>
+  <data key="d1">?</data>
+  <data key="d2">Open</data>
+</node>
+<node id="gc_1017">
+  <data key="d0">Helly circle</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1336">
+  <data key="d0">CPG</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_494">
+  <data key="d0">(7,4)</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_498">
+  <data key="d0">(q,q-4), fixed q</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_501">
+  <data key="d0">(q, q-3), fixed q&gt;= 7</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_495">
+  <data key="d0">(7,5)</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_497">
+  <data key="d0">(9,6)</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="AUTO_1892">
+  <data key="d0">(S_{3},T_{2},X_{205},X_{206},X_{207},X_{208},co(X_{42}))-free</data>
+  <data key="d1">-</data>
+  <data key="d2">is_AUTO_1892 returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_550">
+  <data key="d0">(A,H,K_{3,3},X_{45},X_{46},X_{47},X_{48},X_{49},X_{50},X_{51},X_{52},X_{53},X_{54},X_{55},X_{56},X_{57},co(X_{42}))-free</data>
+  <data key="d1">-</data>
+  <data key="d2">is_gc_550 returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_815">
+  <data key="d0">(C_{4},P_{6})-free</data>
+  <data key="d1">+</data>
+  <data key="d2">is_gc_815 returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_820">
+  <data key="d0">probe AT-free</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_567">
+  <data key="d0">hereditary dominating pair</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1338">
+  <data key="d0">B_{1}-CPG</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1205">
+  <data key="d0">B_{1}-VCPG</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1063">
+  <data key="d0">B_{2}-VPG</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_1062">
+  <data key="d0">B_{3}-VPG</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_221">
+  <data key="d0">isometric-HH-free</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_282">
+  <data key="d0">normal</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_895">
+  <data key="d0">strongly circular perfect</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_322">
+  <data key="d0">Birkhoff</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_951">
+  <data key="d0">outer-string</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_810">
+  <data key="d0">subtree filament</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="AUTO_849">
+  <data key="d0">(XC_{12},triangle)-free</data>
+  <data key="d1">+</data>
+  <data key="d2">is_xc_12_triangle_free returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_202">
+  <data key="d0">neighbourhood-Helly</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_757">
+  <data key="d0">(P,T_{2})-free</data>
+  <data key="d1">-</data>
+  <data key="d2">is_gc_757 returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_176">
+  <data key="d0">cop-win</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_911">
+  <data key="d0">(C_{4},triangle)-free</data>
+  <data key="d1">+</data>
+  <data key="d2">is_gc_911 returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_1016">
+  <data key="d0">neighbourhood-Helly ∩ triangle-free</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_998">
+  <data key="d0">building-free ∩ odd-signable</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_96">
+  <data key="d0">geodetic</data>
+  <data key="d1">+</data>
+  <data key="d2">is_geodetic returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_1000">
+  <data key="d0">C_{4}-free ∩ odd-signable</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_993">
+  <data key="d0">odd-signable</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1015">
+  <data key="d0">biclique-Helly</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_943">
+  <data key="d0">(n+4)-pan-free</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_957">
+  <data key="d0">balanced</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_51">
+  <data key="d0">open-neighbourhood-Helly</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_832">
+  <data key="d0">CIS</data>
+  <data key="d1">?</data>
+  <data key="d2">Open</data>
+</node>
+<node id="gc_861">
+  <data key="d0">normal circular arc</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1044">
+  <data key="d0">circular arc ∩ clique-Helly</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_205">
+  <data key="d0">Helly circular arc</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_894">
+  <data key="d0">co-circular perfect</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_389">
+  <data key="d0">unit disk</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-hard</data>
+</node>
+<node id="gc_263">
+  <data key="d0">quasi-median</data>
+  <data key="d1">+</data>
+  <data key="d2">is_quasi_median returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_390">
+  <data key="d0">interval filament</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_788">
+  <data key="d0">probe co-comparability</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_462">
+  <data key="d0">k-polygon</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_128">
+  <data key="d0">EPT</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_187">
+  <data key="d0">homogeneously orderable</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1345">
+  <data key="d0">Hamilton-connected</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_185">
+  <data key="d0">dually chordal</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_581">
+  <data key="d0">reflexive</data>
+  <data key="d1">-</data>
+  <data key="d2">is_reflexive returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_1255">
+  <data key="d0">Helly cactus subtree</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_947">
+  <data key="d0">Helly circular arc ∩ self-clique</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_946">
+  <data key="d0">self-clique</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1261">
+  <data key="d0">Helly subtree</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1110">
+  <data key="d0">K_{1,4}-free ∩ well covered</data>
+  <data key="d1">?</data>
+  <data key="d2">coNP-complete</data>
+</node>
+<node id="gc_932">
+  <data key="d0">locally connected</data>
+  <data key="d1">-</data>
+  <data key="d2">is_locally_connected returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_1145">
+  <data key="d0">almost claw-free</data>
+  <data key="d1">-</data>
+  <data key="d2">is_almost_claw_free returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_415">
+  <data key="d0">well covered</data>
+  <data key="d1">?</data>
+  <data key="d2">coNP-complete</data>
+</node>
+<node id="gc_753">
+  <data key="d0">circular perfect</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_293">
+  <data key="d0">toroidal</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_292">
+  <data key="d0">&lt;img alt="cal P" src="images/calP.gif"/&gt;_{3}-perfect</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_734">
+  <data key="d0">partial 4-tree</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1206">
+  <data key="d0">Laman</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1215">
+  <data key="d0">Mycielski</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_504">
+  <data key="d0">partner-limited</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_691">
+  <data key="d0">upper domination perfect</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_924">
+  <data key="d0">(X_{172},triangle)-free</data>
+  <data key="d1">+</data>
+  <data key="d2">is_gc_924 returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_483">
+  <data key="d0">cliquewidth 4</data>
+  <data key="d1">?</data>
+  <data key="d2">Open</data>
+</node>
+<node id="gc_738">
+  <data key="d0">frame hereditary dominating pair</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_532">
+  <data key="d0">Raspail</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_646">
+  <data key="d0">interval enumerable</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_948">
+  <data key="d0">hereditary clique-Helly ∩ self-clique</data>
+  <data key="d1">?</data>
+  <data key="d2">Open</data>
+</node>
+<node id="gc_419">
+  <data key="d0">visibility</data>
+  <data key="d1">?</data>
+  <data key="d2">Open</data>
+</node>
+<node id="gc_783">
+  <data key="d0">graceful</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_785">
+  <data key="d0">harmonious</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_616">
+  <data key="d0">irredundance perfect with ir(G)=2</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_256">
+  <data key="d0">unigraph</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_787">
+  <data key="d0">probe comparability</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_880">
+  <data key="d0">all-4-simplicial</data>
+  <data key="d1">?</data>
+  <data key="d2">NP-complete</data>
+</node>
+<node id="gc_1154">
+  <data key="d0">circle-trapezoid</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1155">
+  <data key="d0">circular trapezoid</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1052">
+  <data key="d0">bounded cutwidth</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1053">
+  <data key="d0">bounded degree</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1054">
+  <data key="d0">bounded degree ∩ bounded treewidth</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_470">
+  <data key="d0">bounded treewidth</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_992">
+  <data key="d0">even-signable</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_995">
+  <data key="d0">strongly odd-signable</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_296">
+  <data key="d0">clique-chordal</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1093">
+  <data key="d0">fully cycle extendable</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1157">
+  <data key="d0">circle-n-gon, fixed n</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1100">
+  <data key="d0">cubic</data>
+  <data key="d1">+</data>
+  <data key="d2">is_cubic returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_1316">
+  <data key="d0">cubic ∩ hamiltonian</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1186">
+  <data key="d0">distance regular of diameter 2</data>
+  <data key="d1">+</data>
+  <data key="d2">is_distance_regular_of_diameter_2 returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_1112">
+  <data key="d0">equimatchable</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_568">
+  <data key="d0">weak dominating pair</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_600">
+  <data key="d0">interval regular</data>
+  <data key="d1">-</data>
+  <data key="d2">is_interval_regular returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_595">
+  <data key="d0">partial k-tree, fixed k</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_1099">
+  <data key="d0">k-regular, fixed k&gt;= 3</data>
+  <data key="d1">+</data>
+  <data key="d2">is_regular_with_k_at_least_3 returns True</data>
+  <data key="d3">LightGreen</data>
+</node>
+<node id="gc_1105">
+  <data key="d0">k-regular, fixed k&gt;= 6</data>
+  <data key="d1">-</data>
+  <data key="d2">is_regular_with_k_at_least_6 returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_1358">
+  <data key="d0">line perfect</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_500">
+  <data key="d0">(p,q)-colorable</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1221">
+  <data key="d0">(p,q)-split</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_277">
+  <data key="d0">unbreakable</data>
+  <data key="d1">-</data>
+  <data key="d2">is_unbreakable returns False</data>
+  <data key="d3">IndianRed</data>
+</node>
+<node id="gc_611">
+  <data key="d0">p-tree</data>
+  <data key="d1">?</data>
+  <data key="d2"></data>
+</node>
+<node id="gc_488">
+  <data key="d0">(q,t)</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<node id="gc_1059">
+  <data key="d0">self-complementary</data>
+  <data key="d1">?</data>
+  <data key="d2">GI-complete</data>
+</node>
+<node id="gc_690">
+  <data key="d0">upper irredundance perfect</data>
+  <data key="d1">?</data>
+  <data key="d2">Unknown to ISGCI</data>
+</node>
+<edge source="gc_1268" target="gc_540"/>
+<edge source="gc_92" target="gc_540"/>
+<edge source="gc_414" target="gc_389"/>
+<edge source="gc_870" target="gc_132"/>
+<edge source="gc_870" target="gc_866"/>
+<edge source="gc_132" target="gc_1017"/>
+<edge source="gc_132" target="gc_462"/>
+<edge source="gc_866" target="gc_868"/>
+<edge source="gc_1061" target="gc_870"/>
+<edge source="gc_1061" target="gc_1204"/>
+<edge source="gc_1061" target="gc_1062"/>
+<edge source="gc_1061" target="gc_951"/>
+<edge source="gc_1061" target="gc_810"/>
+<edge source="gc_1061" target="gc_952"/>
+<edge source="gc_418" target="gc_92"/>
+<edge source="gc_418" target="gc_1210"/>
+<edge source="gc_1269" target="gc_92"/>
+<edge source="gc_1269" target="gc_1268"/>
+<edge source="gc_1269" target="gc_1267"/>
+<edge source="gc_877" target="gc_878"/>
+<edge source="gc_864" target="gc_1070"/>
+<edge source="gc_864" target="gc_1173"/>
+<edge source="gc_864" target="gc_1337"/>
+<edge source="gc_1064" target="gc_864"/>
+<edge source="gc_1064" target="gc_1338"/>
+<edge source="gc_1064" target="gc_132"/>
+<edge source="gc_1179" target="gc_864"/>
+<edge source="gc_1179" target="gc_978"/>
+<edge source="gc_935" target="gc_864"/>
+<edge source="gc_935" target="gc_868"/>
+<edge source="gc_935" target="gc_936"/>
+<edge source="gc_1204" target="gc_862"/>
+<edge source="gc_1204" target="gc_1064"/>
+<edge source="gc_862" target="gc_132"/>
+<edge source="gc_862" target="gc_863"/>
+<edge source="gc_1085" target="gc_877"/>
+<edge source="gc_133" target="gc_205"/>
+<edge source="gc_133" target="gc_861"/>
+<edge source="gc_133" target="gc_1044"/>
+<edge source="gc_771" target="gc_1092"/>
+<edge source="gc_1092" target="gc_1316"/>
+<edge source="gc_1092" target="gc_1093"/>
+<edge source="gc_876" target="gc_133"/>
+<edge source="gc_876" target="gc_877"/>
+<edge source="gc_902" target="gc_734"/>
+<edge source="gc_348" target="gc_277"/>
+<edge source="gc_348" target="gc_611"/>
+<edge source="gc_314" target="gc_1272"/>
+<edge source="gc_536" target="gc_1157"/>
+<edge source="gc_863" target="gc_935"/>
+<edge source="gc_863" target="gc_866"/>
+<edge source="gc_201" target="gc_614"/>
+<edge source="gc_201" target="gc_33"/>
+<edge source="gc_201" target="gc_794"/>
+<edge source="gc_33" target="gc_375"/>
+<edge source="gc_794" target="gc_185"/>
+<edge source="gc_1083" target="gc_1085"/>
+<edge source="gc_1210" target="gc_953"/>
+<edge source="gc_952" target="gc_1210"/>
+<edge source="gc_952" target="gc_414"/>
+<edge source="gc_952" target="gc_1179"/>
+<edge source="gc_952" target="gc_1008"/>
+<edge source="gc_952" target="gc_862"/>
+<edge source="gc_952" target="gc_536"/>
+<edge source="AUTO_2584" target="gc_674"/>
+<edge source="AUTO_2584" target="AUTO_2121"/>
+<edge source="gc_699" target="gc_705"/>
+<edge source="gc_1017" target="gc_1019"/>
+<edge source="gc_1336" target="gc_1338"/>
+<edge source="gc_501" target="gc_494"/>
+<edge source="gc_501" target="gc_497"/>
+<edge source="gc_495" target="gc_494"/>
+<edge source="gc_820" target="gc_788"/>
+<edge source="gc_567" target="gc_738"/>
+<edge source="gc_1338" target="gc_1337"/>
+<edge source="gc_1338" target="gc_1205"/>
+<edge source="gc_1063" target="gc_1064"/>
+<edge source="gc_1062" target="gc_1063"/>
+<edge source="gc_951" target="gc_1155"/>
+<edge source="gc_951" target="gc_390"/>
+<edge source="gc_810" target="gc_390"/>
+<edge source="gc_202" target="gc_794"/>
+<edge source="gc_202" target="gc_1016"/>
+<edge source="gc_176" target="gc_419"/>
+<edge source="gc_176" target="gc_794"/>
+<edge source="gc_998" target="gc_995"/>
+<edge source="gc_998" target="gc_999"/>
+<edge source="gc_993" target="gc_1000"/>
+<edge source="gc_993" target="gc_998"/>
+<edge source="gc_1015" target="gc_1016"/>
+<edge source="gc_51" target="gc_1016"/>
+<edge source="gc_205" target="gc_947"/>
+<edge source="gc_894" target="gc_895"/>
+<edge source="gc_263" target="gc_1163"/>
+<edge source="gc_390" target="gc_536"/>
+<edge source="gc_788" target="gc_1267"/>
+<edge source="gc_788" target="gc_789"/>
+<edge source="gc_187" target="gc_185"/>
+<edge source="gc_1255" target="gc_205"/>
+<edge source="gc_946" target="gc_947"/>
+<edge source="gc_946" target="gc_948"/>
+<edge source="gc_415" target="gc_1110"/>
+<edge source="gc_415" target="gc_1113"/>
+<edge source="gc_753" target="gc_895"/>
+<edge source="gc_734" target="gc_897"/>
+<edge source="gc_691" target="gc_133"/>
+<edge source="gc_483" target="gc_482"/>
+<edge source="gc_483" target="gc_504"/>
+<edge source="gc_787" target="gc_789"/>
+<edge source="gc_880" target="gc_877"/>
+<edge source="gc_1154" target="gc_132"/>
+<edge source="gc_1154" target="gc_133"/>
+<edge source="gc_1155" target="gc_132"/>
+<edge source="gc_1155" target="gc_133"/>
+<edge source="gc_1053" target="gc_1054"/>
+<edge source="gc_470" target="gc_1054"/>
+<edge source="gc_992" target="gc_994"/>
+<edge source="gc_296" target="gc_185"/>
+<edge source="gc_1157" target="gc_1154"/>
+<edge source="gc_1100" target="gc_1316"/>
+<edge source="gc_568" target="gc_567"/>
+<edge source="gc_690" target="gc_691"/>
+</graph></graphml>

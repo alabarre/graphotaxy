@@ -1,0 +1,275 @@
+~id,~label,d3:string,d2:string,d1:string,d0:string
+AUTO_1527,vertex,is_k2_u_k3_co_p_antihole_free returns True,"(K_{2} U K_{3},co(P),anti-hole)-free",LightGreen,+
+gc_606,vertex,,totally unimodular,DarkGray,?
+gc_1321,vertex,,co-unipolar,DarkGray,?
+gc_276,vertex,,"(5,2)-odd-crossing-chordal",DarkGray,?
+gc_746,vertex,,"(X_{12},X_{5},X_{95},X_{96},X_{97},co(X_{12}),co(X_{5}),co(X_{95}),co(X_{96}),co(X_{97}),co(claw U triangle),claw U triangle,co-cricket,co-twin-house,cricket,odd anti-hole,odd-hole,twin-house)-free",DarkGray,?
+gc_192,vertex,,"(5,2)-odd-noncrossing-chordal",DarkGray,?
+gc_701,vertex,Unknown to ISGCI,"(W_{4},gem)-free ∩ short-chorded",DarkGray,?
+gc_74,vertex,Unknown to ISGCI,Gallai-perfect,DarkGray,?
+gc_603,vertex,,diamond-free ∩ perfect,DarkGray,?
+gc_1272,vertex,NP-complete,monopolar,DarkGray,?
+gc_76,vertex,Unknown to ISGCI,unimodular,DarkGray,?
+gc_705,vertex,Unknown to ISGCI,clique-perfect ∩ triangle-free,DarkGray,?
+gc_1361,vertex,is_bipartite_or_co_bipartite_or_split returns False,bipartite U co-bipartite U split,IndianRed,-
+gc_626,vertex,,perfect ∩ split-neighbourhood,DarkGray,?
+gc_999,vertex,,odd-signable ∩ triangle-free,DarkGray,?
+gc_1191,vertex,is_02_graph returns False,"(0,2)-graph",IndianRed,-
+gc_454,vertex,NP-complete,"(0,3)-colorable",DarkGray,?
+gc_457,vertex,NP-complete,weak bisplit,DarkGray,?
+gc_868,vertex,NP-complete,PURE-3-DIR,DarkGray,?
+gc_633,vertex,is_gc_633 returns False,"(cross,triangle)-free",IndianRed,-
+gc_635,vertex,is_gc_635 returns False,"(H,triangle)-free",IndianRed,-
+gc_598,vertex,,K_{4}-free ∩ perfect,DarkGray,?
+gc_1268,vertex,Unknown to ISGCI,"probe (1,2)-colorable",DarkGray,?
+gc_1158,vertex,Open,alternation,DarkGray,?
+gc_1071,vertex,NP-complete,4-colorable,DarkGray,?
+gc_540,vertex,,"(1,2)-colorable",DarkGray,?
+gc_484,vertex,,"(2,2)-colorable",DarkGray,?
+gc_607,vertex,,2-split ∩ perfect,DarkGray,?
+gc_414,vertex,NP-hard,disk,DarkGray,?
+gc_1257,vertex,,Helly circular arc ∩ perfect,DarkGray,?
+gc_1007,vertex,NP-complete,max-tolerance,DarkGray,?
+gc_978,vertex,Unknown to ISGCI,2-thin,DarkGray,?
+gc_1079,vertex,NP-complete,2-track,DarkGray,?
+gc_929,vertex,is_gc_929 returns False,"(3K_{2},triangle)-free",IndianRed,-
+gc_870,vertex,Unknown to ISGCI,1-string,DarkGray,?
+gc_913,vertex,,overlap,DarkGray,?
+gc_866,vertex,Unknown to ISGCI,PURE-k-DIR,DarkGray,?
+gc_1061,vertex,NP-complete,B_{k}-VPG,DarkGray,?
+gc_1267,vertex,is_probe_co_bipartite returns False,probe co-bipartite,IndianRed,-
+gc_1269,vertex,NP-complete,"probe (2,2)-colorable",DarkGray,?
+gc_418,vertex,Unknown to ISGCI,"(p,q<=2)-colorable",DarkGray,?
+gc_878,vertex,Open,"(2,2)-interval",DarkGray,?
+gc_877,vertex,NP-complete,unit 2-interval,DarkGray,?
+gc_864,vertex,NP-complete,2-DIR,DarkGray,?
+gc_1173,vertex,Unknown to ISGCI,unit grid intersection,DarkGray,?
+gc_1337,vertex,NP-complete,B_{0}-CPG,DarkGray,?
+gc_1070,vertex,Unknown to ISGCI,B_{0}-VPG ∩ triangle-free,DarkGray,?
+gc_1064,vertex,NP-complete,B_{1}-VPG,DarkGray,?
+gc_239,vertex,NP-complete,boxicity 2,DarkGray,?
+gc_935,vertex,NP-complete,3-DIR,DarkGray,?
+gc_1204,vertex,NP-hard,2-SEG,DarkGray,?
+gc_862,vertex,NP-complete,SEG,DarkGray,?
+gc_1084,vertex,Unknown to ISGCI,2-circular arc,DarkGray,?
+gc_40,vertex,NP-complete,2-interval,DarkGray,?
+gc_1085,vertex,Unknown to ISGCI,unit 2-circular arc,DarkGray,?
+gc_1086,vertex,Unknown to ISGCI,2-circular track,DarkGray,?
+gc_133,vertex,,circular arc,DarkGray,?
+gc_1088,vertex,Unknown to ISGCI,3-circular track,DarkGray,?
+gc_771,vertex, successor of gc_771 in exclusion graph,2-connected,IndianRed,-
+gc_876,vertex,NP-complete,balanced 2-interval,DarkGray,?
+gc_902,vertex,,treewidth 5,DarkGray,?
+gc_281,vertex,,kernel solvable,DarkGray,?
+gc_1195,vertex,is_2_strongly_regular returns False,2-strongly regular,IndianRed,-
+gc_732,vertex,NP-complete,caterpillar arboricity <= 2,DarkGray,?
+gc_25,vertex,,alternately orientable,DarkGray,?
+gc_4,vertex,NP-complete,perfectly orderable,DarkGray,?
+gc_1082,vertex,NP-complete,unit 2-track,DarkGray,?
+gc_1080,vertex,NP-complete,3-track,DarkGray,?
+gc_1019,vertex,Unknown to ISGCI,unit Helly circle,DarkGray,?
+gc_1113,vertex,,well-dominated,DarkGray,?
+gc_949,vertex,NP-complete,co-interval filament,DarkGray,?
+gc_111,vertex,NP-complete,circle-polygon,DarkGray,?
+gc_314,vertex,NP-complete,polar,DarkGray,?
+gc_1258,vertex,,"(co(C_{7}),odd-hole)-free",DarkGray,?
+gc_395,vertex,,"nK_{2}-free, fixed n",DarkGray,?
+gc_735,vertex,is_gc_735 returns False,K_{2} U claw-free,IndianRed,-
+gc_1276,vertex,is_gc_1276 returns False,"(5-pan,T_{2},X_{172})-free",IndianRed,-
+gc_816,vertex,is_e_free returns False,E-free,IndianRed,-
+gc_156,vertex,user blacklisted this class,co-P_{4}-brittle,DarkGray,?
+gc_916,vertex,,"nP_{3}-free, fixed n",DarkGray,?
+gc_737,vertex,is_p7_free returns False,P_{7}-free,IndianRed,-
+gc_936,vertex,Unknown to ISGCI,3-DIR contact,DarkGray,?
+gc_863,vertex,Unknown to ISGCI,k-DIR,DarkGray,?
+gc_201,vertex,is_pseudo_modular returns False,3-Helly,IndianRed,-
+gc_1089,vertex,Unknown to ISGCI,unit 3-circular track,DarkGray,?
+gc_1083,vertex,NP-complete,unit 3-interval,DarkGray,?
+gc_388,vertex,is_k14_free returns False,"K_{1,4}-free",IndianRed,-
+gc_1081,vertex,NP-complete,unit 3-track,DarkGray,?
+gc_897,vertex,,"(K_{5},X_{126},X_{174},co(3K_{2}))-minor-free",DarkGray,?
+gc_610,vertex,,odd-hole-free ∩ pretty,DarkGray,?
+gc_1210,vertex,NP-complete,"(4,0)-colorable",DarkGray,?
+AUTO_766,vertex,,"(S_{3},co(3K_{2}),co(E),co(P_{2} U P_{4}),odd anti-hole,odd-hole)-free",DarkGray,?
+gc_821,vertex,Unknown to ISGCI,C_{n+7}-free,DarkGray,?
+gc_356,vertex,,odd-hole-free,DarkGray,?
+gc_789,vertex,Open,probe permutation,DarkGray,?
+gc_953,vertex,is_co_planar returns False,co-planar,IndianRed,-
+gc_952,vertex,NP-complete,CONV,DarkGray,?
+gc_1182,vertex,NP-complete,5-colorable,DarkGray,?
+gc_1101,vertex, successor of gc_1101 in exclusion graph,4-regular,IndianRed,-
+gc_763,vertex,,probe P_{4}-sparse,DarkGray,?
+gc_143,vertex,Unknown to ISGCI,preperfect,DarkGray,?
+gc_699,vertex,Unknown to ISGCI,clique-perfect,DarkGray,?
+gc_482,vertex,,cliquewidth 3,DarkGray,?
+gc_264,vertex,,"(5,2)-odd-chordal",DarkGray,?
+gc_977,vertex,,"(anti-hole,odd-hole)-free",DarkGray,?
+gc_680,vertex,Unknown to ISGCI,slim,DarkGray,?
+gc_267,vertex,Open,strongly perfect,DarkGray,?
+gc_57,vertex,Unknown to ISGCI,bip\^{*},DarkGray,?
+gc_997,vertex,,building-free ∩ even-signable,DarkGray,?
+gc_704,vertex,,quasi-Meyniel,DarkGray,?
+gc_254,vertex,Open,locally perfect,DarkGray,?
+gc_5,vertex,NP-complete,P_{4}-bipartite,DarkGray,?
+gc_703,vertex,Unknown to ISGCI,skeletal,DarkGray,?
+gc_702,vertex,Unknown to ISGCI,slender,DarkGray,?
+gc_682,vertex,Unknown to ISGCI,probe Gallai,DarkGray,?
+gc_142,vertex,,clique separable,DarkGray,?
+gc_1181,vertex,is_apex returns False,apex,IndianRed,-
+gc_1342,vertex,NP-complete,6-colorable,DarkGray,?
+gc_1104,vertex,is_5_regular returns False,5-regular,IndianRed,-
+gc_831,vertex,Open,probe chordal bipartite,DarkGray,?
+gc_436,vertex,is_c6_free returns False,C_{6}-free,IndianRed,-
+gc_1288,vertex,Open,pairwise compatibility,DarkGray,?
+gc_1017,vertex,,Helly circle,DarkGray,?
+gc_1336,vertex,NP-complete,CPG,DarkGray,?
+AUTO_2583,vertex,is_auto_2583 returns False,7K_{1}-free,IndianRed,-
+gc_498,vertex,,"(q,q-4), fixed q",DarkGray,?
+gc_494,vertex,,"(7,4)",DarkGray,?
+gc_495,vertex,,"(7,5)",DarkGray,?
+gc_501,vertex,,"(q, q-3), fixed q>= 7",DarkGray,?
+gc_497,vertex,,"(9,6)",DarkGray,?
+gc_640,vertex,is_nearly_bipartite returns False,nearly bipartite,IndianRed,-
+AUTO_1892,vertex,is_auto_1892 returns False,"(S_{3},T_{2},X_{205},X_{206},X_{207},X_{208},co(X_{42}))-free",IndianRed,-
+gc_550,vertex,is_gc_550 returns False,"(A,H,K_{3,3},X_{45},X_{46},X_{47},X_{48},X_{49},X_{50},X_{51},X_{52},X_{53},X_{54},X_{55},X_{56},X_{57},co(X_{42}))-free",IndianRed,-
+gc_89,vertex,Open,opposition,DarkGray,?
+gc_564,vertex,Unknown to ISGCI,irredundance perfect with ir(G)<= 4,DarkGray,?
+gc_567,vertex,Unknown to ISGCI,hereditary dominating pair,DarkGray,?
+gc_820,vertex,Unknown to ISGCI,probe AT-free,DarkGray,?
+gc_1338,vertex,NP-complete,B_{1}-CPG,DarkGray,?
+gc_1205,vertex,Unknown to ISGCI,B_{1}-VCPG,DarkGray,?
+gc_1063,vertex,NP-complete,B_{2}-VPG,DarkGray,?
+gc_1062,vertex,NP-complete,B_{3}-VPG,DarkGray,?
+AUTO_2771,vertex,,"(co-claw,odd anti-hole)-free",DarkGray,?
+gc_1347,vertex,Unknown to ISGCI,bipartite U co-bipartite U co-line graphs of bipartite graphs U double split U line graphs of bipartite graphs,DarkGray,?
+gc_164,vertex,Open,superperfect,DarkGray,?
+gc_150,vertex,Open,quasi-parity,DarkGray,?
+gc_1322,vertex,,co-unipolar U unipolar,DarkGray,?
+gc_131,vertex,Open,neighbourhood perfect,DarkGray,?
+gc_778,vertex,,alternately colourable,DarkGray,?
+gc_1256,vertex,,Helly cactus subtree ∩ perfect,DarkGray,?
+gc_114,vertex,,slightly triangulated,DarkGray,?
+gc_55,vertex,Unknown to ISGCI,absorbantly perfect,DarkGray,?
+gc_174,vertex,is_dilworth_4 returns False,Dilworth 4,IndianRed,-
+gc_311,vertex,Unknown to ISGCI,short-chorded,DarkGray,?
+gc_1260,vertex,,circular arc ∩ perfect,DarkGray,?
+gc_895,vertex,Unknown to ISGCI,strongly circular perfect,DarkGray,?
+gc_282,vertex,Unknown to ISGCI,normal,DarkGray,?
+AUTO_1789,vertex,,"(C_{7},odd anti-hole)-free",DarkGray,?
+gc_63,vertex,,Berge ∩ bull-free,DarkGray,?
+gc_843,vertex,,"(anti-hole,bull,odd-hole)-free",DarkGray,?
+gc_65,vertex,Open,strict quasi-parity,DarkGray,?
+gc_322,vertex,Unknown to ISGCI,Birkhoff,DarkGray,?
+gc_951,vertex,NP-complete,outer-string,DarkGray,?
+gc_810,vertex,Unknown to ISGCI,subtree filament,DarkGray,?
+gc_202,vertex,,neighbourhood-Helly,DarkGray,?
+gc_917,vertex,is_gc_917 returns True,"(C_{4},C_{5},K_{4},diamond)-free",LightGreen,+
+gc_757,vertex,is_gc_757 returns False,"(P,T_{2})-free",IndianRed,-
+gc_1001,vertex,,"(C_{4},odd-hole)-free",DarkGray,?
+gc_49,vertex,is_dismantlable returns False,dismantlable,IndianRed,-
+gc_911,vertex,is_gc_911 returns True,"(C_{4},triangle)-free",LightGreen,+
+AUTO_1497,vertex,is_auto_1497 returns True,"(C_{5},P,co(P),bull,co-fork,gem,house)-free",LightGreen,+
+gc_1016,vertex,,neighbourhood-Helly ∩ triangle-free,DarkGray,?
+gc_998,vertex,,building-free ∩ odd-signable,DarkGray,?
+gc_1000,vertex,,C_{4}-free ∩ odd-signable,DarkGray,?
+gc_993,vertex,,odd-signable,DarkGray,?
+gc_215,vertex,,N\^{*}-perfect,DarkGray,?
+gc_220,vertex,Unknown to ISGCI,V-perfect,DarkGray,?
+gc_1015,vertex,,biclique-Helly,DarkGray,?
+gc_943,vertex,Unknown to ISGCI,(n+4)-pan-free,DarkGray,?
+gc_957,vertex,,balanced,DarkGray,?
+gc_392,vertex,,co-Welsh-Powell perfect,DarkGray,?
+gc_51,vertex,,open-neighbourhood-Helly,DarkGray,?
+gc_832,vertex,Open,CIS,DarkGray,?
+gc_1087,vertex,Unknown to ISGCI,unit 2-circular track,DarkGray,?
+gc_1044,vertex,,circular arc ∩ clique-Helly,DarkGray,?
+gc_861,vertex,Unknown to ISGCI,normal circular arc,DarkGray,?
+gc_205,vertex,,Helly circular arc,DarkGray,?
+gc_894,vertex,Unknown to ISGCI,co-circular perfect,DarkGray,?
+gc_389,vertex,NP-hard,unit disk,DarkGray,?
+gc_560,vertex,Unknown to ISGCI,irredundance perfect,DarkGray,?
+gc_88,vertex,NP-complete,co-perfectly orderable,DarkGray,?
+gc_390,vertex,NP-complete,interval filament,DarkGray,?
+gc_148,vertex,is_comparability_or_co_comparability returns False,co-comparability U comparability,IndianRed,-
+gc_788,vertex,Unknown to ISGCI,probe co-comparability,DarkGray,?
+gc_462,vertex,,k-polygon,DarkGray,?
+gc_352,vertex,is_wing_triangulated returns False,wing-triangulated,IndianRed,-
+gc_604,vertex,is_d returns False,D,IndianRed,-
+gc_1189,vertex,is_deza returns False,Deza,IndianRed,-
+gc_128,vertex,NP-complete,EPT,DarkGray,?
+gc_187,vertex,,homogeneously orderable,DarkGray,?
+gc_259,vertex,,Matula perfect,DarkGray,?
+gc_1345,vertex,Unknown to ISGCI,Hamilton-connected,DarkGray,?
+gc_1162,vertex,,Hamming,DarkGray,?
+gc_581,vertex,is_reflexive returns False,reflexive,IndianRed,-
+gc_1255,vertex,,Helly cactus subtree,DarkGray,?
+gc_947,vertex,Unknown to ISGCI,Helly circular arc ∩ self-clique,DarkGray,?
+gc_946,vertex,Unknown to ISGCI,self-clique,DarkGray,?
+gc_1261,vertex,Unknown to ISGCI,Helly subtree,DarkGray,?
+gc_1145,vertex,is_almost_claw_free returns False,almost claw-free,IndianRed,-
+gc_932,vertex,is_locally_connected returns False,locally connected,IndianRed,-
+gc_415,vertex,coNP-complete,well covered,DarkGray,?
+gc_921,vertex,is_gc_921 returns True,"(K_{1,5},triangle)-free",LightGreen,+
+gc_3,vertex,is_p4_brittle returns False,P_{4}-brittle,IndianRed,-
+gc_544,vertex,,probe chordal,DarkGray,?
+gc_753,vertex,Unknown to ISGCI,circular perfect,DarkGray,?
+gc_292,vertex,Unknown to ISGCI,"<img alt=""cal P"" src=""images/calP.gif""/>_{3}-perfect",DarkGray,?
+gc_339,vertex,,genus 1,DarkGray,?
+gc_1366,vertex,Unknown to ISGCI,map,DarkGray,?
+gc_724,vertex,NP-complete,rectangle visibility,DarkGray,?
+gc_734,vertex,,partial 4-tree,DarkGray,?
+gc_1206,vertex,,Laman,DarkGray,?
+gc_1215,vertex,Unknown to ISGCI,Mycielski,DarkGray,?
+gc_811,vertex,is_gc_811 returns False,"(P,star_{1,2,5})-free",IndianRed,-
+gc_6,vertex,,P_{4}-comparability,DarkGray,?
+gc_504,vertex,,partner-limited,DarkGray,?
+gc_691,vertex,Unknown to ISGCI,upper domination perfect,DarkGray,?
+gc_393,vertex,,co-Matula perfect,DarkGray,?
+gc_924,vertex,is_gc_924 returns False,"(X_{172},triangle)-free",IndianRed,-
+gc_350,vertex,,Welsh-Powell perfect,DarkGray,?
+gc_483,vertex,Open,cliquewidth 4,DarkGray,?
+gc_532,vertex,Unknown to ISGCI,Raspail,DarkGray,?
+gc_646,vertex,Unknown to ISGCI,interval enumerable,DarkGray,?
+gc_968,vertex,,"(S_{3},co(3K_{2}),co(E),odd-hole)-free",DarkGray,?
+gc_948,vertex,Open,hereditary clique-Helly ∩ self-clique,DarkGray,?
+gc_783,vertex,Unknown to ISGCI,graceful,DarkGray,?
+gc_785,vertex,NP-complete,harmonious,DarkGray,?
+gc_616,vertex,Unknown to ISGCI,irredundance perfect with ir(G)=2,DarkGray,?
+gc_222,vertex,is_weakly_modular returns False,weakly modular,IndianRed,-
+gc_256,vertex,,unigraph,DarkGray,?
+gc_787,vertex,Unknown to ISGCI,probe comparability,DarkGray,?
+gc_880,vertex,NP-complete,all-4-simplicial,DarkGray,?
+gc_777,vertex,,cycle-bicolorable,DarkGray,?
+gc_266,vertex,Unknown to ISGCI,perfectly contractile,DarkGray,?
+gc_755,vertex,,co-biclique separable,DarkGray,?
+gc_195,vertex,is_bigeodetic returns False,bigeodetic,IndianRed,-
+gc_68,vertex,,bipartable,DarkGray,?
+gc_1155,vertex,Unknown to ISGCI,circular trapezoid,DarkGray,?
+gc_1154,vertex,Unknown to ISGCI,circle-trapezoid,DarkGray,?
+gc_1052,vertex,Unknown to ISGCI,bounded cutwidth,DarkGray,?
+gc_1053,vertex,Unknown to ISGCI,bounded degree,DarkGray,?
+gc_1054,vertex,Unknown to ISGCI,bounded degree ∩ bounded treewidth,DarkGray,?
+gc_470,vertex,Unknown to ISGCI,bounded treewidth,DarkGray,?
+gc_992,vertex,Unknown to ISGCI,even-signable,DarkGray,?
+gc_995,vertex,,strongly odd-signable,DarkGray,?
+gc_733,vertex,NP-complete,linear arboricity <= 2,DarkGray,?
+gc_296,vertex,Unknown to ISGCI,clique-chordal,DarkGray,?
+gc_1157,vertex,Unknown to ISGCI,"circle-n-gon, fixed n",DarkGray,?
+gc_1148,vertex,my_is_distance_regular returns False,distance regular,IndianRed,-
+gc_1187,vertex,Unknown to ISGCI,walk regular,DarkGray,?
+gc_1188,vertex,is_edge_regular returns True,edge regular,LightGreen,+
+gc_1112,vertex,,equimatchable,DarkGray,?
+gc_1369,vertex,Unknown to ISGCI,universally signable,DarkGray,?
+gc_568,vertex,Unknown to ISGCI,weak dominating pair,DarkGray,?
+gc_600,vertex,is_interval_regular returns False,interval regular,IndianRed,-
+gc_595,vertex,,"partial k-tree, fixed k",DarkGray,?
+gc_1099,vertex, successor of gc_1099 in exclusion graph,"k-regular, fixed k>= 3",IndianRed,-
+gc_1105,vertex,is_regular_with_k_at_least_6 returns False,"k-regular, fixed k>= 6",IndianRed,-
+gc_1358,vertex,Unknown to ISGCI,line perfect,DarkGray,?
+gc_500,vertex,Unknown to ISGCI,"(p,q)-colorable",DarkGray,?
+gc_1221,vertex,Unknown to ISGCI,"(p,q)-split",DarkGray,?
+gc_277,vertex, successor of gc_277 in exclusion graph,unbreakable,IndianRed,-
+gc_611,vertex,,p-tree,DarkGray,?
+gc_488,vertex,Unknown to ISGCI,"(q,t)",DarkGray,?
+gc_1059,vertex,GI-complete,self-complementary,DarkGray,?
+gc_690,vertex,Unknown to ISGCI,upper irredundance perfect,DarkGray,?

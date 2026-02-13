@@ -1,0 +1,121 @@
+digraph G {
+    node [shape=rect]
+    // TODO negated arrow style
+    // graph classes ----------------------------------------------------------
+    gc_110  [label="outerplanar"]
+    gc_152  [texlbl="$P_4$-free"]
+    gc_277  [label="unbreakable"]
+    gc_275  [label="series-parallel"]
+    gc_342  [label="tree"]
+    gc_717 [label="maximum degree 4"]
+    gc_720 [label="maximum degree 3"]
+    gc_771  [label="biconnected"]
+    gc_1099 [texlbl="$k$-regular, fixed $k\ge 3$"]
+    gc_1100 [label="cubic"]
+    gc_1101 [label="4-regular"]
+    gc_1104 [label="5-regular"]
+    gc_1105 [texlbl="$k$-regular, fixed $k\ge 6$"]
+    gc_1139 [label="maximum degree 5"]
+    gc_1299 [label="maximum degree 1"]
+    gc_1362 [label="2-edge-connected"]
+    
+    
+    
+//     gc_1119 [label="maximum degree 6"] // not used yet
+//     gc_1090 [label="maximum degree 7"] // not used yet
+    
+    
+    // relationships involving trees ------------------------------------------
+    // trees are not 2-edge-connected
+    gc_342 -> gc_1362
+    gc_1362 -> gc_342
+
+    // trees are not 2-vertex-connected
+    gc_342 -> gc_771
+    gc_771 -> gc_342
+
+    // no tree is k-regular for any k >= 3
+    gc_342 -> gc_1099 // k >= 3
+    gc_1099 -> gc_342 // k >= 3
+    gc_342 -> gc_1100 // k = 3 
+    gc_1100 -> gc_342 // k = 3
+    gc_342 -> gc_1101 // k = 4
+    gc_1101 -> gc_342 // k = 4
+    gc_342 -> gc_1104 // k = 5
+    gc_1104 -> gc_342 // k = 5
+    gc_342 -> gc_1105 // k >= 6
+    gc_1105 -> gc_342 // k >= 6
+    
+    // relationships involving bounded degrees --------------------------------
+    // maximum degree k -> not p-regular for any p > k
+    gc_1299 -> gc_1101 // k = 1, p = 4
+    gc_1101 -> gc_1299 // k = 1, p = 4
+    gc_1299 -> gc_1104 // k = 1, p = 5
+    gc_1104 -> gc_1299 // k = 1, p = 5
+    gc_1299 -> gc_1105 // k = 1, p >= 6
+    gc_1105 -> gc_1299 // k = 1, p >= 6
+
+    gc_720 -> gc_1101 // k = 3, p = 4
+    gc_1101 -> gc_720 // k = 3, p = 4
+    gc_720 -> gc_1104 // k = 3, p = 5
+    gc_1104 -> gc_720 // k = 3, p = 5
+    gc_720 -> gc_1105 // k = 3, p >= 6
+    gc_1105 -> gc_720 // k = 3, p >= 6
+
+    gc_717 -> gc_1104 // k = 4, p = 5
+    gc_1104 -> gc_717 // k = 4, p = 5
+    gc_717 -> gc_1105 // k = 4, p >= 6
+    gc_1105 -> gc_717 // k = 4, p >= 6
+
+    gc_1139 -> gc_1105 // k = 5, p >= 6
+    gc_1105 -> gc_1139 // k = 5, p >= 6
+    
+    // k-regular -> not p-regular for any p != k
+    gc_1100 -> gc_1101 // k = 3, p = 4
+    gc_1101 -> gc_1100 // k = 3, p = 4
+    gc_1100 -> gc_1104 // k = 3, p = 5
+    gc_1104 -> gc_1100 // k = 3, p = 5
+    gc_1100 -> gc_1105 // k = 3, p = 6
+    gc_1105 -> gc_1100 // k = 3, p = 6
+    gc_1101 -> gc_1104 // k = 4, p = 5
+    gc_1104 -> gc_1101 // k = 4, p = 5
+    gc_1101 -> gc_1105 // k = 4, p = 6
+    gc_1105 -> gc_1101 // k = 4, p = 6
+    gc_1104 -> gc_1105 // k = 5, p = 6
+    gc_1105 -> gc_1104 // k = 5, p = 6
+
+    // series-parallel <-> not k-regular for any k >= 3
+    gc_275 -> gc_1099 // k >= 3
+    gc_1099 -> gc_275 // k >= 3
+    gc_275 -> gc_1100 // k = 3 
+    gc_1100 -> gc_275 // k = 3
+    gc_275 -> gc_1101 // k = 4
+    gc_1101 -> gc_275 // k = 4
+    gc_275 -> gc_1104 // k = 5
+    gc_1104 -> gc_275 // k = 5
+    gc_275 -> gc_1105 // k >= 6
+    gc_1105 -> gc_275 // k >= 6
+   
+    // outerplanar <-> not k-regular for any k >= 3
+    gc_110 -> gc_1099 // k >= 3
+    gc_1099 -> gc_110 // k >= 3
+    gc_110 -> gc_1100 // k = 3 
+    gc_1100 -> gc_110 // k = 3
+    gc_110 -> gc_1101 // k = 4
+    gc_1101 -> gc_110 // k = 4
+    gc_110 -> gc_1104 // k = 5
+    gc_1104 -> gc_110 // k = 5
+    gc_110 -> gc_1105 // k >= 6
+    gc_1105 -> gc_110 // k >= 6
+    
+    
+    // other classes ----------------------------------------------------------
+    // unbreakable graphs contain a P_4
+    gc_277 -> gc_152
+    gc_152 -> gc_277 
+    
+    // biconnected graphs have minimum degree 2
+    gc_771 -> gc_1299
+    gc_1299 -> gc_771
+    
+}

@@ -1,0 +1,11 @@
+those graphs will be useful in testing
+P_6-freeness
+P_7-freeness
+(P_7, C_4)-freeness
+(P_7, C_5)-freeness
+(P_8, C_4)-freeness
+(P_5, dart)-freeness
+(P_3 U P_2)-freeness
+(P_4 U K_1)-freeness
+
+TODO find out which classes if any are covered by my recognizers

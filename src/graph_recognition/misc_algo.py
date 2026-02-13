@@ -1,0 +1,689 @@
+"""
+Anthony Labarre © 2023-2025
+
+Miscellaneous useful algorithms.
+
+"""
+# Imports -----------------------------------------------------------------------------------------
+# ----- Standard imports --------------------------------------------------------------------------
+import inspect
+from array import array, typecodes
+from collections.abc import Hashable
+from functools import lru_cache
+from itertools import combinations
+from typing import Any, Callable, Iterator
+
+# ----- Third-party imports -----------------------------------------------------------------------
+import networkx as nx
+from networkx.utils import arbitrary_element
+
+# ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.recognizers_utils import cached_function
+
+# Cache imported functions that are not already cached --------------------------------------------
+__functions_to_cache = [
+    nx.bfs_tree,
+    # nx.common_neighbors,         # DON'T: this returns a generator expression
+    nx.is_chordal,
+    nx.is_connected,
+    nx.non_neighbors,
+    # nx.non_edges,          # DON'T: this is a generator
+]
+for i, function in enumerate(__functions_to_cache):
+    __functions_to_cache[i] = cached_function(function)
+
+
+# Functions ---------------------------------------------------------------------------------------
+@lru_cache(maxsize=None)
+def all_pairs_shortest_path_length(
+    graph: nx.Graph, cutoff: int | None = None
+) -> dict[tuple, int]:
+    """
+    Computes the shortest path lengths between all nodes in `G`. This is exactly what networkx
+    offers, except we return a dictionary instead of an iterator so we can cache the results.
+    """
+    return dict(nx.all_pairs_shortest_path_length(graph, cutoff))
+
+
+@lru_cache(maxsize=None)
+def degree_sequence(graph: nx.Graph) -> array:
+    """
+    Returns the degree sequence of a graph, i.e. the list of all degrees sorted decreasingly.
+
+    >>> import networkx; degree_sequence(networkx.empty_graph(5))
+    array('b', [0, 0, 0, 0, 0])
+    >>> import networkx; degree_sequence(networkx.complete_graph(5))
+    array('b', [4, 4, 4, 4, 4])
+
+    :type graph: networkx.Graph
+    :param graph:
+    :return:
+    """
+    # if graph is edgeless, then graph.degree is empty, so I need to build the sequence of zeroes
+    # myself
+    if not graph.size():
+        return array('b', [0] * graph.number_of_nodes())
+
+    degseq = sorted((d for _, d in graph.degree), reverse=True)
+
+    # return array with smallest typecode
+    for tc in typecodes:
+        try:
+            return array(tc, degseq)
+        except OverflowError:
+            pass
+
+    raise OverflowError  # no type was big enough for the elements of the degree sequence
+
+
+@lru_cache(maxsize=None)
+def is_complete(graph: nx.Graph) -> bool:
+    """Returns True if graph is complete, False otherwise.
+
+    :type graph: networkx.Graph
+    :param graph:
+    :return:
+    """
+    n = graph.number_of_nodes()
+    return graph.size() == (n * (n - 1)) // 2
+
+
+@lru_cache(maxsize=None)
+def is_h_u_k1_free(graph: nx.Graph, recognizer_for_h: Callable) -> bool:
+    """
+    Returns True if graph is (H U K_{1})-free, and False otherwise. Requires a recognizer for
+    H-free graphs.
+
+    Use this function with caution: unless recognizer_for_h is much faster than the naïve approach,
+    a direct call to GSS is usually much faster for large graphs.
+
+    @param graph:
+    @param recognizer_for_h:
+    @return:
+    """
+    # TODO careful: sometimes it's useful if recognizer_for_h is much faster, so I'm making
+    #  exceptions in the warning below
+    caller = inspect.stack()[1][3]
+    if caller not in {"is_co_gem_free"}:
+        pass
+        # print("\nWARNING: don't use is_h_u_k1_free: it works, but it's much slower than GSS for large graphs")
+        # print(f"         (called by {caller}")
+    # G is (H U K_{1})-free iff G - ({u} U N(u)) is H-free for every vertex v; this is equivalent
+    # to verifying whether the subgraph of G induced by the non-neighbors of v is H-free for all v
+    return all(
+        recognizer_for_h(graph.subgraph(nx.non_neighbors(graph, v))) for v in graph
+    )
+
+
+@lru_cache(maxsize=None)
+def is_h_u_k2_free(graph: nx.Graph, recognizer_for_h: Callable) -> bool:
+    """
+    Returns True if graph is (H U K_{2})-free, and False otherwise. Requires a recognizer for
+    H-free graphs.
+
+    @param graph:
+    @param recognizer_for_h:
+    @return:
+    """
+    # G is (H U K_{2})-free iff G - ({u, v} U N(u) U N(v)) is H-free for every edge {u, v};
+    # this is equivalent to verifying whether the subgraph of G induced by the vertices that are
+    # adjacent neither to u nor to v is H-free for every edge {u, v}
+    return all(
+        recognizer_for_h(
+            graph.subgraph(
+                nx.non_neighbors(graph, u).intersection(nx.non_neighbors(graph, v))
+            )
+        )
+        for u, v in graph.edges
+    )
+
+
+@lru_cache(maxsize=None)
+def is_h_u_2k1_free(graph: nx.Graph, recognizer_for_h: Callable) -> bool:
+    """
+    Returns True if graph is (H U 2K_{1})-free, and False otherwise. Requires a recognizer for
+    H-free graphs.
+
+    @param graph:
+    @param recognizer_for_h:
+    @return:
+    """
+    # G is (H U 2K_{1})-free iff G - ({u, v} U N(u) U N(v)) is H-free for every non-edge {u, v}
+    # this is equivalent to verifying whether the subgraph of G induced by the vertices that are
+    # adjacent neither to u nor to v is H-free for every non-edge {u, v}
+    return all(
+        recognizer_for_h(
+            graph.subgraph(
+                nx.non_neighbors(graph, u).intersection(nx.non_neighbors(graph, v))
+            )
+        )
+        for u, v in nx.non_edges(graph)
+    )
+
+
+@lru_cache(maxsize=None)
+def complement(graph: nx.Graph) -> nx.Graph:
+    """
+    Returns the complement of the graph. Only exists so the result can be cached.
+
+    :param graph:
+    :type graph: networkx.Graph
+    :return:
+    """
+    # TODO this is faster than nx.complement, bench and submit at some point (generate large graphs)
+    compl = graph.__class__()
+    compl.add_nodes_from(graph)
+    compl.add_edges_from(nx.non_edges(graph))
+    return compl
+
+
+@lru_cache(maxsize=None)
+def number_of_common_neighbours(graph: nx.Graph, u: Any, v: Any) -> int:
+    """
+    Returns the number of common neighbors of u and v in graph.
+
+    :param graph:
+    :param u:
+    :param v:
+    :return:
+    """
+    return sum(1 for _ in nx.common_neighbors(graph, u, v))
+
+
+@lru_cache(maxsize=None)
+def dominates(graph: nx.Graph, a: Any, b: Any) -> bool:
+    """
+    Returns True iff a dominates b, i.e. if the neighbourhood of a contains the neighbourhood of
+    b (excluding a).
+
+    :param b:
+    :param a:
+    :type graph: nx.Graph
+    """
+    return set(graph[b]) - {a} <= set(graph[a])
+
+
+@lru_cache(maxsize=None)
+def dominates_either_way(graph: nx.Graph, a: Any, b: Any) -> bool:
+    """
+    Returns True iff a dominates b or b dominates a.
+
+    :param graph:
+    :param a:
+    :param b:
+    :return:
+    """
+    neighbors_a = set(graph[a])
+    neighbors_b = set(graph[b])
+    return neighbors_b - {a} <= neighbors_a or neighbors_a - {b} <= neighbors_b
+
+
+@lru_cache(maxsize=None)
+def has_dominating_set_of_size_at_most_2(graph: nx.Graph) -> bool:
+    """
+    Return True if graph has a dominating set of size <= 2, False otherwise.
+
+    :param graph:
+    :return:
+    """
+    # if there is a dominating vertex, say yes
+    if degree_sequence(graph)[0] == graph.number_of_nodes() - 1:
+        return True
+
+    # if there is a pair of dominating vertices, say yes
+    all_nodes = set(graph)
+    return any(
+        # x, y is a dominating pair if {x, y} U N(x) U N(y) = G.nodes
+        {x}.union({y}).union(graph[x]).union(graph[y]) == all_nodes
+        for x, y in combinations(graph, 2)
+    )
+
+
+@lru_cache(maxsize=None)
+def vertex_has_degree_or_codegree_1(graph: nx.Graph, v: Any) -> bool:
+    """Returns True if v has 1 or n-1 neighbors, False otherwise.
+
+    :param v: a vertex
+    :type graph: networkx.Graph
+    :param graph:
+    :return:
+    """
+    return graph.degree(v) in {1, graph.number_of_nodes() - 2}
+
+
+# Functions for recognizing a graph by repeatedly removing edges ----------------------------------
+@lru_cache(maxsize=None)
+def empty_graph_by_removing_edges_and_incident_edges(
+    graph: nx.Graph, criterion: Callable
+) -> bool:
+    """Empties the graph by repeatedly removing edges that satisfy the criterion. Removing an edge
+    {u, v} entails removing {u, v} as well as all other edges incident to u or v. Returns True if
+    all edges are deleted, False otherwise.
+
+    :param criterion:
+    :type graph: networkx.Graph
+    :param graph:
+    :return:
+    """
+    nodes = set(graph)
+    while graph.edges:
+        # find an edge that matches the criterion
+        for edge in graph.edges:
+            if criterion(graph, edge):
+                nodes -= set(edge)
+                graph = graph.subgraph(nodes)
+                break
+
+        else:  # no satisfying edge was found, quit early
+            return False
+
+    # property is satisfied to the end, undo removals and return True
+    return True
+
+
+# Functions for recognizing a graph by repeatedly removing vertices -------------------------------
+@lru_cache(maxsize=None)
+def empty_graph_by_removing_vertices(graph: nx.Graph, criterion: Callable) -> bool:
+    """Empties the graph by repeatedly removing vertices that satisfy the criterion. Returns True
+    if all vertices are deleted, False otherwise.
+
+    :param criterion:
+    :type graph: networkx.Graph
+    :param graph:
+    :return:
+    """
+    nodes = set(graph)
+    new_graph = graph.subgraph(nodes)
+    while nodes:
+        for v in new_graph:
+            if criterion(new_graph, v):
+                nodes.remove(v)
+                new_graph = new_graph.subgraph(nodes)
+                break
+
+        else:  # no satisfying vertex was found, quit early
+            return False
+
+    # graph was successfully emptied
+    return True
+
+
+# Recognizers -------------------------------------------------------------------------------------
+# The following recognizers were moved here solely to avoid circular import issues.
+# --------------------------------------------------------------------------------------------- end
+@lru_cache(maxsize=None)
+def is_connected(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is connected. I need my own version, because it will be called on
+    subgraphs that might be null (no vertices and no edges) and networkx's version crashes on
+    those. I'm deciding that a null graph is NOT connected.
+
+    :type graph: nx.Graph
+    :param graph:
+    :return:
+    """
+    try:
+        return nx.is_connected(graph)
+
+    except nx.exception.NetworkXPointlessConcept:  # null graph
+        return False
+
+
+@lru_cache(maxsize=None)
+def plain_co_bfs(graph: nx.Graph, n: int, source: Hashable):
+    """
+    A fast BFS node generator on the complement of the graph. Simple adaptation of networkx's
+    _plain_bfs function to work on non-edges rather than edges.
+    """
+    seen = {source}
+    nextlevel = [source]
+    while nextlevel:
+        thislevel = nextlevel
+        nextlevel = []
+        for v in thislevel:
+            for w in nx.non_neighbors(graph, v):
+                if w not in seen:
+                    seen.add(w)
+                    nextlevel.append(w)
+            if len(seen) == n:
+                return seen
+    return seen
+
+
+@lru_cache(maxsize=None)
+def is_co_connected(graph: nx.Graph) -> bool:
+    """
+    Returns True iff the complement of the graph is connected.
+
+    :type graph: nx.Graph
+    :param graph:
+    :return:
+    """
+    n = len(graph)
+    if n == 0:
+        return False
+
+    return sum(1 for _ in plain_co_bfs(graph, n, arbitrary_element(graph))) == n
+
+
+# @lru_cache(maxsize=None)  # don't: it's a generator
+def co_connected_components(graph: nx.Graph):
+    """
+    Generate the connected components of the complement of the graph. Simple adaptation of
+    networkx's connected_components function.
+    """
+    seen = set()
+    n = len(graph)
+    for v in graph:
+        if v not in seen:
+            c = plain_co_bfs(graph, n - len(seen), v)
+            seen.update(c)
+            yield c
+
+
+@lru_cache(maxsize=None)
+def is_even_clique_free(graph: nx.Graph, k: int) -> bool:
+    """
+    Returns True iff graph has no clique of size k, for k even.
+
+    @param graph:
+    @param k:
+    @return:
+    """
+    assert not k % 2, "k must be even"
+
+    if must_contain_a_clique_of_size(graph, k):
+        return False
+
+    # since vertices in a k-clique have degree k-1, restrict our search to vertices of degree at
+    # least k-1; don't create a useless copy if all vertices already have degree > k, however
+    ds = degree_sequence(graph)
+    if ds and ds[-1] <= k:
+        graph = graph.subgraph(v for v, d in graph.degree if d >= k - 1)
+        # check criterion again, since graph has changed (we can afford it, it takes time O(1))
+        if must_contain_a_clique_of_size(graph, k):
+            return False
+
+    # if k is even, then selecting any combination of k/2 edges gives us a set of k vertices, and
+    # we then check that they induce the right amount of edges; we might then gain a little bit of
+    # time as opposed to blindly trying every k-subset of vertices, since we only select pairs of
+    # vertices that are connected
+    clique_num_edges = (k**2 - k) // 2
+    return all(
+        graph.subgraph(sum(edges, ())).number_of_edges() != clique_num_edges
+        for edges in combinations(graph.edges, k // 2)
+    )
+
+
+@lru_cache(maxsize=None)
+def is_odd_clique_free(graph: nx.Graph, k: int) -> bool:
+    """
+    Returns True iff graph has no clique of size k, for k even.
+
+    @param graph:
+    @param k:
+    @return:
+    """
+    assert k % 2, "k must be odd"
+
+    if must_contain_a_clique_of_size(graph, k):
+        return False
+
+    # since vertices in a k-clique have degree k-1, restrict our search to vertices of degree at
+    # least k-1; don't create a useless copy if all vertices already have degree > k, however
+    ds = degree_sequence(graph)
+    if ds and ds[-1] <= k:
+        graph = graph.subgraph(v for v, d in graph.degree if d > k)
+        # check criterion again, since graph has changed (we can afford it, it takes time O(1))
+        if must_contain_a_clique_of_size(graph, k):
+            return False
+
+    # graph is k-clique-free iff the neighbourhood of each vertex of degree >= k-1 is
+    # (k-1)-clique-free
+    return all(
+        is_even_clique_free(graph.subgraph(graph[v]), k - 1)
+        for v, d in graph.degree
+        if d >= k - 1
+    )
+
+
+@lru_cache(maxsize=None)
+def is_even_co_clique_free(graph: nx.Graph, k: int) -> bool:
+    """
+    Returns True iff graph has no independent set of size k, for k even.
+
+    @param graph:
+    @param k:
+    @return:
+    """
+    assert not k % 2, "k must be even"
+
+    if must_contain_an_independent_set_of_size(graph, k):
+        return False
+
+    # if k is even, then selecting any combination of k/2 non-edges gives us a set of k vertices,
+    # and we then check that they induce 0 edges; we might then gain a little bit of time as
+    # opposed to blindly trying every k-subset of vertices, since we only select pairs of
+    # vertices that are independent (but not necessarily all pairwise)
+    return k > graph.number_of_nodes() or all(
+        subgraph.number_of_nodes() != k or subgraph.number_of_edges() != 0
+        for subgraph in map(
+            # we can't use graph.edge_subgraph here, since nonedges always induce an empty graph,
+            # so we must use graph.subgraph with the endpoints of all nonedges
+            lambda nonedges: graph.subgraph(sum(nonedges, ())),
+            combinations(nx.non_edges(graph), k // 2),
+        )
+    )
+
+
+@lru_cache(maxsize=None)
+def must_contain_a_clique_of_size(graph: nx.Graph, k: int) -> bool:
+    """
+    Returns True if graph contains a clique of size k, False if unsure.
+
+    Complexity: O(1)
+
+    @param graph:
+    @param k:
+    @return:
+    """
+    # Turan's theorem: a K_{r+1}-free graph cannot have more than (1 - 1/r)n²/2 edges
+    if graph.number_of_edges() > ((1 - 1 / (k - 1)) * graph.number_of_nodes() ** 2) / 2:
+        return True
+
+    return False
+
+
+@lru_cache(maxsize=None)
+def must_contain_an_independent_set_of_size(graph: nx.Graph, k: int) -> bool:
+    """
+    Returns True if graph contains an independent set of size k, False if unsure.
+
+    @param graph:
+    @param k:
+    @return:
+    """
+    # if graph is bipartite, then either class is an independent set; return True if either set has
+    # size at least k
+    try:
+        # note: calling is_bipartite would raise a circular import error, and we need the sets
+        # anyway, so better call bipartite.sets directly
+        # to avoid raising a networkx.exception.AmbiguousSolution, let's work on the graph's
+        # components
+        if any(
+            len(part) >= k
+            for subgraph in map(graph.subgraph, nx.connected_components(graph))
+            for part in nx.bipartite.sets(subgraph)
+        ):
+            return True
+
+    except nx.NetworkXError:  # raised if the input graph is not bipartite
+        pass
+
+    return False
+
+
+@lru_cache(maxsize=None)
+def is_odd_co_clique_free(graph: nx.Graph, k: int) -> bool:
+    """
+    Returns True iff graph has no independent set of size k, for k odd.
+
+    @param graph:
+    @param k:
+    @return:
+    """
+    assert k % 2, "k must be odd"
+
+    if must_contain_an_independent_set_of_size(graph, k):
+        return False
+
+    # graph is k-K_{1}-free iff the non-neighbourhood of each vertex contains k-1 independent
+    # vertices; we only examine vertices with at least k-1 non-neighbors, or equivalently, vertices
+    # of degree at most n-1-(k-1) = n-k
+    n = graph.number_of_nodes()
+    return all(
+        is_even_co_clique_free(graph.subgraph(nx.non_neighbors(graph, v)), k - 1)
+        for v, d in graph.degree
+        if d <= n - k
+    )
+
+
+# @lru_cache(maxsize=None)  # don't: unhashable type list
+def contains_no_induced_subgraph_with_degree_sequence(
+    graph: nx.Graph, degseq: array
+) -> bool:
+    """
+    Returns True iff graph contains no induced subgraph whose degree sequence is degseq.
+
+    :param graph:
+    :param degseq:
+    :return:
+    """
+    # this is the obvious naive algorithm, except whenever possible we iterate over combinations of
+    # k / 2 edges instead of combinations of k vertices; this is only valid if the pattern to
+    # search for has at least k / 2 edges
+    k = len(degseq)
+    if sum(degseq) < k:
+        return all(
+            degree_sequence(graph.subgraph(vertices)) != degseq
+            for vertices in combinations(graph, k)
+        )
+
+    elif k % 2:
+        nodes = set(graph.nodes)
+        for edge_subset in combinations(graph.edges, k // 2):
+            vertices = set(sum(edge_subset, ()))
+            if len(vertices) == k - 1 and any(
+                degree_sequence(graph.subgraph(vertices | {v})) == degseq
+                for v in nodes - vertices
+            ):
+                return False
+
+        return True
+
+    else:
+        for edge_subset in combinations(graph.edges, k // 2):
+            vertices = set(sum(edge_subset, ()))
+            if (
+                len(vertices) == k
+                and degree_sequence(graph.subgraph(vertices)) == degseq
+            ):
+                return False
+
+    return True
+
+
+# @lru_cache(maxsize=None)  # don't: unhashable type list
+def contains_no_induced_subgraph_with_degree_sequence_and_property(
+    graph: nx.Graph, degseq: array, *recognizers: Callable
+) -> bool:
+    """
+    Returns True iff graph contains no induced subgraph whose degree sequence is degseq and which
+    belongs to a class defined by the given recognizer.
+
+    :param recognizers:
+    :param graph:
+    :param degseq:
+    :return:
+    """
+    # TODO later: merge this function with contains_no_induced_subgraph_with_degree_sequence, and allow multiple properties
+    # this is the obvious naive algorithm, except whenever possible we iterate over combinations of
+    # k / 2 edges instead of combinations of k vertices; this is only valid if the pattern to
+    # search for has at least k / 2 edges
+    k = len(degseq)
+    if sum(degseq) // 2 < k // 2:
+        return all(
+            degree_sequence(graph.subgraph(vertices)) != degseq
+            or any(
+                not recognizer(graph.subgraph(vertices)) for recognizer in recognizers
+            )
+            for vertices in combinations(graph, k)
+        )
+
+    elif k % 2:
+        nodes = set(graph.nodes)
+        for edge_subset in combinations(graph.edges, k // 2):
+            vertices = set(sum(edge_subset, ()))
+            if len(vertices) == k - 1:
+                for v in nodes - vertices:
+                    subgraph = graph.subgraph(vertices | {v})
+                    if degree_sequence(subgraph) == degseq and all(
+                        recognizer(subgraph) for recognizer in recognizers
+                    ):
+                        return False
+        return True
+
+    else:
+        for edge_subset in combinations(graph.edges, k // 2):
+            vertices = set(sum(edge_subset, ()))
+            if len(vertices) == k:
+                subgraph = graph.subgraph(vertices)
+                if degree_sequence(subgraph) == degseq and all(
+                    recognizer(subgraph) for recognizer in recognizers
+                ):
+                    return False
+
+    return True
+
+    # for vertices in combinations(graph, len(degseq)):
+    #     subgraph = graph.subgraph(vertices)
+    #     if degree_sequence(subgraph) == degseq and all(
+    #         recognizer(subgraph) for recognizer in recognizers
+    #     ):
+    #         return False
+    #
+    # return True
+
+
+def explicit_triangles(graph: nx.Graph) -> Iterator[set]:
+    """
+    Generates all triangles in a graph as triplets of vertices.
+
+    Complexity: O(n^3).
+
+    @param graph:
+    @return:
+    """
+    for u, v in graph.edges:
+        for w in nx.common_neighbors(graph, u, v):
+            yield {u, v, w}
+
+
+def enumerate_all_p4s(graph: nx.Graph):
+    """
+    Generates all paths of length 4 in a graph as sets of 4 vertices.
+
+    :param graph:
+    :return:
+    """
+    # P_4 can be recognized using its degree sequence
+    p4_degseq = array('b', [2, 2, 1, 1])
+    # in order to go through fewer subsets, don't examine every 4-subset of vertices; instead,
+    # examine all pairs of edges
+    for e, f in combinations(graph.edges, 2):
+        p4_candidates = set(e + f)
+        if (
+            len(p4_candidates) == 4
+            and degree_sequence(graph.subgraph(p4_candidates)) == p4_degseq
+        ):
+            yield p4_candidates

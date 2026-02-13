@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7d23a286-59ce-41da-877c-8ea957301d16" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../slides/ligm/cognos-ligm.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../slides/ligm/cognos-ligm.tex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../slides/ligm/img/isgci-db-contents.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../slides/ligm/img/isgci-logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../slides/ligm/img/smallgraphs_inclusions_orders_2_and_3.dot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../slides/ligm/img/smallgraphs_inclusions_orders_3_and_4.dot.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/cognos/cognos.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../articles/en cours/cognos/cognos.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/cognos/cognos.tex" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../articles/en cours/cognos/cognos.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/adaptive-sorting.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/algorithms.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/assignment.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/block-interchanges-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/breakpoint-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/combinatorial-optimization.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/combined-operations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/common-intervals.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/complexity.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/compressed-pattern-matching.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/crossref.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/data-compression.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/distances-between-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/distances-between-partitions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/dna-computing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/electronic-resources.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/erdos-sos.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/flows.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/fusions-fissions-transpositions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/games.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/genome-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/graph-mining.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/interconnection-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/inversion-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/matching.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/max-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/maximum-common-subgraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/maximum-subforest.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/metabolic-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/minimum-common-supergraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/minimum-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/misc.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/multi-break-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/my-manuscripts.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/my-publications.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/mynatstyle.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/neural-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/perfect-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/phylogenetic-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/phylogenetic-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/prefix-exchange-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/prefix-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/prefix-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/prefix-transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/proba.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/programming-libraries.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/rearrangement-software.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/set-bin-packing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/signed-permutation-statistic.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/signed-permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/splncs.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/subtree-prune-and-regraft.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/syntenic-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/tcs-journal-abbreviations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/translocation-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/universal-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/compressed-permutations/vaccines.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/adaptive-sorting.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/algorithms.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/assignment.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/block-interchanges-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/breakpoint-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/combinatorial-optimization.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/combined-operations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/common-intervals.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/complexity.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/distances-between-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/distances-between-partitions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/erdos-sos.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/flows.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/fusions-fissions-transpositions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/games.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/genome-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/interconnection-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/inversion-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/matching.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/max-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/maximum-common-subgraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/maximum-subforest.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/minimum-common-supergraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/minimum-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/misc.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/multi-break-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/my-manuscripts.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/my-publications.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/neural-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/newtheorems-en.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/perfect-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/phylogenetic-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/phylogenetic-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/prefix-exchange-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/prefix-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/prefix-transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/programming-libraries.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/rearrangement-software.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/set-bin-packing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/signed-permutation-statistic.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/signed-permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/subtree-prune-and-regraft.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/syntenic-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/translocation-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/conjugacy-gr/transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/adaptive-sorting.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/algorithms.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/assignment.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/block-interchanges-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/breakpoint-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/cayley-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/combinatorial-optimization.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/combined-operations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/common-intervals.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/complexity.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/compressing-permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/crossref.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/distances-between-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/distances-between-partitions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/dna-compression.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/dna-computing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/erdos-sos.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/factorisation-of-permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/flows.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/fusions-fissions-transpositions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/games.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/genome-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/haplotype-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/interconnection-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/inversion-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/matching.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/max-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/maximum-common-subgraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/maximum-subforest.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/minimum-common-supergraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/minimum-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/misc.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/multi-break-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/my-manuscripts.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/my-publications.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/mynatstyle.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/neural-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/perfect-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/permutation-patterns.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/phylogenetic-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/phylogenetic-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/physics.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/prefix-exchange-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/prefix-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/prefix-transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/programming-libraries.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/rearrangement-software.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/set-bin-packing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/shortest-paths.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/signed-permutation-statistic.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/signed-permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/splncs.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/subtree-prune-and-regraft.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/syntenic-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/translocation-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/dna-computing/universal-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/easy-rider/mynatstyle.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/easy-rider/newtheorems-en.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/easy-rider/physics.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/easy-rider/shortest-paths.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/adaptive-sorting.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/algorithms.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/assignment.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/block-interchanges-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/breakpoint-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/combinatorial-optimization.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/combined-operations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/common-intervals.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/complexity.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/crossref.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/distances-between-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/distances-between-partitions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/dna-computing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/erdos-sos.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/flows.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/fusions-fissions-transpositions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/games.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/genome-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/interconnection-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/inversion-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/matching.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/max-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/maximum-common-subgraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/maximum-subforest.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/minimum-common-supergraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/minimum-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/misc.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/multi-break-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/my-manuscripts.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/my-publications.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/mynatstyle.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/neural-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/newtheorems-en.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/perfect-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/phylogenetic-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/phylogenetic-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/prefix-exchange-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/prefix-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/prefix-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/prefix-transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/programming-libraries.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/rearrangement-software.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/set-bin-packing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/signed-permutation-statistic.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/signed-permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/splncs.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/subtree-prune-and-regraft.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/syntenic-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/translocation-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/esa-2008-extensions/vaccines.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/further-burnt-pancakes/mynatstyle.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/further-burnt-pancakes/newtheorems-en.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/further-burnt-pancakes/prefix-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/further-burnt-pancakes/prefix-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/further-burnt-pancakes/reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/further-burnt-pancakes/signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/graph-edit-distances/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/graph-edit-distances/labelled-graph-distances.mkd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/graph-edit-distances/mynatstyle.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/graph-exclusion-relationships/graph-exclusion-relationships.tex" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../articles/en cours/graph-exclusion-relationships/graph-exclusion-relationships.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/graph-mining/graph-mining.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/graph-mining/newtheorems-en.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/graph-mining/proba.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/graphs-and-sequences/mynatstyle.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/graphs-and-sequences/splncs.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/mim-pg/mynatstyle.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/mim-pg/newtheorems-en.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/adaptive-sorting.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/algorithms.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/assignment.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/block-interchanges-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/breakpoint-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/combinatorial-optimization.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/combined-operations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/common-intervals.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/complexity.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/distances-between-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/erdos-sos.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/factorisation-of-permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/flows.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/free-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/fusions-fissions-transpositions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/games.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/genome-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/haplotype-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/interconnection-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/inversion-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/listing-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/matching.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/matrix-tree.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/max-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/maximum-common-subgraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/maximum-subforest.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/minimum-common-supergraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/minimum-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/misc.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/multi-break-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/my-manuscripts.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/my-publications.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/neural-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/number-of-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/perfect-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/phylogenetic-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/phylogenetic-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/prefix-exchange-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/prefix-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/prefix-transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/programming-libraries.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/quadratic-assignment-problem.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/rearrangement-software.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/set-bin-packing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/signed-permutation-statistic.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/signed-permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/subtree-prune-and-regraft.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/syntenic-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/translocation-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/multi-breaks-unsigned/universal-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/partition-into-triangles/comparability-clause-gadget-4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/partition-into-triangles/comparability-enforcer-gadget-6-WIP.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/partition-into-triangles/mynatstyle.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/adaptive-sorting.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/algorithms.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/assignment.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/biology.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/block-interchanges-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/breakpoint-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/combinatorial-optimization.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/combined-operations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/common-intervals.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/complexity.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/compressed-pattern-matching.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/crossref.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/data-compression.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/distances-between-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/distances-between-partitions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/dna-computing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/edge-partitioning.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/electronic-resources.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/erdos-sos.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/flows.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/fusions-fissions-transpositions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/games.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/genome-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/graph-mining.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/interconnection-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/inversion-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/matching.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/max-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/maximum-common-subgraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/maximum-subforest.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/metabolic-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/minimum-common-supergraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/minimum-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/misc.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/multi-break-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/my-manuscripts.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/my-publications.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/mynatstyle.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/neural-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/partitions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/perfect-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/phylogenetic-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/phylogenetic-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/prefix-exchange-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/prefix-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/prefix-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/prefix-transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/proba.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/programming-libraries.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/rearrangement-software.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/set-bin-packing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/signed-permutation-statistic.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/signed-permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/splncs.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/subtree-prune-and-regraft.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/syntenic-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/tcs-journal-abbreviations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/translocation-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/universal-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-and-arbitrary/vaccines.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/adaptive-sorting.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/algorithms.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/assignment.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/block-interchanges-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/breakpoint-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/combinatorial-optimization.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/combined-operations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/common-intervals.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/complexity.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/crossref.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/distances-between-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/distances-between-partitions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/erdos-sos.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/flows.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/fusions-fissions-transpositions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/games.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/genome-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/interconnection-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/inversion-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/matching.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/max-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/maximum-common-subgraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/maximum-subforest.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/minimum-common-supergraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/minimum-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/misc.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/multi-break-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/my-manuscripts.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/my-publications.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/mynatstyle.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/neural-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/newtheorems-en.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/perfect-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/phylogenetic-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/phylogenetic-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/prefix-exchange-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/prefix-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/prefix-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/prefix-transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/programming-libraries.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/rearrangement-software.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/signed-permutation-statistic.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/signed-permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/subtree-prune-and-regraft.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/syntenic-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/translocation-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/prefix-transpositions-upper-bound/transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/adaptive-sorting.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/algorithms.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/assignment.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/block-interchanges-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/breakpoint-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/combinatorial-optimization.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/combined-operations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/common-intervals.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/complexity.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/compressed-pattern-matching.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/crossref.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/data-compression.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/distances-between-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/distances-between-partitions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/dna-computing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/erdos-sos.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/flows.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/fusions-fissions-transpositions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/games.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/genome-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/interconnection-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/inversion-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/matching.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/max-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/maximum-common-subgraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/maximum-subforest.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/metabolic-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/minimum-common-supergraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/minimum-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/misc.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/multi-break-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/my-manuscripts.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/my-publications.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/mynatstyle.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/neural-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/newtheorems-en.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/perfect-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/phylogenetic-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/phylogenetic-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/prefix-exchange-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/prefix-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/prefix-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/prefix-transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/programming-libraries.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/rearrangement-software.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/set-bin-packing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/signed-permutation-statistic.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/signed-permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/subtree-prune-and-regraft.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/syntenic-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/tcs-journal-abbreviations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/translocation-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/universal-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/signed-framework/vaccines.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/adaptive-sorting.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/algorithms.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/assignment.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/block-interchanges-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/breakpoint-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/combinatorial-optimization.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/combined-operations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/common-intervals.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/complexity.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/crossref.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/distances-between-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/distances-between-partitions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/dna-computing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/erdos-sos.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/flows.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/fusions-fissions-transpositions.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/games.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/genome-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/interconnection-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/inversion-medians.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/matching.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/max-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/maximum-common-subgraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/maximum-subforest.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/minimum-common-supergraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/minimum-spanning-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/misc.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/multi-break-rearrangements.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/my-manuscripts.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/my-publications.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/mynatstyle.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/neural-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/perfect-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/phylogenetic-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/phylogenetic-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/prefix-exchange-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/prefix-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/prefix-signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/prefix-transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/programming-libraries.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/rearrangement-software.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/set-bin-packing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/signed-permutation-statistic.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/signed-permutations.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/signed-reversal-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/splncs.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/subtree-prune-and-regraft.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/syntenic-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/translocation-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/spectral-graph-theory/vaccines.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/two-permutations/transposition-distance.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/algorithm.sty" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/algorithmic.sty" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/complexity.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/distances-between-graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/erdos-sos.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/graphs.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/matching.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/maximum-common-subgraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/minimum-common-supergraph.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/my-manuscripts.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/my-publications.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/phylogenetic-networks.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/phylogenetic-trees.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/set-bin-packing.bib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../articles/en cours/ump/splncs.bst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/.venv/bin/python" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/.venv/bin/python3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/.venv/lib64" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/cayley-graph-block-interchange-5.s6.graphml" beforeDir="false" afterPath="$PROJECT_DIR$/../src/cayley-graph-block-interchange-5.s6.graphml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/graph_recognition/glasgow_clique_solver" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/graph_recognition/glasgow_subgraph_solver" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/graph_recognition/smallgraph_inclusion_graph.json.BAK.2025-04-22T11:33:33+02:00" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/graph_recognition/smallgraphs_by_order.json.BAK.2025-04-22T10:25:41+02:00" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/isgci/__main__.py.BAK.2025-04-22T10:09:09+02:00" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/isgci/isgci_inclusion_graph.pickle.BAK.2025-02-25T21:14:38+01:00" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/isgci_inclusion_graph.BAK.2024-06-17T19:28:27+02:00" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/tw-exact" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2VkV8SgN1g1NvSPD6eKdm38hHwO" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Doctest GraphClass.fisc.executor": "Run",
+    "Python tests.Doctest SubgraphMatcher.minimal_missed_subgraphs.executor": "Run",
+    "Python tests.Doctest all_smallgraphs_by_order.executor": "Run",
+    "Python tests.Doctest breadth_first_levels.executor": "Run",
+    "Python tests.Doctest current_module_recognizers.executor": "Run",
+    "Python tests.Doctest explicit_independent_triplets.executor": "Run",
+    "Python tests.Doctest knows.executor": "Run",
+    "Python tests.Doctest lad_file_to_nx_graph.executor": "Run",
+    "Python tests.Doctest missing_smallgraphs.executor": "Run",
+    "Python tests.Doctest nx_graph_to_lad_string.executor": "Run",
+    "Python tests.Doctest recognizers_for_nonequivalent_classes.executor": "Run",
+    "Python tests.Doctest relation.executor": "Run",
+    "Python tests.Doctest testable_recognizers.executor": "Run",
+    "Python tests.Doctests in SubgraphMatcher.executor": "Run",
+    "Python tests.Python tests in PartialCube.py.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/home/anthony/Travail/recherche/software/cognos2/cognos/src",
+    "settings.editor.selected.configurable": "com.jetbrains.python.black.configuration.BlackFormatterConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/graph_recognition" />
+      <recent name="$PROJECT_DIR$/../graph_recognition" />
+      <recent name="$PROJECT_DIR$/isgci" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python tests.Doctest knows">
+    <configuration name="Doctest all_smallgraphs_by_order" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
+      <module name="cognos" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/graph_recognition" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/graph_recognition/smallgraphs.py" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="all_smallgraphs_by_order" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_FUNCTION" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Doctest explicit_independent_triplets" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
+      <module name="cognos" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/graph_recognition" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/graph_recognition/recognizers_n_3.py" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="explicit_independent_triplets" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_FUNCTION" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Doctest knows" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
+      <module name="cognos" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="knows" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_FUNCTION" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Doctest lad_file_to_nx_graph" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
+      <module name="cognos" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/graph_recognition" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/graph_recognition/graph_formats.py" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="lad_file_to_nx_graph" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_FUNCTION" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Doctest nx_graph_to_lad_string" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
+      <module name="cognos" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/graph_recognition" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/graph_recognition/graph_formats.py" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="nx_graph_to_lad_string" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_FUNCTION" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.Doctest knows" />
+        <item itemvalue="Python tests.Doctest explicit_independent_triplets" />
+        <item itemvalue="Python tests.Doctest all_smallgraphs_by_order" />
+        <item itemvalue="Python tests.Doctest lad_file_to_nx_graph" />
+        <item itemvalue="Python tests.Doctest nx_graph_to_lad_string" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-7bb8055f9097-cbfc7b97e6b2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.28238.29" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7d23a286-59ce-41da-877c-8ea957301d16" name="Changes" comment="" />
+      <created>1695379905434</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1695379905434</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

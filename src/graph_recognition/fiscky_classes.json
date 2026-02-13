@@ -1,0 +1,4303 @@
+[
+    {
+        "class_id": "AUTO_1635",
+        "class_name": "(3K_{1},co(C_{6}))-free",
+        "fisc": [
+            "3K_{1}",
+            "co(C_{6})"
+        ]
+    },
+    {
+        "class_id": "AUTO_2134",
+        "class_name": "(C_{6},C_{8},T_{2},X_{3},co(BW_{3}),co(W_{5}),co(W_{7}),co(X_{103}),co(X_{105}),co(X_{106}),co(X_{107}),co(X_{108}),co(X_{109}),co(X_{110}),co(X_{111}),co(X_{112}),co(X_{113}),co(X_{114}),co(X_{115}),co(X_{116}),co(X_{117}),co(X_{118}),co(X_{119}),co(X_{120}),co(X_{121}),co(X_{122}),co(X_{123}),co(X_{124}),co(X_{125}),co(X_{126}),co(X_{53}),co(X_{88}),co-X_{104})-free",
+        "fisc": [
+            "co(X_{118})",
+            "co(X_{114})",
+            "C_{6}",
+            "co(BW_{3})",
+            "co(X_{122})",
+            "co(X_{115})",
+            "co(X_{106})",
+            "co(X_{111})",
+            "co(X_{105})",
+            "co(X_{120})",
+            "co(X_{112})",
+            "co(X_{116})",
+            "co(X_{117})",
+            "co(W_{5})",
+            "co(X_{126})",
+            "co(X_{123})",
+            "co(X_{124})",
+            "co(X_{119})",
+            "co-X_{104}",
+            "co(X_{88})",
+            "co(X_{107})",
+            "co(X_{110})",
+            "co(W_{7})",
+            "co(X_{108})",
+            "co(X_{109})",
+            "co(X_{53})",
+            "T_{2}",
+            "co(X_{113})",
+            "co(X_{125})",
+            "co(X_{103})",
+            "co(X_{121})",
+            "X_{3}",
+            "C_{8}"
+        ]
+    },
+    {
+        "class_id": "gc_386",
+        "class_name": "(S_{3},S_{4},net)-free",
+        "fisc": [
+            "net",
+            "S_{3}",
+            "S_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_972",
+        "class_name": "(C_{5},S_{3},X_{11},co(3K_{2}),co(C_{7}),co(P_{2} U P_{4}),co(X_{173}))-free",
+        "fisc": [
+            "C_{5}",
+            "co(C_{7})",
+            "co(3K_{2})",
+            "co(X_{173})",
+            "S_{3}",
+            "X_{11}",
+            "co(P_{2} U P_{4})"
+        ]
+    },
+    {
+        "class_id": "gc_1376",
+        "class_name": "(C_{4},P_{4},diamond,paw)-free",
+        "fisc": [
+            "C_{4}",
+            "diamond",
+            "P_{4}",
+            "paw"
+        ]
+    },
+    {
+        "class_id": "gc_1365",
+        "class_name": "(W_{4},X_{102},X_{204},X_{209},X_{210},X_{212},X_{213},X_{214},X_{215},X_{216},X_{217},X_{218},X_{86},co(P_{2} U P_{3}),co(P_{3} U 2K_{1}),co(X_{188}),gem)-free",
+        "fisc": [
+            "X_{209}",
+            "X_{213}",
+            "X_{204}",
+            "X_{215}",
+            "X_{214}",
+            "X_{217}",
+            "X_{102}",
+            "X_{216}",
+            "co(P_{2} U P_{3})",
+            "X_{212}",
+            "co(X_{188})",
+            "co(P_{3} U 2K_{1})",
+            "W_{4}",
+            "X_{86}",
+            "gem",
+            "X_{218}",
+            "X_{210}"
+        ]
+    },
+    {
+        "class_id": "gc_815",
+        "class_name": "(C_{4},P_{6})-free",
+        "fisc": [
+            "C_{4}",
+            "P_{6}"
+        ]
+    },
+    {
+        "class_id": "AUTO_224",
+        "class_name": "co(2P_{3})-free",
+        "fisc": [
+            "co(2P_{3})"
+        ]
+    },
+    {
+        "class_id": "gc_808",
+        "class_name": "(C_{6},K_{3,3}+e,P,P_{7},X_{37},X_{41})-free",
+        "fisc": [
+            "P_{7}",
+            "C_{6}",
+            "X_{37}",
+            "X_{41}",
+            "K_{3,3}+e",
+            "P"
+        ]
+    },
+    {
+        "class_id": "AUTO_407",
+        "class_name": "co-domino-free",
+        "fisc": [
+            "co-domino"
+        ]
+    },
+    {
+        "class_id": "gc_633",
+        "class_name": "(cross,triangle)-free",
+        "fisc": [
+            "triangle",
+            "cross"
+        ]
+    },
+    {
+        "class_id": "gc_188",
+        "class_name": "(P,P_{5},S_{3},co(P),co-fork,fork,house,net)-free",
+        "fisc": [
+            "net",
+            "S_{3}",
+            "house",
+            "fork",
+            "co-fork",
+            "P",
+            "P_{5}",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_923",
+        "class_name": "(P_{2} U P_{4},triangle)-free",
+        "fisc": [
+            "triangle",
+            "P_{2} U P_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_619",
+        "class_name": "(X_{38},gem,house)-free",
+        "fisc": [
+            "gem",
+            "house",
+            "X_{38}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1500",
+        "class_name": "(C_{4},co-claw)-free",
+        "fisc": [
+            "C_{4}",
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "gc_585",
+        "class_name": "(domino,gem,house)-free",
+        "fisc": [
+            "house",
+            "gem",
+            "domino"
+        ]
+    },
+    {
+        "class_id": "AUTO_1482",
+        "class_name": "(K_{2} U K_{3},co-diamond)-free",
+        "fisc": [
+            "K_{2} U K_{3}",
+            "co-diamond"
+        ]
+    },
+    {
+        "class_id": "AUTO_2142",
+        "class_name": "(co(P),co-star_{1,2,4})-free",
+        "fisc": [
+            "co-star_{1,2,4}",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_854",
+        "class_name": "(K_{2,3},P_{4},co-butterfly)-free",
+        "fisc": [
+            "co-butterfly",
+            "P_{4}",
+            "K_{2,3}"
+        ]
+    },
+    {
+        "class_id": "gc_1308",
+        "class_name": "(2K_{2},3K_{1},P_{3})-free",
+        "fisc": [
+            "P_{3}",
+            "3K_{1}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2090",
+        "class_name": "(C_{5},P_{5},co(C_{6}),co(C_{7}),co(C_{8}),co(P_{8}),co(X_{19}),co(X_{20}),co(X_{21}),co(X_{22}),co-gem)-free",
+        "fisc": [
+            "C_{5}",
+            "co-gem",
+            "co(C_{7})",
+            "co(X_{21})",
+            "co(P_{8})",
+            "co(C_{8})",
+            "co(X_{22})",
+            "co(X_{19})",
+            "co(C_{6})",
+            "co(X_{20})",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1441",
+        "class_name": "(3K_{1},co(3K_{2}))-free",
+        "fisc": [
+            "3K_{1}",
+            "co(3K_{2})"
+        ]
+    },
+    {
+        "class_id": "gc_406",
+        "class_name": "P_{3}-free",
+        "fisc": [
+            "P_{3}"
+        ]
+    },
+    {
+        "class_id": "gc_713",
+        "class_name": "(4-fan,K_{1,4},W_{4},W_{5},co(A U K_{1}),co(co-fork U K_{1}),co(gem U K_{1}),co(net U K_{1}))-free",
+        "fisc": [
+            "co(co-fork U K_{1})",
+            "K_{1,4}",
+            "co(gem U K_{1})",
+            "4-fan",
+            "W_{4}",
+            "co(net U K_{1})",
+            "W_{5}",
+            "co(A U K_{1})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1515",
+        "class_name": "(co-cricket,house)-free",
+        "fisc": [
+            "co-cricket",
+            "house"
+        ]
+    },
+    {
+        "class_id": "gc_313",
+        "class_name": "(2K_{2},C_{4},C_{5})-free",
+        "fisc": [
+            "C_{4}",
+            "C_{5}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_1281",
+        "class_name": "(C_{4},C_{5},C_{6},C_{7},C_{8})-free",
+        "fisc": [
+            "C_{5}",
+            "C_{6}",
+            "C_{4}",
+            "C_{7}",
+            "C_{8}"
+        ]
+    },
+    {
+        "class_id": "gc_430",
+        "class_name": "(C_{4},P_{5})-free",
+        "fisc": [
+            "C_{4}",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1511",
+        "class_name": "(2K_{3},house)-free",
+        "fisc": [
+            "house",
+            "2K_{3}"
+        ]
+    },
+    {
+        "class_id": "gc_396",
+        "class_name": "P_{5}-free",
+        "fisc": [
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2123",
+        "class_name": "co(K_{2} U claw)-free",
+        "fisc": [
+            "co(K_{2} U claw)"
+        ]
+    },
+    {
+        "class_id": "gc_757",
+        "class_name": "(P,T_{2})-free",
+        "fisc": [
+            "T_{2}",
+            "P"
+        ]
+    },
+    {
+        "class_id": "AUTO_2102",
+        "class_name": "(co(W_{4}),co(W_{5}),co-butterfly)-free",
+        "fisc": [
+            "co(W_{5})",
+            "co-butterfly",
+            "co(W_{4})"
+        ]
+    },
+    {
+        "class_id": "gc_478",
+        "class_name": "(P_{5},bull,house)-free",
+        "fisc": [
+            "bull",
+            "house",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1533",
+        "class_name": "(C_{5},P_{5},co(P),house)-free",
+        "fisc": [
+            "C_{5}",
+            "house",
+            "P_{5}",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "AUTO_2110",
+        "class_name": "(co(P_{6}),co(X_{30}),co(X_{8}))-free",
+        "fisc": [
+            "co(X_{8})",
+            "co(P_{6})",
+            "co(X_{30})"
+        ]
+    },
+    {
+        "class_id": "gc_166",
+        "class_name": "(2K_{2},C_{4},C_{5},S_{3},co-rising sun,net)-free",
+        "fisc": [
+            "C_{5}",
+            "C_{4}",
+            "net",
+            "S_{3}",
+            "co-rising sun",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_697",
+        "class_name": "(A,H,K_{3,3},K_{3,3}-e,T_{2},X_{18},X_{45},domino,triangle)-free",
+        "fisc": [
+            "T_{2}",
+            "A",
+            "triangle",
+            "K_{3,3}",
+            "domino",
+            "H",
+            "K_{3,3}-e",
+            "X_{45}",
+            "X_{18}"
+        ]
+    },
+    {
+        "class_id": "gc_463",
+        "class_name": "(P_{5},co-fork)-free",
+        "fisc": [
+            "P_{5}",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "AUTO_1521",
+        "class_name": "(co-diamond,house)-free",
+        "fisc": [
+            "house",
+            "co-diamond"
+        ]
+    },
+    {
+        "class_id": "AUTO_1488",
+        "class_name": "(P_{5},co-domino,co-gem)-free",
+        "fisc": [
+            "co-gem",
+            "P_{5}",
+            "co-domino"
+        ]
+    },
+    {
+        "class_id": "gc_845",
+        "class_name": "(A,C_{5},C_{6},P_{6},domino,house)-free",
+        "fisc": [
+            "C_{5}",
+            "A",
+            "C_{6}",
+            "house",
+            "P_{6}",
+            "domino"
+        ]
+    },
+    {
+        "class_id": "gc_673",
+        "class_name": "co(K_{1,4})-free",
+        "fisc": [
+            "co(K_{1,4})"
+        ]
+    },
+    {
+        "class_id": "gc_911",
+        "class_name": "(C_{4},triangle)-free",
+        "fisc": [
+            "C_{4}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "AUTO_2787",
+        "class_name": "(2K_{2},3K_{1},C_{5},co(C_{6}),co(C_{7}),co(C_{8}),co(H),co(K_{1,4}),co(X_{85}))-free",
+        "fisc": [
+            "C_{5}",
+            "co(C_{7})",
+            "co(C_{8})",
+            "co(X_{85})",
+            "2K_{2}",
+            "3K_{1}",
+            "co(C_{6})",
+            "co(H)",
+            "co(K_{1,4})"
+        ]
+    },
+    {
+        "class_id": "gc_17",
+        "class_name": "(C_{5},P,P_{5},S_{3},co(P),co-fork,fork,house,net)-free",
+        "fisc": [
+            "C_{5}",
+            "net",
+            "S_{3}",
+            "house",
+            "fork",
+            "co-fork",
+            "P",
+            "P_{5}",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_578",
+        "class_name": "(3K_{2},C_{4} U P_{2},C_{5},P_{2} U P_{4},P_{5},S_{3},X_{1},X_{46},X_{70},co(3K_{2}),co(C_{4} U P_{2}),co(P_{2} U P_{4}),co(X_{1}),co(X_{46}),co(X_{70}),co-fish,co-rising sun,fish,house,net,rising sun)-free",
+        "fisc": [
+            "co-fish",
+            "co(3K_{2})",
+            "net",
+            "X_{70}",
+            "fish",
+            "C_{5}",
+            "C_{4} U P_{2}",
+            "X_{46}",
+            "house",
+            "rising sun",
+            "co(X_{70})",
+            "co(P_{2} U P_{4})",
+            "X_{1}",
+            "S_{3}",
+            "co(X_{46})",
+            "co-rising sun",
+            "P_{2} U P_{4}",
+            "P_{5}",
+            "3K_{2}",
+            "co(X_{1})",
+            "co(C_{4} U P_{2})"
+        ]
+    },
+    {
+        "class_id": "AUTO_202",
+        "class_name": "co(P_{2} U P_{4})-free",
+        "fisc": [
+            "co(P_{2} U P_{4})"
+        ]
+    },
+    {
+        "class_id": "AUTO_2398",
+        "class_name": "(co(X_{91}),co-claw)-free",
+        "fisc": [
+            "co(X_{91})",
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1465",
+        "class_name": "(co(E),co(P))-free",
+        "fisc": [
+            "co(E)",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "AUTO_2073",
+        "class_name": "(A,C_{4} U 2K_{1},P_{2} U P_{3},R,co(K_{5} - e),co(W_{5}),co-claw,twin-C_{5},twin-house)-free",
+        "fisc": [
+            "co-claw",
+            "A",
+            "C_{4} U 2K_{1}",
+            "co(W_{5})",
+            "twin-C_{5}",
+            "twin-house",
+            "P_{2} U P_{3}",
+            "R",
+            "co(K_{5} - e)"
+        ]
+    },
+    {
+        "class_id": "gc_684",
+        "class_name": "(C_{5},co-butterfly,co-diamond,triangle)-free",
+        "fisc": [
+            "co-butterfly",
+            "C_{5}",
+            "co-diamond",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_574",
+        "class_name": "(bull,house)-free",
+        "fisc": [
+            "bull",
+            "house"
+        ]
+    },
+    {
+        "class_id": "gc_1076",
+        "class_name": "(P_{4},co(2P_{3}))-free",
+        "fisc": [
+            "co(2P_{3})",
+            "P_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_62",
+        "class_name": "claw-free",
+        "fisc": [
+            "claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1451",
+        "class_name": "(3K_{1},co(2P_{3}))-free",
+        "fisc": [
+            "co(2P_{3})",
+            "3K_{1}"
+        ]
+    },
+    {
+        "class_id": "AUTO_3",
+        "class_name": "co-fork-free",
+        "fisc": [
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "gc_518",
+        "class_name": "(C_{5},co-gem,gem)-free",
+        "fisc": [
+            "gem",
+            "C_{5}",
+            "co-gem"
+        ]
+    },
+    {
+        "class_id": "AUTO_1528",
+        "class_name": "(bull,co-fork)-free",
+        "fisc": [
+            "bull",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "AUTO_2097",
+        "class_name": "co(BW_{3})-free",
+        "fisc": [
+            "co(BW_{3})"
+        ]
+    },
+    {
+        "class_id": "gc_674",
+        "class_name": "4K_{1}-free",
+        "fisc": [
+            "4K_{1}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2117",
+        "class_name": "(co(W_{4}),co-gem)-free",
+        "fisc": [
+            "co-gem",
+            "co(W_{4})"
+        ]
+    },
+    {
+        "class_id": "gc_628",
+        "class_name": "(K_{2,3},diamond)-free",
+        "fisc": [
+            "diamond",
+            "K_{2,3}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1447",
+        "class_name": "(3K_{1},co(P_{6}))-free",
+        "fisc": [
+            "co(P_{6})",
+            "3K_{1}"
+        ]
+    },
+    {
+        "class_id": "gc_427",
+        "class_name": "(P_{5},cricket)-free",
+        "fisc": [
+            "cricket",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_343",
+        "class_name": "(C_{4},P_{4})-free",
+        "fisc": [
+            "C_{4}",
+            "P_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_550",
+        "class_name": "(A,H,K_{3,3},X_{45},X_{46},X_{47},X_{48},X_{49},X_{50},X_{51},X_{52},X_{53},X_{54},X_{55},X_{56},X_{57},co(X_{42}))-free",
+        "fisc": [
+            "X_{49}",
+            "co(X_{42})",
+            "X_{57}",
+            "X_{47}",
+            "X_{54}",
+            "X_{53}",
+            "A",
+            "X_{50}",
+            "X_{46}",
+            "K_{3,3}",
+            "X_{51}",
+            "X_{56}",
+            "X_{48}",
+            "X_{55}",
+            "X_{52}",
+            "H",
+            "X_{45}"
+        ]
+    },
+    {
+        "class_id": "gc_24",
+        "class_name": "(C_{5},P,P_{5},co(P),co-fork,fork,house)-free",
+        "fisc": [
+            "C_{5}",
+            "house",
+            "fork",
+            "co-fork",
+            "P",
+            "P_{5}",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "AUTO_1452",
+        "class_name": "(2K_{2},3K_{1})-free",
+        "fisc": [
+            "3K_{1}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "AUTO_740",
+        "class_name": "(C_{4},C_{5},C_{6},C_{7},C_{8},H,K_{1,4},X_{85},triangle)-free",
+        "fisc": [
+            "C_{5}",
+            "C_{6}",
+            "C_{4}",
+            "C_{7}",
+            "C_{8}",
+            "K_{1,4}",
+            "X_{85}",
+            "H",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_647",
+        "class_name": "(P_{5},X_{82},X_{83})-free",
+        "fisc": [
+            "X_{82}",
+            "X_{83}",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1464",
+        "class_name": "(co(P),co(T_{2}))-free",
+        "fisc": [
+            "co(T_{2})",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_678",
+        "class_name": "(P_{5},co(C_{6}))-free",
+        "fisc": [
+            "P_{5}",
+            "co(C_{6})"
+        ]
+    },
+    {
+        "class_id": "gc_473",
+        "class_name": "(C_{4},diamond)-free",
+        "fisc": [
+            "C_{4}",
+            "diamond"
+        ]
+    },
+    {
+        "class_id": "gc_1037",
+        "class_name": "(C_{4} U P_{2},C_{5},C_{6},K_{2} U K_{3},K_{2,3},P_{6},W_{4},X_{18},X_{5},X_{84},co(C_{4} U P_{2}),co(C_{6}),co(P_{6}),co(W_{4}),co(X_{18}),co(X_{5}),co(X_{84}),antenna,co-antenna,co-domino,co-fish,domino,fish)-free",
+        "fisc": [
+            "co-fish",
+            "C_{6}",
+            "antenna",
+            "co(P_{6})",
+            "co(C_{6})",
+            "fish",
+            "C_{5}",
+            "C_{4} U P_{2}",
+            "K_{2} U K_{3}",
+            "K_{2,3}",
+            "X_{5}",
+            "domino",
+            "co(X_{18})",
+            "W_{4}",
+            "co(W_{4})",
+            "co-domino",
+            "X_{84}",
+            "co-antenna",
+            "co(X_{5})",
+            "co(X_{84})",
+            "P_{6}",
+            "X_{18}",
+            "co(C_{4} U P_{2})"
+        ]
+    },
+    {
+        "class_id": "gc_425",
+        "class_name": "(co-diamond,diamond)-free",
+        "fisc": [
+            "diamond",
+            "co-diamond"
+        ]
+    },
+    {
+        "class_id": "gc_1310",
+        "class_name": "(3K_{1},C_{4},co(P_{3}))-free",
+        "fisc": [
+            "co(P_{3})",
+            "C_{4}",
+            "3K_{1}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2629",
+        "class_name": "(P_{2} U P_{3},P_{3} U 2K_{1},X_{188},X_{214},co(W_{4}),co(X_{102}),co(X_{204}),co(X_{209}),co(X_{210}),co(X_{212}),co(X_{213}),co(X_{215}),co(X_{216}),co(X_{217}),co(X_{218}),co(X_{86}),co-gem)-free",
+        "fisc": [
+            "co(X_{204})",
+            "co(X_{209})",
+            "co-gem",
+            "co(X_{86})",
+            "X_{214}",
+            "co(X_{218})",
+            "X_{188}",
+            "P_{2} U P_{3}",
+            "co(X_{212})",
+            "co(X_{217})",
+            "co(X_{216})",
+            "co(X_{215})",
+            "P_{3} U 2K_{1}",
+            "co(X_{210})",
+            "co(X_{102})",
+            "co(W_{4})",
+            "co(X_{213})"
+        ]
+    },
+    {
+        "class_id": "gc_929",
+        "class_name": "(3K_{2},triangle)-free",
+        "fisc": [
+            "3K_{2}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_696",
+        "class_name": "(BW_{3},C_{5},K_{3,4},K_{3,4}-e,T_{2},X_{18},X_{92},X_{93},triangle)-free",
+        "fisc": [
+            "T_{2}",
+            "C_{5}",
+            "K_{3,4}",
+            "triangle",
+            "X_{92}",
+            "BW_{3}",
+            "X_{93}",
+            "X_{18}",
+            "K_{3,4}-e"
+        ]
+    },
+    {
+        "class_id": "AUTO_2990",
+        "class_name": "(2K_{2},C_{4},C_{5},H,S_{3},X_{160},co(X_{159}),net,rising sun)-free",
+        "fisc": [
+            "C_{5}",
+            "C_{4}",
+            "net",
+            "S_{3}",
+            "2K_{2}",
+            "rising sun",
+            "X_{160}",
+            "H",
+            "co(X_{159})"
+        ]
+    },
+    {
+        "class_id": "gc_811",
+        "class_name": "(P,star_{1,2,5})-free",
+        "fisc": [
+            "star_{1,2,5}",
+            "P"
+        ]
+    },
+    {
+        "class_id": "gc_1372",
+        "class_name": "(2P_{3},C_{4},C_{5},P_{5},X_{170},co(A))-free",
+        "fisc": [
+            "C_{5}",
+            "2P_{3}",
+            "X_{170}",
+            "C_{4}",
+            "co(A)",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2113",
+        "class_name": "(2K_{2},co(X_{91}),co-claw)-free",
+        "fisc": [
+            "co(X_{91})",
+            "co-claw",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "AUTO_329",
+        "class_name": "co(P_{7})-free",
+        "fisc": [
+            "co(P_{7})"
+        ]
+    },
+    {
+        "class_id": "gc_436",
+        "class_name": "C_{6}-free",
+        "fisc": [
+            "C_{6}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2583",
+        "class_name": "7K_{1}-free",
+        "fisc": [
+            "7K_{1}"
+        ]
+    },
+    {
+        "class_id": "gc_402",
+        "class_name": "(P_{5},house)-free",
+        "fisc": [
+            "house",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_1311",
+        "class_name": "(3K_{1},P_{3})-free",
+        "fisc": [
+            "P_{3}",
+            "3K_{1}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1477",
+        "class_name": "(3K_{1},co(E))-free",
+        "fisc": [
+            "3K_{1}",
+            "co(E)"
+        ]
+    },
+    {
+        "class_id": "gc_403",
+        "class_name": "(K_{2,3},P_{5})-free",
+        "fisc": [
+            "P_{5}",
+            "K_{2,3}"
+        ]
+    },
+    {
+        "class_id": "gc_408",
+        "class_name": "(K_{1,4},P_{5})-free",
+        "fisc": [
+            "P_{5}",
+            "K_{1,4}"
+        ]
+    },
+    {
+        "class_id": "gc_152",
+        "class_name": "P_{4}-free",
+        "fisc": [
+            "P_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_698",
+        "class_name": "(C_{5},K_{3,3}-e,T_{2},X_{18},X_{94},domino,triangle)-free",
+        "fisc": [
+            "T_{2}",
+            "K_{3,3}-e",
+            "C_{5}",
+            "domino",
+            "X_{18}",
+            "X_{94}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "AUTO_1445",
+        "class_name": "(3K_{1},co(X_{172}))-free",
+        "fisc": [
+            "3K_{1}",
+            "co(X_{172})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1490",
+        "class_name": "(co(A),co(P_{6}),co-domino)-free",
+        "fisc": [
+            "co(A)",
+            "co(P_{6})",
+            "co-domino"
+        ]
+    },
+    {
+        "class_id": "gc_1271",
+        "class_name": "co(P_{3})-free",
+        "fisc": [
+            "co(P_{3})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1472",
+        "class_name": "(3K_{1},house)-free",
+        "fisc": [
+            "house",
+            "3K_{1}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2124",
+        "class_name": "(co(P),co(P_{8}))-free",
+        "fisc": [
+            "co(P_{8})",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_515",
+        "class_name": "(4K_{1},K_{4})-free",
+        "fisc": [
+            "K_{4}",
+            "4K_{1}"
+        ]
+    },
+    {
+        "class_id": "gc_1031",
+        "class_name": "(K_{4},P_{5},W_{5},X_{194},X_{86},X_{88},X_{89},X_{90},co(C_{7}),co(X_{195}),co(X_{196}),co(X_{38}),co(X_{39}))-free",
+        "fisc": [
+            "co(X_{195})",
+            "X_{194}",
+            "co(C_{7})",
+            "co(X_{38})",
+            "K_{4}",
+            "P_{5}",
+            "X_{88}",
+            "X_{90}",
+            "X_{86}",
+            "W_{5}",
+            "co(X_{196})",
+            "co(X_{39})",
+            "X_{89}"
+        ]
+    },
+    {
+        "class_id": "gc_1313",
+        "class_name": "(2K_{2},C_{4},P_{4},triangle)-free",
+        "fisc": [
+            "C_{4}",
+            "triangle",
+            "P_{4}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_632",
+        "class_name": "(fork,triangle)-free",
+        "fisc": [
+            "triangle",
+            "fork"
+        ]
+    },
+    {
+        "class_id": "gc_590",
+        "class_name": "BW_{3}-free",
+        "fisc": [
+            "BW_{3}"
+        ]
+    },
+    {
+        "class_id": "gc_1074",
+        "class_name": "(2K_{2},P_{4},co(2P_{3}))-free",
+        "fisc": [
+            "co(2P_{3})",
+            "P_{4}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1520",
+        "class_name": "(co(P),house)-free",
+        "fisc": [
+            "house",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "AUTO_1467",
+        "class_name": "(co-claw,co-diamond)-free",
+        "fisc": [
+            "co-claw",
+            "co-diamond"
+        ]
+    },
+    {
+        "class_id": "gc_809",
+        "class_name": "(K_{2,3},P,P_{5},X_{163},X_{95},diamond)-free",
+        "fisc": [
+            "diamond",
+            "X_{95}",
+            "K_{2,3}",
+            "X_{163}",
+            "P",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_431",
+        "class_name": "(K_{3,3},P_{5})-free",
+        "fisc": [
+            "P_{5}",
+            "K_{3,3}"
+        ]
+    },
+    {
+        "class_id": "gc_1301",
+        "class_name": "(2K_{2},C_{5},triangle)-free",
+        "fisc": [
+            "C_{5}",
+            "triangle",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_519",
+        "class_name": "(bull,co-gem,gem)-free",
+        "fisc": [
+            "gem",
+            "bull",
+            "co-gem"
+        ]
+    },
+    {
+        "class_id": "AUTO_1502",
+        "class_name": "(P_{5},bull,co-fork)-free",
+        "fisc": [
+            "bull",
+            "P_{5}",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "gc_510",
+        "class_name": "(co-gem,gem)-free",
+        "fisc": [
+            "co-gem",
+            "gem"
+        ]
+    },
+    {
+        "class_id": "AUTO_1470",
+        "class_name": "(C_{6},house)-free",
+        "fisc": [
+            "C_{6}",
+            "house"
+        ]
+    },
+    {
+        "class_id": "AUTO_1728",
+        "class_name": "(co-butterfly,co-claw)-free",
+        "fisc": [
+            "co-butterfly",
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "gc_588",
+        "class_name": "(X_{79},X_{80})-free",
+        "fisc": [
+            "X_{80}",
+            "X_{79}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1767",
+        "class_name": "(co(P_{6}),co-claw)-free",
+        "fisc": [
+            "co(P_{6})",
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1497",
+        "class_name": "(C_{5},P,co(P),bull,co-fork,gem,house)-free",
+        "fisc": [
+            "bull",
+            "C_{5}",
+            "house",
+            "co-fork",
+            "P",
+            "gem",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_324",
+        "class_name": "(A,C_{5},P_{5},co(A),house,parachute,parapluie)-free",
+        "fisc": [
+            "C_{5}",
+            "parapluie",
+            "A",
+            "co(A)",
+            "house",
+            "parachute",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_1279",
+        "class_name": "(2P_{3},C_{4},C_{6})-free",
+        "fisc": [
+            "C_{6}",
+            "C_{4}",
+            "2P_{3}"
+        ]
+    },
+    {
+        "class_id": "gc_413",
+        "class_name": "(K_{1,4},diamond)-free",
+        "fisc": [
+            "diamond",
+            "K_{1,4}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1522",
+        "class_name": "(co(K_{1,4}),house)-free",
+        "fisc": [
+            "house",
+            "co(K_{1,4})"
+        ]
+    },
+    {
+        "class_id": "AUTO_2089",
+        "class_name": "(C_{5},C_{6},P_{6},co(C_{6}),co(P_{6}),co(X_{17}),co(X_{18}),co(X_{5}),co(X_{98}),co-antenna,co-domino)-free",
+        "fisc": [
+            "C_{5}",
+            "C_{6}",
+            "co(X_{5})",
+            "co(X_{98})",
+            "co(P_{6})",
+            "P_{6}",
+            "co(C_{6})",
+            "co(X_{18})",
+            "co-antenna",
+            "co(X_{17})",
+            "co-domino"
+        ]
+    },
+    {
+        "class_id": "AUTO_1443",
+        "class_name": "(C_{4},S_{3})-free",
+        "fisc": [
+            "C_{4}",
+            "S_{3}"
+        ]
+    },
+    {
+        "class_id": "gc_922",
+        "class_name": "(P_{6},triangle)-free",
+        "fisc": [
+            "P_{6}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "AUTO_2116",
+        "class_name": "(2K_{3} + e,3K_{1},C_{5},co(T_{2}),co(X_{18}),co(X_{94}),co-domino)-free",
+        "fisc": [
+            "C_{5}",
+            "3K_{1}",
+            "2K_{3} + e",
+            "co(X_{18})",
+            "co(T_{2})",
+            "co-domino",
+            "co(X_{94})"
+        ]
+    },
+    {
+        "class_id": "gc_361",
+        "class_name": "house-free",
+        "fisc": [
+            "house"
+        ]
+    },
+    {
+        "class_id": "gc_814",
+        "class_name": "P-free",
+        "fisc": [
+            "P"
+        ]
+    },
+    {
+        "class_id": "AUTO_1481",
+        "class_name": "(3K_{1},co-fork)-free",
+        "fisc": [
+            "3K_{1}",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "gc_517",
+        "class_name": "(C_{5},P_{5},gem)-free",
+        "fisc": [
+            "gem",
+            "C_{5}",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_1343",
+        "class_name": "K_{7}-free",
+        "fisc": [
+            "K_{7}"
+        ]
+    },
+    {
+        "class_id": "gc_404",
+        "class_name": "(K_{2,3},P,P_{5})-free",
+        "fisc": [
+            "P",
+            "P_{5}",
+            "K_{2,3}"
+        ]
+    },
+    {
+        "class_id": "gc_634",
+        "class_name": "(K_{4},P_{4})-free",
+        "fisc": [
+            "K_{4}",
+            "P_{4}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1499",
+        "class_name": "(co-claw,co-paw)-free",
+        "fisc": [
+            "co-paw",
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "gc_926",
+        "class_name": "(co-paw,triangle)-free",
+        "fisc": [
+            "co-paw",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_625",
+        "class_name": "(W_{4},W_{5},butterfly)-free",
+        "fisc": [
+            "W_{4}",
+            "W_{5}",
+            "butterfly"
+        ]
+    },
+    {
+        "class_id": "gc_426",
+        "class_name": "(claw,co-claw)-free",
+        "fisc": [
+            "co-claw",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "gc_635",
+        "class_name": "(H,triangle)-free",
+        "fisc": [
+            "H",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_367",
+        "class_name": "(C_{4},C_{5})-free",
+        "fisc": [
+            "C_{4}",
+            "C_{5}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1506",
+        "class_name": "(2K_{2},co-diamond)-free",
+        "fisc": [
+            "co-diamond",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_812",
+        "class_name": "(P_{5},co(P_{2} U P_{3}))-free",
+        "fisc": [
+            "P_{5}",
+            "co(P_{2} U P_{3})"
+        ]
+    },
+    {
+        "class_id": "gc_592",
+        "class_name": "domino-free",
+        "fisc": [
+            "domino"
+        ]
+    },
+    {
+        "class_id": "AUTO_1466",
+        "class_name": "(3K_{2},E,P_{2} U P_{4},net)-free",
+        "fisc": [
+            "net",
+            "3K_{2}",
+            "E",
+            "P_{2} U P_{4}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2115",
+        "class_name": "(3K_{1},C_{5},K_{3} U K_{4},co(BW_{3}),co(K_{3,4}-e),co(T_{2}),co(X_{18}),co(X_{92}),co(X_{93}))-free",
+        "fisc": [
+            "C_{5}",
+            "K_{3} U K_{4}",
+            "co(X_{93})",
+            "co(BW_{3})",
+            "co(X_{92})",
+            "3K_{1}",
+            "co(K_{3,4}-e)",
+            "co(X_{18})",
+            "co(T_{2})"
+        ]
+    },
+    {
+        "class_id": "AUTO_756",
+        "class_name": "(A,H,K_{3,3},X_{45},triangle)-free",
+        "fisc": [
+            "A",
+            "K_{3,3}",
+            "H",
+            "X_{45}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "AUTO_1484",
+        "class_name": "(P_{5},co(X_{38}),co-gem)-free",
+        "fisc": [
+            "co-gem",
+            "P_{5}",
+            "co(X_{38})"
+        ]
+    },
+    {
+        "class_id": "gc_420",
+        "class_name": "(K_{1,4},P,P_{5},fork)-free",
+        "fisc": [
+            "P",
+            "P_{5}",
+            "fork",
+            "K_{1,4}"
+        ]
+    },
+    {
+        "class_id": "gc_779",
+        "class_name": "(BW_{3},W_{5},W_{7},X_{103},X_{104},X_{105},X_{106},X_{107},X_{108},X_{109},X_{110},X_{111},X_{112},X_{113},X_{114},X_{115},X_{116},X_{117},X_{118},X_{119},X_{120},X_{121},X_{122},X_{123},X_{124},X_{125},X_{126},X_{53},X_{88},co(C_{6}),co(C_{8}),co(T_{2}),co(X_{3}))-free",
+        "fisc": [
+            "W_{7}",
+            "X_{117}",
+            "X_{88}",
+            "co(C_{6})",
+            "BW_{3}",
+            "X_{125}",
+            "co(T_{2})",
+            "X_{121}",
+            "X_{113}",
+            "X_{118}",
+            "co(C_{8})",
+            "co(X_{3})",
+            "X_{119}",
+            "X_{114}",
+            "X_{106}",
+            "W_{5}",
+            "X_{109}",
+            "X_{104}",
+            "X_{112}",
+            "X_{122}",
+            "X_{116}",
+            "X_{110}",
+            "X_{126}",
+            "X_{120}",
+            "X_{123}",
+            "X_{108}",
+            "X_{105}",
+            "X_{53}",
+            "X_{124}",
+            "X_{111}",
+            "X_{115}",
+            "X_{107}",
+            "X_{103}"
+        ]
+    },
+    {
+        "class_id": "gc_355",
+        "class_name": "(S_{3},claw,net)-free",
+        "fisc": [
+            "net",
+            "S_{3}",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "gc_1270",
+        "class_name": "(P_{4},triangle)-free",
+        "fisc": [
+            "P_{4}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_411",
+        "class_name": "(P,P_{5},co(3K_{2}),gem)-free",
+        "fisc": [
+            "P",
+            "gem",
+            "P_{5}",
+            "co(3K_{2})"
+        ]
+    },
+    {
+        "class_id": "gc_1276",
+        "class_name": "(5-pan,T_{2},X_{172})-free",
+        "fisc": [
+            "T_{2}",
+            "X_{172}",
+            "5-pan"
+        ]
+    },
+    {
+        "class_id": "AUTO_1512",
+        "class_name": "(2K_{2},house)-free",
+        "fisc": [
+            "house",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1761",
+        "class_name": "(2K_{2},co-claw,co-diamond)-free",
+        "fisc": [
+            "co-claw",
+            "co-diamond",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "AUTO_77",
+        "class_name": "co-diamond-free",
+        "fisc": [
+            "co-diamond"
+        ]
+    },
+    {
+        "class_id": "AUTO_1525",
+        "class_name": "(K_{2} U K_{3},house)-free",
+        "fisc": [
+            "K_{2} U K_{3}",
+            "house"
+        ]
+    },
+    {
+        "class_id": "AUTO_1454",
+        "class_name": "(K_{2} U K_{3},P_{4},butterfly)-free",
+        "fisc": [
+            "butterfly",
+            "K_{2} U K_{3}",
+            "P_{4}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1710",
+        "class_name": "(3K_{1},C_{5},co(C_{6}),co(P_{6}))-free",
+        "fisc": [
+            "co(P_{6})",
+            "C_{5}",
+            "3K_{1}",
+            "co(C_{6})"
+        ]
+    },
+    {
+        "class_id": "gc_409",
+        "class_name": "(P_{5},diamond)-free",
+        "fisc": [
+            "diamond",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1636",
+        "class_name": "(2K_{2},C_{5},co(C_{6}),net)-free",
+        "fisc": [
+            "net",
+            "C_{5}",
+            "co(C_{6})",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_329",
+        "class_name": "(2K_{2},C_{4},P_{4})-free",
+        "fisc": [
+            "C_{4}",
+            "P_{4}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_572",
+        "class_name": "(P_{5},bull)-free",
+        "fisc": [
+            "bull",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_506",
+        "class_name": "(C_{4},K_{4},claw,diamond)-free",
+        "fisc": [
+            "C_{4}",
+            "diamond",
+            "K_{4}",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "gc_1302",
+        "class_name": "(3K_{1},co(P_{3}))-free",
+        "fisc": [
+            "co(P_{3})",
+            "3K_{1}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1461",
+        "class_name": "(co(P),co(P_{7}))-free",
+        "fisc": [
+            "co(P)",
+            "co(P_{7})"
+        ]
+    },
+    {
+        "class_id": "gc_1275",
+        "class_name": "(2K_{2},C_{5})-free",
+        "fisc": [
+            "C_{5}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_917",
+        "class_name": "(C_{4},C_{5},K_{4},diamond)-free",
+        "fisc": [
+            "C_{4}",
+            "C_{5}",
+            "K_{4}",
+            "diamond"
+        ]
+    },
+    {
+        "class_id": "gc_1026",
+        "class_name": "(C_{4},C_{5},C_{6},S_{3})-free",
+        "fisc": [
+            "C_{6}",
+            "C_{4}",
+            "C_{5}",
+            "S_{3}"
+        ]
+    },
+    {
+        "class_id": "gc_669",
+        "class_name": "(C_{5},P_{5})-free",
+        "fisc": [
+            "C_{5}",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_260",
+        "class_name": "(C_{5},P_{5},co-fish,fish,house)-free",
+        "fisc": [
+            "co-fish",
+            "C_{5}",
+            "house",
+            "fish",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_1377",
+        "class_name": "5K_{1}-free",
+        "fisc": [
+            "5K_{1}"
+        ]
+    },
+    {
+        "class_id": "gc_648",
+        "class_name": "(K_{3,3}-e,P_{5})-free",
+        "fisc": [
+            "P_{5}",
+            "K_{3,3}-e"
+        ]
+    },
+    {
+        "class_id": "gc_189",
+        "class_name": "(P,P_{5},co(P),co-fork,fork,house)-free",
+        "fisc": [
+            "co-fork",
+            "house",
+            "fork",
+            "P",
+            "P_{5}",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_735",
+        "class_name": "K_{2} U claw-free",
+        "fisc": [
+            "K_{2} U claw"
+        ]
+    },
+    {
+        "class_id": "gc_925",
+        "class_name": "(K_{2} U claw,triangle)-free",
+        "fisc": [
+            "K_{2} U claw",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_1303",
+        "class_name": "(3K_{1},C_{5},butterfly,diamond)-free",
+        "fisc": [
+            "C_{5}",
+            "3K_{1}",
+            "butterfly",
+            "diamond"
+        ]
+    },
+    {
+        "class_id": "AUTO_1479",
+        "class_name": "(4K_{1},P_{4})-free",
+        "fisc": [
+            "4K_{1}",
+            "P_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_502",
+        "class_name": "(C_{5},K_{2} U K_{3},K_{2,3},P,P_{2} U P_{3},P_{5},co(P),co(P_{2} U P_{3}),co-fork,fork,house)-free",
+        "fisc": [
+            "K_{2} U K_{3}",
+            "C_{5}",
+            "house",
+            "fork",
+            "K_{2,3}",
+            "P_{2} U P_{3}",
+            "co(P_{2} U P_{3})",
+            "co-fork",
+            "P",
+            "P_{5}",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_433",
+        "class_name": "(C_{6},co(C_{6}))-free",
+        "fisc": [
+            "C_{6}",
+            "co(C_{6})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1820",
+        "class_name": "(co(5-pan),co(T_{2}),co(X_{172}))-free",
+        "fisc": [
+            "co(T_{2})",
+            "co(5-pan)",
+            "co(X_{172})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1526",
+        "class_name": "(2K_{2},C_{5},co(T_{2}))-free",
+        "fisc": [
+            "co(T_{2})",
+            "C_{5}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_508",
+        "class_name": "(2K_{2},claw)-free",
+        "fisc": [
+            "claw",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "AUTO_3700",
+        "class_name": "(2K_{2},C_{4},C_{5},S_{3},co-claw,net)-free",
+        "fisc": [
+            "C_{5}",
+            "C_{4}",
+            "net",
+            "S_{3}",
+            "2K_{2}",
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1563",
+        "class_name": "(3K_{2},C_{5},P_{2} U P_{4},net)-free",
+        "fisc": [
+            "C_{5}",
+            "net",
+            "3K_{2}",
+            "P_{2} U P_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_915",
+        "class_name": "co-paw-free",
+        "fisc": [
+            "co-paw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1485",
+        "class_name": "(K_{2} U K_{3},P_{5},co(X_{37}),co(X_{38}),co-diamond,co-domino,co-twin-C_{5})-free",
+        "fisc": [
+            "K_{2} U K_{3}",
+            "co-diamond",
+            "co-twin-C_{5}",
+            "co(X_{37})",
+            "P_{5}",
+            "co-domino",
+            "co(X_{38})"
+        ]
+    },
+    {
+        "class_id": "gc_1176",
+        "class_name": "(C_{5},C_{6},P_{6},triangle)-free",
+        "fisc": [
+            "C_{6}",
+            "C_{5}",
+            "P_{6}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_373",
+        "class_name": "(S_{3},net)-free",
+        "fisc": [
+            "net",
+            "S_{3}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1939",
+        "class_name": "(P_{4},co-diamond,co-paw)-free",
+        "fisc": [
+            "co-paw",
+            "co-diamond",
+            "P_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_1022",
+        "class_name": "(C_{5},C_{6},X_{164},X_{165},sunlet_{4},triangle)-free",
+        "fisc": [
+            "X_{164}",
+            "C_{5}",
+            "C_{6}",
+            "X_{165}",
+            "sunlet_{4}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "AUTO_2141",
+        "class_name": "(co(P),co-star_{1,2,5})-free",
+        "fisc": [
+            "co-star_{1,2,5}",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_670",
+        "class_name": "(P_{5},triangle)-free",
+        "fisc": [
+            "P_{5}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_1213",
+        "class_name": "(butterfly,claw)-free",
+        "fisc": [
+            "butterfly",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "gc_1330",
+        "class_name": "(X_{42},co(T_{2}),co(X_{205}),co(X_{206}),co(X_{207}),co(X_{208}),net)-free",
+        "fisc": [
+            "co(X_{205})",
+            "net",
+            "X_{42}",
+            "co(X_{207})",
+            "co(X_{206})",
+            "co(T_{2})",
+            "co(X_{208})"
+        ]
+    },
+    {
+        "class_id": "gc_1300",
+        "class_name": "(P_{3},triangle)-free",
+        "fisc": [
+            "P_{3}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "AUTO_2104",
+        "class_name": "(co(X_{82}),co(X_{83}),house)-free",
+        "fisc": [
+            "co(X_{82})",
+            "house",
+            "co(X_{83})"
+        ]
+    },
+    {
+        "class_id": "gc_1075",
+        "class_name": "(2P_{3},C_{4},P_{4})-free",
+        "fisc": [
+            "C_{4}",
+            "2P_{3}",
+            "P_{4}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2766",
+        "class_name": "(2K_{3},3K_{1},co(A),co(H),co(X_{45}))-free",
+        "fisc": [
+            "co(A)",
+            "3K_{1}",
+            "co(X_{45})",
+            "co(H)",
+            "2K_{3}"
+        ]
+    },
+    {
+        "class_id": "gc_671",
+        "class_name": "(K_{4},P_{5})-free",
+        "fisc": [
+            "K_{4}",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "AUTO_744",
+        "class_name": "(2K_{2},C_{4},C_{5},S_{3},X_{159},X_{160},co(H),co-rising sun,net)-free",
+        "fisc": [
+            "C_{5}",
+            "C_{4}",
+            "net",
+            "S_{3}",
+            "co-rising sun",
+            "2K_{2}",
+            "X_{160}",
+            "X_{159}",
+            "co(H)"
+        ]
+    },
+    {
+        "class_id": "gc_871",
+        "class_name": "(butterfly,gem)-free",
+        "fisc": [
+            "gem",
+            "butterfly"
+        ]
+    },
+    {
+        "class_id": "gc_477",
+        "class_name": "(bull,fork,house)-free",
+        "fisc": [
+            "bull",
+            "house",
+            "fork"
+        ]
+    },
+    {
+        "class_id": "gc_359",
+        "class_name": "C_{5}-free",
+        "fisc": [
+            "C_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_354",
+        "class_name": "gem-free",
+        "fisc": [
+            "gem"
+        ]
+    },
+    {
+        "class_id": "AUTO_1940",
+        "class_name": "(2K_{2},P_{4},co-diamond,co-paw)-free",
+        "fisc": [
+            "co-paw",
+            "co-diamond",
+            "P_{4}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_250",
+        "class_name": "(K_{5} - e,W_{5},co(A),co(C_{4} U 2K_{1}),co(P_{2} U P_{3}),co(R),claw,co-twin-C_{5},co-twin-house)-free",
+        "fisc": [
+            "co(R)",
+            "co(C_{4} U 2K_{1})",
+            "co-twin-C_{5}",
+            "co(A)",
+            "co(P_{2} U P_{3})",
+            "co-twin-house",
+            "claw",
+            "W_{5}",
+            "K_{5} - e"
+        ]
+    },
+    {
+        "class_id": "gc_759",
+        "class_name": "(K_{3,3}-e,P_{5},X_{99})-free",
+        "fisc": [
+            "X_{99}",
+            "P_{5}",
+            "K_{3,3}-e"
+        ]
+    },
+    {
+        "class_id": "AUTO_2125",
+        "class_name": "(2K_{3} + e,co(X_{99}),house)-free",
+        "fisc": [
+            "co(X_{99})",
+            "house",
+            "2K_{3} + e"
+        ]
+    },
+    {
+        "class_id": "gc_919",
+        "class_name": "(K_{4},claw,diamond)-free",
+        "fisc": [
+            "diamond",
+            "K_{4}",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1463",
+        "class_name": "(K_{3} U P_{3},co(C_{6}),co(P),co(P_{7}),co(X_{37}),co(X_{41}))-free",
+        "fisc": [
+            "co(P_{7})",
+            "co(C_{6})",
+            "co(X_{41})",
+            "K_{3} U P_{3}",
+            "co(P)",
+            "co(X_{37})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1450",
+        "class_name": "(2K_{2},4K_{1},C_{5},co-diamond)-free",
+        "fisc": [
+            "C_{5}",
+            "4K_{1}",
+            "co-diamond",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_1232",
+        "class_name": "(C_{4},claw,diamond)-free",
+        "fisc": [
+            "C_{4}",
+            "diamond",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1892",
+        "class_name": "(S_{3},T_{2},X_{205},X_{206},X_{207},X_{208},co(X_{42}))-free",
+        "fisc": [
+            "T_{2}",
+            "X_{207}",
+            "co(X_{42})",
+            "X_{208}",
+            "X_{205}",
+            "X_{206}",
+            "S_{3}"
+        ]
+    },
+    {
+        "class_id": "gc_737",
+        "class_name": "P_{7}-free",
+        "fisc": [
+            "P_{7}"
+        ]
+    },
+    {
+        "class_id": "gc_475",
+        "class_name": "(bull,fork,gem)-free",
+        "fisc": [
+            "bull",
+            "gem",
+            "fork"
+        ]
+    },
+    {
+        "class_id": "gc_466",
+        "class_name": "(P_{5},gem)-free",
+        "fisc": [
+            "gem",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1504",
+        "class_name": "(bull,co-fork,co-gem)-free",
+        "fisc": [
+            "bull",
+            "co-gem",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "gc_428",
+        "class_name": "(K_{3,3}-e,P_{5},X_{98})-free",
+        "fisc": [
+            "X_{98}",
+            "P_{5}",
+            "K_{3,3}-e"
+        ]
+    },
+    {
+        "class_id": "AUTO_92",
+        "class_name": "co(C_{6})-free",
+        "fisc": [
+            "co(C_{6})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1442",
+        "class_name": "(K_{4},S_{3})-free",
+        "fisc": [
+            "K_{4}",
+            "S_{3}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1473",
+        "class_name": "(C_{5},house)-free",
+        "fisc": [
+            "C_{5}",
+            "house"
+        ]
+    },
+    {
+        "class_id": "gc_1",
+        "class_name": "(2K_{2},C_{4})-free",
+        "fisc": [
+            "C_{4}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2188",
+        "class_name": "(3K_{2},C_{5},C_{7},P_{2} U P_{4},X_{173},co(X_{11}),net)-free",
+        "fisc": [
+            "C_{5}",
+            "net",
+            "X_{173}",
+            "P_{2} U P_{4}",
+            "C_{7}",
+            "3K_{2}",
+            "co(X_{11})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1513",
+        "class_name": "(C_{5},P_{2} U P_{3},house)-free",
+        "fisc": [
+            "C_{5}",
+            "house",
+            "P_{2} U P_{3}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2140",
+        "class_name": "(K_{2} U K_{3},co(P),co(X_{163}),co(X_{95}),co-diamond,house)-free",
+        "fisc": [
+            "K_{2} U K_{3}",
+            "co-diamond",
+            "co(X_{163})",
+            "co(X_{95})",
+            "house",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_439",
+        "class_name": "(P_{5},fork)-free",
+        "fisc": [
+            "P_{5}",
+            "fork"
+        ]
+    },
+    {
+        "class_id": "gc_480",
+        "class_name": "(P_{5},fork,house)-free",
+        "fisc": [
+            "house",
+            "P_{5}",
+            "fork"
+        ]
+    },
+    {
+        "class_id": "AUTO_1476",
+        "class_name": "(2K_{3} + e,house)-free",
+        "fisc": [
+            "house",
+            "2K_{3} + e"
+        ]
+    },
+    {
+        "class_id": "AUTO_2074",
+        "class_name": "(2K_{2},P_{4},co-dart)-free",
+        "fisc": [
+            "co-dart",
+            "P_{4}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_1227",
+        "class_name": "2K_{1}-free",
+        "fisc": [
+            "2K_{1}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1821",
+        "class_name": "(2K_{2},co(2P_{3}),co(C_{6}))-free",
+        "fisc": [
+            "co(2P_{3})",
+            "co(C_{6})",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_1234",
+        "class_name": "(P_{6},claw)-free",
+        "fisc": [
+            "P_{6}",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1462",
+        "class_name": "(P_{2} U P_{3},house)-free",
+        "fisc": [
+            "house",
+            "P_{2} U P_{3}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1822",
+        "class_name": "(2K_{2},C_{5},co(C_{6}),co(C_{7}),co(C_{8}))-free",
+        "fisc": [
+            "C_{5}",
+            "co(C_{7})",
+            "co(C_{8})",
+            "2K_{2}",
+            "co(C_{6})"
+        ]
+    },
+    {
+        "class_id": "gc_1024",
+        "class_name": "(C_{6},triangle)-free",
+        "fisc": [
+            "C_{6}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_818",
+        "class_name": "(P,star_{1,2,3})-free",
+        "fisc": [
+            "P",
+            "star_{1,2,3}"
+        ]
+    },
+    {
+        "class_id": "gc_512",
+        "class_name": "(C_{5},P_{5},co(P),co-fork,co-gem,fork)-free",
+        "fisc": [
+            "C_{5}",
+            "co-gem",
+            "co-fork",
+            "fork",
+            "P_{5}",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_1108",
+        "class_name": "(2K_{3} + e,5-pan,A,C_{6},E,K_{3,3}-e,P_{6},R,X_{166},X_{167},X_{169},X_{170},X_{171},X_{172},X_{18},X_{37},X_{45},X_{5},X_{58},X_{84},X_{95},X_{98},co(5-pan),co(A),co(C_{6}),co(E),co(P_{6}),co(R),co(X_{166}),co(X_{167}),co(X_{169}),co(X_{170}),co(X_{171}),co(X_{172}),co(X_{18}),co(X_{37}),co(X_{45}),co(X_{5}),co(X_{58}),co(X_{84}),co(X_{95}),co(X_{98}),antenna,co-antenna,co-domino,co-fish,co-twin-C_{5},co-twin-house,domino,fish,twin-C_{5},twin-house)-free",
+        "fisc": [
+            "co(R)",
+            "co(X_{170})",
+            "co-fish",
+            "5-pan",
+            "E",
+            "X_{95}",
+            "C_{6}",
+            "X_{170}",
+            "X_{172}",
+            "antenna",
+            "co(X_{171})",
+            "X_{167}",
+            "co(P_{6})",
+            "co(C_{6})",
+            "fish",
+            "co(X_{37})",
+            "X_{166}",
+            "co(X_{45})",
+            "co-twin-C_{5}",
+            "X_{171}",
+            "co(X_{58})",
+            "A",
+            "co(A)",
+            "twin-house",
+            "co(E)",
+            "X_{5}",
+            "co(X_{166})",
+            "domino",
+            "co(X_{18})",
+            "co-domino",
+            "X_{84}",
+            "co(X_{95})",
+            "co(X_{98})",
+            "co(X_{167})",
+            "co-antenna",
+            "X_{37}",
+            "co(5-pan)",
+            "co(X_{5})",
+            "co(X_{172})",
+            "K_{3,3}-e",
+            "X_{98}",
+            "co(X_{169})",
+            "co(X_{84})",
+            "twin-C_{5}",
+            "co-twin-house",
+            "P_{6}",
+            "2K_{3} + e",
+            "R",
+            "X_{169}",
+            "X_{58}",
+            "X_{45}",
+            "X_{18}"
+        ]
+    },
+    {
+        "class_id": "gc_1246",
+        "class_name": "(co(P_{3}),triangle)-free",
+        "fisc": [
+            "co(P_{3})",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_137",
+        "class_name": "(claw,net)-free",
+        "fisc": [
+            "net",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_734",
+        "class_name": "(C_{5},C_{6},P_{6},co(C_{6}),co(P_{6}))-free",
+        "fisc": [
+            "C_{5}",
+            "C_{6}",
+            "co(P_{6})",
+            "P_{6}",
+            "co(C_{6})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1530",
+        "class_name": "(S_{3},co-claw,net)-free",
+        "fisc": [
+            "net",
+            "S_{3}",
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "gc_308",
+        "class_name": "(P_{5},co-fork,house)-free",
+        "fisc": [
+            "house",
+            "P_{5}",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "gc_700",
+        "class_name": "(W_{4},gem)-free",
+        "fisc": [
+            "W_{4}",
+            "gem"
+        ]
+    },
+    {
+        "class_id": "gc_927",
+        "class_name": "(2K_{2},net)-free",
+        "fisc": [
+            "net",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_1035",
+        "class_name": "(6-fan,C_{4} U P_{2},C_{5},C_{6} U K_{1},C_{7},K_{2} U K_{3},K_{2,3},P_{2} U P_{4},W_{4} U K_{1},W_{6},X_{132},X_{169},X_{176},X_{18},X_{197},X_{198},X_{199},X_{200},X_{201},X_{202},X_{35},X_{84},co(C_{4} U P_{2}),co(C_{6} U K_{1}),co(C_{7}),co(P_{2} U P_{4}),co(W_{4} U K_{1}),co(W_{6}),co(X_{132}),co(X_{169}),co(X_{176}),co(X_{18}),co(X_{197}),co(X_{198}),co(X_{199}),co(X_{200}),co(X_{201}),co(X_{35}),co(X_{84}),co(butterfly U K_{1}),butterfly U K_{1},co-6-fan,co-fish,fish)-free",
+        "fisc": [
+            "X_{197}",
+            "co-fish",
+            "co(W_{4} U K_{1})",
+            "co(X_{200})",
+            "co(X_{199})",
+            "X_{198}",
+            "co(X_{132})",
+            "fish",
+            "co(butterfly U K_{1})",
+            "X_{202}",
+            "co(X_{198})",
+            "X_{199}",
+            "co(X_{201})",
+            "C_{5}",
+            "C_{4} U P_{2}",
+            "K_{2} U K_{3}",
+            "X_{176}",
+            "K_{2,3}",
+            "butterfly U K_{1}",
+            "X_{132}",
+            "X_{169}",
+            "X_{35}",
+            "co(X_{18})",
+            "co(W_{6})",
+            "X_{200}",
+            "co(P_{2} U P_{4})",
+            "W_{4} U K_{1}",
+            "C_{6} U K_{1}",
+            "X_{84}",
+            "co-6-fan",
+            "co(X_{197})",
+            "P_{2} U P_{4}",
+            "W_{6}",
+            "6-fan",
+            "X_{201}",
+            "co(C_{7})",
+            "co(X_{169})",
+            "co(X_{84})",
+            "co(X_{35})",
+            "C_{7}",
+            "co(X_{176})",
+            "X_{18}",
+            "co(C_{4} U P_{2})",
+            "co(C_{6} U K_{1})"
+        ]
+    },
+    {
+        "class_id": "gc_688",
+        "class_name": "(K_{3,3} U K_{1},K_{4},W_{4} U K_{1},W_{5},X_{86},X_{87},X_{88},X_{89},X_{90},co(C_{7}),co(X_{38}),co(X_{39}),co(butterfly U K_{1}),co-diamond)-free",
+        "fisc": [
+            "K_{3,3} U K_{1}",
+            "co-diamond",
+            "co(C_{7})",
+            "co(X_{38})",
+            "K_{4}",
+            "X_{87}",
+            "X_{89}",
+            "X_{88}",
+            "co(butterfly U K_{1})",
+            "X_{90}",
+            "X_{86}",
+            "W_{5}",
+            "co(X_{39})",
+            "W_{4} U K_{1}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1516",
+        "class_name": "(P,co-butterfly,co-fork,co-gem)-free",
+        "fisc": [
+            "P",
+            "co-butterfly",
+            "co-gem",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "gc_1247",
+        "class_name": "K_{2}-free",
+        "fisc": [
+            "K_{2}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1480",
+        "class_name": "(3K_{1},co-cross)-free",
+        "fisc": [
+            "co-cross",
+            "3K_{1}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1448",
+        "class_name": "(co(K_{1,4}),co-paw)-free",
+        "fisc": [
+            "co-paw",
+            "co(K_{1,4})"
+        ]
+    },
+    {
+        "class_id": "gc_273",
+        "class_name": "(C_{5},P_{6},co(P_{6}))-free",
+        "fisc": [
+            "C_{5}",
+            "co(P_{6})",
+            "P_{6}"
+        ]
+    },
+    {
+        "class_id": "gc_931",
+        "class_name": "2P_{3}-free",
+        "fisc": [
+            "2P_{3}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2584",
+        "class_name": "6K_{1}-free",
+        "fisc": [
+            "6K_{1}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1456",
+        "class_name": "(C_{5},P_{5},co(A),co(C_{6}),co(P_{6}),co-domino)-free",
+        "fisc": [
+            "C_{5}",
+            "co(A)",
+            "co(P_{6})",
+            "co(C_{6})",
+            "P_{5}",
+            "co-domino"
+        ]
+    },
+    {
+        "class_id": "gc_1244",
+        "class_name": "(C_{4},co(P_{3}))-free",
+        "fisc": [
+            "C_{4}",
+            "co(P_{3})"
+        ]
+    },
+    {
+        "class_id": "gc_1312",
+        "class_name": "(2K_{2},P_{3})-free",
+        "fisc": [
+            "P_{3}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_636",
+        "class_name": "(E,triangle)-free",
+        "fisc": [
+            "E",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "AUTO_1762",
+        "class_name": "(4K_{1},gem)-free",
+        "fisc": [
+            "4K_{1}",
+            "gem"
+        ]
+    },
+    {
+        "class_id": "AUTO_1460",
+        "class_name": "(2K_{2},co(P_{6}))-free",
+        "fisc": [
+            "co(P_{6})",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_1225",
+        "class_name": "girth >=9",
+        "fisc": [
+            "C_{5}",
+            "C_{6}",
+            "C_{4}",
+            "C_{7}",
+            "C_{8}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_920",
+        "class_name": "(K_{1,4},paw)-free",
+        "fisc": [
+            "paw",
+            "K_{1,4}"
+        ]
+    },
+    {
+        "class_id": "gc_816",
+        "class_name": "E-free",
+        "fisc": [
+            "E"
+        ]
+    },
+    {
+        "class_id": "gc_914",
+        "class_name": "(2P_{3},triangle)-free",
+        "fisc": [
+            "2P_{3}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_921",
+        "class_name": "(K_{1,5},triangle)-free",
+        "fisc": [
+            "triangle",
+            "K_{1,5}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2",
+        "class_name": "co(P)-free",
+        "fisc": [
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "AUTO_136",
+        "class_name": "K_{5}-free",
+        "fisc": [
+            "K_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_479",
+        "class_name": "(P,co(P),co-fork,fork)-free",
+        "fisc": [
+            "P",
+            "fork",
+            "co(P)",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "AUTO_2154",
+        "class_name": "(3K_{1},co(K_{2} U claw))-free",
+        "fisc": [
+            "co(K_{2} U claw)",
+            "3K_{1}"
+        ]
+    },
+    {
+        "class_id": "gc_840",
+        "class_name": "(2K_{3} + e,A,C_{5},C_{6},E,K_{3,3}-e,P_{6},R,X_{166},X_{167},X_{169},X_{170},X_{171},X_{172},X_{18},X_{45},X_{5},X_{58},X_{84},X_{95},X_{98},co(A),co(C_{6}),co(E),co(P_{6}),co(R),co(X_{166}),co(X_{167}),co(X_{169}),co(X_{170}),co(X_{171}),co(X_{172}),co(X_{18}),co(X_{45}),co(X_{5}),co(X_{58}),co(X_{84}),co(X_{95}),co(X_{98}),antenna,co-antenna,co-domino,co-fish,co-twin-house,domino,fish,twin-house)-free",
+        "fisc": [
+            "co(R)",
+            "co(X_{170})",
+            "co-fish",
+            "E",
+            "X_{95}",
+            "C_{6}",
+            "X_{170}",
+            "X_{172}",
+            "antenna",
+            "co(X_{171})",
+            "X_{167}",
+            "co(P_{6})",
+            "co(C_{6})",
+            "fish",
+            "X_{166}",
+            "co(X_{45})",
+            "C_{5}",
+            "X_{171}",
+            "co(X_{58})",
+            "A",
+            "co(A)",
+            "twin-house",
+            "co(E)",
+            "X_{5}",
+            "co(X_{166})",
+            "domino",
+            "co(X_{18})",
+            "co-domino",
+            "X_{84}",
+            "co(X_{95})",
+            "co(X_{98})",
+            "co(X_{167})",
+            "co-antenna",
+            "co(X_{5})",
+            "co(X_{172})",
+            "K_{3,3}-e",
+            "X_{98}",
+            "co(X_{169})",
+            "co(X_{84})",
+            "co-twin-house",
+            "P_{6}",
+            "2K_{3} + e",
+            "R",
+            "X_{169}",
+            "X_{58}",
+            "X_{45}",
+            "X_{18}"
+        ]
+    },
+    {
+        "class_id": "gc_410",
+        "class_name": "(P,P_{5})-free",
+        "fisc": [
+            "P",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_638",
+        "class_name": "P_{6}-free",
+        "fisc": [
+            "P_{6}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2109",
+        "class_name": "(2K_{2},3K_{1},C_{5},co(C_{6}),co(C_{7}),co(C_{8}),co(H),co(X_{85}))-free",
+        "fisc": [
+            "C_{5}",
+            "co(C_{7})",
+            "co(C_{8})",
+            "co(X_{85})",
+            "2K_{2}",
+            "3K_{1}",
+            "co(C_{6})",
+            "co(H)"
+        ]
+    },
+    {
+        "class_id": "AUTO_1700",
+        "class_name": "(2P_{3},P_{4})-free",
+        "fisc": [
+            "2P_{3}",
+            "P_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_401",
+        "class_name": "(C_{4},C_{5},T_{2})-free",
+        "fisc": [
+            "T_{2}",
+            "C_{4}",
+            "C_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_224",
+        "class_name": "(C_{5},P,P_{5},house)-free",
+        "fisc": [
+            "P",
+            "C_{5}",
+            "house",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_326",
+        "class_name": "(C_{4},P_{4},dart)-free",
+        "fisc": [
+            "C_{4}",
+            "dart",
+            "P_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_511",
+        "class_name": "(C_{5},P,P_{5},co(P),house)-free",
+        "fisc": [
+            "C_{5}",
+            "house",
+            "P",
+            "P_{5}",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_514",
+        "class_name": "(co-paw,paw)-free",
+        "fisc": [
+            "paw",
+            "co-paw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1536",
+        "class_name": "(2K_{2},C_{4},C_{5},S_{3},net,rising sun)-free",
+        "fisc": [
+            "C_{5}",
+            "C_{4}",
+            "net",
+            "S_{3}",
+            "2K_{2}",
+            "rising sun"
+        ]
+    },
+    {
+        "class_id": "AUTO_1459",
+        "class_name": "(co(P),co(star_{1,2,3}))-free",
+        "fisc": [
+            "co(star_{1,2,3})",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_813",
+        "class_name": "(P,P_{7})-free",
+        "fisc": [
+            "P",
+            "P_{7}"
+        ]
+    },
+    {
+        "class_id": "gc_618",
+        "class_name": "(K_{2,3},X_{37},X_{38},diamond,domino,house,twin-C_{5})-free",
+        "fisc": [
+            "diamond",
+            "twin-C_{5}",
+            "house",
+            "K_{2,3}",
+            "X_{38}",
+            "domino",
+            "X_{37}"
+        ]
+    },
+    {
+        "class_id": "gc_362",
+        "class_name": "K_{2,3}-free",
+        "fisc": [
+            "K_{2,3}"
+        ]
+    },
+    {
+        "class_id": "gc_456",
+        "class_name": "K_{2} U K_{3}-free",
+        "fisc": [
+            "K_{2} U K_{3}"
+        ]
+    },
+    {
+        "class_id": "gc_376",
+        "class_name": "S_{3}-free",
+        "fisc": [
+            "S_{3}"
+        ]
+    },
+    {
+        "class_id": "gc_627",
+        "class_name": "(2K_{2},K_{3,3},K_{3,3}+e,P_{4},co(2P_{3}))-free",
+        "fisc": [
+            "K_{3,3}",
+            "2K_{2}",
+            "co(2P_{3})",
+            "K_{3,3}+e",
+            "P_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_924",
+        "class_name": "(X_{172},triangle)-free",
+        "fisc": [
+            "X_{172}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_474",
+        "class_name": "(co(P),fork,gem)-free",
+        "fisc": [
+            "gem",
+            "co(P)",
+            "fork"
+        ]
+    },
+    {
+        "class_id": "gc_1378",
+        "class_name": "3K_{1}-free",
+        "fisc": [
+            "3K_{1}"
+        ]
+    },
+    {
+        "class_id": "gc_429",
+        "class_name": "(C_{5},P_{5},co(P_{2} U P_{3}))-free",
+        "fisc": [
+            "C_{5}",
+            "P_{5}",
+            "co(P_{2} U P_{3})"
+        ]
+    },
+    {
+        "class_id": "gc_438",
+        "class_name": "(co(P),fork)-free",
+        "fisc": [
+            "co(P)",
+            "fork"
+        ]
+    },
+    {
+        "class_id": "AUTO_2092",
+        "class_name": "(2K_{3},X_{42},co(A),co(H),co(X_{45}),co(X_{46}),co(X_{47}),co(X_{48}),co(X_{49}),co(X_{50}),co(X_{51}),co(X_{52}),co(X_{53}),co(X_{54}),co(X_{55}),co(X_{56}),co(X_{57}))-free",
+        "fisc": [
+            "co(X_{56})",
+            "co(X_{47})",
+            "co(X_{49})",
+            "co(X_{55})",
+            "co(A)",
+            "X_{42}",
+            "co(X_{46})",
+            "co(X_{51})",
+            "co(X_{57})",
+            "co(X_{52})",
+            "co(X_{50})",
+            "co(X_{48})",
+            "co(X_{54})",
+            "co(X_{45})",
+            "co(H)",
+            "2K_{3}",
+            "co(X_{53})"
+        ]
+    },
+    {
+        "class_id": "gc_421",
+        "class_name": "(co(P),butterfly,fork,gem)-free",
+        "fisc": [
+            "gem",
+            "butterfly",
+            "co(P)",
+            "fork"
+        ]
+    },
+    {
+        "class_id": "gc_397",
+        "class_name": "(bull,fork)-free",
+        "fisc": [
+            "bull",
+            "fork"
+        ]
+    },
+    {
+        "class_id": "gc_372",
+        "class_name": "bull-free",
+        "fisc": [
+            "bull"
+        ]
+    },
+    {
+        "class_id": "AUTO_2071",
+        "class_name": "(co(W_{4}),co-claw,co-gem)-free",
+        "fisc": [
+            "co-gem",
+            "co(W_{4})",
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "gc_1305",
+        "class_name": "(2K_{2},C_{4},C_{5},claw,diamond)-free",
+        "fisc": [
+            "C_{5}",
+            "diamond",
+            "C_{4}",
+            "2K_{2}",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "gc_180",
+        "class_name": "(W_{4},claw,gem)-free",
+        "fisc": [
+            "W_{4}",
+            "gem",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1814",
+        "class_name": "(C_{4},C_{5},C_{6},C_{7},C_{8},K_{1,4},K_{5},K_{5} - e,co(K_{3} U 2K_{1}),co(P_{3} U 2K_{1}),co(claw U K_{1}),butterfly,cricket,dart,gem)-free",
+        "fisc": [
+            "co(K_{3} U 2K_{1})",
+            "co(claw U K_{1})",
+            "C_{5}",
+            "K_{5}",
+            "C_{6}",
+            "C_{4}",
+            "cricket",
+            "dart",
+            "C_{7}",
+            "C_{8}",
+            "K_{1,4}",
+            "co(P_{3} U 2K_{1})",
+            "gem",
+            "butterfly",
+            "K_{5} - e"
+        ]
+    },
+    {
+        "class_id": "AUTO_1474",
+        "class_name": "(3K_{2},C_{4} U P_{2},C_{5},C_{6},K_{2} U K_{3},K_{3,3},K_{3,3}+e,P_{2} U P_{4},P_{6},X_{18},X_{5},co(2P_{3}),co(C_{6}),co(C_{7}),co(X_{84}),antenna,domino,fish)-free",
+        "fisc": [
+            "C_{5}",
+            "C_{4} U P_{2}",
+            "K_{2} U K_{3}",
+            "co(C_{7})",
+            "co(X_{84})",
+            "C_{6}",
+            "antenna",
+            "K_{3,3}",
+            "P_{2} U P_{4}",
+            "co(2P_{3})",
+            "X_{5}",
+            "P_{6}",
+            "K_{3,3}+e",
+            "co(C_{6})",
+            "domino",
+            "fish",
+            "3K_{2}",
+            "X_{18}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2079",
+        "class_name": "(2K_{4},house)-free",
+        "fisc": [
+            "house",
+            "2K_{4}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1446",
+        "class_name": "(3K_{1},co(P_{2} U P_{4}))-free",
+        "fisc": [
+            "3K_{1}",
+            "co(P_{2} U P_{4})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1510",
+        "class_name": "(P,co-fork)-free",
+        "fisc": [
+            "P",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "gc_1375",
+        "class_name": "(P_{4},diamond,paw)-free",
+        "fisc": [
+            "paw",
+            "diamond",
+            "P_{4}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1449",
+        "class_name": "(4K_{1},co-claw,co-diamond)-free",
+        "fisc": [
+            "co-diamond",
+            "4K_{1}",
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "gc_513",
+        "class_name": "(C_{5},P,P_{5},co(P),bull,co-gem,fork)-free",
+        "fisc": [
+            "bull",
+            "C_{5}",
+            "co-gem",
+            "fork",
+            "P",
+            "P_{5}",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_371",
+        "class_name": "triangle-free",
+        "fisc": [
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_455",
+        "class_name": "K_{4}-free",
+        "fisc": [
+            "K_{4}"
+        ]
+    },
+    {
+        "class_id": "AUTO_3802",
+        "class_name": "(2K_{2},5K_{1},C_{5},K_{3} U 2K_{1},P_{3} U 2K_{1},co(C_{6}),co(C_{7}),co(C_{8}),co(K_{1,4}),co(K_{5} - e),claw U K_{1},co-butterfly,co-cricket,co-dart,co-gem)-free",
+        "fisc": [
+            "co-butterfly",
+            "C_{5}",
+            "co-gem",
+            "5K_{1}",
+            "co(C_{7})",
+            "co-dart",
+            "co(C_{8})",
+            "2K_{2}",
+            "claw U K_{1}",
+            "P_{3} U 2K_{1}",
+            "co(C_{6})",
+            "K_{3} U 2K_{1}",
+            "co(K_{5} - e)",
+            "co-cricket",
+            "co(K_{1,4})"
+        ]
+    },
+    {
+        "class_id": "gc_1217",
+        "class_name": "(2K_{3},2K_{3} + e,2P_{3},C_{5},C_{6},C_{7},K_{2,3},K_{3} U P_{3},W_{4},X_{84},X_{95},co(A),co(C_{6}),co(P_{6}),co(X_{5}),co(X_{98}),butterfly,co-domino,co-fish,fish)-free",
+        "fisc": [
+            "co-fish",
+            "2P_{3}",
+            "X_{95}",
+            "C_{6}",
+            "co(P_{6})",
+            "co(C_{6})",
+            "fish",
+            "C_{5}",
+            "co(A)",
+            "K_{2,3}",
+            "W_{4}",
+            "co-domino",
+            "K_{3} U P_{3}",
+            "X_{84}",
+            "co(X_{98})",
+            "co(X_{5})",
+            "2K_{3}",
+            "butterfly",
+            "C_{7}",
+            "2K_{3} + e"
+        ]
+    },
+    {
+        "class_id": "AUTO_1468",
+        "class_name": "(2K_{3},2K_{3} + e,3K_{1},co(A),co(H),co(T_{2}),co(X_{18}),co(X_{45}),co-domino)-free",
+        "fisc": [
+            "co(A)",
+            "3K_{1}",
+            "2K_{3} + e",
+            "co(X_{18})",
+            "co(T_{2})",
+            "co(X_{45})",
+            "co(H)",
+            "2K_{3}",
+            "co-domino"
+        ]
+    },
+    {
+        "class_id": "gc_683",
+        "class_name": "(P_{6},X_{30},X_{8})-free",
+        "fisc": [
+            "X_{8}",
+            "P_{6}",
+            "X_{30}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1519",
+        "class_name": "(3K_{2},co(P),co-gem,house)-free",
+        "fisc": [
+            "3K_{2}",
+            "house",
+            "co-gem",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "AUTO_1930",
+        "class_name": "(2K_{2},A,C_{5},co(2P_{3}),co(X_{170}),house)-free",
+        "fisc": [
+            "co(X_{170})",
+            "C_{5}",
+            "A",
+            "house",
+            "2K_{2}",
+            "co(2P_{3})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1745",
+        "class_name": "(2K_{2},3K_{1},C_{5},co(C_{6}),co(C_{7}),co(C_{8}))-free",
+        "fisc": [
+            "C_{5}",
+            "co(C_{7})",
+            "co(C_{8})",
+            "2K_{2}",
+            "3K_{1}",
+            "co(C_{6})"
+        ]
+    },
+    {
+        "class_id": "AUTO_2138",
+        "class_name": "(2P_{4},A,C_{5},C_{6},C_{7},E,K_{3,3}-e,P_{7},R,X_{1},X_{103},X_{5},X_{58},X_{84},X_{98},co(C_{6}),co(P_{6}),co(X_{5}),co(sunlet_{4}),co-antenna,co-domino,co-rising sun,domino,parachute,parapluie,rising sun,twin-house)-free",
+        "fisc": [
+            "P_{7}",
+            "2P_{4}",
+            "E",
+            "C_{6}",
+            "co(P_{6})",
+            "co(C_{6})",
+            "C_{5}",
+            "A",
+            "twin-house",
+            "parachute",
+            "co(sunlet_{4})",
+            "X_{5}",
+            "rising sun",
+            "domino",
+            "co-domino",
+            "X_{84}",
+            "X_{1}",
+            "parapluie",
+            "co-rising sun",
+            "co-antenna",
+            "co(X_{5})",
+            "K_{3,3}-e",
+            "X_{98}",
+            "C_{7}",
+            "X_{103}",
+            "R",
+            "X_{58}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1523",
+        "class_name": "(co-claw,house)-free",
+        "fisc": [
+            "house",
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1509",
+        "class_name": "(co-fork,house)-free",
+        "fisc": [
+            "house",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "AUTO_1508",
+        "class_name": "(fork,house)-free",
+        "fisc": [
+            "house",
+            "fork"
+        ]
+    },
+    {
+        "class_id": "gc_1002",
+        "class_name": "(3P_{3},P_{3} U P_{4},P_{5},X_{102},X_{180},X_{181},X_{182},X_{183},X_{184},X_{185},X_{186},X_{187},X_{188},X_{189},X_{190},X_{191},X_{192},X_{193},co(5-pan),co(A),co(P_{6}),co-twin-C_{5})-free",
+        "fisc": [
+            "X_{190}",
+            "X_{184}",
+            "3P_{3}",
+            "X_{189}",
+            "co(P_{6})",
+            "co-twin-C_{5}",
+            "co(A)",
+            "X_{102}",
+            "X_{191}",
+            "X_{186}",
+            "X_{180}",
+            "X_{182}",
+            "X_{185}",
+            "X_{181}",
+            "X_{187}",
+            "X_{193}",
+            "co(5-pan)",
+            "P_{5}",
+            "X_{192}",
+            "X_{188}",
+            "X_{183}",
+            "P_{3} U P_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_516",
+        "class_name": "(P_{5},co(P),gem)-free",
+        "fisc": [
+            "gem",
+            "P_{5}",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_819",
+        "class_name": "(P,star_{1,2,4})-free",
+        "fisc": [
+            "P",
+            "star_{1,2,4}"
+        ]
+    },
+    {
+        "class_id": "gc_839",
+        "class_name": "(2K_{3} + e,A,C_{5},C_{6},E,H,K_{3,3}-e,P_{6},R,S_{3},X_{166},X_{167},X_{168},X_{169},X_{170},X_{171},X_{172},X_{18},X_{45},X_{5},X_{58},X_{84},X_{95},X_{96},X_{98},co(A),co(C_{6}),co(E),co(H),co(P_{6}),co(R),co(X_{166}),co(X_{167}),co(X_{168}),co(X_{169}),co(X_{170}),co(X_{171}),co(X_{172}),co(X_{18}),co(X_{45}),co(X_{5}),co(X_{58}),co(X_{84}),co(X_{95}),co(X_{96}),co(X_{98}),antenna,co-antenna,co-cross,co-domino,co-fish,co-twin-house,cross,domino,fish,net,twin-house)-free",
+        "fisc": [
+            "co(R)",
+            "co(X_{170})",
+            "co-fish",
+            "E",
+            "X_{95}",
+            "cross",
+            "C_{6}",
+            "X_{170}",
+            "X_{172}",
+            "antenna",
+            "co(X_{171})",
+            "X_{58}",
+            "co-cross",
+            "net",
+            "X_{167}",
+            "co(P_{6})",
+            "co(C_{6})",
+            "fish",
+            "X_{166}",
+            "co(X_{45})",
+            "H",
+            "C_{5}",
+            "X_{171}",
+            "co(X_{58})",
+            "A",
+            "co(A)",
+            "twin-house",
+            "co(E)",
+            "X_{5}",
+            "co(X_{166})",
+            "co(X_{168})",
+            "co(X_{18})",
+            "domino",
+            "co(X_{96})",
+            "co-domino",
+            "X_{84}",
+            "X_{168}",
+            "co(X_{95})",
+            "S_{3}",
+            "co(X_{98})",
+            "X_{96}",
+            "co(X_{167})",
+            "co-antenna",
+            "co(X_{5})",
+            "co(H)",
+            "co(X_{172})",
+            "X_{98}",
+            "co(X_{169})",
+            "co(X_{84})",
+            "co-twin-house",
+            "P_{6}",
+            "2K_{3} + e",
+            "R",
+            "X_{169}",
+            "K_{3,3}-e",
+            "X_{45}",
+            "X_{18}"
+        ]
+    },
+    {
+        "class_id": "gc_1309",
+        "class_name": "(2K_{2},P_{3},triangle)-free",
+        "fisc": [
+            "P_{3}",
+            "triangle",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_1307",
+        "class_name": "(C_{4},co(P_{3}),triangle)-free",
+        "fisc": [
+            "C_{4}",
+            "co(P_{3})",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "AUTO_2277",
+        "class_name": "(3K_{1},C_{5},co(C_{6}),co(X_{164}),co(X_{165}),co(sunlet_{4}))-free",
+        "fisc": [
+            "co(X_{164})",
+            "C_{5}",
+            "co(X_{165})",
+            "co(sunlet_{4})",
+            "3K_{1}",
+            "co(C_{6})"
+        ]
+    },
+    {
+        "class_id": "gc_1304",
+        "class_name": "(2K_{2},C_{4},C_{5},co-claw,co-diamond)-free",
+        "fisc": [
+            "C_{5}",
+            "co-diamond",
+            "C_{4}",
+            "2K_{2}",
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1491",
+        "class_name": "(C_{4},co(A),co(H))-free",
+        "fisc": [
+            "C_{4}",
+            "co(H)",
+            "co(A)"
+        ]
+    },
+    {
+        "class_id": "gc_520",
+        "class_name": "(C_{5},bull,co-gem,gem)-free",
+        "fisc": [
+            "gem",
+            "C_{5}",
+            "co-gem",
+            "bull"
+        ]
+    },
+    {
+        "class_id": "gc_563",
+        "class_name": "(A,P_{6},domino)-free",
+        "fisc": [
+            "A",
+            "P_{6}",
+            "domino"
+        ]
+    },
+    {
+        "class_id": "gc_245",
+        "class_name": "(2K_{2},C_{4},C_{5},S_{3},co-rising sun,net,rising sun)-free",
+        "fisc": [
+            "C_{5}",
+            "C_{4}",
+            "net",
+            "S_{3}",
+            "co-rising sun",
+            "2K_{2}",
+            "rising sun"
+        ]
+    },
+    {
+        "class_id": "gc_423",
+        "class_name": "co-gem-free",
+        "fisc": [
+            "co-gem"
+        ]
+    },
+    {
+        "class_id": "gc_798",
+        "class_name": "(2K_{3} + e,C_{5},C_{6},P_{6},X_{5},co(2P_{4}),co(A),co(C_{6}),co(C_{7}),co(E),co(P_{7}),co(R),co(X_{1}),co(X_{103}),co(X_{5}),co(X_{58}),co(X_{84}),co(X_{98}),antenna,co-domino,co-rising sun,co-twin-house,domino,parachute,parapluie,rising sun,sunlet_{4})-free",
+        "fisc": [
+            "co(R)",
+            "co(P_{7})",
+            "C_{6}",
+            "antenna",
+            "co(C_{6})",
+            "sunlet_{4}",
+            "C_{5}",
+            "co(X_{58})",
+            "co(A)",
+            "co(E)",
+            "parachute",
+            "rising sun",
+            "X_{5}",
+            "domino",
+            "co-domino",
+            "parapluie",
+            "co(X_{98})",
+            "co-rising sun",
+            "co(X_{5})",
+            "co(2P_{4})",
+            "co(C_{7})",
+            "co(X_{84})",
+            "co(X_{103})",
+            "co-twin-house",
+            "P_{6}",
+            "2K_{3} + e",
+            "co(X_{1})"
+        ]
+    },
+    {
+        "class_id": "AUTO_2596",
+        "class_name": "(4K_{1},C_{7},X_{38},X_{39},co(K_{3,3} U K_{1}),co(W_{4} U K_{1}),co(W_{5}),co(X_{86}),co(X_{87}),co(X_{88}),co(X_{89}),co(X_{90}),butterfly U K_{1},diamond)-free",
+        "fisc": [
+            "X_{39}",
+            "co(K_{3,3} U K_{1})",
+            "co(X_{88})",
+            "diamond",
+            "co(X_{86})",
+            "co(W_{4} U K_{1})",
+            "co(W_{5})",
+            "co(X_{89})",
+            "butterfly U K_{1}",
+            "C_{7}",
+            "X_{38}",
+            "co(X_{87})",
+            "4K_{1}",
+            "co(X_{90})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1501",
+        "class_name": "(2K_{2},4K_{1},co-claw,co-diamond)-free",
+        "fisc": [
+            "co-diamond",
+            "4K_{1}",
+            "co-claw",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_407",
+        "class_name": "(P_{5},claw)-free",
+        "fisc": [
+            "P_{5}",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_2111",
+        "class_name": "(3K_{1},C_{5},K_{5} - e,co(C_{6} U K_{1}),co(C_{7}),co(K_{3,3} U K_{1}),co(K_{3,3}-e U K_{1}),co(domino U K_{1}))-free",
+        "fisc": [
+            "C_{5}",
+            "co(K_{3,3} U K_{1})",
+            "co(C_{7})",
+            "co(K_{3,3}-e U K_{1})",
+            "co(domino U K_{1})",
+            "3K_{1}",
+            "K_{5} - e",
+            "co(C_{6} U K_{1})"
+        ]
+    },
+    {
+        "class_id": "gc_852",
+        "class_name": "(3K_{1},P_{4})-free",
+        "fisc": [
+            "3K_{1}",
+            "P_{4}"
+        ]
+    },
+    {
+        "class_id": "AUTO_41",
+        "class_name": "co(P_{6})-free",
+        "fisc": [
+            "co(P_{6})"
+        ]
+    },
+    {
+        "class_id": "AUTO_79",
+        "class_name": "co-claw-free",
+        "fisc": [
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "gc_1314",
+        "class_name": "(2K_{2},3K_{1},C_{4},P_{4})-free",
+        "fisc": [
+            "C_{4}",
+            "3K_{1}",
+            "P_{4}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2096",
+        "class_name": "(co(X_{79}),co(X_{80}))-free",
+        "fisc": [
+            "co(X_{80})",
+            "co(X_{79})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1453",
+        "class_name": "(co-butterfly,co-gem)-free",
+        "fisc": [
+            "co-butterfly",
+            "co-gem"
+        ]
+    },
+    {
+        "class_id": "AUTO_1518",
+        "class_name": "(co(K_{1,4}),co-diamond)-free",
+        "fisc": [
+            "co(K_{1,4})",
+            "co-diamond"
+        ]
+    },
+    {
+        "class_id": "AUTO_1503",
+        "class_name": "(P,P_{5},co-fork)-free",
+        "fisc": [
+            "P",
+            "P_{5}",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "AUTO_1478",
+        "class_name": "(3K_{1},co(H))-free",
+        "fisc": [
+            "3K_{1}",
+            "co(H)"
+        ]
+    },
+    {
+        "class_id": "AUTO_1444",
+        "class_name": "(3K_{1},paw)-free",
+        "fisc": [
+            "paw",
+            "3K_{1}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2120",
+        "class_name": "(A U K_{1},co(K_{1,4}),co(W_{4}),co(W_{5}),co-4-fan,co-fork U K_{1},gem U K_{1},net U K_{1})-free",
+        "fisc": [
+            "A U K_{1}",
+            "co(W_{5})",
+            "co-fork U K_{1}",
+            "net U K_{1}",
+            "gem U K_{1}",
+            "co-4-fan",
+            "co(W_{4})",
+            "co(K_{1,4})"
+        ]
+    },
+    {
+        "class_id": "gc_1357",
+        "class_name": "net-free",
+        "fisc": [
+            "net"
+        ]
+    },
+    {
+        "class_id": "AUTO_497",
+        "class_name": "co(E)-free",
+        "fisc": [
+            "co(E)"
+        ]
+    },
+    {
+        "class_id": "gc_664",
+        "class_name": "(2K_{3},2P_{3},C_{5},C_{6},C_{7},K_{2,3},K_{3} U P_{3},X_{84},co(3K_{2}),co(C_{4} U P_{2}),co(C_{6}),co(P_{2} U P_{4}),co(P_{6}),co(X_{18}),co(X_{5}),co-antenna,co-domino,co-fish)-free",
+        "fisc": [
+            "co-fish",
+            "C_{5}",
+            "2P_{3}",
+            "co(C_{4} U P_{2})",
+            "co(3K_{2})",
+            "C_{6}",
+            "K_{2,3}",
+            "C_{7}",
+            "co(P_{2} U P_{4})",
+            "co(C_{6})",
+            "co(P_{6})",
+            "co(X_{18})",
+            "co-antenna",
+            "co(X_{5})",
+            "2K_{3}",
+            "co-domino",
+            "K_{3} U P_{3}",
+            "X_{84}"
+        ]
+    },
+    {
+        "class_id": "gc_38",
+        "class_name": "(2K_{2},C_{4},C_{5},S_{3},net)-free",
+        "fisc": [
+            "C_{5}",
+            "C_{4}",
+            "net",
+            "S_{3}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1735",
+        "class_name": "(A,C_{5},C_{6},K_{2} U K_{3},K_{3,3},K_{3,3}+e,K_{3,3}-e,P_{6},X_{5},X_{98},co(2P_{3}),co(C_{6}),co(C_{7}),co(W_{4}),co(X_{84}),co(X_{95}),co-butterfly,co-fish,domino,fish)-free",
+        "fisc": [
+            "co-fish",
+            "co-butterfly",
+            "C_{6}",
+            "K_{3,3}+e",
+            "co(C_{6})",
+            "fish",
+            "C_{5}",
+            "K_{2} U K_{3}",
+            "A",
+            "K_{3,3}",
+            "co(2P_{3})",
+            "X_{5}",
+            "domino",
+            "co(W_{4})",
+            "co(X_{95})",
+            "X_{98}",
+            "co(C_{7})",
+            "co(X_{84})",
+            "P_{6}",
+            "K_{3,3}-e"
+        ]
+    },
+    {
+        "class_id": "gc_398",
+        "class_name": "(bull,co-fork,fork)-free",
+        "fisc": [
+            "bull",
+            "fork",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "gc_509",
+        "class_name": "(claw,paw)-free",
+        "fisc": [
+            "paw",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1498",
+        "class_name": "(C_{5},P,co-fork,fork,gem,house)-free",
+        "fisc": [
+            "C_{5}",
+            "co-fork",
+            "house",
+            "fork",
+            "P",
+            "gem"
+        ]
+    },
+    {
+        "class_id": "gc_1233",
+        "class_name": "(K_{4},co-gem)-free",
+        "fisc": [
+            "co-gem",
+            "K_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_432",
+        "class_name": "(K_{4,4},P_{5})-free",
+        "fisc": [
+            "K_{4,4}",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2248",
+        "class_name": "(5-pan,A,P_{6},X_{186},co(3P_{3}),co(P_{3} U P_{4}),co(X_{102}),co(X_{180}),co(X_{181}),co(X_{182}),co(X_{183}),co(X_{184}),co(X_{185}),co(X_{187}),co(X_{188}),co(X_{189}),co(X_{190}),co(X_{191}),co(X_{192}),co(X_{193}),house,twin-C_{5})-free",
+        "fisc": [
+            "5-pan",
+            "co(X_{181})",
+            "co(X_{187})",
+            "co(P_{3} U P_{4})",
+            "co(X_{192})",
+            "A",
+            "co(X_{189})",
+            "house",
+            "co(X_{190})",
+            "X_{186}",
+            "co(X_{102})",
+            "co(X_{183})",
+            "co(X_{184})",
+            "co(X_{191})",
+            "co(X_{182})",
+            "co(X_{188})",
+            "co(X_{180})",
+            "co(3P_{3})",
+            "twin-C_{5}",
+            "P_{6}",
+            "co(X_{185})",
+            "co(X_{193})"
+        ]
+    },
+    {
+        "class_id": "gc_662",
+        "class_name": "(3K_{1},C_{4},C_{5})-free",
+        "fisc": [
+            "C_{4}",
+            "C_{5}",
+            "3K_{1}"
+        ]
+    },
+    {
+        "class_id": "gc_930",
+        "class_name": "P_{2} U P_{4}-free",
+        "fisc": [
+            "P_{2} U P_{4}"
+        ]
+    },
+    {
+        "class_id": "gc_268",
+        "class_name": "(C_{5},P_{5},house)-free",
+        "fisc": [
+            "C_{5}",
+            "house",
+            "P_{5}"
+        ]
+    },
+    {
+        "class_id": "gc_672",
+        "class_name": "(C_{4},C_{5},C_{6},C_{7},C_{8},H,X_{85},triangle)-free",
+        "fisc": [
+            "C_{5}",
+            "C_{6}",
+            "C_{4}",
+            "C_{7}",
+            "C_{8}",
+            "X_{85}",
+            "H",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "AUTO_1765",
+        "class_name": "(2K_{2},C_{4},C_{5},S_{3},claw,net)-free",
+        "fisc": [
+            "C_{5}",
+            "C_{4}",
+            "net",
+            "S_{3}",
+            "2K_{2}",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "gc_566",
+        "class_name": "(W_{4},claw)-free",
+        "fisc": [
+            "W_{4}",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "gc_692",
+        "class_name": "(C_{4},X_{91},claw)-free",
+        "fisc": [
+            "C_{4}",
+            "X_{91}",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1514",
+        "class_name": "(2K_{3} + e,co(X_{98}),house)-free",
+        "fisc": [
+            "house",
+            "co(X_{98})",
+            "2K_{3} + e"
+        ]
+    },
+    {
+        "class_id": "gc_748",
+        "class_name": "(S_{3},co(3K_{2}),co(E),co(P_{2} U P_{4}))-free",
+        "fisc": [
+            "S_{3}",
+            "co(E)",
+            "co(3K_{2})",
+            "co(P_{2} U P_{4})"
+        ]
+    },
+    {
+        "class_id": "AUTO_1496",
+        "class_name": "(P,co-gem,house)-free",
+        "fisc": [
+            "P",
+            "co-gem",
+            "house"
+        ]
+    },
+    {
+        "class_id": "gc_1344",
+        "class_name": "K_{6}-free",
+        "fisc": [
+            "K_{6}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1495",
+        "class_name": "(C_{5},co-gem,house)-free",
+        "fisc": [
+            "C_{5}",
+            "house",
+            "co-gem"
+        ]
+    },
+    {
+        "class_id": "gc_171",
+        "class_name": "(2K_{2},P_{4})-free",
+        "fisc": [
+            "P_{4}",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_394",
+        "class_name": "2K_{2}-free",
+        "fisc": [
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "AUTO_2139",
+        "class_name": "(2P_{3},3K_{2},C_{4},C_{5},H,P_{2} U P_{4},P_{5},S_{3},X_{1},X_{160},co(X_{159}),co(X_{161}),co(X_{162}),co(X_{46}),co(X_{70}),net,rising sun)-free",
+        "fisc": [
+            "X_{1}",
+            "2P_{3}",
+            "C_{5}",
+            "co(X_{162})",
+            "C_{4}",
+            "net",
+            "S_{3}",
+            "co(X_{46})",
+            "P_{2} U P_{4}",
+            "co(X_{70})",
+            "rising sun",
+            "X_{160}",
+            "co(X_{161})",
+            "3K_{2}",
+            "H",
+            "P_{5}",
+            "co(X_{159})"
+        ]
+    },
+    {
+        "class_id": "gc_1359",
+        "class_name": "(K_{3} U 2K_{1},co(K_{3} U 2K_{1}),bull,co-cricket,co-dart,cricket,dart)-free",
+        "fisc": [
+            "co(K_{3} U 2K_{1})",
+            "bull",
+            "co-dart",
+            "cricket",
+            "K_{3} U 2K_{1}",
+            "co-cricket",
+            "dart"
+        ]
+    },
+    {
+        "class_id": "AUTO_1537",
+        "class_name": "(S_{3},co-claw)-free",
+        "fisc": [
+            "S_{3}",
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "gc_806",
+        "class_name": "(2K_{2},C_{5},S_{3},X_{159},X_{160},X_{161},X_{162},X_{46},X_{70},co(2P_{3}),co(3K_{2}),co(H),co(P_{2} U P_{4}),co(X_{1}),co-rising sun,house,net)-free",
+        "fisc": [
+            "C_{5}",
+            "X_{162}",
+            "co(3K_{2})",
+            "net",
+            "S_{3}",
+            "X_{161}",
+            "X_{46}",
+            "co-rising sun",
+            "2K_{2}",
+            "house",
+            "X_{70}",
+            "co(2P_{3})",
+            "X_{160}",
+            "X_{159}",
+            "co(X_{1})",
+            "co(H)",
+            "co(P_{2} U P_{4})"
+        ]
+    },
+    {
+        "class_id": "AUTO_2292",
+        "class_name": "(4K_{1},C_{7},X_{195},X_{196},X_{38},X_{39},co(W_{5}),co(X_{194}),co(X_{86}),co(X_{88}),co(X_{89}),co(X_{90}),house)-free",
+        "fisc": [
+            "X_{39}",
+            "X_{195}",
+            "co(X_{88})",
+            "co(X_{86})",
+            "co(W_{5})",
+            "house",
+            "co(X_{89})",
+            "C_{7}",
+            "X_{38}",
+            "co(X_{194})",
+            "X_{196}",
+            "4K_{1}",
+            "co(X_{90})"
+        ]
+    },
+    {
+        "class_id": "gc_476",
+        "class_name": "(co(P),fork,house)-free",
+        "fisc": [
+            "house",
+            "co(P)",
+            "fork"
+        ]
+    },
+    {
+        "class_id": "gc_842",
+        "class_name": "(2K_{3} + e,A,C_{5},C_{6},E,H,K_{3,3}-e,R,X_{168},X_{171},X_{18},X_{45},X_{5},X_{58},X_{84},X_{95},co(A),co(C_{6}),co(E),co(H),co(R),co(X_{168}),co(X_{171}),co(X_{18}),co(X_{45}),co(X_{5}),co(X_{58}),co(X_{84}),co(X_{95}),antenna,co-antenna,co-domino,co-fish,co-twin-house,domino,fish,twin-house)-free",
+        "fisc": [
+            "co(R)",
+            "co-fish",
+            "E",
+            "X_{95}",
+            "C_{6}",
+            "antenna",
+            "co(X_{171})",
+            "co(C_{6})",
+            "fish",
+            "co(X_{45})",
+            "H",
+            "C_{5}",
+            "X_{171}",
+            "co(X_{58})",
+            "A",
+            "co(A)",
+            "twin-house",
+            "co(E)",
+            "X_{5}",
+            "co(X_{168})",
+            "domino",
+            "co(X_{18})",
+            "co-domino",
+            "X_{84}",
+            "X_{168}",
+            "co(X_{95})",
+            "co-antenna",
+            "co(X_{5})",
+            "co(H)",
+            "K_{3,3}-e",
+            "co(X_{84})",
+            "co-twin-house",
+            "2K_{3} + e",
+            "R",
+            "X_{18}",
+            "X_{58}",
+            "X_{45}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1505",
+        "class_name": "(P,co-fork,co-gem)-free",
+        "fisc": [
+            "P",
+            "co-gem",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "AUTO_2153",
+        "class_name": "(3K_{1},co(K_{1,5}))-free",
+        "fisc": [
+            "co(K_{1,5})",
+            "3K_{1}"
+        ]
+    },
+    {
+        "class_id": "gc_391",
+        "class_name": "fork-free",
+        "fisc": [
+            "fork"
+        ]
+    },
+    {
+        "class_id": "AUTO_1507",
+        "class_name": "(co-gem,house)-free",
+        "fisc": [
+            "co-gem",
+            "house"
+        ]
+    },
+    {
+        "class_id": "AUTO_1471",
+        "class_name": "(4K_{1},house)-free",
+        "fisc": [
+            "house",
+            "4K_{1}"
+        ]
+    },
+    {
+        "class_id": "gc_542",
+        "class_name": "(2K_{2},A,H)-free",
+        "fisc": [
+            "A",
+            "H",
+            "2K_{2}"
+        ]
+    },
+    {
+        "class_id": "gc_441",
+        "class_name": "diamond-free",
+        "fisc": [
+            "diamond"
+        ]
+    },
+    {
+        "class_id": "gc_357",
+        "class_name": "paw-free",
+        "fisc": [
+            "paw"
+        ]
+    },
+    {
+        "class_id": "AUTO_1483",
+        "class_name": "(2K_{3},2P_{3},C_{4},K_{3} U P_{3},P_{4})-free",
+        "fisc": [
+            "2P_{3}",
+            "C_{4}",
+            "2K_{3}",
+            "P_{4}",
+            "K_{3} U P_{3}"
+        ]
+    },
+    {
+        "class_id": "gc_388",
+        "class_name": "K_{1,4}-free",
+        "fisc": [
+            "K_{1,4}"
+        ]
+    },
+    {
+        "class_id": "gc_756",
+        "class_name": "(E,P)-free",
+        "fisc": [
+            "P",
+            "E"
+        ]
+    },
+    {
+        "class_id": "gc_1214",
+        "class_name": "(X_{91},claw)-free",
+        "fisc": [
+            "X_{91}",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "gc_709",
+        "class_name": "(claw,diamond)-free",
+        "fisc": [
+            "diamond",
+            "claw"
+        ]
+    },
+    {
+        "class_id": "gc_758",
+        "class_name": "(P,P_{8})-free",
+        "fisc": [
+            "P",
+            "P_{8}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1517",
+        "class_name": "(co(K_{1,4}),co(P),co-fork,house)-free",
+        "fisc": [
+            "house",
+            "co(K_{1,4})",
+            "co(P)",
+            "co-fork"
+        ]
+    },
+    {
+        "class_id": "gc_538",
+        "class_name": "(C_{5},C_{6},C_{7},C_{8},P_{8},X_{19},X_{20},X_{21},X_{22},gem,house)-free",
+        "fisc": [
+            "C_{5}",
+            "X_{22}",
+            "C_{6}",
+            "X_{20}",
+            "house",
+            "P_{8}",
+            "C_{7}",
+            "X_{19}",
+            "X_{21}",
+            "C_{8}",
+            "gem"
+        ]
+    },
+    {
+        "class_id": "gc_960",
+        "class_name": "(C_{5},S_{3},co(3K_{2}),co(P_{2} U P_{4}))-free",
+        "fisc": [
+            "C_{5}",
+            "S_{3}",
+            "co(P_{2} U P_{4})",
+            "co(3K_{2})"
+        ]
+    },
+    {
+        "class_id": "AUTO_2094",
+        "class_name": "(co(W_{4}),co-claw)-free",
+        "fisc": [
+            "co(W_{4})",
+            "co-claw"
+        ]
+    },
+    {
+        "class_id": "gc_928",
+        "class_name": "(4K_{1},net)-free",
+        "fisc": [
+            "net",
+            "4K_{1}"
+        ]
+    },
+    {
+        "class_id": "gc_360",
+        "class_name": "C_{4}-free",
+        "fisc": [
+            "C_{4}"
+        ]
+    },
+    {
+        "class_id": "AUTO_1524",
+        "class_name": "(K_{2} U K_{3},co(P),house)-free",
+        "fisc": [
+            "K_{2} U K_{3}",
+            "house",
+            "co(P)"
+        ]
+    },
+    {
+        "class_id": "gc_686",
+        "class_name": "(C_{5},C_{6} U K_{1},C_{7},K_{3,3} U K_{1},K_{3,3}-e U K_{1},co(K_{5} - e),domino U K_{1},triangle)-free",
+        "fisc": [
+            "C_{6} U K_{1}",
+            "K_{3,3} U K_{1}",
+            "C_{5}",
+            "domino U K_{1}",
+            "C_{7}",
+            "co(K_{5} - e)",
+            "K_{3,3}-e U K_{1}",
+            "triangle"
+        ]
+    },
+    {
+        "class_id": "gc_537",
+        "class_name": "(C_{5},C_{6},P_{6},X_{17},X_{18},X_{5},X_{98},co(C_{6}),co(P_{6}),antenna,domino)-free",
+        "fisc": [
+            "C_{5}",
+            "X_{17}",
+            "X_{98}",
+            "C_{6}",
+            "antenna",
+            "X_{5}",
+            "P_{6}",
+            "co(C_{6})",
+            "co(P_{6})",
+            "domino",
+            "X_{18}"
+        ]
+    }
+]
