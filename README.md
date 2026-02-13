@@ -32,8 +32,8 @@ python3 main.py -i input_file(s) # wildcards are ok
 
 The result depends on the number of graphs in the input file(s):
 
-- if a single graph is analysed, then the classes to which it belongs are listed, and the result of the classification is written to a `graphml` file for further manipulation or visualisation with external tools (e.g., Cytoscape);
-- if several graphs are analysed, then the output consists of a list of graph classes to which those graphs belong, sorted decreasingly by percentage of members. The classes are as restricted as possible (i.e., if all graphs can identified to be trees, then the software will identify that class instead of the more general bipartite class that contains it).
+- if a single graph is analyzed, then the classes to which it belongs are listed, and the result of the classification is written to a `graphml` file for further manipulation or visualisation with external tools (e.g., Cytoscape);
+- if several graphs are analyzed, then the output consists of a list of graph classes to which those graphs belong, sorted decreasingly by percentage of members. The classes are as restricted as possible (i.e., if all graphs can be identified to be trees, then the software will identify that class instead of the more general bipartite class that contains it).
 
 
 # Options
