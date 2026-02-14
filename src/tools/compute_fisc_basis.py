@@ -1,18 +1,15 @@
 """
-Anthony Labarre © 2025
+Anthony Labarre © 2025-2026
 
 Given a set of forbidden induced subgraphs, returns a basis for these subgraphs, i.e. a minimal set
 of subgraphs that all these subgraphs contain.
 """
-import argparse
-
 # Imports -----------------------------------------------------------------------------------------
 # Standard imports --------------------------------------------------------------------------------
-from typing import Iterable
+import argparse
 
 # Third-party imports -----------------------------------------------------------------------------
 import networkx as nx
-
 # My imports --------------------------------------------------------------------------------------
 from graph_recognition.smallgraphs import smallgraph_inclusion_graph
 
@@ -20,8 +17,8 @@ from graph_recognition.smallgraphs import smallgraph_inclusion_graph
 # Functions ---------------------------------------------------------------------------------------
 def basis(smallgraphs: set[str]) -> set[str]:
     """
-    Given a bunch of smallgraph names, returns a basis for that set, i.e. a minimal subset of that
-    set such that all input subgraphs contain one of these as induced subgraph.
+    Given a bunch of smallgraph names, returns a basis for that set, i.e., a minimal subset of that
+    set such that all input subgraphs contain one of these as an induced subgraph.
 
     >>> basis({"K_{2}", "K_{3}"})
     {'K_{2}'}
@@ -43,7 +40,6 @@ def basis(smallgraphs: set[str]) -> set[str]:
 
 
 def main():
-    # TODO argparse
     parser = argparse.ArgumentParser(description="graph classification")
     parser.add_argument("-s", "--smallgraphs", nargs="+", default=[])
     args = parser.parse_args()
