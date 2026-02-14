@@ -1,36 +1,50 @@
 """
-Anthony Labarre © 2023
+Anthony Labarre © 2023-2026
 
-Lists the graphs that are covered by each XC configuration.
+Lists the graphs that are covered by each XC or XZ configuration. Those configurations are defined
+here: https://www.graphclasses.org/smallgraphs.html#forbidden_configurations_XC and there:
+https://www.graphclasses.org/smallgraphs.html#forbidden_configurations_XZ, and summarize many
+smallgraphs as follows:
 
-TODO explain; for now, see https://www.graphclasses.org/smallgraphs.html#forbidden_configurations_XC
-TODO later: same for XZ (in progress, this file)
+- each configuration XC represents a family of graphs by specifying edges that must be present
+    (solid lines), edges that must not be present (dotted lines), and edges that may or may not be
+    present (not drawn).
+- each configuration XZ represents a family of graphs by specifying edges that must be present
+    (solid lines), edges that must not be present (not drawn), and edges that may or may not be
+    present (red dotted lines).
+
+The goal of this unpacking program is to provide the set of all subgraphs covered by each
+configuration so as to obtain explicit FISCs and thereby write recognizers for the corresponding
+graph classes.
+
 TODO many of these graphs have realisers that are unknown to ISGCI. I should create and store them
- anyway so we can build and generate custom recognizers
+    anyway so we can build and generate custom recognizers
 
 """
-# Imports ---------------------------------------------------------------------
-# ----- Standard imports ------------------------------------------------------
+# Imports -----------------------------------------------------------------------------------------
+# ----- Standard imports --------------------------------------------------------------------------
 from copy import deepcopy
 from itertools import chain, combinations
 from typing import Iterable, Generator
 
 # ----- Third-party imports ---------------------------------------------------
 import networkx as nx
-
 # ----- My imports ------------------------------------------------------------
 from graph_recognition.smallgraphs import all_smallgraphs_by_order
 
-# Global variables ------------------------------------------------------------
+# Global variables --------------------------------------------------------------------------------
 ALL_SMALLGRAPHS = all_smallgraphs_by_order()
 
 
-# Functions --------------------------------------------------------------------
+# Functions ---------------------------------------------------------------------------------------
 def powerset(iterable: Iterable) -> Generator:
     """
-    from https://docs.python.org/3/library/itertools.html#recipes
+    Generates all subsets of elements of a given iterable.
 
-    powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)
+    Example: powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)
+
+    Source: https://docs.python.org/3/library/itertools.html#recipes
+
     :param iterable:
     :return:
     """
@@ -40,9 +54,8 @@ def powerset(iterable: Iterable) -> Generator:
 
 def unpack_xc(present: Iterable, forbidden: Iterable) -> list[nx.Graph]:
     """
-    Returns all graphs that can be obtained from an XC configuration. Those
-    graphs must contain all present edges, and may additionally contain any
-    missing edge not in the forbidden set.
+    Returns all graphs that can be obtained from an XC configuration. Those graphs must contain all
+    present edges, and may additionally contain any missing edge **not** in the forbidden set.
 
     :param present:
     :param forbidden:
@@ -62,9 +75,8 @@ def unpack_xc(present: Iterable, forbidden: Iterable) -> list[nx.Graph]:
 
 def unpack_xz(present: Iterable, allowed: Iterable) -> list[nx.Graph]:
     """
-    Returns all graphs that can be obtained from an XZ configuration. Those
-    graphs must contain all present edges, and may additionally contain any
-    edge in the allowed set.
+    Returns all graphs that can be obtained from an XZ configuration. Those graphs must contain all
+    present edges, and may additionally contain any edge in the allowed set.
 
     :param allowed:
     :param present:
@@ -84,8 +96,8 @@ def unpack_xz(present: Iterable, allowed: Iterable) -> list[nx.Graph]:
 
 def identify_smallgraph(graph: nx.Graph) -> str | None:
     """
-    Returns the name of the smallgraph that corresponds to the given graph,
-    or None if no match exists.
+    Returns the name of the smallgraph that corresponds to the given graph, or None if no match
+    exists.
 
     """
     # print(ALL_SMALLGRAPHS.keys())
