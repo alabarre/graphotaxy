@@ -39,7 +39,7 @@ def basis(smallgraphs: set[str]) -> set[str]:
     return retval
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="graph classification")
     parser.add_argument("-s", "--smallgraphs", nargs="+", default=[])
     args = parser.parse_args()

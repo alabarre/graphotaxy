@@ -1,7 +1,7 @@
 """
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
-Python rewrite of cognos. Takes as input a graph file containing one or more graphs, and outputs
+graphotaxy's main file. Takes as input a graph file containing one or more graphs, and outputs
 the classes in ISGCI to which these graphs belong, being as precise as possible.
 
 """
@@ -113,7 +113,7 @@ def print_capabilities() -> None:
     )
 
 
-def main():
+def main() -> None:
     """
     The main part of the program: takes as input a graph file, and outputs the results of its
     analysis.

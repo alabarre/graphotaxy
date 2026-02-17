@@ -1,15 +1,19 @@
 """
 Anthony Labarre © 2026
 
-Small conversion script from graphml to graphviz format. graphml2gv ignores colors in my classifications.
+Small conversion script from graphml to graphviz format. graphml2gv ignores colors in my
+classifications.
 
 """
+# Imports -----------------------------------------------------------------------------------------
+# Standard imports --------------------------------------------------------------------------------
 from sys import argv
 
+# Third-party imports -----------------------------------------------------------------------------
 import networkx as nx
 
 
-def main():
+def main() -> None:
     pass
     filepath = argv[1]
     graph = nx.read_graphml(filepath)
@@ -19,6 +23,7 @@ def main():
     for u, v in graph.edges:
         print(f"    {u} -> {v}")
     print("}")
+
 
 if __name__ == "__main__":
     main()

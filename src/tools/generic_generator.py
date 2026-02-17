@@ -1,18 +1,16 @@
 """
-Anthony Labarre © 2025
+Anthony Labarre © 2025-2026
 
 TODO given classes C1, C2, ... as input, generate all graphs on n vertices that belong to that class
 
 main motivation for now: I need datasets for various classes
 
+TODO barely even started on this
+
 """
 from typing import Callable, Iterable
 
 from graph_analyzer import GraphAnalyzer
-
-
-def generate_all_connected_graph_in_class(n, recognizers):
-    pass # TODO
 
 
 def get_recognizers(class_ids: Iterable[str]) -> Iterable[Callable]:
@@ -34,7 +32,7 @@ def get_recognizers(class_ids: Iterable[str]) -> Iterable[Callable]:
     return retval
 
 
-def main():
+def main() -> None:
     # TODO argparse to retrieve ONE recognizer for now -- later, multiple -- and a value of n or a range
     # TODO initialize GraphAnalyzer and find recognizer for wanted class or equivalent
     #   call get_recognizers

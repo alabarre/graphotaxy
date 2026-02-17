@@ -1024,7 +1024,7 @@ def is_co_locally_chordal(graph: nx.Graph) -> bool:
 )
 @assign_class_id("gc_970")
 @lru_cache(maxsize=None)
-def is_co_line(graph):
+def is_co_line(graph: nx.Graph) -> bool:
     """
     A graph whose complement is a line graph.
 

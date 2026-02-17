@@ -47,8 +47,9 @@ class UndirectedGraph(Graph):
 
     # Graph.number_of_edges and Graph.size take time O(m+n); we reimplement them to have them call
     # len on the iterable of edges instead, which takes time O(1)
+    # TODO these implementations should form a PR for networkx too ...
     def number_of_edges(self, u: Hashable = None, v: Hashable = None) -> int:
         return len(self.edges) if u is None else int(self.has_edge(u, v))
 
-    def size(self, weight=None) -> int:
+    def size(self, weight: str=None) -> int:
         return len(self.edges)

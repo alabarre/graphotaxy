@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2025
+Anthony Labarre © 2025-2026
 
 Filters all graphs in a file that belong to a specific graph class.
 """
@@ -11,17 +11,22 @@ import os
 import sys
 from collections import namedtuple
 from os.path import basename
-from typing import Iterator
+from typing import Iterator, Iterable, Callable
+
 
 # TODO later: move this to graph_recognition or main.py, and add option to disable caching for
 #  users whose computers are short on memory
-def disable_lru_cache(maxsize=None, typed=False):
-    """Decorator for disabling lru_cache wherever it is used."""
+def disable_lru_cache(maxsize:int=None, typed: bool=False) -> Callable:
+    """
+    Decorator for disabling lru_cache wherever it is used.
+
+    This may have come from some StackOverflow post, but I can't find it anymore.
+    """
     _CacheInfo = namedtuple("CacheInfo", ["hits", "misses", "maxsize", "currsize"])
 
-    def decorator(func):
+    def decorator(func: Callable) -> Callable:
         @functools.wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args, **kwargs) -> Callable:
             return func(*args, **kwargs)
 
         # decorate function with same attributes as lru_cache would to guarantee compatibility
@@ -30,13 +35,13 @@ def disable_lru_cache(maxsize=None, typed=False):
         wrapper.cache_parameters = lambda: {"maxsize": maxsize, "typed": typed}
         return wrapper
 
-    # Support du cas où on fait directement @disable_lru_cache sans parenthèses
     if callable(maxsize) and not isinstance(maxsize, int):
         func = maxsize
         maxsize = None
         return decorator(func)
 
     return decorator
+
 
 # disable all lru_cache decorations: we may receive large files to filter, and the high memory
 # usage isn't worth it
@@ -59,25 +64,28 @@ def filter_graphs(filename: str, class_id: str) -> Iterator:
     """
     # retrieve the recognizer if possible
     try:
+        # accessing the __wrapped__ function ensures we access the non-lru_cached version of the
+        # recognizer
         recognizer = (
             GraphAnalyzer().get_recognizer(class_id).__wrapped__
-        )  # doesn't hurt, but doesn't change memory usage in my case ... TODO
+        )
 
     except ValueError:
         print(f"no recognizer available for class {class_id}")
         return
 
     for graph in tqdm(
-        process_graphs(filename),
-        total=number_of_graphs_in_file(filename),
-        unit=" graphs",
+            process_graphs(filename),
+            total=number_of_graphs_in_file(filename),
+            unit=" graphs",
     ):
         if recognizer(graph):
             yield graph
 
 
-def write_graphs_to_file(graph_iterable, filename):
+def write_graphs_to_file(graph_iterable: Iterable[nx.Graph], filename: str) -> int:
     """
+    Writes all graphs in an iterable to a file, and returns the number of graphs that were written.
 
     :param graph_iterable:
     :param filename:
@@ -101,7 +109,7 @@ def write_graphs_to_file(graph_iterable, filename):
         return i
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Filters all graphs in a file that belong to a specific graph class"
     )
@@ -133,10 +141,6 @@ def main():
 
     # output result if any
     if matches:
-        # print(
-        #    f"{len(matches)} / {number_of_graphs_in_file(args.input)} input graphs belong to "
-        #    f"class {args.membership}"
-        # )
         output_filename = ("_and_" + args.membership).join(
             os.path.splitext(basename(args.input))
         )

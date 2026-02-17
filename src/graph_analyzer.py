@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2023 - 2025
+Anthony Labarre © 2023-2025
 
 Implementation of a GraphAnalyzer class. The purpose of an instance of this class is to produce
 classifications for one or more undirected graphs.
@@ -538,7 +538,7 @@ class GraphAnalyzer:
         return enumeration_of_positive_classes
 
 
-    def update_classes_stats(self, classification):
+    def update_classes_stats(self, classification: ClassificationDigraph) -> None:
         """
         TODO work in progress
         :return:

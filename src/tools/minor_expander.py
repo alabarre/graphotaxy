@@ -1,16 +1,16 @@
 """
-Anthony Labarre © 2025
+Anthony Labarre © 2025-2026
 
 Utilities to "expand" a given graph so that all its minors that ISGCI knows about can be obtained.
+The goal is to provide the set of all subgraphs covered by each configuration forbidden minor to
+obtain explicit FISCs and thereby write recognizers for the corresponding graph classes.
+
 """
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
-from functools import lru_cache
 
-from graph_recognition.smallgraphs import all_smallgraphs_by_order
 # ----- Third-party imports -----------------------------------------------------------------------
 from networkx import (
-    from_graph6_bytes,
     Graph,
     add_path,
     complete_graph,
@@ -18,44 +18,25 @@ from networkx import (
 )
 from networkx.algorithms.isomorphism import GraphMatcher
 
+from graph_recognition.smallgraphs import all_smallgraphs_by_order
+from tools.xc_unpacker import identify_smallgraph
+
 GRAPHS_TO_NAMES = all_smallgraphs_by_order()
-
-
-@lru_cache(maxsize=None)
-def smallgraph_name(graph: Graph) -> str:
-    """
-    Returns the name of a graph if it is a known smallgraph in ISGCI, or an empty string otherwise.
-
-    @param graph:
-    @return:
-    """
-    # print("[DEBUG] in smallgraph_name")
-    n = graph.number_of_nodes()
-    if n not in GRAPHS_TO_NAMES:
-        return ""
-
-    for name, smallgraph_g6, *_ in GRAPHS_TO_NAMES[n]:
-        smallgraph = from_graph6_bytes(smallgraph_g6.encode())
-        matcher = GraphMatcher(smallgraph, graph)
-        if matcher.is_isomorphic():
-            return name
-
-    return ""
-
 
 # @lru_cache(maxsize=None) would be fine, except we also want to cache results for graphs that are
 # isomorphic to the given one; since there seems to be no easy way to do that with lru_cache, let's
 # simply implement our own cache
 MY_CACHE = dict()
-def all_non_isomorphic_1_subdivisions(graph):
+
+
+def all_non_isomorphic_1_subdivisions(graph: Graph) -> dict[Graph, Graph]:
     """
-    Returns all non isomorphic subgraphs that can be obtained by subdividing one edge of the given
+    Returns all nonisomorphic subgraphs that can be obtained by subdividing one edge of the given
     graph.
 
     @param graph:
     @return:
     """
-    # print(f"[DEBUG] computing all nonisomorphic 1-subdivisions of a graph on {graph.number_of_nodes()} nodes and {graph.number_of_edges()} edges ...")
     # if we don't know the result, compute it ...
     if graph not in MY_CACHE:
         # ... unless we know it for a graph isomorphic to the input
@@ -70,13 +51,9 @@ def all_non_isomorphic_1_subdivisions(graph):
             new_node = graph.number_of_nodes() + 1
             for u, v in graph.edges():
                 # split edge (u, v): replace it with a path (u, max(V) + 1, v), and remove the edge
-                # print(graph.edges())
                 new_graph = graph.copy()
                 add_path(new_graph, [u, new_node, v])
                 new_graph.remove_edge(u, v)
-                # print(new_graph.edges())
-                # print(graph.edges())
-                # exit()
 
                 # record new graph only if it is not  isomorphic to any of the subdivisions we've
                 # already computed
@@ -85,12 +62,10 @@ def all_non_isomorphic_1_subdivisions(graph):
 
             MY_CACHE[graph] = result
 
-    # print(f"[DEBUG] done.")
-
     return MY_CACHE[graph]
 
 
-def known_subdivisions(graph: Graph):
+def known_subdivisions(graph: Graph) -> set[Graph]:
     """
     Returns all subdivisions of a graph that correspond to smallgraphs known to ISGCI, including
     the given graph.
@@ -100,6 +75,7 @@ def known_subdivisions(graph: Graph):
     @return:
     """
     result = set()
+
     # real_total = 1
     # for i in range(graph.number_of_nodes(), 13):
     #     real_total *= graph.number_of_edges() + 1
@@ -115,7 +91,7 @@ def known_subdivisions(graph: Graph):
         @return:
         """
         # if graph is "known", record its name
-        graph_name = smallgraph_name(graph)
+        graph_name = identify_smallgraph(graph)
         if graph_name:
             # print("[DEBUG] found:", graph_name)
             result.add(graph_name)
@@ -142,7 +118,6 @@ def known_subdivisions(graph: Graph):
 
             # compute all non isomorphic subdivisions of one edge first, and recurse only on those
             # TODO still slow, but probably when we are recursing we end up recomputing stuff we already know
-            #   so we need
             # print(f"[DEBUG] ... done, recursing on {len(non_isomorphic_subdivisions)} subdivisions")
 
             for subdivision in all_non_isomorphic_1_subdivisions(graph):

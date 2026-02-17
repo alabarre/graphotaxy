@@ -24,6 +24,7 @@ TODO many of these graphs have realisers that are unknown to ISGCI. I should cre
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 from copy import deepcopy
+from functools import lru_cache
 from itertools import chain, combinations
 from typing import Iterable, Generator
 
@@ -94,21 +95,17 @@ def unpack_xz(present: Iterable, allowed: Iterable) -> list[nx.Graph]:
     return results
 
 
+@lru_cache(maxsize=None)
 def identify_smallgraph(graph: nx.Graph) -> str | None:
     """
     Returns the name of the smallgraph that corresponds to the given graph, or None if no match
     exists.
 
     """
-    # print(ALL_SMALLGRAPHS.keys())
     # return the name of the only smallgraph isomorphic to graph
     for data in ALL_SMALLGRAPHS[graph.number_of_nodes()]:
-        # if nx.is_isomorphic(graph, nx.from_graph6_bytes(data.g6.encode())):
         if nx.is_isomorphic(graph, nx.from_graph6_bytes(data[1].encode())):
-            # print("matched with", data.name)
-            # return data.name
             return data[0]
-    # print("unmatched")
 
 
 def main() -> None:

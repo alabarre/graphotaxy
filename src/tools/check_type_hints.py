@@ -10,8 +10,8 @@ Usage:  check_type_hints.py FILE_OR_DIRECTORY
 # Imports ---------------------------------------------------------------------
 import ast
 import os
-from typing import LiteralString, Iterable
 from _ast import AST
+from typing import LiteralString, Iterable
 
 
 def has_incomplete_type_hints(ast_functiondef_node: AST) -> bool:
@@ -32,21 +32,23 @@ def has_incomplete_type_hints(ast_functiondef_node: AST) -> bool:
     return not ast_functiondef_node.returns
 
 
-def print_missing_type_hints(files: Iterable[LiteralString | str | bytes]) -> None:
+def functions_with_incomplete_type_hints(file: str) -> set[str]:
     """
-    for each file, check that all functions have type hints
+    Returns the names of each function or method in the file with incomplete type hints.
 
     @param files:
     @return:
     """
-    # go through each input file
-    for source in sorted(files):
-        print(source)
-        with open(source) as file:
-            ast_tree = ast.parse(file.read())
-        for node in ast.walk(ast_tree):
-            if isinstance(node, ast.FunctionDef) and has_incomplete_type_hints(node):
-                print("    ", node.name, "has incomplete type hints")
+    result = set()
+
+    with open(file) as data:
+        ast_tree = ast.parse(data.read())
+
+    for node in ast.walk(ast_tree):
+        if isinstance(node, ast.FunctionDef) and has_incomplete_type_hints(node):
+            result.add(node.name)
+
+    return result
 
 
 def project_files(directory: str) -> Iterable[LiteralString | str | bytes]:
@@ -71,8 +73,13 @@ def main() -> None:
     """
     from sys import argv
 
-    files = project_files(argv[1]) if os.path.isdir(argv[1]) else [argv[1]]
-    print_missing_type_hints(files)
+    input_files = project_files(argv[1]) if os.path.isdir(argv[1]) else [argv[1]]
+    for file in input_files:
+        result = functions_with_incomplete_type_hints(file)
+        if result:  # no output, no problem
+            print(file)
+            for function in result:
+                print("    ", function, "has incomplete type hints")
 
 
 if __name__ == "__main__":

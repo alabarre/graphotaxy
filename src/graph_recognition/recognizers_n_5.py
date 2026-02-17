@@ -514,7 +514,7 @@ def is_cograph_contraction(graph: nx.Graph) -> bool:
     """
     house_degseq = array("b", [3, 3, 2, 2, 2])
 
-    def induce_house(vertices):
+    def induce_house(vertices: Iterable[Hashable]) -> bool:
         """
         Returns True if vertices induce a house (= co(P_5)) in graph, False otherwise.
 

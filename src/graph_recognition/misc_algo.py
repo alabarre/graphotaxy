@@ -11,7 +11,7 @@ from array import array, typecodes
 from collections.abc import Hashable
 from functools import lru_cache
 from itertools import combinations
-from typing import Any, Callable, Iterator
+from typing import Any, Callable, Iterator, Generator
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -330,7 +330,7 @@ def is_connected(graph: nx.Graph) -> bool:
 
 
 @lru_cache(maxsize=None)
-def plain_co_bfs(graph: nx.Graph, n: int, source: Hashable):
+def plain_co_bfs(graph: nx.Graph, n: int, source: Hashable) -> set:
     """
     A fast BFS node generator on the complement of the graph. Simple adaptation of networkx's
     _plain_bfs function to work on non-edges rather than edges.
@@ -367,7 +367,7 @@ def is_co_connected(graph: nx.Graph) -> bool:
 
 
 # @lru_cache(maxsize=None)  # don't: it's a generator
-def co_connected_components(graph: nx.Graph):
+def co_connected_components(graph: nx.Graph) -> Generator:
     """
     Generate the connected components of the complement of the graph. Simple adaptation of
     networkx's connected_components function.
@@ -669,7 +669,7 @@ def explicit_triangles(graph: nx.Graph) -> Iterator[set]:
             yield {u, v, w}
 
 
-def enumerate_all_p4s(graph: nx.Graph):
+def enumerate_all_p4s(graph: nx.Graph) -> Generator:
     """
     Generates all paths of length 4 in a graph as sets of 4 vertices.
 

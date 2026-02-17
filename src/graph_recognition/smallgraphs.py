@@ -59,7 +59,7 @@ WRAP_WIDTH = 100
 # The following custom JSON encoder returns a dictionary representation of a GraphClass, so we can
 # use json.dumps on those structures
 class GraphClassEncoder(json.JSONEncoder):
-    def default(self, gc: GraphClass):
+    def default(self, gc: GraphClass) -> json.JSONEncoder:
         if isinstance(gc, GraphClass):
             return {
                 "class_id": gc.class_id(),
@@ -109,7 +109,7 @@ def url_to_soup(url: str) -> BeautifulSoup:
     return BeautifulSoup(requests.get(url, timeout=10).text, "html.parser")
 
 
-def all_smallgraphs_by_order(force_rebuild=False) -> defaultdict[int, set]:
+def all_smallgraphs_by_order(force_rebuild: bool=False) -> defaultdict[int, set]:
     """
     Returns all smallgraphs in ISGCI as a dictionary of graph6 strings, partitioned by graph order.
 
@@ -311,7 +311,7 @@ def dump_graphs_to_lad_files(graphbunch: Iterable) -> None:
             output_file.write(g6string_to_lad(g6string))
 
 
-def get_fiscky_classes(force_rebuild=False) -> list[dict]:
+def get_fiscky_classes(force_rebuild: bool=False) -> list[dict]:
     """
     Returns all fiscky classes in ISGCI.
 
@@ -540,7 +540,7 @@ def write_recognizer_code(
     gc: dict,
     order: int,
     smallgraph_names_and_orders: dict,
-):
+) -> None:
     """
     Writes the code of a recognizer for graph class gc to output.
 

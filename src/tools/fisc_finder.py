@@ -10,21 +10,27 @@ do not appear in any of the input graphs. We'll be more ambitious later on.
 
 NOTE: still work in progress, don't trust results yet
 """
+# Imports -----------------------------------------------------------------------------------------
+# ----- Standard imports --------------------------------------------------------------------------
 import argparse
 import os
 import sys
 from itertools import combinations, product
+from typing import Iterable
 
+# ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from tqdm import tqdm
+
+# ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.smallgraphs import all_smallgraphs_by_order, smallgraph_inclusion_graph
 from graph_recognition.subgraphs import SubgraphMatcher
-from tqdm import tqdm
 
 
 # TODO initialise input graphs
 #   no need for classifications, we'll just need one subgraphmatcher per input graph
 #
-def find_all_smallgraphs(graph):
+def find_all_smallgraphs(graph: nx.Graph) -> SubgraphMatcher:
     """
     Returns a SubgraphMatcher where all smallgraphs have been queried.
 
@@ -39,7 +45,7 @@ def find_all_smallgraphs(graph):
     return matcher
 
 
-def basis(avoided_subgraphs):
+def basis(avoided_subgraphs: Iterable[nx.Graph]) -> Iterable[nx.Graph]:
     """
     Returns the largest induced subgraphs common to all input subgraphs.
 
@@ -58,7 +64,7 @@ def basis(avoided_subgraphs):
     ).values()) & set(avoided_subgraphs)
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="graph classification")
 
     parser.add_argument('-i', '--input', help='the graph file to analyse')
@@ -118,8 +124,8 @@ def main():
 
     all_avoided_subgraphs = []
     with tqdm(
-        total=len(input_graphs), desc="Analyzing input graph(s)",
-        unit='graphs'
+            total=len(input_graphs), desc="Analyzing input graph(s)",
+            unit='graphs'
     ) as pbar:
         for graph in input_graphs:
             # print("graph.edges:", graph.edges)
@@ -127,16 +133,15 @@ def main():
             # print("avoided subgraphs:", all_avoided_subgraphs[-1])
             pbar.update()
 
-
     # TODO now that i have those missing subgraphs, I must figure out the common features.
     # I think its simply a matter of finding the lca's of all avoided subgraphs ... or the "highest" up among those i found? dunno
 
     # print(all_avoided_subgraphs)
-    #print("The following minimal subgraphs are avoided by all input graphs:\n")
-    #print(set.intersection(*all_avoided_subgraphs))
-    #print("Basis:\n")
-    #print("flattened:", sum(map(tuple, all_avoided_subgraphs), ()))
-    #print(basis(all_avoided_subgraphs))
+    # print("The following minimal subgraphs are avoided by all input graphs:\n")
+    # print(set.intersection(*all_avoided_subgraphs))
+    # print("Basis:\n")
+    # print("flattened:", sum(map(tuple, all_avoided_subgraphs), ()))
+    # print(basis(all_avoided_subgraphs))
     '''
 
     '''

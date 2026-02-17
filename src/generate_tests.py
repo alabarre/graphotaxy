@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
 Test generator for recognizers.
 
@@ -7,17 +7,17 @@ Since specific datasets are relatively rare, for each graph class for which we h
 generate tests that cover the corresponding recognizer as well as all available recognizers for
 that class's ancestors.
 
-The only times this program needs to be run is:
+You only need to run this program when:
 
-    - when the set of all available recognizers changes, i.e., a new recognizer is added and
-      enabled by decorating it with @assign_class_id, or an existing recognizer is removed or
-      disabled by removing the @assign_class_id decoration;
+    - the set of all available recognizers changes, i.e., a new recognizer is added and enabled by
+      decorating it with @assign_class_id, or an existing recognizer is removed or disabled by
+      removing the @assign_class_id decoration;
 
-    - when a new dataset is added to PROJECT_ROOT/tests/test_data;
+    - a new dataset is added to PROJECT_ROOT/tests/test_data;
 
-    - when the inclusion relationships in ISGCI change;
+    - the inclusion relationships in ISGCI change;
 
-    - when the exclusion relationships in ISGCI change.
+    - the exclusion relationships in ISGCI change.
 
 The set of tests will not change if existing and enabled recognizers are merely modified, so there
 is no need to run this program in those cases: you can simply run existing tests to check the
@@ -51,7 +51,7 @@ import subprocess
 import sys
 import textwrap
 from collections.abc import Callable
-from typing import TextIO, Dict
+from typing import TextIO, Dict, Iterable
 
 # ----- Non-standard imports ----------------------------------------------------------------------
 import networkx
@@ -102,7 +102,7 @@ def all_recognizable_class_ids_to_recognizers() -> Dict[str, Callable]:
 
 
 def __ancestors_or_descendants_of_some_equivalent_class(
-    graph: networkx.Graph, class_id: str, function: Callable
+        graph: networkx.Graph, class_id: str, function: Callable
 ) -> set[str]:
     """
     Returns the ancestors or the descendants of node with label class_id in graph. If that node is
@@ -129,7 +129,7 @@ def __ancestors_or_descendants_of_some_equivalent_class(
 
 
 def ancestors_of_some_equivalent_class(
-    graph: networkx.Graph, class_id: str
+        graph: networkx.Graph, class_id: str
 ) -> set[str]:
     """
     Returns the ancestors of node with label class_id in graph. If that node is missing, looks for
@@ -145,7 +145,7 @@ def ancestors_of_some_equivalent_class(
 
 
 def descendants_of_some_equivalent_class(
-    graph: networkx.Graph, class_id: str
+        graph: networkx.Graph, class_id: str
 ) -> set[str]:
     """
     Returns the descendants of node with label class_id in graph. If that node is missing, looks for
@@ -161,7 +161,7 @@ def descendants_of_some_equivalent_class(
 
 
 def test_method(
-    class_id: str, recognizer: Callable, base_id: str = "", kind: str = "positive"
+        class_id: str, recognizer: Callable, base_id: str = "", kind: str = "positive"
 ) -> str:
     """
     Returns a test method for the recognizer for class_id. base_id is an optional placeholder for a
@@ -220,7 +220,7 @@ def retrieve_all_classes_with_datasets() -> Dict[str, str]:
 
 
 def ancestors_or_equivalent(
-    classes: Dict[str, str], recognizers: Dict[str, Callable]
+        classes: Dict[str, str], recognizers: Dict[str, Callable]
 ) -> Dict[str, set[str]]:
     """
     Returns a dictionary mapping each input class to its ancestors in the ISGCI graph. If a class
@@ -245,7 +245,7 @@ def ancestors_or_equivalent(
 
 
 def descendants_or_equivalent(
-    classes: Dict[str, str], recognizers: Dict[str, Callable]
+        classes: Dict[str, str], recognizers: Dict[str, Callable]
 ) -> Dict[str, set[str]]:
     """
     Returns a dictionary mapping each input class to its descendants in the ISGCI graph. If a class
@@ -270,7 +270,7 @@ def descendants_or_equivalent(
 
 
 def testable_descendants_of_testable_classes(
-    testable_classes: Dict[str, str], recognizers: Dict[str, Callable]
+        testable_classes: Dict[str, str], recognizers: Dict[str, Callable]
 ) -> Dict[str, Callable]:
     """
     Returns a dictionary of descendants of all testable classes, along with the corresponding
@@ -341,11 +341,11 @@ def setupclass_method(class_id: str, path: str) -> str:
 
 
 def prepare_code_string(
-    class_id: str,
-    path,
-    recognizers,
-    ancestors: Dict[str, str],
-    descendants: Dict[str, str],
+        class_id: str,
+        path: str,
+        recognizers: Iterable[Callable],
+        ancestors: Dict[str, str],
+        descendants: Dict[str, str],
 ) -> str:
     """
     Returns the code string for testing class_id and its ancestors. This code is intended to be
@@ -369,13 +369,13 @@ def prepare_code_string(
     # that that ancestor has not been tested yet and that a corresponding recognizer is available.
     code_string = f"class Test_{class_id}_and_ancestors(unittest.TestCase):\n"
     code_string += (
-        textwrap.fill(
-            f'    """A generic test case for class {class_id} and all its ancestors that have not '
-            f'already been covered by other tests."""',
-            width=WRAP_WIDTH,
-            subsequent_indent="    ",
-        )
-        + "\n"
+            textwrap.fill(
+                f'    """A generic test case for class {class_id} and all its ancestors that have not '
+                f'already been covered by other tests."""',
+                width=WRAP_WIDTH,
+                subsequent_indent="    ",
+            )
+            + "\n"
     )
 
     # write the setUpClass method, which initializes all data once for all tests in the class
@@ -442,20 +442,20 @@ def prepare_code_string(
 
     # 3. prepend code_string with the necessary imports and return it
     code_string = (
-        "# Imports ".ljust(WRAP_WIDTH - 1, "-")
-        + "\n"
-        + "\n".join(
-            "import " + module
-            for module in standard_imports
-            # the following sort ensures third-party modules are imported before mine
-            + sorted(
-                other_imports,
-                key=lambda mod: "site-packages" not in sys.modules[mod].__file__
-                and "dist-packages" not in sys.modules[mod].__file__,
-            )
+            "# Imports ".ljust(WRAP_WIDTH - 1, "-")
+            + "\n"
+            + "\n".join(
+        "import " + module
+        for module in standard_imports
+        # the following sort ensures third-party modules are imported before mine
+        + sorted(
+            other_imports,
+            key=lambda mod: "site-packages" not in sys.modules[mod].__file__
+                            and "dist-packages" not in sys.modules[mod].__file__,
         )
-        + "\n\n\n"
-        + code_string
+    )
+            + "\n\n\n"
+            + code_string
     )
 
     return code_string
@@ -543,14 +543,15 @@ def generate_all_test_files() -> None:
     # named test_class_id_or_ancestors.py, which contains tests for the base class (if we have a
     # recognizer) as well as for all ancestors
     for class_id, path in tqdm(
-        all_classes_with_datasets.items(), desc="Generating test files", unit=" files"
+            all_classes_with_datasets.items(), desc="Generating test files", unit=" files"
     ):
         generate_test_file(class_id, path, all_recognizers, ancestors, descendants)
 
 
 def generate_test_file(
-    class_id: str, path: str, recognizers: Dict[str, Callable], ancestors, descendants
-):
+        class_id: str, path: str, recognizers: Dict[str, Callable], ancestors: dict,
+        descendants: dict
+) -> None:
     """
     Generates a test file for a given class_id. A test file contains a class derived from
     unittest.TestCase, which loads positive instances from the datafiles stored in
@@ -607,9 +608,9 @@ class TestGenerator:
     that have already been tested.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
-        TODO
+        Initializes the necessary data structures.
         """
         # paths -----------------------------------------------------------------------------------
         self.TEST_OUTPUT_DIR = os.path.join(os.pardir, "tests")
@@ -636,7 +637,7 @@ class TestGenerator:
         }
 
         # keep track of the classes for which a test has already been generated so we avoid
-        # generating the same test multiple times accross different files
+        # generating the same test multiple times across different files
         self.TEST_COVERAGE = {"positive": set(), "negative": set()}
 
         # formatting parameters -------------------------------------------------------------------
@@ -682,7 +683,7 @@ class TestGenerator:
         return base_dict
 
     def __ancestors_or_descendants_of_some_equivalent_class(
-        self, graph: networkx.Graph, class_id: str, function: Callable
+            self, graph: networkx.Graph, class_id: str, function: Callable
     ) -> set[str]:
         """
         Returns the ancestors or the descendants of node with label class_id in graph. If that node
@@ -708,7 +709,7 @@ class TestGenerator:
         )
 
     def ancestors_of_some_equivalent_class(
-        self, graph: networkx.Graph, class_id: str
+            self, graph: networkx.Graph, class_id: str
     ) -> set[str]:
         """
         Returns the ancestors of node with label class_id in graph. If that node is missing, looks
@@ -723,7 +724,7 @@ class TestGenerator:
         )
 
     def descendants_of_some_equivalent_class(
-        self, graph: networkx.Graph, class_id: str
+            self, graph: networkx.Graph, class_id: str
     ) -> set[str]:
         """
         Returns the descendants of node with label class_id in graph. If that node is missing,
@@ -740,11 +741,11 @@ class TestGenerator:
     # TODO keep going
     # Code generation methods ---------------------------------------------------------------------
     def test_method(
-        self,
-        class_id: str,
-        recognizer: Callable,
-        base_id: str = "",
-        kind: str = "positive",
+            self,
+            class_id: str,
+            recognizer: Callable,
+            base_id: str = "",
+            kind: str = "positive",
     ) -> str:
         """
         Returns a test method for the recognizer for class_id. base_id is an optional placeholder

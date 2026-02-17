@@ -1,19 +1,20 @@
 """
-Anthony Labarre © 2023
+Anthony Labarre © 2023-2026
 
 Small program for converting the data from distanceregular.org to graph6 /
 sparse6.
 """
+# Imports -----------------------------------------------------------------------------------------
+# Standard imports --------------------------------------------------------------------------------
 import glob
 import os
 
-# Imports ---------------------------------------------------------------------
+# Third-party imports -----------------------------------------------------------------------------
 import networkx
-import networkx as nx
 import numpy
 
 
-def main():
+def main() -> None:
     # handle each csv file in the directory
     missed_data = list()
     for inpath in glob.glob('*.am.csv'):
@@ -21,9 +22,9 @@ def main():
             # read in data in numpy format
             indata = numpy.loadtxt(inpath, delimiter=',').astype(int)
             # convert to nx
-            graph = nx.from_numpy_array(indata)
+            graph = networkx.from_numpy_array(indata)
             # have nx write file as sparse6
-            nx.write_sparse6(graph, inpath.removesuffix(".am.csv") + ".s6")
+            networkx.write_sparse6(graph, inpath.removesuffix(".am.csv") + ".s6")
 
         except networkx.exception.NetworkXError as e:
             # failed for some reason, inform user when done with the rest

@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2025
+Anthony Labarre © 2025-2026
 
 This implementation of a 2-SAT solver is a mere adaptation of David Eppstein's PADS library. The
 only changes I made are minor and were mostly intended to remove dependencies on the rest of
@@ -17,6 +17,7 @@ networkx.
         see  https://doi.org/10.1016/S0012-365X(99)00300-3 p 204
 
 """
+from typing import Callable, Hashable
 
 """
 Not.py
@@ -47,31 +48,31 @@ class DoubleNegationError(Exception):
 
 
 class SymbolicNegation:
-    def __init__(self, x):
+    def __init__(self, x: Hashable) -> None:
         if isinstance(x, SymbolicNegation):
             raise DoubleNegationError(
                 "Use Not(x) rather than instantiating SymbolicNegation directly"
             )
         self.negation = x
 
-    def negate(self):
+    def negate(self) -> Hashable:
         return self.negation
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Not(" + repr(self.negation) + ")"
 
-    def __eq__(self, other):
+    def __eq__(self, other: Hashable) -> bool:
         return isinstance(other, SymbolicNegation) and self.negation == other.negation
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return -hash(self.negation)
 
 
-def Not(x):
+def Not(x: SymbolicNegation) -> SymbolicNegation:
     return x.negate() if isinstance(x, SymbolicNegation) else SymbolicNegation(x)
 
 
-def copy_graph(graph, adjacency_list_type=set):
+def copy_graph(graph: dict, adjacency_list_type: Callable=set) -> dict:
     """
     Make a copy of a graph G and return the copy. Any information stored in edges G[v][w] is
     discarded.
@@ -86,7 +87,7 @@ def copy_graph(graph, adjacency_list_type=set):
     return {v: adjacency_list_type(iter(graph[v])) for v in graph}
 
 
-def condensation(graph):
+def condensation(graph: dict) -> dict:
     """Return a DAG with vertices equal to sets of vertices in SCCs of G.
 
     Note (Anthony Labarre): networkx also has a condensation function, but it replaces sets of
@@ -139,7 +140,7 @@ D. Eppstein, April 2009.
 """
 
 
-def symmetrize(graph: dict):
+def symmetrize(graph: dict) -> DiGraph:
     """Expand implication graph to a larger symmetric form.
 
     If the 2SAT instance includes an implication A=>B, then it is also valid to conclude that

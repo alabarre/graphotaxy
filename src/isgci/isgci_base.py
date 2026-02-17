@@ -1,7 +1,6 @@
 """
-Anthony Labarre © 2020-2025
+Anthony Labarre © 2020-2026
 
-# TODO how to properly date copyright info? 'since 2020', '2020-2023", ...?
 # TODO distribute package with a copy of isgci_db and pickled files and json files
     get rid of pickled files, only use json files for interoperability
 # TODO LATER allow user to download and use his copy of the DB
@@ -331,7 +330,6 @@ def isgci_equivalences(force_rebuild: bool = False) -> defaultdict[str, set]:
         stdout.flush()
         with open(filename, "wb") as file:
             result = compute_class_equivalences(graph)
-            # noinspection PyTypeChecker
             pickle.dump(result, file, pickle.HIGHEST_PROTOCOL)
 
         # print("done.")

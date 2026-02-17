@@ -53,11 +53,6 @@ We want to push things further by introducing *exclusion* relationships: instead
 - if G is in C, then G is not in some other class D
 - if G is not in C, then G is in some other class D
 
-
-TODO gather somewhere such exclusion relationships. Examples:
-
-- [ ] [10.1002/jgt.3190150403] p. 351: Every unbreakable graph contains a P_4; therefore, unbreakable -> NOT P_4-free, and P_4-free -> NOT unbreakable
-
 TODO eventually, switch to graph-tool which is more efficient. Right now I can't because:
 - I'm installing everything with pip, and graph-tool is not pip-installable
 - if I give up on pip, I need a higher version of networkx than I have on Debian, since we need girth
