@@ -7,7 +7,7 @@
 #
 # Usage: ./install_gss.sh
 #
-# Copyright (C) 2025
+# Copyright (C) 2025-2026
 #
 # Author: Anthony Labarre <Anthony.Labarre@univ-eiffel.fr>
 echo "+------------------------------------------------+"
@@ -102,9 +102,14 @@ echo "+---------------------------------------------------+"
 echo "| Copying binaries to the graph_recognition package |"
 echo "+---------------------------------------------------+"
 echo
-cd ../graph_recognition
-cp ../glasgow-subgraph-solver/build/glasgow_clique_solver .
-cp ../glasgow-subgraph-solver/build/glasgow_subgraph_solver .
+cd build
+for file in $(ls)
+do
+    if [[ -f $file && -x file ]]
+    then
+        cp $file ../../graph_recognition
+    fi
+done
 
 echo
 echo "+-------------------------------------------------------------------+"

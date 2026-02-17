@@ -73,6 +73,10 @@ def main() -> None:
     """
     from sys import argv
 
+    if len(argv) != 2:
+        print(f"Usage: {os.path.basename(argv[0])} DIRECTORY")
+        exit(-1)
+
     input_files = project_files(argv[1]) if os.path.isdir(argv[1]) else [argv[1]]
     for file in input_files:
         result = functions_with_incomplete_type_hints(file)
