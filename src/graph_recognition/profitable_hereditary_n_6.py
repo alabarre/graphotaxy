@@ -1,4 +1,5 @@
-"""Anthony Labarre © 2023-2025
+"""
+Anthony Labarre © 2023-2026
 
 This file contains recognizers for profitable hereditary classes, i.e. classes that admit a
 forbidden induced subgraph characterization, but can be recognized with a faster-than-naïve
@@ -45,7 +46,6 @@ def is_gc_735(graph: nx.Graph) -> bool:
     return is_h_u_k2_free(graph, is_claw_free)
 
 
-
 @assign_fisc(["C_{6}"])
 @assign_class_id("gc_436")
 @lru_cache(maxsize=None)
@@ -68,7 +68,7 @@ def is_c6_free(graph: nx.Graph) -> bool:
     # return is_h_free(graph, ["C_{6}"])
     c6_degseq = array('b', [2] * 6)
     for e, f, g in combinations(graph.edges, 3):
-        vertices = set(e+f+g)
+        vertices = set(e + f + g)
         if len(vertices) == 6:
             subgraph = graph.subgraph(vertices)
             # checking connectedness is mandatory, since 2K_{3} has the same degree sequence

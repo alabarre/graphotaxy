@@ -1,4 +1,5 @@
-"""Anthony Labarre © 2023-2025
+"""
+Anthony Labarre © 2023-2026
 
 This file contains recognizers for profitable hereditary classes, i.e. classes that admit a
 forbidden induced subgraph characterization, but can be recognized with a faster-than-naïve
@@ -121,32 +122,34 @@ def is_threshold(graph: nx.Graph) -> bool:
         "co(C_{7})",
         "co(C_{8})",
         # TODO the 318 other graphs:
-        # fig 6 line 1 and complements
+        # forbidden graphs from fig 6 p. 2173: all of them should appear here AND their complements
+        # fig 6 line 1
         "domino",  # fig 6 line 1 column 1
         "co-domino",
         "2K_{3}",  # fig 6 line 1 column 2
         "K_{3,3}",
         "2K_{3} + e",  # fig 6 line 1 column 3
         "K_{3,3}-e",
-        # TODO did not find graph in line 1 column 4
-        "X_{7}",  # fig 6 line 1 column 4
+        # TODO line 1 column 4 not found
+        "X_{7}",  # fig 6 line 1 column 5
         "co(X_{7})",
-        # TODO fig 6 line 2
+        # fig 6 line 2
         "X_{27}",  # fig 6 line 2 column 1
         "co(X_{27})",
         # TODO line 2 column 2 not found
-        # TODO line 2 column 3
-        # TODO line 2 column 4
+        # TODO line 2 column 3 not found; how does it differ from the next entry?
+        # TODO line 2 column 4 not found; how does it differ from the previous entry?
         # TODO line 2 column 5
         # TODO line 3 column 1
         # TODO line 3 column 2
         # TODO line 3 column 3
         # TODO line 3 column 4
         # TODO line 3 column 5
-        # TODO line 4 column 1
-        # TODO line 4 column 2
+        # TODO line 4 column 1 not found
+        # TODO line 4 column 2 not found
         # end of fig 6
         # TODO the graphs from figure 7 + their complements
+        # forbidden graphs from fig 7 p. 2174: all of them should appear here AND their complements
         "S_{4}",  # fig 7 (1, 1), self-complementary
         # TODO fig 7 line 1 column 2
         # TODO fig 7 line 1 column 3
@@ -165,6 +168,7 @@ def is_threshold(graph: nx.Graph) -> bool:
         # TODO fig 7 line 4 column 1
         # TODO fig 7 line 4 column 2
         "2C_{4}",  # fig 7 line 4 column 3
+        "co(2C_{4})",
         # TODO fig 7 line 4 column 4
         # TODO fig 7 line 4 column 5
         # TODO fig 7 line 5 column 1
@@ -253,7 +257,7 @@ def is_dilworth_k(graph: nx.Graph, k: int) -> bool:
 @lru_cache(maxsize=None)
 def is_locally_split(graph: nx.Graph) -> bool:
     """
-    A graph is locally split if the open neighbourhood of each vertex induces a split graph.
+    A graph is locally split if the open neighborhood of each vertex induces a split graph.
 
     Complexity: O(n^2) < O(n^6) (naïve)
 
@@ -441,8 +445,8 @@ def is_2_strongly_regular_and_planar(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_deza(graph: nx.Graph) -> bool:
     """A Deza graph with parameters (𝜆,𝜇) is a graph such that any two adjacent
-    vertices have exactly 𝜆 common neighbours and any two nonadjacent vertices
-    have exactly 𝜇 common neighbours.
+    vertices have exactly 𝜆 common neighbors and any two nonadjacent vertices
+    have exactly 𝜇 common neighbors.
 
     https://www.graphclasses.org/classes/gc_1189.html
 
@@ -466,7 +470,7 @@ def is_deza(graph: nx.Graph) -> bool:
     k = number_of_common_neighbours(graph, *next(iter(graph.edges)))
 
     # check that each pair of adjacent vertices has exactly k common neighbors
-    # we cache the neighbourhoods because we need sets and want to avoid a
+    # we cache the neighborhoods because we need sets and want to avoid a
     # number of calls to set proportional to the degree of each vertex
     neighbourhoods = dict()
     for u, v in graph.edges:
@@ -576,7 +580,7 @@ def is_line_graph_of_planar_cubic_bipartite_graph(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_locally_chordal(graph: nx.Graph) -> bool:
     """
-    A graph is locally chordal if the open neighbourhood of each vertex induces a chordal graph.
+    A graph is locally chordal if the open neighborhood of each vertex induces a chordal graph.
 
     https://www.graphclasses.org/classes/gc_1251.html
 
@@ -839,7 +843,7 @@ def is_strict_2_threshold(graph: nx.Graph) -> bool:
 
     # algorithm from https://twiki.di.uniroma1.it/pub/Users/AndreaSterbini/Ricerca/11-IPL-1995.pdf
     # page 196 (see also https://doi.org/10.1016/0020-0190(95)00030-G)
-    def c_and_t2_subgraphs(t1: nx.Graph) -> (nx.Graph, nx.Graph):
+    def c_and_t2_subgraphs(t1: nx.Graph) -> tuple[nx.Graph, nx.Graph]:
         """
         Returns subgraphs C and T_2 as defined in the paper.
 
@@ -856,7 +860,7 @@ def is_strict_2_threshold(graph: nx.Graph) -> bool:
         return c, t2
 
     # Phase 1:
-    # extract subgraph t1_subgraph induced by a vertex of max degree and its neighbours
+    # extract subgraph t1_subgraph induced by a vertex of max degree and its neighbors
     if not graph.nodes:  # avoid crash if graph is empty
         return True
 
@@ -873,7 +877,7 @@ def is_strict_2_threshold(graph: nx.Graph) -> bool:
 
     # Phase 2
     # select a neighbor y of x of maximum degree in original graph, and build t1_subgraph as before
-    # based on y: i.e., t1_subgraph is induced by y and its neighbours
+    # based on y: i.e., t1_subgraph is induced by y and its neighbors
     max_deg = 0
     y = None
     for v in graph[x]:

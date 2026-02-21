@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # An installation script for the Glasgow Clique and Subgraph solvers, which compiles them and
-# links to them where graphotaxy needs them. Compilation is mandatory.
+# copies them where graphotaxy needs them. Compilation is mandatory.
 #
 # Do not move this script, it is exactly where it is supposed to be.
 #
@@ -9,7 +9,7 @@
 #
 # Copyright (C) 2025-2026
 #
-# Author: Anthony Labarre <Anthony.Labarre@univ-eiffel.fr>
+# Author: Anthony Labarre
 echo "+------------------------------------------------+"
 echo "| Cloning the Glasgow Subgraph Solver repository |"
 echo "+------------------------------------------------+"
@@ -116,7 +116,8 @@ echo "+-------------------------------------------------------------------+"
 echo "| Removing the glasgow_subgraph_solver directory (no longer useful) |"
 echo "+-------------------------------------------------------------------+"
 echo
-rm -rf ../glasgow-subgraph-solver/
+cd ../../
+rm -rf glasgow-subgraph-solver/
 
 echo
 echo "+-------+"

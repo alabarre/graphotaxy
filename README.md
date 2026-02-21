@@ -38,7 +38,7 @@ The result depends on the number of graphs in the input file(s):
 
 # Options
 
-The following options are available. Many of them require knowing the ISGCI id of the class you are interested in (i.e, don't write "bipartite", but "gc_69").
+The following options are available. Many of them require knowing the ISGCI id of the class you are interested in (e.g., don't write "bipartite", but "gc_69").
 
 - info options: cause the program to display various information instead of performing an analysis.
     - `--capabilities`:        display various information about what the program can do

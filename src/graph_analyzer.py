@@ -4,7 +4,11 @@ Anthony Labarre © 2023-2025
 Implementation of a GraphAnalyzer class. The purpose of an instance of this class is to produce
 classifications for one or more undirected graphs.
 
-TODO write doc
+To use a GraphAnalyzer:
+
+>>> analyzer = GraphAnalyzer()  # instantiate it
+>>> # possibly set options through method calls, see class definition below
+>>> analyzer.run_classification(paths_to_input_files)  # feed it data and go
 
 TODO memory usage issues for large datasets, probably due to us keeping each classification until
     the end
@@ -52,7 +56,7 @@ def process_graphs(filename: str) -> Iterator:
     @param filename:
     @return:
     """
-    extension = os.path.splitext(filename)[-1]
+    extension = os.path.splitext(filename)[-1].lower()
     # note: avoiding match / case until pypy3 supports it
     if extension == ".g6":
         reader = nx.from_graph6_bytes
@@ -87,7 +91,7 @@ def process_graphs(filename: str) -> Iterator:
         yield UndirectedGraph(nx.nx_pydot.read_dot(filename))
 
     else:
-        raise ValueError(f"Unknown file extension {extension}")
+        raise ValueError(f"Unknown file extension for '{filename}'")
 
 
 def number_of_graphs_in_file(filename: str) -> int:
@@ -130,8 +134,26 @@ def underlined(message: str) -> str:
     return "\n".join([message, len(message) * "-"])
 
 
+def _clear_other_caches(functions: Iterable[Callable]) -> None:
+    """
+    Clears the caches of all provided functions. Only functions decorated with lru_cache are
+    allowed.
+
+    @return:
+    """
+    for func in functions:
+        try:
+            func.cache_clear()
+        except AttributeError:
+            print(
+                f"failed to clear cache for function {func.__name__} from {func.__module__}"
+            )
+            # all provided functions are supposed to be cached, so we exit if something went
+            # wrong to signal it has to be fixed
+            exit(-1)
+
+
 # Classes -----------------------------------------------------------------------------------------
-# TODO "manual" on how to use GraphAnalyzer
 class GraphAnalyzer:
     """
     The class responsible for identifying graphs based on their graph class.
@@ -300,12 +322,12 @@ class GraphAnalyzer:
                 print("[WARNING] the glasgow subgraph or clique solver crashed")
 
     def recognize_graph_and_propagate_results(
-        self,
-        graph: nx.Graph,
-        recognizer: Callable,
-        called_recognizers: set[Callable],
-        classification: ClassificationDigraph,
-        class_id: str,
+            self,
+            graph: nx.Graph,
+            recognizer: Callable,
+            called_recognizers: set[Callable],
+            classification: ClassificationDigraph,
+            class_id: str,
     ) -> None:
         """
         Determines whether graph belongs to the graph class identified by class_id and propagates
@@ -346,8 +368,8 @@ class GraphAnalyzer:
                 }:
                     if self.isgci_exclusion_graph.has_node(equiv_id):
                         for successor in map(
-                            self._get_stored_class_id,
-                            self.isgci_exclusion_graph.successors(equiv_id),
+                                self._get_stored_class_id,
+                                self.isgci_exclusion_graph.successors(equiv_id),
                         ):
                             if classification.has_open_node(successor):
                                 self.discarded_due_to_exclusion += len(
@@ -387,7 +409,7 @@ class GraphAnalyzer:
             )
 
     def _clear_recognizer_caches(
-        self, called_recognizers: Iterable[Callable[[UndirectedGraph], bool]]
+            self, called_recognizers: Iterable[Callable[[UndirectedGraph], bool]]
     ) -> None:
         """
         Clears the caches of all called recognizers. Only recognizers decorated with lru_cache are
@@ -407,24 +429,6 @@ class GraphAnalyzer:
                 )
                 # all recognizers are supposed to be cached, so we exit if something went wrong
                 # to signal it has to be fixed
-                exit(-1)
-
-    def _clear_other_caches(self, functions: Iterable[Callable]) -> None:
-        """
-        Clears the caches of all provided functions. Only functions decorated with lru_cache are
-        allowed.
-
-        @return:
-        """
-        for func in functions:
-            try:
-                func.cache_clear()
-            except AttributeError:
-                print(
-                    f"failed to clear cache for function {func.__name__} from {func.__module__}"
-                )
-                # all provided functions are supposed to be cached, so we exit if something went
-                # wrong to signal it has to be fixed
                 exit(-1)
 
     def acknowledge_positive_classes(self, positive_ids: Iterable[str]) -> None:
@@ -537,7 +541,6 @@ class GraphAnalyzer:
 
         return enumeration_of_positive_classes
 
-
     def update_classes_stats(self, classification: ClassificationDigraph) -> None:
         """
         TODO work in progress
@@ -576,8 +579,6 @@ class GraphAnalyzer:
 
         # return self.enumeration_of_positive_classes
 
-
-
     def get_recognizer(self, class_id: str) -> Callable:
         """
         Returns a recognizer for the given class_id if one is available, None otherwise.
@@ -615,7 +616,7 @@ class GraphAnalyzer:
         return len(self.classifications)
 
     def print_summary_of_findings(
-        self, print_unknown_descendants: bool = False, print_todo: bool = False
+            self, print_unknown_descendants: bool = False, print_todo: bool = False
     ) -> None:
         """
         Prints summary of a graph analyzer's findings as a table containing the percentage of
@@ -651,7 +652,7 @@ class GraphAnalyzer:
             print(
                 ["{:.2f}".format(100 * num / num_graphs).rjust(6) + "% are", "-"][
                     num_graphs == 1
-                ],
+                    ],
                 ids_to_names[class_id],
                 "---",
                 urllib.parse.urljoin(BASE_CLASS_URL, class_id),
@@ -743,24 +744,24 @@ class GraphAnalyzer:
         # information on skipped classes
         print("- skipped classes:")
         print(
-            f"    - {self.discarded_due_to_propagation // self.number_of_graphs()} classes were skipped thanks to inclusion "
-            f"relationships",
+            f"    - {self.discarded_due_to_propagation // self.number_of_graphs()} classes were "
+            f"skipped thanks to inclusion relationships",
             end="",
         )
         print(
             [".", f" (average over {self.number_of_graphs()} graphs)."][
                 self.number_of_graphs() > 1
-            ]
+                ]
         )
         print(
-            f"    - {self.discarded_due_to_exclusion // self.number_of_graphs()} classes were skipped thanks to exclusion "
-            f"relationships",
+            f"    - {self.discarded_due_to_exclusion // self.number_of_graphs()} classes were "
+            f"skipped thanks to exclusion relationships",
             end="",
         )
         print(
             [".", f" (average over {self.number_of_graphs()} graphs)."][
                 self.number_of_graphs() > 1
-            ]
+                ]
         )
         if self.blacklisted:
             print(

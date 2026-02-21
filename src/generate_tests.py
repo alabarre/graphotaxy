@@ -38,7 +38,12 @@ To run a specific test: in PROJECT_ROOT, run:
 
 $ python3 -m unittest tests/WANTED_TEST_FILE.py
 
-TODO works, but far from presentable.
+Test generation process
+-----------------------
+
+
+
+TODO works, but far from presentable. explain how all these tests are generated
 TODO much better documentation
 TODO encapsulate what I can in a class rather than using these global variables
 
@@ -112,11 +117,11 @@ def __ancestors_or_descendants_of_some_equivalent_class(
     @param class_id:
     @return:
     """
-    # if graph contains class, return its ancestors
+    # if graph contains class, return its ancestors / descendants
     if class_id in graph:
         return function(graph, class_id)
 
-    # otherwise, return the ancestors of an equivalent class
+    # otherwise, return the ancestors / descendants of an equivalent class
     for eq_id in EQUIV_IDS[class_id]:
         if eq_id in graph:
             return function(graph, eq_id)
@@ -244,9 +249,7 @@ def ancestors_or_equivalent(
     return ancestors
 
 
-def descendants_or_equivalent(
-        classes: Dict[str, str], recognizers: Dict[str, Callable]
-) -> Dict[str, set[str]]:
+def descendants_or_equivalent(classes: Dict[str, str]) -> Dict[str, set[str]]:
     """
     Returns a dictionary mapping each input class to its descendants in the ISGCI graph. If a class
     is not found, then an equivalent id is used.
@@ -797,9 +800,8 @@ def main() -> None:
     remove_existing_test_files()
     generate_all_test_files()
     # print test statistics
-    print()
     print(
-        f"The generated files cover {sum(map(len, TEST_COVERAGE.values()))} classes, with "
+        f"\nThe generated files cover {sum(map(len, TEST_COVERAGE.values()))} classes, with "
         f"{len(TEST_COVERAGE['positive'])} positive tests and {len(TEST_COVERAGE['negative'])} "
         f"negative tests."
     )

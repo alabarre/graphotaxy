@@ -420,8 +420,7 @@ def is_block(graph: nx.Graph) -> bool:
         "twin-C_{5}",  # 4-cycle + 5-cycle
         "X_{38}",  # 4-cycle + 5-cycle
     ]
-)  # partial fisc built "by hand" TODO there might be others
-# TODO stop building this by hand: generate it, then compute basis
+)  # partial fisc built "by hand" TODO there might be others: generate the FISC and compute basis
 @assign_class_id("gc_108")
 @lru_cache(maxsize=None)
 def is_cactus(graph: nx.Graph) -> bool:

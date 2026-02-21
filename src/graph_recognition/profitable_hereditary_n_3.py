@@ -1,4 +1,5 @@
-"""Anthony Labarre © 2023-2025
+"""
+Anthony Labarre © 2023-2026
 
 This file contains recognizers for profitable hereditary classes, i.e. classes that admit a
 forbidden induced subgraph characterization, but can be recognized with a faster-than-naïve
@@ -18,7 +19,6 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
-    degree_sequence,
     complement,
     is_connected,
     is_h_u_k2_free,
@@ -44,8 +44,6 @@ from graph_recognition.recognizers_utils import (
     assign_class_id,
     assign_fisc,
 )
-
-# ----- Non-standard imports ----------------------------------------------------------------------
 
 # check whether function has already been lru_cached
 if not hasattr(nx.asteroidal.create_component_structure, "cache_info"):
@@ -109,7 +107,7 @@ def is_gc_921(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     # equivalent to maximum degree 4 AND triangle-free
-    return degree_sequence(graph)[0] <= 4 and is_triangle_free(graph)
+    return is_maximum_degree_4(graph) and is_triangle_free(graph)
 
 
 @assign_fisc(["diamond", "claw"])
@@ -291,10 +289,10 @@ def my_is_at_free(graph: nx.Graph) -> bool:
         # Check for each pair of vertices whether they belong to the same connected component when
         # the closed neighborhood of the third is removed.
         if any(
-            component_structure[u][v] == component_structure[u][w]
-            and component_structure[v][u] == component_structure[v][w]
-            and component_structure[w][u] == component_structure[w][v]
-            for w in nodes - set(graph[u]).union(graph[v], [u, v])
+                component_structure[u][v] == component_structure[u][w]
+                and component_structure[v][u] == component_structure[v][w]
+                and component_structure[w][u] == component_structure[w][v]
+                for w in nodes - set(graph[u]).union(graph[v], [u, v])
         ):
             return False
 
@@ -370,7 +368,7 @@ def is_girth_at_least_9(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_locally_bipartite(graph: nx.Graph) -> bool:
     """
-    A graph is locally bipartite if the open neighbourhood of each vertex induces a bipartite
+    A graph is locally bipartite if the open neighborhood of each vertex induces a bipartite
     graph.
 
     See https://www.graphclasses.org/classes/gc_1262
@@ -540,7 +538,7 @@ def is_auto_1444(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_locally_connected(graph: nx.Graph) -> bool:
     """
-    A graph G is locally connected iff for every vertex v , the open neighbourhood N(v) of v
+    A graph G is locally connected iff for every vertex v , the open neighborhood N(v) of v
     induces a connected graph in G.
 
     Note that disconnected graphs can be locally connected (e.g. disjoint union of cliques).

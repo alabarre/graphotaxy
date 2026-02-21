@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
 O(n^4) algorithms.
 
@@ -102,7 +102,7 @@ def is4_k1_co_cnplus4_free(graph: nx.Graph) -> bool:
 def is_02_graph(graph: nx.Graph) -> bool:
     """
     A (0,2)-graph is a connected graph such that any two vertices have either 0 or 2 common
-    neighbours.
+    neighbors.
 
     https://www.graphclasses.org/classes/gc_1191.html
 
@@ -146,7 +146,7 @@ def is_c4_triangle_free_and_planar(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_pretty(graph: nx.Graph) -> bool:
     """
-    A graph is pretty if every induced subgraph has a vertex whose neighbourhood is
+    A graph is pretty if every induced subgraph has a vertex whose neighborhood is
     (2K_2, P_4)-free.
 
     https://www.graphclasses.org/classes/gc_609.html

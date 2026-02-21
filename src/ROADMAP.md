@@ -20,7 +20,6 @@ So once a new recognizer is written, make sure it passes all tests before commit
 
 Caveats:
 
-- I only have *positive* tests
 - I don't have enough datasets
 
 # code
