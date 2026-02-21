@@ -56,23 +56,15 @@ def process_graphs(filename: str) -> Iterator:
     @param filename:
     @return:
     """
-    extension = os.path.splitext(filename)[-1].lower()
+    # retrieve extension in lower case without the .
+    extension = os.path.splitext(filename)[-1][1:].lower()
     # note: avoiding match / case until pypy3 supports it
-    if extension == ".g6":
-        reader = nx.from_graph6_bytes
-
-        # read graphs as nx.read_graph6 would, but yield them instead of storing them
+    readers = {"g6": nx.from_graph6_bytes, "s6": nx.from_sparse6_bytes}
+    if extension in readers:
+        # read graphs as the readers would, but yield them instead of storing them
         with open(filename, "rb") as file:
             for line in file:
-                yield UndirectedGraph(reader(line))
-
-    elif extension == ".s6":
-        reader = nx.from_sparse6_bytes
-
-        # read graphs as nx.read_graph6 would, but yield them instead of storing them
-        with open(filename, "rb") as file:
-            for line in file:
-                yield UndirectedGraph(reader(line))
+                yield UndirectedGraph(readers[extension](line))
 
     elif extension == ".dot":
         # if dot file contains several graphs, warn user that all graphs except the first one will
