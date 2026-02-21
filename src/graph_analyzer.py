@@ -15,7 +15,9 @@ TODO memory usage issues for large datasets, probably due to us keeping each cla
     rewrite code to compute this as we go.
 
 """
-
+import bz2
+import gzip
+import lzma
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import os.path
@@ -58,13 +60,27 @@ def process_graphs(filename: str) -> Iterator:
     """
     # retrieve extension in lower case without the .
     extension = os.path.splitext(filename)[-1][1:].lower()
-    # note: avoiding match / case until pypy3 supports it
     readers = {"g6": nx.from_graph6_bytes, "s6": nx.from_sparse6_bytes}
+    supported_compressed_formats = {"bz2": bz2.open, "gz": gzip.open, "xz": lzma.open}
     if extension in readers:
         # read graphs as the readers would, but yield them instead of storing them
         with open(filename, "rb") as file:
             for line in file:
                 yield UndirectedGraph(readers[extension](line))
+
+    elif extension in supported_compressed_formats:
+        # compute "original" extension (e.g., the EXT in foo.EXT.GZ)
+        original_extension = os.path.splitext(os.path.splitext(filename)[0])[-1][1:].lower()
+        if original_extension in readers:
+            decompressor = supported_compressed_formats[extension]
+            with decompressor(filename, 'rb') as archive:
+                for line in archive:
+                    yield UndirectedGraph(readers[original_extension](line))
+        else:
+            raise ValueError(
+                f"Unknown original file extension for '{filename}' ({extension} is fine, but I "
+                f"can't handle {original_extension})"
+            )
 
     elif extension == ".dot":
         # if dot file contains several graphs, warn user that all graphs except the first one will
