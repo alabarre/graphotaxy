@@ -24,7 +24,7 @@ pip install -r requirements.txt  # install the necessary Python packages
 
 # Basic usage
 
-The simplest way to use the software is to give it one or more input files. As of this writing, `graphotaxy` only accepts `graph6` and `sparse6` files. You can run it like this:
+The simplest way to use the software is to give it one or more input files. As of this writing, `graphotaxy` only accepts `graph6` and `sparse6` files, whether plain or compressed in the following formats: `gz`, `bz2`, and `xz` (but not `tar` archives). You can run it like this:
 
 ```
 python3 main.py -i input_file(s) # wildcards are ok
