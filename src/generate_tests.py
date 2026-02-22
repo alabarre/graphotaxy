@@ -46,6 +46,7 @@ Test generation process
 TODO works, but far from presentable. explain how all these tests are generated
 TODO much better documentation
 TODO encapsulate what I can in a class rather than using these global variables
+TODO rely on process_graphs + try / except for reading data; don't forget compressed extensions
 
 """
 # Imports -----------------------------------------------------------------------------------------
@@ -249,7 +250,7 @@ def ancestors_or_equivalent(
     return ancestors
 
 
-def descendants_or_equivalent(classes: Dict[str, str]) -> Dict[str, set[str]]:
+def descendants_or_equivalent(classes: Iterable[str]) -> Dict[str, set[str]]:
     """
     Returns a dictionary mapping each input class to its descendants in the ISGCI graph. If a class
     is not found, then an equivalent id is used.
@@ -309,38 +310,29 @@ def setupclass_method(class_id: str, path: str) -> str:
     :type path: str
     :return:
     """
-    code_string = "    @classmethod\n"
-    code_string += "    def setUpClass(self) -> None:\n"
-    code_string += '        """Stores positive and negative instances to test."""\n'
-    code_string += f"        super(Test_{class_id}_and_ancestors, self).setUpClass()\n"
-    code_string += "        self.positive = []\n"
-    code_string += f'        basedir = "{os.path.join(TEST_DATA_DIR.replace(os.pardir, os.curdir), path)}"\n'
-    code_string += (
-        '        print(self.__qualname__.join("[]"), "initializing positive instances '
-        'from", basedir, "...", end=" ")\n'
-    )
-    code_string += "        sys.stdout.flush()\n"
-    # the slice below limits test to 5 files in order to keep the running times reasonable
-    code_string += (
-        "        for dataset in sorted(os.listdir(basedir), key=lambda x: "
-        "os.stat(os.path.join(basedir, x)).st_size)[:5]:\n"
-    )
-    code_string += '            if dataset.endswith(".g6"):\n'
-    code_string += (
-        "                data = networkx.read_graph6(os.path.join(basedir, dataset))\n"
-    )
-    code_string += '            elif dataset.endswith(".s6"):\n'
-    code_string += (
-        "                data = networkx.read_sparse6(os.path.join(basedir, dataset))\n"
-    )
-    code_string += "            else:\n"
-    code_string += "                continue\n"
-    code_string += "            if not isinstance(data, list):\n"
-    code_string += "                data = [data]\n"
-    code_string += "            self.positive.extend(data)\n"
-    code_string += '        print("done.")\n'
+    return f'''
+    @classmethod
+    def setUpClass(self) -> None:
+        """Stores positive and negative instances to test."""
+        super(Test_{class_id}_and_ancestors, self).setUpClass()
+        self.positive = []
+        basedir = "{os.path.join(TEST_DATA_DIR.replace(os.pardir, os.curdir), path)}"
+        print(self.__qualname__.join("[]"), "initializing positive instances from", basedir, "...", end=" ")
+        sys.stdout.flush()
 
-    return code_string
+        # the slice below restricts tests to 5 files in order to keep the running times reasonable
+        for dataset in sorted(os.listdir(basedir), key=lambda x: os.stat(os.path.join(basedir, x)).st_size)[:5]:
+            if dataset.endswith(".g6"):
+                data = networkx.read_graph6(os.path.join(basedir, dataset))
+            elif dataset.endswith(".s6"):
+                data = networkx.read_sparse6(os.path.join(basedir, dataset))
+            else:
+                continue
+            if not isinstance(data, list):
+                data = [data]
+            self.positive.extend(data)
+        print("done.")    
+    '''
 
 
 def prepare_code_string(
@@ -539,7 +531,7 @@ def generate_all_test_files() -> None:
     #    recognizers using the base test dataset
     all_recognizers = all_recognizable_class_ids_to_recognizers()
     ancestors = ancestors_or_equivalent(all_classes_with_datasets, all_recognizers)
-    descendants = descendants_or_equivalent(set(ISGCI_GRAPH.nodes), all_recognizers)
+    descendants = descendants_or_equivalent(set(ISGCI_GRAPH.nodes))
     # print(f"Found {len(ancestors)} ancestors of these classes")
 
     # generate actual code; each class with id class_id for which we have a dataset yields a file

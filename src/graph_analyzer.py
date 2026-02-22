@@ -11,15 +11,14 @@ To use a GraphAnalyzer:
 >>> analyzer.run_classification(paths_to_input_files)  # feed it data and go
 
 TODO memory usage issues for large datasets, probably due to us keeping each classification until
-    the end
-    rewrite code to compute this as we go.
+    the end; rewrite code to compute this as we go.
 
 """
+# Imports -----------------------------------------------------------------------------------------
+# ----- Standard imports --------------------------------------------------------------------------
 import bz2
 import gzip
 import lzma
-# Imports -----------------------------------------------------------------------------------------
-# ----- Standard imports --------------------------------------------------------------------------
 import os.path
 import re
 import subprocess
@@ -51,17 +50,23 @@ from undirected_graph import UndirectedGraph
 
 
 # Functions ---------------------------------------------------------------------------------------
+# TODO refactor: move to a readwrite submodule? this has nothing to do with analyzing
 def process_graphs(filename: str) -> Iterator:
     """
-    Yields all graphs from a file.
+    Yields all graphs from a file. Supported file formats are graph6 (.g6), sparse6 (.s6), and
+    graphviz (.dot), with the caveat that only the first graph from a .dot file can be loaded even
+    if it contains more of them.
 
-    @param filename:
-    @return:
+    Additionally, compressed g6 and s6 files are also supported if compressed using bzip2, gzip, or
+    xz. The naming scheme must reflect this (e.g., foo.g6.bz2 or bar.s6.gz).
+
+    :param filename: the path to the file to open
+    :return: undirected graphs from that file
     """
-    # retrieve extension in lower case without the .
-    extension = os.path.splitext(filename)[-1][1:].lower()
     readers = {"g6": nx.from_graph6_bytes, "s6": nx.from_sparse6_bytes}
     supported_compressed_formats = {"bz2": bz2.open, "gz": gzip.open, "xz": lzma.open}
+    # retrieve extension in lower case without the .
+    extension = os.path.splitext(filename)[-1][1:].lower()
     if extension in readers:
         # read graphs as the readers would, but yield them instead of storing them
         with open(filename, "rb") as file:
@@ -69,7 +74,7 @@ def process_graphs(filename: str) -> Iterator:
                 yield UndirectedGraph(readers[extension](line))
 
     elif extension in supported_compressed_formats:
-        # compute "original" extension (e.g., the EXT in foo.EXT.GZ)
+        # compute "original" extension (i.e., the EXT in foo.EXT.GZ)
         original_extension = os.path.splitext(os.path.splitext(filename)[0])[-1][1:].lower()
         if original_extension in readers:
             decompressor = supported_compressed_formats[extension]
@@ -102,12 +107,13 @@ def process_graphs(filename: str) -> Iterator:
         raise ValueError(f"Unknown file extension for '{filename}'")
 
 
+# TODO refactor: move to a readwrite submodule? this has nothing to do with analyzing
 def number_of_graphs_in_file(filename: str) -> int:
     """
     Returns the actual number of graphs in the given file.
 
-    @param filename:
-    @return:
+    :param filename: the path to the file to open
+    :return: the number of graphs in that file
     """
     extension = os.path.splitext(filename)[-1]
     if extension in {".g6", ".s6"}:
@@ -128,6 +134,7 @@ def number_of_graphs_in_file(filename: str) -> int:
     return sum(1 for _ in process_graphs(filename))
 
 
+# TODO refactor: move to a readwrite submodule? this has nothing to do with analyzing
 def underlined(message: str) -> str:
     """
     Returns an underlined version of a message.
@@ -136,18 +143,19 @@ def underlined(message: str) -> str:
     Hello!
     ------
 
-    :param message:
-    :return:
+    :param message: any text
+    :return: the input text, underlined
     """
     return "\n".join([message, len(message) * "-"])
 
-
+# TODO refactor: this has nothing to do with analyzing
 def _clear_other_caches(functions: Iterable[Callable]) -> None:
     """
     Clears the caches of all provided functions. Only functions decorated with lru_cache are
     allowed.
 
-    @return:
+    :param functions: the functions whose cache must be cleared
+    :return: nothing
     """
     for func in functions:
         try:
@@ -229,14 +237,7 @@ class GraphAnalyzer:
             "recognizers_n_" + str(i) for i in range(2, 12)
         ]
         modules.extend(nonprofitable_modules)
-        """
-        # TODO try another ordering: shuffle profitable and non-profitable recognizers, then run
-        #  FISC-based recognizers
-        modules = ["profitable_hereditary_constant", "profitable_hereditary_n"]
-        modules.extend(filter(lambda e: e is not None, chain.from_iterable(list(zip_longest(nonprofitable_modules, profitable_modules)))))
-        modules.extend(["fisc_based_recognizers"])
-        # TODO maybe ask user if he wants to choose between several orderings
-        """
+
         # gather and load all recognizers; they will be run in the order in which they are defined
         # in their respective modules
         for i, mod_name in enumerate(modules, 1):
