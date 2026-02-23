@@ -319,14 +319,6 @@ def setupclass_method(class_id: str, path: str) -> str:
 
         # the slice below restricts tests to 5 files in order to keep the running times reasonable
         for dataset in sorted(os.listdir(basedir), key=lambda x: os.stat(os.path.join(basedir, x)).st_size)[:5]:
-            # if dataset.endswith(".g6"):
-            #     data = networkx.read_graph6(os.path.join(basedir, dataset))
-            # elif dataset.endswith(".s6"):
-            #     data = networkx.read_sparse6(os.path.join(basedir, dataset))
-            # else:
-            #     continue
-            # if not isinstance(data, list):
-            #     data = [data]
             try:
                 self.positive.extend(graph for graph in process_graphs(os.path.join(basedir, dataset)))
             except ValueError as err:
