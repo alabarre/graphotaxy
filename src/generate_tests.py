@@ -145,9 +145,7 @@ def ancestors_of_some_equivalent_class(
     @param class_id:
     @return:
     """
-    return __ancestors_or_descendants_of_some_equivalent_class(
-        graph, class_id, networkx.ancestors
-    )
+    return __ancestors_or_descendants_of_some_equivalent_class(graph, class_id, networkx.ancestors)
 
 
 def descendants_of_some_equivalent_class(
@@ -161,9 +159,7 @@ def descendants_of_some_equivalent_class(
     @param class_id:
     @return:
     """
-    return __ancestors_or_descendants_of_some_equivalent_class(
-        graph, class_id, networkx.descendants
-    )
+    return __ancestors_or_descendants_of_some_equivalent_class(graph, class_id, networkx.descendants)
 
 
 def test_method(
@@ -314,6 +310,7 @@ def setupclass_method(class_id: str, path: str) -> str:
     @classmethod
     def setUpClass(self) -> None:
         """Stores positive and negative instances to test."""
+        from graph_analyzer import process_graphs  # TODO top-level import instead
         super(Test_{class_id}_and_ancestors, self).setUpClass()
         self.positive = []
         basedir = "{os.path.join(TEST_DATA_DIR.replace(os.pardir, os.curdir), path)}"
@@ -322,15 +319,18 @@ def setupclass_method(class_id: str, path: str) -> str:
 
         # the slice below restricts tests to 5 files in order to keep the running times reasonable
         for dataset in sorted(os.listdir(basedir), key=lambda x: os.stat(os.path.join(basedir, x)).st_size)[:5]:
-            if dataset.endswith(".g6"):
-                data = networkx.read_graph6(os.path.join(basedir, dataset))
-            elif dataset.endswith(".s6"):
-                data = networkx.read_sparse6(os.path.join(basedir, dataset))
-            else:
-                continue
-            if not isinstance(data, list):
-                data = [data]
-            self.positive.extend(data)
+            # if dataset.endswith(".g6"):
+            #     data = networkx.read_graph6(os.path.join(basedir, dataset))
+            # elif dataset.endswith(".s6"):
+            #     data = networkx.read_sparse6(os.path.join(basedir, dataset))
+            # else:
+            #     continue
+            # if not isinstance(data, list):
+            #     data = [data]
+            try:
+                self.positive.extend(graph for graph in process_graphs(os.path.join(basedir, dataset)))
+            except ValueError as err:
+                print("\n[Warning] unsupported extension for", os.path.basename(dataset), ", skipping")
         print("done.")    
     '''
 
@@ -338,7 +338,7 @@ def setupclass_method(class_id: str, path: str) -> str:
 def prepare_code_string(
         class_id: str,
         path: str,
-        recognizers: Iterable[Callable],
+        recognizers: Dict[str, Callable],
         ancestors: Dict[str, str],
         descendants: Dict[str, str],
 ) -> str:

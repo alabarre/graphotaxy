@@ -68,10 +68,11 @@ def process_graphs(filename: str) -> Iterator:
     # retrieve extension in lower case without the .
     extension = os.path.splitext(filename)[-1][1:].lower()
     if extension in readers:
-        # read graphs as the readers would, but yield them instead of storing them
+        # read graphs as the readers would, but yield them instead of storing them; binary mode is
+        # required by g6 / s6
         with open(filename, "rb") as file:
             for line in file:
-                yield UndirectedGraph(readers[extension](line))
+                yield UndirectedGraph(readers[extension](line.strip()))
 
     elif extension in supported_compressed_formats:
         # compute "original" extension (i.e., the EXT in foo.EXT.GZ)
@@ -80,7 +81,7 @@ def process_graphs(filename: str) -> Iterator:
             decompressor = supported_compressed_formats[extension]
             with decompressor(filename, 'rb') as archive:
                 for line in archive:
-                    yield UndirectedGraph(readers[original_extension](line))
+                    yield UndirectedGraph(readers[original_extension](line.strip()))
         else:
             raise ValueError(
                 f"Unknown original file extension for '{filename}' ({extension} is fine, but I "
