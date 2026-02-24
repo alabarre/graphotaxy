@@ -44,7 +44,7 @@ from isgci.isgci_base import (
     BASE_CLASS_URL,
     reduced_isgci_inclusion_graph,
     isgci_ids_to_names,
-    isgci_exclusion_graph,
+    isgci_exclusion_graph, isgci_recognition_statuses,
 )
 from undirected_graph import UndirectedGraph
 
@@ -721,12 +721,13 @@ class GraphAnalyzer:
             # TODO printing below is slow, store mapping class id -> names to
             #  speed this up; precompute it (this is isgci module's responsibility)
             #   note: this won't help unless I serialize GraphClass objects too
+            # TODO i also want to remove all these html files, they are not needed elsewhere I think
+            recog_status = isgci_recognition_statuses()
             for node in union_of_unknown_nodes:
-                recog_status = GraphClass(node).recognition_status()
-                if recog_status in {"Linear", "Polynomial"}:
+                if recog_status[node] in {"Linear", "Polynomial"}:
                     print(
                         urllib.parse.urljoin(BASE_CLASS_URL, node),
-                        GraphClass(node).recognition_status(),
+                        recog_status[node],
                     )
 
     def print_analysis_statistics(self) -> None:

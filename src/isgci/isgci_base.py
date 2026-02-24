@@ -4,7 +4,8 @@ Anthony Labarre © 2020-2026
 # TODO distribute package with a copy of isgci_db and pickled files and json files
     get rid of pickled files, only use json files for interoperability
 # TODO LATER allow user to download and use his copy of the DB
-# TODO file with timestamps
+# TODO write recognition status to another JSON file for every class so user no longer needs the HTML files
+
 
 TODO BUGS:
     [ ]
@@ -35,6 +36,7 @@ https://www.graphclasses.org/ . You can:
 import json
 import pickle
 from collections import defaultdict
+from datetime import datetime
 from itertools import product
 from os import scandir
 from os.path import basename, exists, join, isdir
@@ -94,22 +96,19 @@ def download_isgci(target_dir: str) -> None:
     if target_dir != ISGCI_DIR:
         target_dir = join(target_dir, basename(ISGCI_DIR))
 
-    # if target_dir is not empty, we might be mixing old and new files and get a corrupt db; to
-    # avoid that, remove it and recreate it
+    # if target_dir exists, remove it to avoid building a corrupted db by mixing old and new files
     if isdir(target_dir):
-        with scandir(target_dir) as it:
-            if any(it):
-                print(
-                    fill(
-                        f"Found nonempty directory {target_dir}, removing it to avoid building a "
-                        "corrupted database.",
-                        width=80,
-                    )
-                )
-                rmtree(target_dir)
+        print(
+            fill(
+                f"Directory {target_dir} exists, removing it to avoid building a corrupted database.",
+                width=80,
+            )
+        )
+        rmtree(target_dir)
 
     Path(target_dir).mkdir(exist_ok=True)
 
+    # retrieve the webpage containing the list of all classes
     print("Downloading the classes directory... ", end="")
     stdout.flush()
     save_webpage_to_file(
@@ -117,6 +116,7 @@ def download_isgci(target_dir: str) -> None:
     )
     print("done.")
 
+    # retrieve all individual files
     with open(join(target_dir, "classes.cgi")) as data:
         # retrieve the list of all classes
         all_classes = BeautifulSoup(data, features="html.parser").find_all(
@@ -131,13 +131,23 @@ def download_isgci(target_dir: str) -> None:
                 join(target_dir, "classes", class_id_from_url(name) + ".html"),
             )
 
+    # write version information
+    with open(join(target_dir, "version_info"), "w") as data:
+        data.writelines(
+            [f"Download date:         {datetime.today().strftime("%Y-%m-%d %H:%M:%S")}",
+             f"Number of classes:     {sum(1 for _ in scandir(join(target_dir, "classes")))}"]
+        )
+
+    # TODO add version_info function returning a dictionary with the above info
+
 
 def save_webpage_to_file(url: str, local_path: str) -> None:
-    """Retrieves the contents of the webpage located at url and saves them to
-    the file pointed to by local_path.
+    """
+    Retrieves the contents of the webpage located at url and saves them to the file pointed to by
+    local_path.
 
-    If the package htmlmin is installed, the resulting pages will take up less
-    space on disk; but it is not essential to this function's work.
+    If the package htmlmin is installed, the resulting pages will take up less space on disk; but
+    it is not essential to this function's work.
 
     :param url: the source of the webpage to save
     :param local_path: its destination on disk
@@ -169,9 +179,10 @@ def save_webpage_to_file(url: str, local_path: str) -> None:
 
 
 def reduced_isgci_inclusion_graph(
-    source_dir: str = ISGCI_DIR, force_rebuild: bool = False
+        source_dir: str = ISGCI_DIR, force_rebuild: bool = False
 ) -> DiGraph:
-    """Returns the inclusion graph of all classes known to ISGCI: its vertices are the classes in
+    """
+    Returns the inclusion graph of all classes known to ISGCI: its vertices are the classes in
     ISGCI, and an arc connects two classes whenever one is a minimal superclass of the other. Each
     vertex receives the following additional fields:
 
@@ -240,14 +251,12 @@ def reduced_isgci_inclusion_graph(
         result.add_edges_from(product(vertex_data.minimal_superclasses(), [class_id]))
 
     for vertex in tqdm(
-        list(result.nodes()), desc="Removing duplicate nodes", unit=" nodes"
+            list(result.nodes()), desc="Removing duplicate nodes", unit=" nodes"
     ):
-        # checks here and below are mandatory since we are working on a
-        # graph from which we are removing nodes
+        # checks here and below are mandatory since we are working on a graph from which we are
+        # removing nodes
         if vertex in result:
-            for eq_id in GraphClass(
-                join(source_dir, "classes", vertex)
-            ).equivalent_classes():
+            for eq_id in GraphClass(join(source_dir, "classes", vertex)).equivalent_classes():
                 if eq_id in result:
                     result.remove_node(eq_id)
 
@@ -285,8 +294,8 @@ def isgci_exclusion_graph() -> DiGraph:
 
 def compute_class_equivalences(metagraph: DiGraph) -> defaultdict[str, set]:
     """
-    Returns a dictionary indexed by class id's, whose values contain all
-    corresponding equivalent classes as 2-tuples (name, id) sorted by name.
+    Returns a dictionary indexed by class id's, whose values contain all corresponding equivalent
+    classes as 2-tuples (name, id) sorted by name.
 
     @return: a dictionary
     @rtype: dict
@@ -294,7 +303,7 @@ def compute_class_equivalences(metagraph: DiGraph) -> defaultdict[str, set]:
     """
     equivalences = defaultdict(set)
     for node in tqdm(
-        metagraph.nodes(), desc="Building equivalence dictionary", unit=" nodes"
+            metagraph.nodes(), desc="Building equivalence dictionary", unit=" nodes"
     ):
         # store the classes that are equivalent to the current node
         equivalences[node].update(
@@ -314,7 +323,8 @@ def compute_class_equivalences(metagraph: DiGraph) -> defaultdict[str, set]:
 
 
 def isgci_equivalences(force_rebuild: bool = False) -> defaultdict[str, set]:
-    """Returns the dictionary of all class equivalences known to ISGCI.
+    """
+    Returns the dictionary of all class equivalences known to ISGCI.
 
     @return:
     @param force_rebuild: if True, rebuild the dictionary even if it already exists (default: False)
@@ -359,12 +369,51 @@ def isgci_ids_to_names() -> defaultdict[str, str]:
             soup = BeautifulSoup(data, features="html.parser")
             all_classes = soup.find_all("span", {"class": "graphclass"})
             for elem in tqdm(
-                all_classes, desc="Gathering all ids and names", unit=" class"
+                    all_classes, desc="Gathering all ids and names", unit=" class"
             ):
                 link = elem.find("a")
                 class_id = class_id_from_url(link.get("href"))
                 vertex_data = GraphClass(class_id)
                 mapping[vertex_data.class_id()] = vertex_data.class_name()
+
+        # store result in file
+        with open(filename, "w") as output:
+            json.dump(mapping, output, default=list, indent=4, sort_keys=True)
+
+    # return stored result
+    with open(filename) as data:
+        return json.load(data)
+
+
+def isgci_recognition_statuses() -> defaultdict[str, str]:
+    """
+    Returns a dictionary mapping each ISGCI id to the status of the recognition problem for that class.
+
+    >>> isgci_recognition_statuses()
+
+    @return:
+    @rtype: dict
+    """
+    # NOTE TODO this is basically an adapted copy paste of what I do in isgci_ids_to_names, find a more elegant way
+
+    # TODO (minor) is there a way to have defaultdict contain this path by default?
+    filename = PATHS["isgci_ids_to_recognition_statuses"]  # <- only change TODO
+    # TODO update PATHS so it contains this
+
+    # if we haven't computed recognition statuses before, do it and save them for future uses
+    if not exists(filename):
+        # parse all downloaded files and build the mapping id -> name
+        mapping = dict()
+        with open(join(ISGCI_DIR, "classes.cgi")) as data:
+            soup = BeautifulSoup(data, features="html.parser")
+            all_classes = soup.find_all("span", {"class": "graphclass"})
+            for elem in tqdm(
+                    all_classes, desc="Gathering all ids and names", unit=" class"
+            ):
+                link = elem.find("a")
+                class_id = class_id_from_url(link.get("href"))
+                vertex_data = GraphClass(class_id)
+                mapping[vertex_data.class_id()] = vertex_data.recognition_status() # <- only change TODO
 
         # store result in file
         with open(filename, "w") as output:
@@ -439,7 +488,8 @@ def relation(first_id: str, second_id: str) -> str | list[str]:
 
 
 def main() -> None:
-    """Standalone mode, allows the following actions:
+    """
+    Standalone mode, allows the following actions:
 
         --download-db:      downloads the ISGCI database
         --rebuild-graph:    rebuilds the graph class inclusion graph
@@ -471,7 +521,7 @@ def main() -> None:
         action="store",
         const=ISGCI_DIR,
         help="rebuilds the graph class inclusion graph from the ISGCI database stored in the "
-        "provided target directory",
+             "provided target directory",
     )
 
     parser.add_argument(

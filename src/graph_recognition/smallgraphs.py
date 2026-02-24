@@ -59,7 +59,7 @@ WRAP_WIDTH = 100
 # The following custom JSON encoder returns a dictionary representation of a GraphClass, so we can
 # use json.dumps on those structures
 class GraphClassEncoder(json.JSONEncoder):
-    def default(self, gc: GraphClass) -> json.JSONEncoder:
+    def default(self, gc: GraphClass) -> dict | json.JSONEncoder:
         if isinstance(gc, GraphClass):
             return {
                 "class_id": gc.class_id(),
