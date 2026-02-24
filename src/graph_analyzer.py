@@ -149,6 +149,7 @@ def underlined(message: str) -> str:
     """
     return "\n".join([message, len(message) * "-"])
 
+
 # TODO refactor: this has nothing to do with analyzing
 def _clear_other_caches(functions: Iterable[Callable]) -> None:
     """
@@ -718,17 +719,11 @@ class GraphAnalyzer:
         if print_todo:
             print("All polynomially-recognizable unknown nodes:")
 
-            # TODO printing below is slow, store mapping class id -> names to
-            #  speed this up; precompute it (this is isgci module's responsibility)
-            #   note: this won't help unless I serialize GraphClass objects too
-            # TODO i also want to remove all these html files, they are not needed elsewhere I think
+            # TODO i want to remove all these html files, they are not needed elsewhere I think
             recog_status = isgci_recognition_statuses()
             for node in union_of_unknown_nodes:
                 if recog_status[node] in {"Linear", "Polynomial"}:
-                    print(
-                        urllib.parse.urljoin(BASE_CLASS_URL, node),
-                        recog_status[node],
-                    )
+                    print(urllib.parse.urljoin(BASE_CLASS_URL, node), recog_status[node])
 
     def print_analysis_statistics(self) -> None:
         """

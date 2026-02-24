@@ -16,8 +16,8 @@ PATHS = {
     "classes": join(ROOT, "isgci_db", "classes"),
     "isgci_inclusion_graph": join(ROOT, "isgci_inclusion_graph.json"),
     "isgci_equivalences": join(ROOT, "isgci_equivalences.pickle"),
-    "isgci_ids_to_names": join(ROOT, "isgci_ids_to_names.json"),
-    "isgci_ids_to_recognition_statuses": join(ROOT, "isgci_ids_to_recognition_statuses"),
+    "isgci_names": join(ROOT, "isgci_ids_to_names.json"),
+    "isgci_recognition_statuses": join(ROOT, "isgci_ids_to_recognition_statuses.json"),
 }
 
 # Other variables ---------------------------------------------------------------------------------

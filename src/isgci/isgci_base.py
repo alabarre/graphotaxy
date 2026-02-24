@@ -31,6 +31,7 @@ https://www.graphclasses.org/ . You can:
 
             python3 -m isgci --relation FIRST_ID SECOND_ID
 """
+import inspect
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import json
@@ -332,8 +333,7 @@ def isgci_equivalences(force_rebuild: bool = False) -> defaultdict[str, set]:
     """
     filename = PATHS["isgci_equivalences"]  # TODO switch to json
 
-    # if we haven't computed equivalences before, do it and save them for
-    # future uses
+    # if we haven't computed equivalences before, do it and save them for future uses
     if not exists(filename) or force_rebuild:
         graph = reduced_isgci_inclusion_graph()
         # print("Computing class equivalences ... ", end="")
@@ -342,13 +342,47 @@ def isgci_equivalences(force_rebuild: bool = False) -> defaultdict[str, set]:
             result = compute_class_equivalences(graph)
             pickle.dump(result, file, pickle.HIGHEST_PROTOCOL)
 
-        # print("done.")
-        print("Wrote dictionary with", len(result), "keys to", filename)
+        print(f"Wrote dictionary with {len(result)} keys to {filename}")
 
     # return the pre-computed result
     # TODO ok works but let's make the names readable (html_to_utf8)
     with open(filename, "rb") as file:
         return pickle.load(file)
+
+
+def __isgci_mapping(description: str, graphclass_field: str) -> defaultdict[str, str]:
+    """
+    Returns a dictionary mapping each ISGCI id to some parameter. Only intended for internal use by
+    functions isgci_ids_to_names and isgci_ids_to_recognition_statuses.
+
+    @return:
+    @rtype: dict
+    """
+    # path is fully determined by the calling function's name
+    filename = PATHS[inspect.stack()[1].function]
+
+    # if we haven't computed what's required before, do it now and save it for future uses
+    if not exists(filename):
+        # parse all downloaded files and build the mapping id -> name
+        mapping = dict()
+        with open(join(ISGCI_DIR, "classes.cgi")) as data:
+            soup = BeautifulSoup(data, features="html.parser")
+            all_classes = soup.find_all("span", {"class": "graphclass"})
+            for elem in tqdm(
+                    all_classes, desc=description, unit=" class"
+            ):
+                link = elem.find("a")
+                class_id = class_id_from_url(link.get("href"))
+                vertex_data = GraphClass(class_id)
+                mapping[vertex_data.class_id()] = getattr(vertex_data, graphclass_field)()
+
+        # store result in file
+        with open(filename, "w") as output:
+            json.dump(mapping, output, default=list, indent=4, sort_keys=True)
+
+    # return stored result
+    with open(filename) as data:
+        return json.load(data)
 
 
 # TODO provide command line argument to call this
@@ -358,33 +392,10 @@ def isgci_ids_to_names() -> defaultdict[str, str]:
     @return:
     @rtype: dict
     """
-    filename = PATHS["isgci_ids_to_names"]
-
-    # if we haven't computed equivalences before, do it and save them for
-    # future uses
-    if not exists(filename):
-        # parse all downloaded files and build the mapping id -> name
-        mapping = dict()
-        with open(join(ISGCI_DIR, "classes.cgi")) as data:
-            soup = BeautifulSoup(data, features="html.parser")
-            all_classes = soup.find_all("span", {"class": "graphclass"})
-            for elem in tqdm(
-                    all_classes, desc="Gathering all ids and names", unit=" class"
-            ):
-                link = elem.find("a")
-                class_id = class_id_from_url(link.get("href"))
-                vertex_data = GraphClass(class_id)
-                mapping[vertex_data.class_id()] = vertex_data.class_name()
-
-        # store result in file
-        with open(filename, "w") as output:
-            json.dump(mapping, output, default=list, indent=4, sort_keys=True)
-
-    # return stored result
-    with open(filename) as data:
-        return json.load(data)
+    return __isgci_mapping("Gathering all ids and names", "class_name")
 
 
+# TODO provide command line argument to call this
 def isgci_recognition_statuses() -> defaultdict[str, str]:
     """
     Returns a dictionary mapping each ISGCI id to the status of the recognition problem for that class.
@@ -394,34 +405,7 @@ def isgci_recognition_statuses() -> defaultdict[str, str]:
     @return:
     @rtype: dict
     """
-    # NOTE TODO this is basically an adapted copy paste of what I do in isgci_ids_to_names, find a more elegant way
-
-    # TODO (minor) is there a way to have defaultdict contain this path by default?
-    filename = PATHS["isgci_ids_to_recognition_statuses"]  # <- only change TODO
-    # TODO update PATHS so it contains this
-
-    # if we haven't computed recognition statuses before, do it and save them for future uses
-    if not exists(filename):
-        # parse all downloaded files and build the mapping id -> name
-        mapping = dict()
-        with open(join(ISGCI_DIR, "classes.cgi")) as data:
-            soup = BeautifulSoup(data, features="html.parser")
-            all_classes = soup.find_all("span", {"class": "graphclass"})
-            for elem in tqdm(
-                    all_classes, desc="Gathering all ids and names", unit=" class"
-            ):
-                link = elem.find("a")
-                class_id = class_id_from_url(link.get("href"))
-                vertex_data = GraphClass(class_id)
-                mapping[vertex_data.class_id()] = vertex_data.recognition_status() # <- only change TODO
-
-        # store result in file
-        with open(filename, "w") as output:
-            json.dump(mapping, output, default=list, indent=4, sort_keys=True)
-
-    # return stored result
-    with open(filename) as data:
-        return json.load(data)
+    return __isgci_mapping("Gathering all recognition statuses", "recognition_status")
 
 
 def relation(first_id: str, second_id: str) -> str | list[str]:
