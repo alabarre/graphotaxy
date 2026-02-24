@@ -24,6 +24,7 @@ import os
 import sys
 import unittest
 import networkx
+from graph_analyzer import process_graphs
 
 
 class Test_gc_62_and_ancestors(unittest.TestCase):
@@ -33,8 +34,6 @@ class Test_gc_62_and_ancestors(unittest.TestCase):
     @classmethod
     def setUpClass(self) -> None:
         """Stores positive and negative instances to test."""
-        from graph_analyzer import process_graphs  # TODO top-level import instead
-
         super(Test_gc_62_and_ancestors, self).setUpClass()
         self.positive = []
         basedir = "./tests/test_data/claw-free=gc_62"
@@ -51,14 +50,6 @@ class Test_gc_62_and_ancestors(unittest.TestCase):
         for dataset in sorted(
             os.listdir(basedir), key=lambda x: os.stat(os.path.join(basedir, x)).st_size
         )[:5]:
-            # if dataset.endswith(".g6"):
-            #     data = networkx.read_graph6(os.path.join(basedir, dataset))
-            # elif dataset.endswith(".s6"):
-            #     data = networkx.read_sparse6(os.path.join(basedir, dataset))
-            # else:
-            #     continue
-            # if not isinstance(data, list):
-            #     data = [data]
             try:
                 self.positive.extend(
                     graph for graph in process_graphs(os.path.join(basedir, dataset))

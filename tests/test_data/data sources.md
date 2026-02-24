@@ -1,4 +1,4 @@
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
 This file documents the origin of all datasets in the present directory. They are intended for testing purposes.
 
@@ -9,6 +9,10 @@ This file documents the origin of all datasets in the present directory. They ar
 - `nauty-complg` builds the complement of a graph, so if you have a dataset for class C, you can obtain a dataset for its complement;
 - `nauty-linegraphg` builds the line graph of a graph, so if you have a dataset for class C, you can obtain a dataset for the class "line graph of C";
 - `nauty-pickg` selects graphs from a given dataset according to various criteria, so if you have a dataset for class C, you can obtain datasets for various subclasses of C, depending on the capabilities of `nauty-pickg`.
+
+# Compressed formats
+
+Since graphotaxy can read g6 and s6 files compressed with bzip2, gzip or xzip, some directories contain only compressed versions of the original files. For each file, only the smallest resulting archive was kept (all compressors were invoked with the `-9` option).
 
 # Datasets
 

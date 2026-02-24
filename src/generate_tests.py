@@ -221,9 +221,7 @@ def retrieve_all_classes_with_datasets() -> Dict[str, str]:
     return testable_classes
 
 
-def ancestors_or_equivalent(
-        classes: Dict[str, str], recognizers: Dict[str, Callable]
-) -> Dict[str, set[str]]:
+def ancestors_or_equivalent(classes: Dict[str, str]) -> Dict[str, set[str]]:
     """
     Returns a dictionary mapping each input class to its ancestors in the ISGCI graph. If a class
     is not found, then an equivalent id is used.
@@ -310,7 +308,6 @@ def setupclass_method(class_id: str, path: str) -> str:
     @classmethod
     def setUpClass(self) -> None:
         """Stores positive and negative instances to test."""
-        from graph_analyzer import process_graphs  # TODO top-level import instead
         super(Test_{class_id}_and_ancestors, self).setUpClass()
         self.positive = []
         basedir = "{os.path.join(TEST_DATA_DIR.replace(os.pardir, os.curdir), path)}"
@@ -322,7 +319,7 @@ def setupclass_method(class_id: str, path: str) -> str:
             try:
                 self.positive.extend(graph for graph in process_graphs(os.path.join(basedir, dataset)))
             except ValueError as err:
-                print("\n[Warning] unsupported extension for", os.path.basename(dataset), ", skipping")
+                print("[Warning] unsupported extension for", os.path.basename(dataset), ", skipping")
         print("done.")    
     '''
 
@@ -441,7 +438,7 @@ def prepare_code_string(
                             and "dist-packages" not in sys.modules[mod].__file__,
         )
     )
-            + "\n\n\n"
+            + "\nfrom graph_analyzer import process_graphs\n"
             + code_string
     )
 
@@ -522,7 +519,7 @@ def generate_all_test_files() -> None:
     # 2. retrieve all ancestors of these classes, in order to generate tests for the corresponding
     #    recognizers using the base test dataset
     all_recognizers = all_recognizable_class_ids_to_recognizers()
-    ancestors = ancestors_or_equivalent(all_classes_with_datasets, all_recognizers)
+    ancestors = ancestors_or_equivalent(all_classes_with_datasets)
     descendants = descendants_or_equivalent(set(ISGCI_GRAPH.nodes))
     # print(f"Found {len(ancestors)} ancestors of these classes")
 
