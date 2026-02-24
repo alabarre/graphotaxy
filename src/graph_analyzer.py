@@ -38,7 +38,6 @@ from tqdm import tqdm
 # ----- My imports --------------------------------------------------------------------------------
 from classification_digraph import ClassificationDigraph
 from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings
-from isgci.graphclass import GraphClass
 from isgci.isgci_base import (
     isgci_equivalences,
     BASE_CLASS_URL,
@@ -657,8 +656,10 @@ class GraphAnalyzer:
         if num_graphs == 1:
             print("The graph is:\n")
 
+        # TODO don't use recognition_status below, it's slow. rely on isgci_recognition_statuses()
         isgci_graph = reduced_isgci_inclusion_graph()
         ids_to_names = isgci_ids_to_names()
+        recog_status = isgci_recognition_statuses()
         for num, class_id in results:
             print(
                 ["{:.2f}".format(100 * num / num_graphs).rjust(6) + "% are", "-"][
@@ -682,7 +683,7 @@ class GraphAnalyzer:
                         ids_to_names[child],
                         "---",
                         urllib.parse.urljoin(BASE_CLASS_URL, child),
-                        GraphClass(child).recognition_status(),
+                        recog_status[child],
                     )
 
                 if unknown_children:
@@ -702,7 +703,7 @@ class GraphAnalyzer:
                         ids_to_names[child],
                         "---",
                         urllib.parse.urljoin(BASE_CLASS_URL, child),
-                        GraphClass(child).recognition_status(),
+                        recog_status[child],
                     )
 
                 print()
@@ -720,7 +721,6 @@ class GraphAnalyzer:
             print("All polynomially-recognizable unknown nodes:")
 
             # TODO i want to remove all these html files, they are not needed elsewhere I think
-            recog_status = isgci_recognition_statuses()
             for node in union_of_unknown_nodes:
                 if recog_status[node] in {"Linear", "Polynomial"}:
                     print(urllib.parse.urljoin(BASE_CLASS_URL, node), recog_status[node])
