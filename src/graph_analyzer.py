@@ -43,7 +43,7 @@ from isgci.isgci_base import (
     BASE_CLASS_URL,
     reduced_isgci_inclusion_graph,
     isgci_ids_to_names,
-    isgci_exclusion_graph, isgci_recognition_statuses,
+    isgci_exclusion_graph, isgci_recognition_statuses, isgci_version_info,
 )
 from undirected_graph import UndirectedGraph
 
@@ -784,3 +784,8 @@ class GraphAnalyzer:
             f"    - the Glasgow Subgraph Solver was run {SubgraphMatcher.number_of_calls_to_gss} "
             f"times."
         )
+
+        print(underlined("ISGCI statistics"))
+
+        for key, val in isgci_version_info():
+            print(f"    - {key}: {val}")

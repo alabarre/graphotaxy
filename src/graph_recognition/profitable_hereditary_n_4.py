@@ -837,7 +837,7 @@ def is_co_cnplus4_co_claw_co_gem_free(graph: nx.Graph) -> bool:
 @assign_fisc(
     ["C_{5}", "co(C_{6})", "co(C_{7})", "co(C_{8})"]
 )  # partial fisc derived from complement
-@assign_class_id("AUTO_94")
+@assign_class_id("gc_1364")
 @lru_cache(maxsize=None)
 def is_anti_hole_free(graph: nx.Graph) -> bool:
     """
