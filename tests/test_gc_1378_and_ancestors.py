@@ -29,7 +29,7 @@ import graph_recognition.fisc_based_recognizers
 import graph_recognition.profitable_hereditary_n_3
 import graph_recognition.profitable_hereditary_n_4
 import graph_recognition.profitable_hereditary_n_2
-from graph_analyzer import process_graphs
+from readwrite import process_graphs
 
 
 class Test_gc_1378_and_ancestors(unittest.TestCase):

@@ -24,7 +24,7 @@ import os
 import sys
 import unittest
 import networkx
-from graph_analyzer import process_graphs
+from readwrite import process_graphs
 
 
 class Test_gc_394_and_ancestors(unittest.TestCase):

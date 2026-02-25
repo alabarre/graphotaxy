@@ -52,7 +52,8 @@ import networkx as nx
 from tqdm import tqdm
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_analyzer import GraphAnalyzer, process_graphs, number_of_graphs_in_file
+from graph_analyzer import GraphAnalyzer
+from readwrite import process_graphs, number_of_graphs_in_file
 
 
 def filter_graphs(filename: str, class_id: str) -> Iterator:

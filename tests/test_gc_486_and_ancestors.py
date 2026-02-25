@@ -25,7 +25,7 @@ import sys
 import unittest
 import networkx
 import graph_recognition.profitable_hereditary_n
-from graph_analyzer import process_graphs
+from readwrite import process_graphs
 
 
 class Test_gc_486_and_ancestors(unittest.TestCase):

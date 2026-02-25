@@ -25,7 +25,7 @@ import sys
 import unittest
 import networkx
 import networkx.algorithms.regular
-from graph_analyzer import process_graphs
+from readwrite import process_graphs
 
 
 class Test_gc_1149_and_ancestors(unittest.TestCase):

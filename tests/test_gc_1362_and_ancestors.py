@@ -28,7 +28,7 @@ import graph_recognition.profitable_hereditary_n
 import graph_recognition.recognizers_n_10
 import graph_recognition.profitable_hereditary_constant
 import graph_recognition.recognizers_n
-from graph_analyzer import process_graphs
+from readwrite import process_graphs
 
 
 class Test_gc_1362_and_ancestors(unittest.TestCase):

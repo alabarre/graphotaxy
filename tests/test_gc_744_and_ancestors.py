@@ -27,7 +27,7 @@ import networkx
 import graph_recognition.profitable_hereditary_n_4
 import graph_recognition.profitable_hereditary_n_2
 import graph_recognition.fisc_based_recognizers
-from graph_analyzer import process_graphs
+from readwrite import process_graphs
 
 
 class Test_gc_744_and_ancestors(unittest.TestCase):

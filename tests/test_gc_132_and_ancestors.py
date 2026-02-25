@@ -25,7 +25,7 @@ import sys
 import unittest
 import networkx
 import graph_recognition.fisc_based_recognizers
-from graph_analyzer import process_graphs
+from readwrite import process_graphs
 
 
 class Test_gc_132_and_ancestors(unittest.TestCase):

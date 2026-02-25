@@ -16,7 +16,7 @@ from tqdm import tqdm
 
 # ----- My imports --------------------------------------------------------------------------------
 from filter import write_graphs_to_file
-from graph_analyzer import process_graphs, number_of_graphs_in_file
+from readwrite import process_graphs, number_of_graphs_in_file
 
 
 def known_perfect_graphs() -> dict:

@@ -32,7 +32,7 @@ import graph_recognition.recognizers_n_3
 import graph_recognition.recognizers_n_5
 import graph_recognition.profitable_hereditary_n_4
 import graph_recognition.recognizers_n_9
-from graph_analyzer import process_graphs
+from readwrite import process_graphs
 
 
 class Test_AUTO_2103_and_ancestors(unittest.TestCase):
