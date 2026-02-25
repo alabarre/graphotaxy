@@ -125,16 +125,21 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(
         description="graphotaxy analyzes one or several graphs stored in one or more input files, "
-        "and outputs membership information about them with respect to the classes "
-        "available in ISGCI (see https://www.graphclasses.org/)."
+                    "and outputs membership information about them with respect to the classes "
+                    "available in ISGCI (see https://www.graphclasses.org/)."
     )
-    parser.add_argument("-i", "--input", help="the graph file(s) to analyze", nargs="+")
+    parser.add_argument(
+        "-i", "--input",
+        help="the graph file(s) to analyze; acceptable extensions are .g6, .s6, .dot, "
+             ".g6.[bz2,gz,xz], and .s6.[bz2,gz,xz]",
+        nargs="+"
+    )
 
     info_options = parser.add_argument_group(
         "info options",
         description="The following options cause the program to display various information "
-        "instead of performing an analysis. Using them will cause any input file to be "
-        "ignored.",
+                    "instead of performing an analysis. Using them will cause any input file to be "
+                    "ignored.",
     )
 
     info_options.add_argument(
@@ -151,22 +156,22 @@ def main() -> None:
     input_options = parser.add_argument_group(
         "input options",
         description="The following options modify the information that is given as input to the "
-        "program.",
+                    "program. Use ISGCI ids for all values.",
     )
     input_options.add_argument(
         "--negative",
         nargs="+",
-        help="classes to which all input graphs are known not to belong; use ISGCI ids",
+        help="classes to which all input graphs are known not to belong",
     )
     input_options.add_argument(
         "--positive",
         nargs="+",
-        help="classes to which all input graphs are known to belong; use ISGCI ids",
+        help="classes to which all input graphs are known to belong",
     )
     input_options.add_argument(
         "--only",
         nargs="+",
-        help="classes to which the classification must be restricted; use ISGCI ids",
+        help="classes to which the classification must be restricted",
     )
     input_options.add_argument(
         "--skip",
@@ -186,20 +191,20 @@ def main() -> None:
     display_options.add_argument(
         "--print-unknown-descendants",
         action="store_true",
-        help="in addition to each recognized class, print its descendants, if "
-        "any, which have not been identified",
+        help="in addition to each recognized class, print its descendants which have not been "
+             "identified (if any)",
     )
     display_options.add_argument(
         "--todo",
         action="store_true",
         help="show the classes that have not been identified, although recognizable in "
-        "polynomial time, due to the lack of an implemented recognizer",
+             "polynomial time, due to the lack of an implemented recognizer",
     )
 
     debug_options = parser.add_argument_group(
         "debug options",
         description="The following options are helpful to debug the program. They should be of no "
-        "interest to the end user.",
+                    "interest to the end user.",
     )
     debug_options.add_argument(
         "--check-multiple",

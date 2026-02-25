@@ -1,20 +1,6 @@
 """
 Anthony Labarre © 2020-2026
 
-# TODO distribute package with a copy of isgci_db and pickled files and json files
-    get rid of pickled files, only use json files for interoperability
-# TODO LATER allow user to download and use his copy of the DB
-# TODO write recognition status to another JSON file for every class so user no longer needs the HTML files
-
-
-TODO BUGS:
-    [ ]
-
-TODO questions:
-    [ ] proper naming scheme? should isgci_base.py be called __main__.py? isgci.py? ...
-    [ ] and then should I import from isgci.stuff or just from stuff? (see other files)
-    [ ] once everything works, follow Dane's book again
-
 This module contains everything related to interacting with the ISGCI database from
 https://www.graphclasses.org/ . You can:
 
@@ -30,12 +16,22 @@ https://www.graphclasses.org/ . You can:
     - find out whether and how two classes in ISGCI are related:
 
             python3 -m isgci --relation FIRST_ID SECOND_ID
+
+# TODO distribute package with a copy of isgci_db and pickled files and json files
+# TODO LATER allow user to download and use his copy of the DB
+
+TODO questions:
+    [ ] proper naming scheme? should isgci_base.py be called __main__.py? isgci.py? ...
+    [ ] and then should I import from isgci.stuff or just from stuff? (see other files)
+    [ ] once everything works, follow Dane's book again
+
 """
-import inspect
+
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
+import inspect
 import json
-import pickle
+import os.path
 from collections import defaultdict
 from datetime import datetime
 from itertools import product
@@ -86,9 +82,42 @@ HTMLMIN_SETTINGS = {
 }
 
 
+# Private functions -------------------------------------------------------------------------------
+def _isgci_mapping(description: str, graphclass_field: str) -> defaultdict[str, str]:
+    """
+    Returns a dictionary mapping each ISGCI id to some parameter. Only intended for internal use by
+    functions isgci_ids_to_names and isgci_ids_to_recognition_statuses.
+
+    @return:
+    @rtype: dict
+    """
+    # path is fully determined by the calling function's name
+    filename = PATHS[inspect.stack()[1].function]
+
+    # if we haven't computed what's required before, do it now and save it for future uses
+    if not exists(filename):
+        # parse all downloaded files and build the mapping id -> name
+        mapping = dict()
+        with open(join(ISGCI_DIR, "classes.cgi")) as data:
+            soup = BeautifulSoup(data, features="html.parser")
+            all_classes = soup.find_all("span", {"class": "graphclass"})
+            for elem in tqdm(all_classes, desc=description, unit=" class"):
+                link = elem.find("a")
+                class_id = class_id_from_url(link.get("href"))
+                mapping[class_id] = getattr(GraphClass(class_id), graphclass_field)()
+
+        # store result in file
+        dump_to_json(mapping, filename)
+
+    # return stored result
+    with open(filename) as data:
+        return json.load(data)
+
+
 # Functions ---------------------------------------------------------------------------------------
 def download_isgci(target_dir: str) -> None:
-    """Downloads the public version of the database available at https://www.graphclasses.org/ as
+    """
+    Downloads the public version of the database available at https://www.graphclasses.org/ as
     webpages to the subdirectory ./isgci_db/, storing classes in ./isgci_db/classes/ .
 
     :param target_dir: the directory in which the database must be stored.
@@ -133,13 +162,48 @@ def download_isgci(target_dir: str) -> None:
             )
 
     # write version information
-    with open(join(target_dir, "version_info"), "w") as data:
-        data.writelines(
-            [f"Download date:         {datetime.today().strftime("%Y-%m-%d %H:%M:%S")}",
-             f"Number of classes:     {sum(1 for _ in scandir(join(target_dir, "classes")))}"]
-        )
+    information = {
+        "download date": datetime.today().strftime("%Y-%m-%d"),
+        "number of classes": sum(1 for _ in scandir(join(target_dir, "classes")))
+    }
+    dump_to_json(information, "isgci_version_info.json")
 
-    # TODO add version_info function returning a dictionary with the above info
+
+def dump_to_json(obj: object, filename: str) -> None:
+    """
+    Writes an object to a JSON file.
+
+    :param obj:
+    :param filename:
+    :return:
+    """
+    with open(filename, "w") as output:
+        json.dump(obj, output, default=list, indent=4, sort_keys=True)
+
+
+def isgci_version_info() -> dict:
+    """
+    Returns basic information about the local copy of ISGCI currently in use.
+
+    >>> isgci_version_info()
+
+    :return:
+    """
+    filename = "isgci_version_info.json"
+    if not exists(filename):
+        # required info was removed, try to rebuild it
+        information = {
+            # download date must be the last modification date of "classes.cgi"
+            "download date": datetime.fromtimestamp(
+                os.path.getmtime(join(ISGCI_DIR, "classes.cgi"))
+            ).strftime("%Y-%m-%d"),
+            # number of classes must be the length of the mapping from ids to names
+            "number of classes": len(isgci_ids_to_names())
+        }
+        dump_to_json(information, filename)
+
+    with open(filename, "r") as file:
+        return json.load(file)
 
 
 def save_webpage_to_file(url: str, local_path: str) -> None:
@@ -198,7 +262,6 @@ def reduced_isgci_inclusion_graph(
     directory if data needs to be written.
     :param force_rebuild: if True, rebuild the whole graph even if it exists (default: False)
     :returns: the ISGCI inclusion graph
-
     """
     if source_dir != ISGCI_DIR:
         filename = join(source_dir, basename(PATHS["isgci_inclusion_graph"]))
@@ -225,6 +288,8 @@ def reduced_isgci_inclusion_graph(
             "span", {"class": "graphclass"}
         )
 
+    recog_status = isgci_recognition_statuses()
+    ids_to_names = isgci_ids_to_names()
     for elem in tqdm(all_classes, desc="Building graph", unit=" nodes"):
         link = elem.find("a")
         class_id = class_id_from_url(link.get("href"))
@@ -237,23 +302,20 @@ def reduced_isgci_inclusion_graph(
             print("Please download the database again")
             exit(-1)
 
-        recognition_status = vertex_data.recognition_status()
         # add node as 'open' and corresponding edges
         result.add_node(
             class_id,
-            name=prettify_name(vertex_data.class_name()),
+            name=prettify_name(ids_to_names[class_id]),
             category=OPEN,
             reason=""
-            if recognition_status in {"Linear", "Polynomial"}
-            else recognition_status,
+            if recog_status[class_id] in {"Linear", "Polynomial"}
+            else recog_status[class_id],
             color="DarkGray",
         )
         result.add_edges_from(product([class_id], vertex_data.maximal_subclasses()))
         result.add_edges_from(product(vertex_data.minimal_superclasses(), [class_id]))
 
-    for vertex in tqdm(
-            list(result.nodes()), desc="Removing duplicate nodes", unit=" nodes"
-    ):
+    for vertex in tqdm(list(result.nodes()), desc="Removing duplicate nodes", unit=" nodes"):
         # checks here and below are mandatory since we are working on a graph from which we are
         # removing nodes
         if vertex in result:
@@ -261,24 +323,18 @@ def reduced_isgci_inclusion_graph(
                 if eq_id in result:
                     result.remove_node(eq_id)
 
-    with open(filename, "w") as output:
-        # noinspection PyTypeChecker
-        json.dump(
-            json_graph.node_link_data(result, edges="edges"),
-            output,
-            default=list,
-            indent=4,
-            sort_keys=True,
-        )
+    dump_to_json(json_graph.node_link_data(result, edges="edges"), filename)
 
     print(
-        "Wrote graph with",
-        result.number_of_nodes(),
-        "open nodes and",
-        result.number_of_edges(),
-        "arcs to",
-        filename,
+        f"Wrote graph with {result.number_of_nodes()} open nodes and {result.number_of_edges()} "
+        f"arcs to {filename}"
     )
+
+    # update version information
+    information = isgci_version_info()
+    information["number of nonequivalent classes"] = result.number_of_nodes()
+    information["number of inclusion relationships"] = result.number_of_edges()
+    dump_to_json(information, "isgci_version_info.json")
 
     return result
 
@@ -303,9 +359,7 @@ def compute_class_equivalences(metagraph: DiGraph) -> defaultdict[str, set]:
     @param metagraph: an inclusion graph of graph classes.
     """
     equivalences = defaultdict(set)
-    for node in tqdm(
-            metagraph.nodes(), desc="Building equivalence dictionary", unit=" nodes"
-    ):
+    for node in tqdm(metagraph.nodes(), desc="Building equivalence dictionary", unit=" nodes"):
         # store the classes that are equivalent to the current node
         equivalences[node].update(
             (html2text(GraphClass(class_id).class_name()), class_id)
@@ -327,72 +381,38 @@ def isgci_equivalences(force_rebuild: bool = False) -> defaultdict[str, set]:
     """
     Returns the dictionary of all class equivalences known to ISGCI.
 
+    >>> isgci_equivalences()
+
     @return:
     @param force_rebuild: if True, rebuild the dictionary even if it already exists (default: False)
     @rtype: dict
     """
+    # TODO can we not rely on __isgci_mapping?
     filename = PATHS["isgci_equivalences"]  # TODO switch to json
 
     # if we haven't computed equivalences before, do it and save them for future uses
     if not exists(filename) or force_rebuild:
         graph = reduced_isgci_inclusion_graph()
-        # print("Computing class equivalences ... ", end="")
         stdout.flush()
-        with open(filename, "wb") as file:
-            result = compute_class_equivalences(graph)
-            pickle.dump(result, file, pickle.HIGHEST_PROTOCOL)
-
+        result = compute_class_equivalences(graph)
+        dump_to_json(result, filename)
         print(f"Wrote dictionary with {len(result)} keys to {filename}")
 
     # return the pre-computed result
     # TODO ok works but let's make the names readable (html_to_utf8)
-    with open(filename, "rb") as file:
-        return pickle.load(file)
-
-
-def __isgci_mapping(description: str, graphclass_field: str) -> defaultdict[str, str]:
-    """
-    Returns a dictionary mapping each ISGCI id to some parameter. Only intended for internal use by
-    functions isgci_ids_to_names and isgci_ids_to_recognition_statuses.
-
-    @return:
-    @rtype: dict
-    """
-    # path is fully determined by the calling function's name
-    filename = PATHS[inspect.stack()[1].function]
-
-    # if we haven't computed what's required before, do it now and save it for future uses
-    if not exists(filename):
-        # parse all downloaded files and build the mapping id -> name
-        mapping = dict()
-        with open(join(ISGCI_DIR, "classes.cgi")) as data:
-            soup = BeautifulSoup(data, features="html.parser")
-            all_classes = soup.find_all("span", {"class": "graphclass"})
-            for elem in tqdm(
-                    all_classes, desc=description, unit=" class"
-            ):
-                link = elem.find("a")
-                class_id = class_id_from_url(link.get("href"))
-                vertex_data = GraphClass(class_id)
-                mapping[vertex_data.class_id()] = getattr(vertex_data, graphclass_field)()
-
-        # store result in file
-        with open(filename, "w") as output:
-            json.dump(mapping, output, default=list, indent=4, sort_keys=True)
-
-    # return stored result
-    with open(filename) as data:
-        return json.load(data)
+    with open(filename, "r") as file:
+        return json.load(file)
 
 
 # TODO provide command line argument to call this
 def isgci_ids_to_names() -> defaultdict[str, str]:
-    """Returns a dictionary mapping each ISGCI id to the corresponding class name.
+    """
+    Returns a dictionary mapping each ISGCI id to the corresponding class name.
 
     @return:
     @rtype: dict
     """
-    return __isgci_mapping("Gathering all ids and names", "class_name")
+    return _isgci_mapping("Gathering all ids and names", "class_name")
 
 
 # TODO provide command line argument to call this
@@ -405,7 +425,7 @@ def isgci_recognition_statuses() -> defaultdict[str, str]:
     @return:
     @rtype: dict
     """
-    return __isgci_mapping("Gathering all recognition statuses", "recognition_status")
+    return _isgci_mapping("Gathering all recognition statuses", "recognition_status")
 
 
 def relation(first_id: str, second_id: str) -> str | list[str]:
@@ -479,7 +499,7 @@ def main() -> None:
         --rebuild-graph:    rebuilds the graph class inclusion graph
         --relation:         prints how the given classes are related"
 
-    @rtype: None
+    :return: None
     """
     # set up the option parser
     from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
