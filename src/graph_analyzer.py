@@ -733,7 +733,6 @@ class GraphAnalyzer:
         """
         # TODO add info on "only" classes as instructed by user
         # TODO add info on positive / negative classes communicated by user
-        # TODO add isgci db version info
         print(underlined("Analysis statistics"))
         # information on recognizers
         print("- recognizers:")
@@ -785,7 +784,8 @@ class GraphAnalyzer:
             f"times."
         )
 
+        print()
         print(underlined("ISGCI statistics"))
 
-        for key, val in isgci_version_info():
-            print(f"    - {key}: {val}")
+        for key, val in isgci_version_info().items():
+            print(f"- {key}: {val}")
