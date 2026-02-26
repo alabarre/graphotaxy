@@ -311,3 +311,13 @@ generated from the datasets in connected by my filter.py program
 ## K_{1,4}-free=gc_388
 
 generated from the datasets in connected by my filter.py program
+
+## mock threshold=gc_1289
+
+at the moment, these are all graphs on at most 5 vertices except C_5, since they are known to be mock threshold (https://doi.org/10.1016/j.disc.2018.04.023 proposition 13). So I just generated them with nauty:
+
+for ((i=1; i<5; i++)); do nauty-geng $i mock-threshold-$i.g6; done
+
+That's for size <= 4. For size 5 the only non-perfect graph is C5, and nauty can filter it out with option -P:
+
+nauty-geng -P 5 mock-threshold-5.g6

@@ -23,7 +23,7 @@ from networkx import is_empty
 from graph_recognition.misc_algo import (
     degree_sequence,
     empty_graph_by_removing_vertices,
-    vertex_has_degree_or_codegree_1,
+    vertex_has_degree_or_codegree_at_most_1,
     complement,
     number_of_common_neighbours,
     is_connected,
@@ -210,19 +210,44 @@ def is_mock_threshold(graph: nx.Graph) -> bool:
     :return:
     """
     # see https://www.sciencedirect.com/science/article/pii/S0012365X18301286
-    n = graph.order()
+    num_nodes = graph.order()
     degseq = degree_sequence(graph)
-    # Every graph on at most five vertices except C_5 is mock threshold
-    # (Prop 13)
-    if n <= 5:
+    # Every graph on at most five vertices except C_5 is mock threshold (Proposition 13)
+    if num_nodes <= 5:
         return degseq != array('b', [2, 2, 2, 2, 2])
 
     # if 2 <= mindegree <= maxdegree <= n - 3, then the answer is no (Lemma 6)
     maxdegree, *_, mindegree = degseq
-    if 2 <= mindegree <= maxdegree <= n - 3:
+    if 2 <= mindegree <= maxdegree <= num_nodes - 3:
         return False
 
-    return empty_graph_by_removing_vertices(graph, vertex_has_degree_or_codegree_1)
+    # TODO (minor) check complexity; this mimicks Kahn's algorithm, so probably linear instead of
+    #  quadratic; if so, move function to profitable_hereditary_n.py
+    # copy degrees
+    degrees = dict(graph.degree)
+
+    # retrieve all valid candidates
+    candidates = {v for v, d in degrees.items() if d in {0, 1, num_nodes - 1, num_nodes - 2}}
+
+    retrieved = set()
+    while candidates:
+        # retrieve all candidates
+        retrieved.update(candidates)
+        # decrement the degree of all neighbors of each candidate
+        for v in candidates:
+            for w in graph[v]:
+                degrees[w] -= 1
+
+        # update number of nodes and record the new candidates; discard those that have already
+        # been retrieved
+        num_nodes -= len(candidates)
+        candidates = {v for v, d in degrees.items() if d in {0, 1, num_nodes - 1, num_nodes - 2}} - retrieved
+
+    # the graph is empty iff all vertices were retrieved
+    return len(retrieved) == graph.number_of_nodes()
+
+    # NOTE: the following one-liner also works, but is slower as the graph's size increases
+    # return empty_graph_by_removing_vertices(graph, vertex_has_degree_or_codegree_at_most_1)
 
 
 # not an actual ISGCI class
@@ -893,9 +918,7 @@ def is_strict_2_threshold(graph: nx.Graph) -> bool:
     # compute c_subgraph and t2_subgraph as before, and return True iff the same tests on all three
     # subgraphs succeed
     c_subgraph, t2_subgraph = c_and_t2_subgraphs(t1_subgraph)
-    return (
-        is_threshold(t1_subgraph) and is_threshold(t2_subgraph) and is_empty(c_subgraph)
-    )
+    return is_threshold(t1_subgraph) and is_threshold(t2_subgraph) and is_empty(c_subgraph)
 
 
 # the fisc will be obtained through calls to constituent class recognizers
@@ -945,8 +968,7 @@ def is_co_chordal(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_chordal(complement(graph.subgraph(cc)))
-        for cc in co_connected_components(graph)
+        is_chordal(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 
@@ -1010,7 +1032,6 @@ def is_co_locally_chordal(graph: nx.Graph) -> bool:
         is_locally_chordal(complement(graph.subgraph(cc)))
         for cc in co_connected_components(graph)
     )
-
 
 
 @assign_fisc(
@@ -1184,10 +1205,10 @@ def is_auto_1940(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_cograph(graph)
-        and is_2k2_free(graph)
-        and is_co_diamond_free(graph)
-        and is_co_paw_free(graph)
+            is_cograph(graph)
+            and is_2k2_free(graph)
+            and is_co_diamond_free(graph)
+            and is_co_paw_free(graph)
     )
 
 

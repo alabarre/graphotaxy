@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
 Miscellaneous useful algorithms.
 
@@ -31,6 +31,9 @@ __functions_to_cache = [
 ]
 for i, function in enumerate(__functions_to_cache):
     __functions_to_cache[i] = cached_function(function)
+
+# Global variables --------------------------------------------------------------------------------
+_NUMERIC_TYPECODES = typecodes.replace("uw", "")
 
 
 # Functions ---------------------------------------------------------------------------------------
@@ -67,7 +70,7 @@ def degree_sequence(graph: nx.Graph) -> array:
     degseq = sorted((d for _, d in graph.degree), reverse=True)
 
     # return array with smallest typecode
-    for tc in typecodes:
+    for tc in _NUMERIC_TYPECODES:
         try:
             return array(tc, degseq)
         except OverflowError:
@@ -240,15 +243,16 @@ def has_dominating_set_of_size_at_most_2(graph: nx.Graph) -> bool:
 
 
 @lru_cache(maxsize=None)
-def vertex_has_degree_or_codegree_1(graph: nx.Graph, v: Any) -> bool:
-    """Returns True if v has 1 or n-1 neighbors, False otherwise.
+def vertex_has_degree_or_codegree_at_most_1(graph: nx.Graph, v: Any) -> bool:
+    """Returns True if v has 0, 1, n-2 or n-1 neighbors, False otherwise.
 
     :param v: a vertex
     :type graph: networkx.Graph
     :param graph:
     :return:
     """
-    return graph.degree(v) in {1, graph.number_of_nodes() - 2}
+    n = graph.number_of_nodes()
+    return graph.degree(v) in {0, 1, n-2, n-1}
 
 
 # Functions for recognizing a graph by repeatedly removing edges ----------------------------------
