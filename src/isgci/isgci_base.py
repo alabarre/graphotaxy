@@ -17,9 +17,6 @@ https://www.graphclasses.org/ . You can:
 
             python3 -m isgci --relation FIRST_ID SECOND_ID
 
-# TODO distribute package with a copy of isgci_db and pickled files and json files
-# TODO LATER allow user to download and use his copy of the DB
-
 TODO questions:
     [ ] proper naming scheme? should isgci_base.py be called __main__.py? isgci.py? ...
     [ ] and then should I import from isgci.stuff or just from stuff? (see other files)
@@ -45,7 +42,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin
 from urllib.request import urlopen
 
-# ----- Non-standard imports ----------------------------------------------------------------------
+# ----- Third-party imports -----------------------------------------------------------------------
 from bs4 import BeautifulSoup
 from html2text import html2text
 from networkx import DiGraph, NetworkXNoPath, NodeNotFound, shortest_path
@@ -83,7 +80,7 @@ HTMLMIN_SETTINGS = {
 
 
 # Private functions -------------------------------------------------------------------------------
-def _isgci_mapping(description: str, graphclass_field: str) -> defaultdict[str, str]:
+def _isgci_mapping(description: str, graphclass_field: str, force_rebuild: bool = False) -> defaultdict[str, str]:
     """
     Returns a dictionary mapping each ISGCI id to some parameter. Only intended for internal use by
     functions isgci_ids_to_names and isgci_ids_to_recognition_statuses.
@@ -95,7 +92,7 @@ def _isgci_mapping(description: str, graphclass_field: str) -> defaultdict[str, 
     filename = PATHS[inspect.stack()[1].function]
 
     # if we haven't computed what's required before, do it now and save it for future uses
-    if not exists(filename):
+    if not exists(filename) or force_rebuild:
         # parse all downloaded files and build the mapping id -> name
         mapping = dict()
         with open(join(ISGCI_DIR, "classes.cgi")) as data:
@@ -404,19 +401,17 @@ def isgci_equivalences(force_rebuild: bool = False) -> defaultdict[str, set]:
         return json.load(file)
 
 
-# TODO provide command line argument to call this
-def isgci_ids_to_names() -> defaultdict[str, str]:
+def isgci_ids_to_names(force_rebuild: bool = False) -> defaultdict[str, str]:
     """
     Returns a dictionary mapping each ISGCI id to the corresponding class name.
 
     @return:
     @rtype: dict
     """
-    return _isgci_mapping("Gathering all ids and names", "class_name")
+    return _isgci_mapping("Gathering all ids and names", "class_name", force_rebuild)
 
 
-# TODO provide command line argument to call this
-def isgci_recognition_statuses() -> defaultdict[str, str]:
+def isgci_recognition_statuses(force_rebuild: bool = False) -> defaultdict[str, str]:
     """
     Returns a dictionary mapping each ISGCI id to the status of the recognition problem for that class.
 
@@ -425,7 +420,7 @@ def isgci_recognition_statuses() -> defaultdict[str, str]:
     @return:
     @rtype: dict
     """
-    return _isgci_mapping("Gathering all recognition statuses", "recognition_status")
+    return _isgci_mapping("Gathering all recognition statuses", "recognition_status", force_rebuild)
 
 
 def relation(first_id: str, second_id: str) -> str | list[str]:
@@ -529,6 +524,24 @@ def main() -> None:
     )
 
     parser.add_argument(
+        "--rebuild-equivalences",
+        action="store_true",
+        help="rebuilds the equivalence relations in ISGCI and writes them to a file",
+    )
+
+    parser.add_argument(
+        "--rebuild-ids-to-names",
+        action="store_true",
+        help="rebuilds the mapping of ISGCI ids to class names and writes them to a file",
+    )
+
+    parser.add_argument(
+        "--rebuild-recognition-statuses",
+        action="store_true",
+        help="rebuilds the information about the status of each recognition problem in ISGCI and writes them to a file",
+    )
+
+    parser.add_argument(
         "--relation",
         nargs=2,
         help="prints how the given classes are related",
@@ -541,6 +554,15 @@ def main() -> None:
 
     elif args.rebuild_graph:
         reduced_isgci_inclusion_graph(args.rebuild_graph, force_rebuild=True)
+
+    elif args.rebuild_equivalences:
+        isgci_equivalences(force_rebuild=True)
+
+    elif args.rebuild_ids_to_names:
+        isgci_ids_to_names(force_rebuild=True)
+
+    elif args.rebuild_recognition_statuses:
+        isgci_recognition_statuses(force_rebuild=True)
 
     elif args.relation:
         path, *direction = relation(*args.relation)

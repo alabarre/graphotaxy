@@ -3,32 +3,28 @@ Anthony Labarre © 2023-2026
 
 Test generator for recognizers.
 
-Since specific datasets are relatively rare, for each graph class for which we have data, we
-generate tests that cover the corresponding recognizer as well as all available recognizers for
-that class's ancestors.
-
-You only need to run this program when:
-
-    - the set of all available recognizers changes, i.e., a new recognizer is added and enabled by
-      decorating it with @assign_class_id, or an existing recognizer is removed or disabled by
-      removing the @assign_class_id decoration;
-
-    - a new dataset is added to PROJECT_ROOT/tests/test_data;
-
-    - the inclusion relationships in ISGCI change;
-
-    - the exclusion relationships in ISGCI change.
-
-The set of tests will not change if existing and enabled recognizers are merely modified, so there
-is no need to run this program in those cases: you can simply run existing tests to check the
-impact of your modifications.
-
-All tests are written in PROJECT_ROOT/tests, and generated using datasets located in
-PROJECT_ROOT/tests/test_data .
+Generating tests: how and when
+------------------------------
 
 To generate new tests: in PROJECT_ROOT/src, run:
 
 $ python3 generate_tests
+
+All tests are written in PROJECT_ROOT/tests, and generated using datasets located in
+PROJECT_ROOT/tests/test_data .
+
+You only need to run this program when one of the following occurs:
+
+    - a new recognizer is added and enabled by decorating it with @assign_class_id, or an existing
+      recognizer is removed or disabled by removing the @assign_class_id decoration;
+    - dataset files are added to or removed from PROJECT_ROOT/tests/test_data;
+    - the inclusion relationships in ISGCI change;
+    - the exclusion relationships in ISGCI change.
+
+You do not need to run this program if you modify existing recognizers.
+
+Running tests:
+--------------
 
 To run all tests: in PROJECT_ROOT, run:
 
@@ -41,12 +37,22 @@ $ python3 -m unittest tests/WANTED_TEST_FILE.py
 Test generation process
 -----------------------
 
+Let's assume we have a dataset for some class X. Since specific datasets are relatively rare, for
+each graph class for which we have data, we generate positive tests (which are supposed to return
+True) and negative tests (which are supposed to return False) that cover:
 
+    1. the recognizer for X, if it exists;
+    2. all available recognizers for each ancestor of X, since we know that a recognizer for an
+        ancestor Y of X must, by inclusion, return True for every member of X:
+    3. all recognizers for classes excluded by X, since if being member of X implies not being a
+        member of Z, then a recognizer for Z must return False for all members of X;
+    4. and by combining 2. and 3., all recognizers for the ancestors of all classes excluded by X.
 
-TODO works, but far from presentable. explain how all these tests are generated
-TODO much better documentation
-TODO encapsulate what I can in a class rather than using these global variables
-TODO rely on process_graphs + try / except for reading data; don't forget compressed extensions
+All positive and negative tests for these recognizers are gathered in a file test_X_and_related.py,
+which contains a single test class derived from unittest.Testcase. To avoid generating duplicated
+tests, which might occur since different classes might have common ancestors, we keep track of
+tests that have already been generated, which explains why some test files are far smaller than
+others.
 
 """
 # Imports -----------------------------------------------------------------------------------------
@@ -57,7 +63,7 @@ import subprocess
 import sys
 import textwrap
 from collections.abc import Callable
-from typing import TextIO, Dict, Iterable
+from typing import TextIO, Dict, Iterable, Set
 
 # ----- Non-standard imports ----------------------------------------------------------------------
 import networkx
@@ -95,9 +101,7 @@ def all_recognizable_class_ids_to_recognizers() -> Dict[str, Callable]:
     @return:
     """
     # load all classes with the corresponding recognizers
-    base_dict = {
-        class_id: recognizer for class_id, recognizer in GraphAnalyzer().recognizers
-    }
+    base_dict = {class_id: recognizer for class_id, recognizer in GraphAnalyzer().recognizers}
     # for each class with an id equivalent to a recognizable class: map it to the same recognizer
     # as its equivalent class
     for class_id in set(base_dict).intersection(EQUIV_IDS):
@@ -109,7 +113,7 @@ def all_recognizable_class_ids_to_recognizers() -> Dict[str, Callable]:
 
 def __ancestors_or_descendants_of_some_equivalent_class(
         graph: networkx.Graph, class_id: str, function: Callable
-) -> set[str]:
+) -> Set[str]:
     """
     Returns the ancestors or the descendants of node with label class_id in graph. If that node is
     missing, looks for an equivalent node instead.
@@ -134,9 +138,7 @@ def __ancestors_or_descendants_of_some_equivalent_class(
     )
 
 
-def ancestors_of_some_equivalent_class(
-        graph: networkx.Graph, class_id: str
-) -> set[str]:
+def ancestors_of_some_equivalent_class(graph: networkx.Graph, class_id: str) -> Set[str]:
     """
     Returns the ancestors of node with label class_id in graph. If that node is missing, looks for
     an equivalent node instead.
@@ -148,9 +150,7 @@ def ancestors_of_some_equivalent_class(
     return __ancestors_or_descendants_of_some_equivalent_class(graph, class_id, networkx.ancestors)
 
 
-def descendants_of_some_equivalent_class(
-        graph: networkx.Graph, class_id: str
-) -> set[str]:
+def descendants_of_some_equivalent_class(graph: networkx.Graph, class_id: str) -> Set[str]:
     """
     Returns the descendants of node with label class_id in graph. If that node is missing, looks for
     an equivalent node instead.
@@ -221,7 +221,7 @@ def retrieve_all_classes_with_datasets() -> Dict[str, str]:
     return testable_classes
 
 
-def ancestors_or_equivalent(classes: Dict[str, str]) -> Dict[str, set[str]]:
+def ancestors_or_equivalent(classes: Dict[str, str]) -> Dict[str, Set[str]]:
     """
     Returns a dictionary mapping each input class to its ancestors in the ISGCI graph. If a class
     is not found, then an equivalent id is used.
@@ -244,7 +244,7 @@ def ancestors_or_equivalent(classes: Dict[str, str]) -> Dict[str, set[str]]:
     return ancestors
 
 
-def descendants_or_equivalent(classes: Iterable[str]) -> Dict[str, set[str]]:
+def descendants_or_equivalent(classes: Iterable[str]) -> Dict[str, Set[str]]:
     """
     Returns a dictionary mapping each input class to its descendants in the ISGCI graph. If a class
     is not found, then an equivalent id is used.
@@ -308,7 +308,7 @@ def setupclass_method(class_id: str, path: str) -> str:
     @classmethod
     def setUpClass(self) -> None:
         """Stores positive and negative instances to test."""
-        super(Test_{class_id}_and_ancestors, self).setUpClass()
+        super(Test_{class_id}_and_related, self).setUpClass()
         self.positive = []
         basedir = "{os.path.join(TEST_DATA_DIR.replace(os.pardir, os.curdir), path)}"
         print(self.__qualname__.join("[]"), "initializing positive instances from", basedir, "...", end=" ")
@@ -351,7 +351,7 @@ def prepare_code_string(
     # 1. write the test code: this is a class that inherits from unittest.TestCase, and whose
     # methods will each correspond to testing either class_id or one of its ancestors, provided
     # that that ancestor has not been tested yet and that a corresponding recognizer is available.
-    code_string = f"class Test_{class_id}_and_ancestors(unittest.TestCase):\n"
+    code_string = f"class Test_{class_id}_and_related(unittest.TestCase):\n"
     code_string += (
             textwrap.fill(
                 f'    """A generic test case for class {class_id} and all its ancestors that have not '
@@ -380,13 +380,15 @@ def prepare_code_string(
         TEST_COVERAGE["positive"].add(class_id)
 
     else:
-        code_string += (
-            f"# No recognizer was found for class {class_id} or any equivalent class, so no \n"
-            f"# test could be generated for that specific class\n"
-        )
+        code_string += textwrap.fill(
+            f"# No recognizer was found for class {class_id} or any equivalent class, so no test "
+            f"could be generated for that specific class",
+            width=WRAP_WIDTH,
+            subsequent_indent="    # ",
+        ) + "\n"
 
     # 2.2: write positive tests for ancestors of class_id
-    code_string += f"# Generated tests for ancestors of base class {class_id}:"
+    code_string += f"    # Generated tests for ancestors of base class {class_id}:"
     for anc_id in ancestors[class_id]:
         # generate test for ancestor class if it is recognizable and not done already
         if anc_id in recognizers and anc_id not in TEST_COVERAGE["positive"]:
@@ -438,7 +440,7 @@ def prepare_code_string(
                             and "dist-packages" not in sys.modules[mod].__file__,
         )
     )
-            + "\nfrom graph_analyzer import process_graphs\n"
+            + "\nfrom readwrite import process_graphs\n"
             + code_string
     )
 
@@ -544,7 +546,7 @@ def generate_test_file(
     instance is a positive instance of class_id, that instance is also a member of all ancestors of
     class_id.
 
-    The output file is written to TEST_DATA_DIR/test_class_id_and_ancestors.py .
+    The output file is written to TEST_DATA_DIR/test_class_id_and_related.py .
 
     @param class_id:
     @param path:
@@ -552,17 +554,10 @@ def generate_test_file(
     @param ancestors:
     @return:
     """
-    # print(
-    #    f"[DEBUG] now generating test file for {class_id} and {len(ancestors)} ancestors"
-    # )
-    output_file_path = os.path.join(
-        TEST_OUTPUT_DIR, class_id.join(["test_", "_and_ancestors.py"])
-    )
+    output_file_path = os.path.join(TEST_OUTPUT_DIR, class_id.join(["test_", "_and_related.py"]))
     with open(output_file_path, "w") as outfile:
         write_module_header(outfile, class_id)
-        outfile.write(
-            prepare_code_string(class_id, path, recognizers, ancestors, descendants)
-        )
+        outfile.write(prepare_code_string(class_id, path, recognizers, ancestors, descendants))
 
     # ruff turns out to be much faster than black
     subprocess.check_output(["ruff", "format", output_file_path])
@@ -582,194 +577,6 @@ def remove_existing_test_files() -> None:
             os.remove(os.path.join(TEST_OUTPUT_DIR, filename))
 
     print("done.")
-
-
-# TODO work in progress: test generator class; on hold because low priority
-class TestGenerator:
-    """
-    A class to generate all test files from a bunch of datasets. Generating all test files at once
-    allows us to avoid generating the same test multiple times, by keeping track of the recognizers
-    that have already been tested.
-    """
-
-    def __init__(self) -> None:
-        """
-        Initializes the necessary data structures.
-        """
-        # paths -----------------------------------------------------------------------------------
-        self.TEST_OUTPUT_DIR = os.path.join(os.pardir, "tests")
-        self.TEST_DATA_DIR = os.path.join(TEST_OUTPUT_DIR, "test_data")
-
-        # useful data structures ------------------------------------------------------------------
-        # the ISGCI graph allows us to generate positive tests for ancestors of specific graph
-        # class, i.e., tests that verify that a member of a class is indeed identified as such
-        self.ISGCI_GRAPH = reduced_isgci_inclusion_graph()
-
-        # the ISGCI exclusion graph allows us to generate negative tests for graph classes excluded
-        # by a specific datasets as well as their descendants (e.g., if we are dealing with cubic
-        # graphs, then we know that they are NOT trees, and tests will be written to make sure that
-        # they are NOT recognized as such)
-        self.EXCLUSION_GRAPH = isgci_exclusion_graph()
-
-        # the ids used to identify datasets might differ from the ones we store in the ISGCI graph
-        # or the exclusion graph, so we need to map each class id to the set of equivalent ids;
-        # this will also force us to write our own ancestors and descendants functions to take
-        # these equivalences into account, instead of directly using networkx's functions
-        self.EQUIV_IDS = {
-            class_id: {alt_id for _, alt_id in equiv_ids}
-            for class_id, equiv_ids in isgci_equivalences().items()
-        }
-
-        # keep track of the classes for which a test has already been generated so we avoid
-        # generating the same test multiple times across different files
-        self.TEST_COVERAGE = {"positive": set(), "negative": set()}
-
-        # formatting parameters -------------------------------------------------------------------
-        self.WRAP_WIDTH = 100
-
-    def retrieve_all_classes_with_datasets(self) -> Dict[str, str]:
-        """
-        Returns a dictionary with entries of the form (class_id, path_to_dataset), obtained by
-        exploring TEST_BASEDIR non-recursively. Only subdirectories that follow the naming
-        convention ANY_TEXT=SINGLE_ISGCI_ID are considered.
-
-        @return:
-        """
-        testable_classes = dict()
-        for subdir in os.listdir(self.TEST_DATA_DIR):
-            _, *class_id_list = subdir.split("=")
-            testable_classes.update({cid: subdir for cid in class_id_list})
-
-        return testable_classes
-
-    # Graph manipulation methods under equivalence relations --------------------------------------
-    def all_recognizable_class_ids_to_recognizers(self) -> Dict[str, Callable]:
-        """
-        Returns a dictionary with class ids as keys and a corresponding recognizer for each class
-        id. Only recognizers which are decorated with @assign_class_id are taken into account, and
-        therefore unrecognizable classes will be missing from the dictionary.
-
-        All equivalent classes are mapped to the same recognizer if one is available.
-
-        @return:
-        """
-        # load all classes with the corresponding recognizers
-        base_dict = {
-            class_id: recognizer for class_id, recognizer in GraphAnalyzer().recognizers
-        }
-        # for each recognizable class with at least one equivalent id: map that id to the same
-        # recognizer as its equivalent class
-        for class_id in set(base_dict).intersection(self.EQUIV_IDS):
-            base_dict.update(
-                {equiv_id: base_dict[class_id] for equiv_id in self.EQUIV_IDS[class_id]}
-            )
-
-        return base_dict
-
-    def __ancestors_or_descendants_of_some_equivalent_class(
-            self, graph: networkx.Graph, class_id: str, function: Callable
-    ) -> set[str]:
-        """
-        Returns the ancestors or the descendants of node with label class_id in graph. If that node
-        is missing, looks for an equivalent node instead.
-
-        @param graph:
-        @param class_id:
-        @return:
-        """
-        # if graph contains class, return its ancestors
-        if class_id in graph:
-            return function(graph, class_id)
-
-        # otherwise, return the ancestors of an equivalent class
-        for eq_id in self.EQUIV_IDS[class_id]:
-            if eq_id in graph:
-                return function(graph, eq_id)
-
-        # otherwise something is very wrong, raise exception
-        raise networkx.exception.NetworkXError(
-            f"The node {class_id} is not in the {type(graph)}, and neither are any of its "
-            f"equivalent classes."
-        )
-
-    def ancestors_of_some_equivalent_class(
-            self, graph: networkx.Graph, class_id: str
-    ) -> set[str]:
-        """
-        Returns the ancestors of node with label class_id in graph. If that node is missing, looks
-        for an equivalent node instead.
-
-        @param graph:
-        @param class_id:
-        @return:
-        """
-        return self.__ancestors_or_descendants_of_some_equivalent_class(
-            graph, class_id, networkx.ancestors
-        )
-
-    def descendants_of_some_equivalent_class(
-            self, graph: networkx.Graph, class_id: str
-    ) -> set[str]:
-        """
-        Returns the descendants of node with label class_id in graph. If that node is missing,
-        looks for an equivalent node instead.
-
-        @param graph:
-        @param class_id:
-        @return:
-        """
-        return self.__ancestors_or_descendants_of_some_equivalent_class(
-            graph, class_id, networkx.descendants
-        )
-
-    # TODO keep going
-    # Code generation methods ---------------------------------------------------------------------
-    def test_method(
-            self,
-            class_id: str,
-            recognizer: Callable,
-            base_id: str = "",
-            kind: str = "positive",
-    ) -> str:
-        """
-        Returns a test method for the recognizer for class_id. base_id is an optional placeholder
-        for a descendant of class_id that led to the writing of this test method.
-
-        kind specifies whether the test methods should test positive instances or not; the default
-        behavior is to test positive instances, which results in a call to assertTrue. If kind is
-        set to "negative", then we are testing negative instances, which results in a call to
-        assertFalse.
-
-        @param class_id:
-        @param recognizer:
-        @return:
-        """
-        assert kind in {"positive", "negative"}
-        code_string = f'''
-        def test_{class_id}(self) -> None:
-            """Tests {kind} instances for class {class_id}.'''
-        if base_id:
-            if "excluded" in base_id:
-                code_string += f" {class_id} is a descendant of {base_id}."
-            else:
-                code_string += f" {class_id} is an ancestor of {base_id}."
-        code_string += f'''"""
-            print(
-                self._testMethodName.join("[]"), "testing", len(self.positive), "graphs", end=" "
-            )
-            sys.stdout.flush()
-    
-            # looping over enumerate so we can print failed instances
-            for num, graph in enumerate(self.positive):
-                self.{["assertFalse", "assertTrue"][kind == "positive"]}(
-                    {recognizer.__module__}.{recognizer.__name__}(graph), 
-                    "failed on graph number " + str(num) + " / " + str(len(self.positive)) + 
-                    " with node set " + str(graph.nodes) + " and edge set " + str(graph.edges)
-                )
-    
-            print("done.")\n'''
-
-        return code_string
 
 
 def main() -> None:
