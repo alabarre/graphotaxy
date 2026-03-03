@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2024-2025
+Anthony Labarre © 2024-2026
 
 A minimal implementation of an undirected graph that subclasses the Graph structure from networkx.
 
@@ -49,7 +49,30 @@ class UndirectedGraph(Graph):
     # len on the iterable of edges instead, which takes time O(1)
     # TODO these implementations should form a PR for networkx too ...
     def number_of_edges(self, u: Hashable = None, v: Hashable = None) -> int:
+        """
+        Returns the number of edges in the graph. If neither u nor v are None, returns the number
+        of edges between those vertices instead.
+
+        :param u:
+        :param v:
+        :return:
+        """
         return len(self.edges) if u is None else int(self.has_edge(u, v))
 
-    def size(self, weight: str=None) -> int:
+    def size(self, weight: str = None) -> int:
+        """
+        Returns the number of edges in the graph.
+
+        :param weight:
+        :return:
+        """
         return len(self.edges)
+
+    def to_undirected_class(self):
+        """
+        Returns the class to use for empty undirected copies.
+
+        If you subclass the base classes, use this to designate what directed class to use for 
+        `to_directed()` copies.
+        """
+        return UndirectedGraph

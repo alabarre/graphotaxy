@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
 O(n^5) algorithms.
 
@@ -80,8 +80,8 @@ from graph_recognition.two_sat import Not, satisfiable
 @lru_cache(maxsize=None)
 def edge_is_bisimplicial(graph: nx.Graph, edge: Iterable) -> bool:
     """
-    An edge (𝑢,𝑣) in a bipartite graph 𝐵 is called bisimplicial if 𝑁(𝑢)∪𝑁(𝑣) induces a biclique
-    in 𝐵.
+    An edge (u, v) in a bipartite graph B is called bisimplicial if N(u) U N(v) induces a biclique
+    in B.
 
     :param edge:
     :param graph:
@@ -668,7 +668,7 @@ def vertex_neighbourhood_induces_split_graph(graph: nx.Graph, v: Hashable) -> bo
 @lru_cache(maxsize=None)
 def is_split_neighbourhood(graph: nx.Graph) -> bool:
     """
-    A graph is split-neighbourhood if every induced subgraph has a vertex whose neighbourhood
+    A graph is split-neighbourhood if every induced subgraph has a vertex whose neighborhood
     induces a split graph.
 
     https://www.graphclasses.org/classes/gc_608.html
@@ -677,9 +677,7 @@ def is_split_neighbourhood(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    return empty_graph_by_removing_vertices(
-        graph, vertex_neighbourhood_induces_split_graph
-    )
+    return empty_graph_by_removing_vertices(graph, vertex_neighbourhood_induces_split_graph)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
 O(n^3) algorithms.
 
@@ -180,13 +180,13 @@ def vertex_is_d(graph: nx.Graph, x: Any) -> bool:
     return True
 
 
-# Recognizers ------------------------------------------------------------------------------------
+# Recognizers -------------------------------------------------------------------------------------
 @assign_class_id("gc_604")
 @lru_cache(maxsize=None)
 def is_d(graph: nx.Graph) -> bool:
     """
     A graph is a D if each induced subgraph contains a vertex x such that for any edge yz with y, z
-    not neighbours of x, y dominates z or vice versa.
+    not neighbors of x, y dominates z or vice versa.
 
     https://www.graphclasses.org/classes/gc_604
 
@@ -204,7 +204,7 @@ def is_d(graph: nx.Graph) -> bool:
 def is_interval_regular_of_diameter_2(graph: nx.Graph) -> bool:
     """
     A connected graph is interval regular of diameter 2 if every pair of nonadjacent vertices has
-    exactly two common neighbours.
+    exactly two common neighbors.
 
     https://www.graphclasses.org/classes/gc_601.html
 

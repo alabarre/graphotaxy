@@ -33,6 +33,7 @@ def edge_list_file_to_edge_set(filename: str) -> Iterator:
     >>> print(end - start)
 
     # current version takes about 12 seconds on my machine
+    # TODO: nx.Graph can actually process pandas' dataframes, check resulting running time ...
 
     :param filename: the path to the file to read
     :return: set of edge sets

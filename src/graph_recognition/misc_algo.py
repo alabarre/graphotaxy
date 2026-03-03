@@ -339,16 +339,18 @@ def plain_co_bfs(graph: nx.Graph, n: int, source: Hashable) -> set:
     A fast BFS node generator on the complement of the graph. Simple adaptation of networkx's
     _plain_bfs function to work on non-edges rather than edges.
     """
+    # other changes:
+    # - replaced lists with sets since we only care about accessibility, not order
+    # - comprehension for building the next level, so we can use updates instead of many adds
     seen = {source}
-    nextlevel = [source]
+    nextlevel = {source}
     while nextlevel:
         thislevel = nextlevel
-        nextlevel = []
+        nextlevel = set()
         for v in thislevel:
-            for w in nx.non_neighbors(graph, v):
-                if w not in seen:
-                    seen.add(w)
-                    nextlevel.append(w)
+            new_non_neighbors = {w for w in nx.non_neighbors(graph, v) if w not in seen}
+            seen.update(new_non_neighbors)
+            nextlevel.update(new_non_neighbors)
             if len(seen) == n:
                 return seen
     return seen

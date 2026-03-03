@@ -314,10 +314,11 @@ generated from the datasets in connected by my filter.py program
 
 ## mock threshold=gc_1289
 
-at the moment, these are all graphs on at most 5 vertices except C_5, since they are known to be mock threshold (https://doi.org/10.1016/j.disc.2018.04.023 proposition 13). So I just generated them with nauty:
+generated using my program mock_threshold.py in generators. 
 
-for ((i=1; i<5; i++)); do nauty-geng $i mock-threshold-$i.g6; done
+The program generates random nonisomorphic mock threshold graphs. Since I don't know how many there are, to (be fairly certain that I) obtain all of them for a fixed number of vertices, I set a timeout: we give up on the search for a new graph if no new graph was generated in the last T seconds.
 
-That's for size <= 4. For size 5 the only non-perfect graph is C5, and nauty can filter it out with option -P:
+For n <= 5, we have all mock threshold graphs since all of graphs on <= 5 vertices are mock threshold except C_5.
 
-nauty-geng -P 5 mock-threshold-5.g6
+For n >= 6, to be more than "fairly certain", you can always increase the timeout, or check that the graphs not in those files are **not**. Until someone finds a formula the number of mock threshold graphs, if that is even feasible.
+

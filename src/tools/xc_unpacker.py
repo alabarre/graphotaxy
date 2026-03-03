@@ -102,10 +102,12 @@ def identify_smallgraph(graph: nx.Graph) -> str | None:
     exists.
 
     """
-    # return the name of the only smallgraph isomorphic to graph
-    for data in ALL_SMALLGRAPHS[graph.number_of_nodes()]:
-        if nx.is_isomorphic(graph, nx.from_graph6_bytes(data[1].encode())):
-            return data[0]
+    n = graph.number_of_nodes()
+    if n in ALL_SMALLGRAPHS:
+        # return the name of the only smallgraph isomorphic to graph
+        for data in ALL_SMALLGRAPHS[n]:
+            if nx.is_isomorphic(graph, nx.from_graph6_bytes(data[1].encode())):
+                return data[0]
 
 
 def main() -> None:

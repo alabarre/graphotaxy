@@ -22,8 +22,6 @@ from networkx import is_empty
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     degree_sequence,
-    empty_graph_by_removing_vertices,
-    vertex_has_degree_or_codegree_at_most_1,
     complement,
     number_of_common_neighbours,
     is_connected,
@@ -1009,10 +1007,7 @@ def is_co_planar(graph: nx.Graph) -> bool:
 
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
-    return all(
-        is_planar(complement(graph.subgraph(cc)))
-        for cc in co_connected_components(graph)
-    )
+    return all(is_planar(complement(graph.subgraph(cc))) for cc in co_connected_components(graph))
 
 
 @assign_fisc(
@@ -1029,8 +1024,7 @@ def is_co_locally_chordal(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_locally_chordal(complement(graph.subgraph(cc)))
-        for cc in co_connected_components(graph)
+        is_locally_chordal(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 
@@ -1144,8 +1138,7 @@ def is_co_comparability(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_comparability(complement(graph.subgraph(cc)))
-        for cc in co_connected_components(graph)
+        is_comparability(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 
@@ -1200,6 +1193,11 @@ def is_p4_co_diamond_co_paw_free(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_auto_1940(graph: nx.Graph) -> bool:
     """
+    Returns True iff graph is (2K_{2}, P_{4}, co-diamond, co-paw)-free.
+
+    See https://www.graphclasses.org/classes/AUTO_1940
+
+    Complexity: O(n^2) < O(n^4) (naïve)
 
     @param graph:
     @return:
