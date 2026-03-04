@@ -10,9 +10,8 @@ import multiprocessing as mp
 import os
 from collections import defaultdict
 from functools import lru_cache
-from itertools import combinations_with_replacement, combinations, chain, product
-from math import log
-from typing import Any, Iterable, Iterator
+from itertools import combinations, chain, product
+from typing import Any, Iterator
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -167,7 +166,7 @@ def vertex_is_d(graph: nx.Graph, x: Any) -> bool:
     neighbors = set(graph[x])
     # check that every edge disjoint from N(x) consists of comparable endpoints
     for y, z in graph.edges:
-        # check that endpoints are not neighbours of x
+        # check that endpoints are not neighbors of x
         if y in neighbors or z in neighbors:
             continue
 
@@ -230,7 +229,7 @@ def is_dilworth_3(graph: nx.Graph) -> bool:
     return is_dilworth_k(graph, 3)
 
 
-@assign_class_id("gc_49")
+# @assign_class_id("gc_49")
 @lru_cache(maxsize=None)
 def is_dismantlable(graph: nx.Graph) -> bool:
     """
@@ -249,8 +248,7 @@ def is_dismantlable(graph: nx.Graph) -> bool:
     # special cases, see bottom of page 478 in  https://doi.org/10.4153/CMB-1994-069-6
     #   trees are dismantlable
     #   graphs with a dominating vertex are dismantlable
-    #   every connected, triangulated (i.e., chordal)) graph on >= 2 vertices is dismantlable
-    #   TODO every connected bridged graph is dismantlable (but I have no recognizer yet for gc_99)
+    #   every connected, triangulated (i.e., chordal) graph on >= 2 vertices is dismantlable
     if degree_sequence(graph)[0] == n - 1 or is_tree(graph):
         return True
 
@@ -266,153 +264,6 @@ def is_dismantlable(graph: nx.Graph) -> bool:
             return True
 
     return False
-
-
-@assign_class_id("gc_1148")
-@lru_cache(maxsize=None)
-def my_is_distance_regular(graph: nx.Graph) -> bool:
-    """Returns True if the graph is distance regular, False otherwise.
-
-    A connected graph G is distance-regular if for any nodes x,y and any integers i,j=0,1,...,d
-    (where d is the graph diameter), the number of vertices at distance i from x and distance j
-    from y depends only on i,j and the graph distance between x and y, independently of the choice
-    of x and y.
-
-    Parameters
-    ----------
-    graph: Networkx graph (undirected)
-
-    Returns
-    -------
-    bool
-      True if the graph is Distance Regular, False otherwise
-
-    Examples
-    --------
-    >>> G = nx.hypercube_graph(6)
-    >>> nx.is_distance_regular(graph)
-    True
-
-    See Also
-    --------
-    intersection_array, global_parameters
-
-    Notes
-    -----
-    For undirected and simple graphs only
-
-    References
-    ----------
-    .. [1] Brouwer, A. E.; Cohen, A. M.; and Neumaier, A.
-        Distance-Regular Graphs. New York: Springer-Verlag, 1989.
-    .. [2] Weisstein, Eric W. "Distance-Regular Graph."
-        http://mathworld.wolfram.com/Distance-RegularGraph.html
-
-    """
-    try:
-        my_intersection_array(graph)
-        return True
-    except nx.NetworkXError:
-        return False
-
-
-@lru_cache(maxsize=None)
-def my_intersection_array(graph: nx.Graph) -> Iterable:
-    """Returns the intersection array of a distance-regular graph.
-
-    Given a distance-regular graph G with integers b_i, c_i,i = 0,....,d such that for any 2
-    vertices x,y in G at a distance i=d(x,y), there are exactly c_i neighbors of y at a distance of
-    i-1 from x and b_i neighbors of y at a distance of i+1 from x.
-
-    A distance regular graph's intersection array is given by
-    [b_0,b_1,.....b_{d-1};c_1,c_2,.....c_d]
-
-    Parameters
-    ----------
-    graph: Networkx graph (undirected)
-
-    Returns
-    -------
-    b,c: tuple of lists
-
-    Examples
-    --------
-    >>> G = nx.icosahedral_graph()
-    >>> nx.intersection_array(graph)
-    ([5, 2, 1], [1, 2, 5])
-
-    References
-    ----------
-    .. [1] Weisstein, Eric W. "Intersection Array."
-       From MathWorld--A Wolfram Web Resource.
-       http://mathworld.wolfram.com/IntersectionArray.html
-
-    See Also
-    --------
-    global_parameters
-    """
-    # the input graph is very unlikely to be distance-regular: here are the
-    # number a(n) of connected simple graphs, and the number b(n) of
-    # distance-regular graphs among them:
-    #
-    #    n  | 1 2 3 4  5   6   7     8      9       10
-    #  -----+------------------------------------------------------------------
-    #  a(n) | 1 1 2 6 21 112 853 11117 261080 11716571 https://oeis.org/A001349
-    #  b(n) | 1 1 1 2  2   4   2     5      4        7 https://oeis.org/A241814
-    #
-    # in light of this, let's compute shortest path lengths as we go instead of
-    # precomputing them all
-    # test for regular graph (all degrees must be equal)
-    if not nx.is_regular(graph) or not nx.is_connected(graph):
-        raise nx.NetworkXError("Graph is not distance regular.")
-
-    # path_length = dict(nx.all_pairs_shortest_path_length(G))
-    path_length = defaultdict(dict)
-    bint = {}  # 'b' intersection array
-    cint = {}  # 'c' intersection array
-
-    # see https://doi.org/10.1016/j.ejc.2004.07.004, Theorem 1.5 page 81: the
-    # diameter of a distance-regular graph is at most (8 log_2 n) / 3, so let's
-    # compute it as we go in the hope that we can stop early
-    diameter = 0
-    max_diameter_for_dr_graphs = (8 * log(graph.number_of_nodes(), 2)) / 3
-    for u, v in combinations_with_replacement(graph, 2):
-        if u not in path_length or v not in path_length[u]:
-            path_length[u].update(nx.single_source_shortest_path_length(graph, u))
-            for x, distance in path_length[u].items():
-                path_length[x][u] = distance
-
-        i = path_length[u][v]
-        diameter = max(diameter, i)
-
-        # diameter too large: graph can't be distance-regular
-        if diameter > max_diameter_for_dr_graphs:
-            raise nx.NetworkXError("Graph is not distance regular.")
-
-        # compute needed path lengths
-        for n in graph[v]:
-            if n not in path_length or u not in path_length[n]:
-                path_length[n].update(nx.single_source_shortest_path_length(graph, n))
-                for x, distance in path_length[n].items():
-                    path_length[x][n] = distance
-
-        # number of neighbors of v at a distance of i-1 from u
-        # c = len([n for n in G[v] if path_length[n][u] == i - 1])
-        c = sum(1 for n in graph[v] if path_length[n][u] == i - 1)
-        # number of neighbors of v at a distance of i+1 from u
-        # b = len([n for n in G[v] if path_length[n][u] == i + 1])
-        b = sum(1 for n in graph[v] if path_length[n][u] == i + 1)
-        # b,c are independent of u and v
-        if cint.get(i, c) != c or bint.get(i, b) != b:
-            raise nx.NetworkXError("Graph is not distance regular")
-        bint[i] = b
-        cint[i] = c
-
-    # diameter = max(max(path_length[n].values()) for n in path_length)
-    return (
-        [bint.get(j, 0) for j in range(diameter)],
-        [cint.get(j + 1, 0) for j in range(diameter)],
-    )
 
 
 @assign_class_id("gc_50")
@@ -431,7 +282,7 @@ def is_modular(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # alternative characterisation that yields a faster recognition
+    # alternative characterization that yields a faster recognition
     # algorithm: connected, triangle free, and pseudo-modular
     return is_connected(graph) and is_triangle_free(graph) and is_pseudo_modular(graph)
 
@@ -448,7 +299,7 @@ def is_median(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # equivalence from isgci: triangle-free and pseudo-median
+    # equivalence from ISGCI: triangle-free and pseudo-median
     return is_triangle_free(graph) and is_pseudo_median(graph)
 
 
@@ -555,16 +406,13 @@ def is_pseudo_modular(graph: nx.Graph) -> bool:
     if not is_connected(graph):
         return False
 
-    # TODO slow; I should not gain anything by caching since calls to nx.shortest_path_length
-    #   are already cached, but maybe if i use single source shortest path lengths as in my
-    #   improvement to intersection_array ...
     # let's do this in two steps, should be faster than examining all triplets
     # 1) all v, w at distance 1 (= all edges)
     for v, w in graph.edges:
         # for u in graph:
         # for u in set(graph) - {v, w}:
         # u is at distance >= 2 of both v and w iff it's not adjacent to either
-        # of them TODO so condition on k below can go away
+        # of them
         for u in set(nx.non_neighbors(graph, v)) & set(nx.non_neighbors(graph, w)):
             # skip if u not equidistant from v and w or not at distance >= 2
             k = nx.shortest_path_length(graph, u, v)
@@ -584,7 +432,6 @@ def is_pseudo_modular(graph: nx.Graph) -> bool:
             # for u in set(graph) - {v, w}:
             # u is at distance >= 2 of both v and w iff it's not adjacent to either
             # of them
-            # TODO so condition on k below can go away --- careful: not exactly same case as above
             for u in set(nx.non_neighbors(graph, v)) & set(nx.non_neighbors(graph, w)):
                 # skip if u not equidistant from v and w or not at distance >= 2
                 k = nx.shortest_path_length(graph, u, v)
@@ -619,7 +466,6 @@ def is_interval_regular(graph: nx.Graph) -> bool:
     # From the paper introducing them:
     # https://www.sciencedirect.com/science/article/pii/0012365X82900218
 
-    # FORMER VERSION
     # """
     if not is_connected(graph):
         return False
@@ -627,8 +473,6 @@ def is_interval_regular(graph: nx.Graph) -> bool:
     # NOTE: I used to precompute all intervals, but that was way too slow, so now I'm computing
     # them as I go in the hope that we'll stop early
     # intervals = vertices_on_shortest_paths(graph)
-    # TODO I should do the same for distances actually; same way as in my new intersection array
-    #  function
     distances = all_pairs_shortest_path_length(graph)
     for u, v in combinations(graph.nodes, 2):
         int_u_v = vertices_on_shortest_paths_between(
@@ -693,12 +537,12 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
             there is a common neighbor x of v and w such that d(u,x) = d(u,v) + 1.
 
         The quadrangle condition: For every four vertices, u, v, w, z with d(v, z) = d(w, z) = 1
-            and d(u, v) = d(u, w) = d(u, z) - 1, there is a common neighbour x of v and w such that
+            and d(u, v) = d(u, w) = d(u, z) - 1, there is a common neighbor x of v and w such that
             d(u,x) = d(u,v) - 1.
 
     https://www.graphclasses.org/classes/gc_222.html
 
-    >>> import networkx as nx; G = nx.Graph()
+    >>> from networkx import Graph; G = Graph()
     >>> G.add_edges_from([(0, 4), (1, 4), (2, 5), (3, 5), (4, 5)])
     >>> is_weakly_modular(G)
     True
@@ -871,5 +715,10 @@ RECOGNIZERS = current_module_recognizers(
             os.path.basename(__file__).removesuffix(".py"),
         ]
     )
+)
+RECOGNIZERS.update(
+    {
+        "gc_1148": cached_function(nx.is_distance_regular),
+    }
 )
 # -------------------------------------------------------------------------------------------------

@@ -37,12 +37,6 @@ __functions_to_cache = [
 for i, function in enumerate(__functions_to_cache):
     __functions_to_cache[i] = cached_function(function)
 
-# assign class id's to external recognizers that RECOGNIZERS must include
-EXTERNAL_RECOGNIZERS = {
-    "gc_1149": cached_function(nx.is_regular),
-    "gc_771": cached_function(nx.is_biconnected),
-}
-
 
 # Functions ---------------------------------------------------------------------------------------
 @assign_class_id("gc_1194")
@@ -124,10 +118,10 @@ def is_2_tree(graph: nx.Graph) -> bool:
     min_degree, max_degree = deg_seq[-1], deg_seq[0]
 
     if (
-        graph.size() == 4 * n - 6
-        and max_degree <= n - 1
-        and min_degree == 2
-        and n_2 >= 2
+            graph.size() == 4 * n - 6
+            and max_degree <= n - 1
+            and min_degree == 2
+            and n_2 >= 2
     ):
         # condition d: D is NOT of the form 2, 2, ..., 2, d, d, d, d
         # for any d >= 5
@@ -148,8 +142,8 @@ def is_2_tree(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_star_convex(graph: nx.Graph) -> bool:
     """
-    A bipartite graph B=(X, Y, E) is star convex if a tree T=(X, F) can be defined, such that T is
-    a star and for every vertex y ∈ Y, the neighbourhood of y induces a subtree in T.
+    A bipartite graph B = (X, Y, E) is star convex if a tree T=(X, F) can be defined such that T is
+    a star and for every vertex y ∈ Y, the neighborhood of y induces a subtree in T.
 
     https://www.graphclasses.org/classes/gc_1151.html
 
@@ -237,5 +231,10 @@ RECOGNIZERS = current_module_recognizers(
         ]
     )
 )
-RECOGNIZERS.update(EXTERNAL_RECOGNIZERS)
+RECOGNIZERS.update(
+    {
+        "gc_1149": cached_function(nx.is_regular),
+        "gc_771": cached_function(nx.is_biconnected),
+    }
+)
 # -------------------------------------------------------------------------------------------------
