@@ -44,7 +44,7 @@ from undirected_graph import UndirectedGraph
 
 
 # Functions ---------------------------------------------------------------------------------------
-# TODO refactor: move to a readwrite submodule? this has nothing to do with analyzing
+# TODO refactor: this has nothing to do with analyzing, should I have a "printing" module?
 def underlined(message: str) -> str:
     """
     Returns an underlined version of a message.
@@ -208,36 +208,6 @@ class GraphAnalyzer:
 
             # current graph has been classified: the corresponding cached data is no longer needed
             self._clear_recognizer_caches(called_recognizers)
-            # likewise, all data stored in other cached functions can now be cleared
-            """ # TODO later; getting rid of classifications is more efficient for reducing memory usage
-            self._clear_other_caches(
-                [
-                    degree_sequence,
-                    complement,
-                    all_pairs_shortest_path_length,
-                    is_complete,
-                    is_h_u_k1_free,
-                    is_h_u_k2_free,
-                    is_h_u_2k1_free,
-                    number_of_common_neighbours,
-                    dominates,
-                    dominates_either_way,
-                    has_dominating_set_of_size_at_most_2,
-                    vertex_has_degree_or_codegree_1,
-                    empty_graph_by_removing_edges_and_incident_edges,
-                    empty_graph_by_removing_vertices,
-                    is_connected,
-                    plain_co_bfs,
-                    is_co_connected,
-                    is_even_clique_free,
-                    is_odd_clique_free,
-                    is_even_co_clique_free,
-                    must_contain_a_clique_of_size,
-                    must_contain_an_independent_set_of_size,
-                    is_odd_co_clique_free,
-                ] # TODO ugly; use getmembers instead and filter cached functions
-            )
-            """
             if self.gss_crashed:
                 print("[WARNING] the glasgow subgraph or clique solver crashed")
 
@@ -628,9 +598,9 @@ class GraphAnalyzer:
         )
 
         if print_todo:
+            # print all classes that can be recognized in polynomial time, but for which we have no
+            # implemented recognizer yet
             print("All polynomially-recognizable unknown nodes:")
-
-            # TODO i want to remove all these html files, they are not needed elsewhere I think
             for node in union_of_unknown_nodes:
                 if recog_status[node] in {"Linear", "Polynomial"}:
                     print(urllib.parse.urljoin(BASE_CLASS_URL, node), recog_status[node])

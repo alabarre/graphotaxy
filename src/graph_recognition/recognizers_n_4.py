@@ -272,9 +272,6 @@ def is_p4_brittle(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # TODO we run into memory issues for CO-P_4-brittle on large graphs (Cayley graphs with n=5)
-    #   try to build the implication graph with microdict -> pypocketmap
-    #   currently not possible: they do not support lists as values
     # algorithm from https://doi.org/10.1016/S0012-365X(99)00300-3, p 204
     implication_graph = defaultdict(list)
     # for each P_{4} (abcd) we have a clause (a or d) equivalent to (not a => d)
@@ -307,7 +304,6 @@ def is_co_p4_brittle(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # TODO shouldn't be too hard to adapt algo without building the complement
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(

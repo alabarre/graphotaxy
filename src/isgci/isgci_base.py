@@ -17,11 +17,6 @@ https://www.graphclasses.org/ . You can:
 
             python3 -m isgci --relation FIRST_ID SECOND_ID
 
-TODO questions:
-    [ ] proper naming scheme? should isgci_base.py be called __main__.py? isgci.py? ...
-    [ ] and then should I import from isgci.stuff or just from stuff? (see other files)
-    [ ] once everything works, follow Dane's book again
-
 """
 
 # Imports -----------------------------------------------------------------------------------------
@@ -38,6 +33,7 @@ from pathlib import Path
 from shutil import rmtree
 from sys import stdout
 from textwrap import fill
+from typing import DefaultDict, List
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin
 from urllib.request import urlopen
@@ -80,7 +76,7 @@ HTMLMIN_SETTINGS = {
 
 
 # Private functions -------------------------------------------------------------------------------
-def _isgci_mapping(description: str, graphclass_field: str, force_rebuild: bool = False) -> defaultdict[str, str]:
+def _isgci_mapping(description: str, graphclass_field: str, force_rebuild: bool = False) -> DefaultDict[str, str]:
     """
     Returns a dictionary mapping each ISGCI id to some parameter. Only intended for internal use by
     functions isgci_ids_to_names and isgci_ids_to_recognition_statuses.
@@ -234,8 +230,9 @@ def save_webpage_to_file(url: str, local_path: str) -> None:
                     data = str(soup)
                 file.write(data)
 
-    except HTTPError:  # TODO what's this error? how to handle it?
+    except HTTPError:
         return
+
     except URLError:
         raise URLError("could not open " + url + ", are you offline?")
 
@@ -346,7 +343,7 @@ def isgci_exclusion_graph() -> DiGraph:
     return DiGraph(read_dot(join(ROOT, "exclusion-graph.dot")))
 
 
-def compute_class_equivalences(metagraph: DiGraph) -> defaultdict[str, set]:
+def compute_class_equivalences(metagraph: DiGraph) -> DefaultDict[str, set]:
     """
     Returns a dictionary indexed by class id's, whose values contain all corresponding equivalent
     classes as 2-tuples (name, id) sorted by name.
@@ -374,7 +371,7 @@ def compute_class_equivalences(metagraph: DiGraph) -> defaultdict[str, set]:
     return equivalences
 
 
-def isgci_equivalences(force_rebuild: bool = False) -> defaultdict[str, set]:
+def isgci_equivalences(force_rebuild: bool = False) -> DefaultDict[str, set]:
     """
     Returns the dictionary of all class equivalences known to ISGCI.
 
@@ -384,8 +381,7 @@ def isgci_equivalences(force_rebuild: bool = False) -> defaultdict[str, set]:
     @param force_rebuild: if True, rebuild the dictionary even if it already exists (default: False)
     @rtype: dict
     """
-    # TODO can we not rely on __isgci_mapping?
-    filename = PATHS["isgci_equivalences"]  # TODO switch to json
+    filename = PATHS["isgci_equivalences"]
 
     # if we haven't computed equivalences before, do it and save them for future uses
     if not exists(filename) or force_rebuild:
@@ -396,12 +392,11 @@ def isgci_equivalences(force_rebuild: bool = False) -> defaultdict[str, set]:
         print(f"Wrote dictionary with {len(result)} keys to {filename}")
 
     # return the pre-computed result
-    # TODO ok works but let's make the names readable (html_to_utf8)
     with open(filename, "r") as file:
         return json.load(file)
 
 
-def isgci_ids_to_names(force_rebuild: bool = False) -> defaultdict[str, str]:
+def isgci_ids_to_names(force_rebuild: bool = False) -> DefaultDict[str, str]:
     """
     Returns a dictionary mapping each ISGCI id to the corresponding class name.
 
@@ -411,7 +406,7 @@ def isgci_ids_to_names(force_rebuild: bool = False) -> defaultdict[str, str]:
     return _isgci_mapping("Gathering all ids and names", "class_name", force_rebuild)
 
 
-def isgci_recognition_statuses(force_rebuild: bool = False) -> defaultdict[str, str]:
+def isgci_recognition_statuses(force_rebuild: bool = False) -> DefaultDict[str, str]:
     """
     Returns a dictionary mapping each ISGCI id to the status of the recognition problem for that class.
 
@@ -423,7 +418,7 @@ def isgci_recognition_statuses(force_rebuild: bool = False) -> defaultdict[str, 
     return _isgci_mapping("Gathering all recognition statuses", "recognition_status", force_rebuild)
 
 
-def relation(first_id: str, second_id: str) -> str | list[str]:
+def relation(first_id: str, second_id: str) -> str | List[str]:
     """
     Determines whether classes identified by first_id and second_id are related. Depending on the
     answer, the result may be:
@@ -538,7 +533,8 @@ def main() -> None:
     parser.add_argument(
         "--rebuild-recognition-statuses",
         action="store_true",
-        help="rebuilds the information about the status of each recognition problem in ISGCI and writes them to a file",
+        help="rebuilds the information about the status of each recognition problem in ISGCI and "
+             "writes them to a file",
     )
 
     parser.add_argument(

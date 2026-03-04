@@ -17,9 +17,6 @@ The goal of this unpacking program is to provide the set of all subgraphs covere
 configuration so as to obtain explicit FISCs and thereby write recognizers for the corresponding
 graph classes.
 
-TODO many of these graphs have realisers that are unknown to ISGCI. I should create and store them
-    anyway so we can build and generate custom recognizers
-
 """
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
@@ -28,9 +25,10 @@ from functools import lru_cache
 from itertools import chain, combinations
 from typing import Iterable, Generator
 
-# ----- Third-party imports ---------------------------------------------------
+# ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
-# ----- My imports ------------------------------------------------------------
+
+# ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.smallgraphs import all_smallgraphs_by_order
 
 # Global variables --------------------------------------------------------------------------------
@@ -175,13 +173,12 @@ def main() -> None:
             [(0, 1), (0, 2), (1, 2), (1, 3), (2, 4), (3, 5), (3, 6), (4, 6), (5, 6)],
             [(3, 4), (4, 5)],
         ),
-        # TODO XZ_2 XZ_3, although not useful right now
+        # TODO (minor) XZ_2 and XZ_3, although not useful right now
         "XZ_4": (
             [(0, 1), (0, 2), (1, 2), (1, 3), (2, 4), (3, 6), (3, 7), (4, 5), (4, 8),
              (5, 7), (6, 8), (7, 8)],
             [(3, 4), (3, 5), (4, 6), (5, 6)],
         ),
-        # TODO configurations BELOW this todo have been re-checked
         "XZ_5": (
             [(0, 1), (0, 2), (0, 5), (1, 2), (1, 5), (2, 5), (3, 6), (4, 6), (5, 6)],
             [(0, 3), (0, 4), (1, 3), (1, 4), (2, 3), (2, 4)],
@@ -207,9 +204,8 @@ def main() -> None:
             [(0, 1), (0, 4), (0, 5), (1, 2), (2, 3), (3, 5)],
             [(1, 5), (3, 4), (4, 5)],
         ),
-        # output for XZ_15 is {'co(3K_{2})', 'co(P_{2} U P_{4})', 'co(E)',
-        # 'S_{3}'}, which confirms the known equivalence with
-        # https://www.graphclasses.org/classes/gc_748.html
+        # output for XZ_15 is {'co(3K_{2})', 'co(P_{2} U P_{4})', 'co(E)', 'S_{3}'}, which confirms
+        # the known equivalence with https://www.graphclasses.org/classes/gc_748.html
         "XZ_15": (
             [(0, 1), (0, 2), (1, 2), (1, 3), (1, 4), (2, 4), (2, 5), (3, 4), (4, 5)],
             [(0, 3), (0, 5), (3, 5)],

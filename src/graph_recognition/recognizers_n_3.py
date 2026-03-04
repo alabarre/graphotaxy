@@ -24,7 +24,6 @@ from graph_recognition.misc_algo import (
     empty_graph_by_removing_vertices,
     all_pairs_shortest_path_length,
     is_connected,
-    is_complete,
     degree_sequence, co_connected_components,
 )
 from graph_recognition.profitable_hereditary_n import (
@@ -84,7 +83,6 @@ def explicit_independent_triplets(graph: nx.Graph) -> Iterator:
     for u, v in nx.non_edges(graph):
         # careful: we may have w == v, since they are both non-neighbors of u, so we need to
         # explicitly exclude v
-        # TODO why not intersect common non neighbors? and remove both u and v then
         for w in set(nx.non_neighbors(graph, u)) - {v}:
             if not graph.has_edge(v, w):
                 yield {u, v, w}
@@ -262,70 +260,12 @@ def is_dismantlable(graph: nx.Graph) -> bool:
     nodes = set(graph.nodes)
     for z in graph:
         if any(
-            dominates(graph, y, z) and is_dismantlable(graph.subgraph(nodes - {z}))
-            for y in nodes - {z}
+                dominates(graph, y, z) and is_dismantlable(graph.subgraph(nodes - {z}))
+                for y in nodes - {z}
         ):
             return True
 
     return False
-
-
-# NOTE: this is not a class in ISGCI, but this recognizer is needed to recognize the complement
-# class (1, 2)-colorable
-# TODO running time is O(n²m)<=O(n4), move this
-@lru_cache(maxsize=None)
-def is_2_1_colorable(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph can be partitioned into 2 cliques and 1 independent set.
-
-    See https://www.graphclasses.org/classes/gc_500 for (p, q)-colorable
-
-    @param graph:
-    @return:
-    """
-    # algorithm 1 from https://nbn-resolving.org/urn:nbn:de:hbz:708-dh9961; this is a revised
-    # version of  https://doi.org/10.1016/0012-365X(94)00296-U, which was wrong according to
-    # https://www.sciencedirect.com/science/article/pii/S0012365X98000144
-    # notation:
-    #   (1, 1) is the class of split graphs
-    #   (2, 0) is the class of bipartite graphs
-    #   N(v) is the open neighborhood of v
-
-    # preprocess vertices to classify them based on whether or not N(v) is (1, 1) and whether or
-    # not co(N(v)) is (2, 0); each vertex will be mapped onto a tuple (a, b) expressing those
-    # properties
-    neighborhood_conditions = dict()
-    for v in graph:
-        neighborhood_conditions[v] = (
-            is_split(graph.subgraph(graph[v])),
-            is_bipartite(graph.subgraph(nx.non_neighbors(graph, v))),
-        )
-        # give up early if a vertex satisfies neither condition
-        if neighborhood_conditions[v] == (False, False):
-            return False
-
-    # build set R: vertices whose neighborhood is (1, 1) and whose co-neighborhood is (2, 0)
-    r_set = {v for v in graph if neighborhood_conditions[v] == (True, True)}
-
-    # move each vertex NOT in R to a clique or the union of two independent sets if possible
-    c_s = {v for v in graph if neighborhood_conditions[v] == (False, True)}
-    if not is_complete(graph.subgraph(c_s)):
-        return False
-
-    i_s = {v for v in graph if neighborhood_conditions[v] == (True, False)}
-    if not is_bipartite(graph.subgraph(i_s)):
-        return False
-
-    # if R is empty then we have a yes-instance
-    if not r_set:
-        return True
-
-    if is_split(graph.subgraph(r_set)):
-        pass  # TODO apply Lemma 2
-    else:
-        pass  # TODO apply Lemma 1
-
-    # TODO finish
 
 
 @assign_class_id("gc_1148")
@@ -526,7 +466,7 @@ def is_median_and_planar(graph: nx.Graph) -> bool:
 
 
 def number_of_common_neighbors_at_distance(
-    graph: nx.Graph, u: Any, v: Any, w: Any, k: int
+        graph: nx.Graph, u: Any, v: Any, w: Any, k: int
 ) -> int:
     """
     Returns the number of common neighbors of v and w at distance k - 1 from u.
@@ -579,12 +519,12 @@ def is_pseudo_median(graph: nx.Graph) -> bool:
 
     # 2) all v, w at distance 2
     for u, (v, w) in product(
-        graph,
-        (
-            (x, y)
-            for x, y in nx.non_edges(graph)
-            if nx.shortest_path_length(graph, x, y) == 2
-        ),
+            graph,
+            (
+                    (x, y)
+                    for x, y in nx.non_edges(graph)
+                    if nx.shortest_path_length(graph, x, y) == 2
+            ),
     ):
         # skip if u not equidistant from v and w or not at distance >= 2
         k = nx.shortest_path_length(graph, u, v)
@@ -632,8 +572,8 @@ def is_pseudo_modular(graph: nx.Graph) -> bool:
                 continue
             # is there a common neighbor of v and w at distance k-1 from u?
             if all(
-                nx.shortest_path_length(graph, u, x) != k - 1
-                for x in nx.common_neighbors(graph, v, w)
+                    nx.shortest_path_length(graph, u, x) != k - 1
+                    for x in nx.common_neighbors(graph, v, w)
             ):
                 return False
 
@@ -653,8 +593,8 @@ def is_pseudo_modular(graph: nx.Graph) -> bool:
 
                 # is there a common neighbor of v and w at distance k-1 from u?
                 if all(
-                    nx.shortest_path_length(graph, u, x) != k - 1
-                    for x in nx.common_neighbors(graph, v, w)
+                        nx.shortest_path_length(graph, u, x) != k - 1
+                        for x in nx.common_neighbors(graph, v, w)
                 ):
                     return False
 
@@ -697,8 +637,8 @@ def is_interval_regular(graph: nx.Graph) -> bool:
         # note: since combinations produces unique pairs, we must check the
         # condition both ways (i.e., for u and for v)
         if (
-            len(set(graph[u]) & int_u_v) != distances[u][v]
-            or len(set(graph[v]) & int_u_v) != distances[u][v]
+                len(set(graph[u]) & int_u_v) != distances[u][v]
+                or len(set(graph[v]) & int_u_v) != distances[u][v]
         ):
             return False
 
@@ -719,7 +659,7 @@ def is_interval_or_co_interval(graph: nx.Graph) -> bool:
 @assign_class_id("gc_1226")
 @lru_cache(maxsize=None)
 def is_bipartite_and_girth_at_least9_and_maximum_degree3_and_planar(
-    graph: nx.Graph,
+        graph: nx.Graph,
 ) -> bool:
     """
 
@@ -729,9 +669,9 @@ def is_bipartite_and_girth_at_least9_and_maximum_degree3_and_planar(
     @return:
     """
     return (
-        is_bipartite(graph)
-        and is_planar_and_maximum_degree_3(graph)
-        and is_girth_at_least_9(graph)
+            is_bipartite(graph)
+            and is_planar_and_maximum_degree_3(graph)
+            and is_girth_at_least_9(graph)
     )
 
 
@@ -780,9 +720,9 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
                 frozenset({v, w}),
             )
             if (
-                intervals[f_u_v] & intervals[f_u_w] == {u}
-                and intervals[f_u_v] & intervals[f_v_w] == {v}
-                and intervals[f_u_w] & intervals[f_v_w] == {w}
+                    intervals[f_u_v] & intervals[f_u_w] == {u}
+                    and intervals[f_u_v] & intervals[f_v_w] == {v}
+                    and intervals[f_u_w] & intervals[f_v_w] == {w}
             ):
                 # do all vertices in I(v, w) have the same distance to u?
                 if len({distances[x][u] for x in intervals[f_v_w]}) != 1:
@@ -860,24 +800,12 @@ def is_probe_co_bipartite(graph: nx.Graph) -> bool:
 # should stay at the end of the file in the hope that they are not actually needed until we figure
 # out a way to bypass the computation of the complement.
 # -------------------------------------------------------------------------------------------------
-# @assign_class_id("gc_540")  # TODO debug in progress, do not use yet
-@lru_cache(maxsize=None)
-def is_1_2_colorable(graph: nx.Graph) -> bool:
-    """
-    A graph is (1, 2)-colorable iff its complement is (2, 1)-colorable.
-
-    https://www.graphclasses.org/classes/gc_540.html
-
-    @param graph:
-    @return:
-    """
-    return is_2_1_colorable(complement(graph))
-
-
 @assign_class_id("AUTO_2780")
 @lru_cache(maxsize=None)
 def is_co_paw_odd_anti_hole_free(graph: nx.Graph) -> bool:
     """
+
+    https://www.graphclasses.org/classes/AUTO_2780
 
     @param graph:
     @return:

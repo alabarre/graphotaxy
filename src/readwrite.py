@@ -79,8 +79,9 @@ def process_graphs(filename: str) -> Iterator:
                 for line in archive:
                     yield UndirectedGraph(nauty_readers[original_extension](line.strip()))
 
-        # TODO support for compressed .edges
-
+        # TODO support for compressed .edges; treatment is a bit different from nauty_readers since
+        #   the former transforms lines to graphs while we deal here with a complete file for one
+        #   graph
         else:
             raise ValueError(
                 f"Unknown original file extension for '{filename}' ({extension} is fine, but I "
