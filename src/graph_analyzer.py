@@ -137,16 +137,14 @@ class GraphAnalyzer:
         # 1) profitable classes, i.e. classes that have a FISC but can be recognized faster than by
         #    using a naïve algorithm
         modules = ["profitable_hereditary_constant", "profitable_hereditary_n"]
-        profitable_modules = ["profitable_hereditary_n_" + str(i) for i in range(2, 7)]
+        profitable_modules = [f"profitable_hereditary_n_{i}" for i in range(2, 7)]
         modules.extend(profitable_modules)
 
         # 2) FISC-based recognizers, which may involve calls to the Glasgow subgraph solver
         modules.extend(["fisc_based_recognizers"])
 
         # 3) and then recognizers that run in O(n), O(n^2), ... time
-        nonprofitable_modules = ["recognizers_n"] + [
-            "recognizers_n_" + str(i) for i in range(2, 12)
-        ]
+        nonprofitable_modules = ["recognizers_n"] + [f"recognizers_n_{i}" for i in range(2, 12)]
         modules.extend(nonprofitable_modules)
 
         # gather and load all recognizers; they will be run in the order in which they are defined

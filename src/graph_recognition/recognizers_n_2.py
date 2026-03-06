@@ -10,9 +10,11 @@ import os
 from array import array
 from functools import lru_cache
 from itertools import combinations
+from typing import Callable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from networkx.utils.misc import arbitrary_element
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
@@ -52,7 +54,7 @@ for i, function in enumerate(__functions_to_cache):
 @lru_cache(maxsize=None)
 def is_apex(graph: nx.Graph) -> bool:
     """
-    A graph G is an apex graph, if it contains a vertex v such that G−v is planar.
+    A graph G is an apex graph if it contains a vertex v such that G−v is planar.
 
     https://www.graphclasses.org/classes/gc_1181
 
@@ -61,7 +63,6 @@ def is_apex(graph: nx.Graph) -> bool:
     """
     if is_planar(graph):
         return True
-    # print("[DEBUG] graph's edges:", graph.edges)
 
     # a planar graph on n vertices has at most 3n - 6 edges; by definition, if our graph is apex,
     # then removing a vertex must leave a graph with at most 3(n - 1) - 6 edges; since the degree
@@ -71,8 +72,8 @@ def is_apex(graph: nx.Graph) -> bool:
     if graph.size() > 4 * n - 10:
         return False
 
-    # the removal of a higher degree node has a better chance of yielding a
-    # planar graph, so let's try those first
+    # the removal of a higher degree node has a better chance of yielding a planar graph, so let's
+    # try those first
     previous_nodes = set(graph.nodes)
     return any(
         is_planar(graph.subgraph(previous_nodes.difference({v})))
@@ -142,8 +143,7 @@ def has_star_cutset(graph: nx.Graph, _complement: bool = False) -> bool:
     # ... and it has adjacent vertices u, v such that v dominates u (i.e., each
     # neighbor of u is either v or a neighbor of v)
 
-    # caching neighbourhoods is more efficient than repeated calls to dominates
-    # or dominates_either_way
+    # caching neighborhoods is more efficient than repeated calls to dominates
     neighbourhoods = dict()
     for u, v in graph.edges:
         if u not in neighbourhoods:
@@ -165,8 +165,11 @@ def has_star_cutset(graph: nx.Graph, _complement: bool = False) -> bool:
 @lru_cache(maxsize=None)
 def is_edge_regular(graph: nx.Graph) -> bool:
     """
+    An edge regular graph with parameters (n, k, λ) is a k-regular graph on n vertices, in which
+    any two adjacent vertices have exactly λ common neighbors.
 
-    TODO DEF AND LINK
+    https://graphclasses.org/classes/gc_1188
+
     :type graph: nx.Graph
     :param graph:
     """
@@ -179,7 +182,7 @@ def is_edge_regular(graph: nx.Graph) -> bool:
     if not nx.is_regular(graph):
         return False
 
-    k = number_of_common_neighbours(graph, *next(iter(graph.edges)))
+    k = number_of_common_neighbours(graph, *arbitrary_element(graph.edges))
 
     # check that each pair of adjacent vertices has exactly k common neighbors
 
@@ -216,8 +219,8 @@ def is_unbreakable(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_bigeodetic(graph: nx.Graph) -> bool:
     """
-    A graph is bigeodetic if every pair of vertices has at most 2 paths of
-    minimum length between them.
+    A graph is bigeodetic if every pair of vertices has at most 2 paths of minimum length between
+    them.
 
     https://www.graphclasses.org/classes/gc_195.html
 

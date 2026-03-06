@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
 O(m+n) recognizers.
 
@@ -123,13 +123,11 @@ def is_2_tree(graph: nx.Graph) -> bool:
             and min_degree == 2
             and n_2 >= 2
     ):
-        # condition d: D is NOT of the form 2, 2, ..., 2, d, d, d, d
-        # for any d >= 5
+        # condition d: D is NOT of the form 2, 2, ..., 2, d, d, d, d for any d >= 5
         if deg_seq[0] == 2 and deg_seq[-4] == deg_seq[-1] and deg_seq[-1] >= 5:
             return False
 
-        # condition e: if all elements of D are even, then we must have
-        # n_2 >= n/3 + 1
+        # condition e: if all elements of D are even, then we must have n_2 >= n/3 + 1
         if all(e % 2 == 0 for e in deg_seq) and n_2 < n / 3 + 1:
             return False
 
@@ -155,10 +153,10 @@ def is_star_convex(graph: nx.Graph) -> bool:
     except nx.exception.NetworkXError:  # graph is not bipartite
         return False
     except nx.exception.AmbiguousSolution:  # graph is disconnected
-        # Disconnected graph: Ambiguous solution for bipartite sets.
         # check bipartiteness
         if not is_bipartite(graph):
             return False
+
         # G is bipartite: nx.is_bipartite wrote 0s and 1s on vertices, retrieve
         # them to build the bipartition
         left = {n for n, d in graph.nodes(data=True) if d == 0}
@@ -212,7 +210,7 @@ def is_2_edge_connected(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_reflexive(graph: nx.Graph) -> bool:
     """
-    A graph is reflexive if for every node v there is an edge (v,v) (a loop).
+    A graph is reflexive if for every node v there is an edge (v, v) (a loop).
 
     https://www.graphclasses.org/classes/gc_581
 

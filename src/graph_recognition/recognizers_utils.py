@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
 Miscellaneous utilities for recognizers. This is of no interest to users; if you intend to write
 your own recognizers, read on.
@@ -132,16 +132,14 @@ def my_isgeneratorfunction(function: Callable) -> bool:
             raises an exception when called on built-in functions.
 
 
-    >>> from networkx import connected_components as concomp
-    >>> isgeneratorfunction(concomp), my_isgeneratorfunction(concomp)
+    >>> from networkx import connected_components
+    >>> isgeneratorfunction(connected_components), my_isgeneratorfunction(connected_components)
     (False, True)
 
     @param function:
     @return:
     """
-    return any(
-        isinstance(node, ast.Yield) for node in ast.walk(ast.parse(getsource(function)))
-    )
+    return any(isinstance(node, ast.Yield) for node in ast.walk(ast.parse(getsource(function))))
 
 
 def returns_generator(function: Callable) -> bool:

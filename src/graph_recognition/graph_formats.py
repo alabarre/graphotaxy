@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
 This file contains everything related to reading, writing, and converting between various graph
 formats. I don't aim to be exhaustive, just writing what I happen to need as I go.
@@ -61,7 +61,7 @@ def nx_graph_to_lad_string(graph: nx.Graph) -> str:
     :param graph:
     :return:
     """
-    # nodes must sometimes be relabelled, because the glasgow subgraph solver expects nodes in the
+    # nodes must sometimes be relabeled, because the glasgow subgraph solver expects nodes in the
     # range [0, n-1] when n vertices are announced. This causes it to crash on subgraphs with the
     # following error:
     #
@@ -94,7 +94,7 @@ def nx_graph_to_lad_file(graph: nx.Graph, filename: str) -> None:
     :return:
     """
     with open(filename, "w") as output:
-        # nodes must sometimes be relabelled, because the glasgow subgraph solver
+        # nodes must sometimes be relabeled, because the glasgow subgraph solver
         # expects nodes in the range [0, n-1] when n vertices are announced. This
         # causes it to crash on subgraphs with the following error:
         #
@@ -162,8 +162,7 @@ def lad_file_to_nx_graph(filename: str) -> nx.Graph:
     with open(filename, "r") as data:
         graph = nx.empty_graph(int(data.readline()))
         for v, line in enumerate(data):
-            # each line contains the degree of the node followed by its
-            # neighbours
+            # each line contains the degree of the node followed by its neighbors
             graph.add_edges_from([(v, x) for x in map(int, line.split()[1:])])
 
         return graph

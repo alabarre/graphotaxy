@@ -14,9 +14,7 @@ from os.path import basename
 from typing import Iterator, Iterable, Callable
 
 
-# TODO later: move this to graph_recognition or main.py, and add option to disable caching for
-#  users whose computers are short on memory
-def disable_lru_cache(maxsize:int=None, typed: bool=False) -> Callable:
+def disable_lru_cache(maxsize: int = None, typed: bool = False) -> Callable:
     """
     Decorator for disabling lru_cache wherever it is used.
 
@@ -60,16 +58,15 @@ def filter_graphs(filename: str, class_id: str) -> Iterator:
     """
     Returns the list of all graphs in filename that belong to the class identified by class_id.
 
-    :param input_path:
+    :param filename:
+    :param class_id:
     :return:
     """
     # retrieve the recognizer if possible
     try:
         # accessing the __wrapped__ function ensures we access the non-lru_cached version of the
         # recognizer
-        recognizer = (
-            GraphAnalyzer().get_recognizer(class_id).__wrapped__
-        )
+        recognizer = GraphAnalyzer().get_recognizer(class_id).__wrapped__
 
     except ValueError:
         print(f"no recognizer available for class {class_id}")
