@@ -6,9 +6,10 @@ classifications for one or more undirected graphs.
 
 To use a GraphAnalyzer:
 
-    analyzer = GraphAnalyzer()  # instantiate it
+    analyzer = GraphAnalyzer()                         # instantiate it
     # possibly set options through method calls, see class definition below
     analyzer.run_classification(paths_to_input_files)  # feed it data and go
+    analyzer.print_summary_of_findings()               # print results
 
 TODO memory usage issues for large datasets, probably due to us keeping each classification until
     the end; rewrite code to compute this as we go.
@@ -23,7 +24,7 @@ from collections.abc import Callable
 from copy import deepcopy
 from importlib import import_module
 from itertools import chain
-from typing import Iterable
+from typing import Iterable, Set, List, DefaultDict, Tuple
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -72,9 +73,7 @@ def _clear_other_caches(functions: Iterable[Callable]) -> None:
         try:
             func.cache_clear()
         except AttributeError:
-            print(
-                f"failed to clear cache for function {func.__name__} from {func.__module__}"
-            )
+            print(f"failed to clear cache for function {func.__name__} from {func.__module__}")
             # all provided functions are supposed to be cached, so we exit if something went wrong
             # to signal it has to be fixed
             exit(-1)
@@ -93,6 +92,9 @@ class GraphAnalyzer:
     """
 
     def __init__(self) -> None:
+        """
+        Initializes all data structures.
+        """
         # data related to classification ----------------------------------------------------------
         self.classifications = []
         self.blacklisted = set()
@@ -122,9 +124,7 @@ class GraphAnalyzer:
         :return:
         """
         self.recognizers.append((class_id, recognizer))
-        self.recognizers.extend(
-            (eq_id, recognizer) for _, eq_id in self.equivalences[class_id]
-        )
+        self.recognizers.extend((eq_id, recognizer) for _, eq_id in self.equivalences[class_id])
 
     def setup_recognizers(self) -> None:
         """
@@ -150,13 +150,11 @@ class GraphAnalyzer:
         # gather and load all recognizers; they will be run in the order in which they are defined
         # in their respective modules
         for i, mod_name in enumerate(modules, 1):
-            algos = getattr(
-                import_module("." + mod_name, "graph_recognition"), "RECOGNIZERS"
-            )
+            algos = getattr(import_module("." + mod_name, "graph_recognition"), "RECOGNIZERS")
             for class_id, recognizer in algos.items():
                 self.register_recognizer(class_id, recognizer)
 
-    def run_classification(self, input_files: list[str]) -> None:
+    def run_classification(self, input_files: List[str]) -> None:
         """Starts the classification of all graphs from the given input files."""
         # run all available recognizers on all stored graphs, propagating results as we go to avoid
         # unnecessary work:
@@ -192,9 +190,7 @@ class GraphAnalyzer:
                 pbar.set_description("".join(["    ", BASE_CLASS_URL, class_id, " "]))
                 if classification.has_open_node(class_id):
                     if class_id in self.blacklisted:
-                        classification.set_reason(
-                            class_id, "user blacklisted this class"
-                        )
+                        classification.set_reason(class_id, "user blacklisted this class")
                     else:
                         self.recognize_graph_and_propagate_results(
                             graph,
@@ -213,7 +209,7 @@ class GraphAnalyzer:
             self,
             graph: nx.Graph,
             recognizer: Callable,
-            called_recognizers: set[Callable],
+            called_recognizers: Set[Callable],
             classification: ClassificationDigraph,
             class_id: str,
     ) -> None:
@@ -248,12 +244,10 @@ class GraphAnalyzer:
                 if fisc := getattr(recognizer, "fisc", None):
                     _dispatch_findings(graph, fisc, False)
 
-                # propagate findings using exclusion relationships if possible class_id might be
+                # propagate findings using exclusion relationships if possible; class_id might be
                 # known under different names in isgci_exclusion_graph, so we first need to find
                 # them
-                for equiv_id in {eq_id for _, eq_id in self.equivalences[class_id]} | {
-                    class_id
-                }:
+                for equiv_id in {eq_id for _, eq_id in self.equivalences[class_id]} | {class_id}:
                     if self.isgci_exclusion_graph.has_node(equiv_id):
                         for successor in map(
                                 self._get_stored_class_id,
@@ -382,7 +376,7 @@ class GraphAnalyzer:
 
         raise ValueError(class_id + " not found, nor any equivalent id")
 
-    def classes_stats(self) -> defaultdict[str, int]:
+    def classes_stats(self) -> DefaultDict[str, int]:
         """
         Returns a dictionary whose entries are of the form (class_id, num_members), where
         num_members is the number of graphs that belong to the graph class identified by class_id.
@@ -483,16 +477,13 @@ class GraphAnalyzer:
 
         raise ValueError(f"no recognizer found for {class_id} or any equivalent class")
 
-    def gray_area(self) -> tuple[int, int]:
+    def gray_area(self) -> Tuple[int, int]:
         """
         Returns the min and max number of unknown nodes among all classifications.
 
         @rtype: tuple
         """
-        counts = {
-            classification.number_of_open_nodes()
-            for classification in self.classifications
-        }
+        counts = {classification.number_of_open_nodes() for classification in self.classifications}
         return min(counts), max(counts)
 
     def number_of_graphs(self) -> int:
@@ -534,15 +525,12 @@ class GraphAnalyzer:
         if num_graphs == 1:
             print("The graph is:\n")
 
-        # TODO don't use recognition_status below, it's slow. rely on isgci_recognition_statuses()
         isgci_graph = reduced_isgci_inclusion_graph()
         ids_to_names = isgci_ids_to_names()
         recog_status = isgci_recognition_statuses()
         for num, class_id in results:
             print(
-                ["{:.2f}".format(100 * num / num_graphs).rjust(6) + "% are", "-"][
-                    num_graphs == 1
-                    ],
+                ["{:.2f}".format(100 * num / num_graphs).rjust(6) + "% are", "-"][num_graphs == 1],
                 ids_to_names[class_id],
                 "---",
                 urllib.parse.urljoin(BASE_CLASS_URL, class_id),
@@ -552,9 +540,7 @@ class GraphAnalyzer:
                 unknown_children = set(isgci_graph.successors(class_id)).intersection(
                     union_of_unknown_nodes
                 )
-                print(
-                    f"    class has {len(unknown_children)} unidentified maximal subclasses",
-                )
+                print(f"    class has {len(unknown_children)} unidentified maximal subclasses")
                 for child in unknown_children:
                     print(
                         " " * 8,
@@ -572,9 +558,7 @@ class GraphAnalyzer:
                     .intersection(union_of_unknown_nodes)
                     .difference(unknown_children)
                 )
-                print(
-                    f"    class has {len(unknown_descendants)} further unidentified descendants",
-                )
+                print(f"    class has {len(unknown_descendants)} further unidentified descendants")
                 for child in unknown_descendants:
                     print(
                         " " * 8,
@@ -589,11 +573,7 @@ class GraphAnalyzer:
         lo, hi = self.gray_area()
 
         print()
-        print(
-            "We have",
-            [f"between {lo} and {hi}", lo][lo == hi],
-            "unidentified classes.",
-        )
+        print("We have", [f"between {lo} and {hi}", lo][lo == hi], "unidentified classes.")
 
         if print_todo:
             # print all classes that can be recognized in polynomial time, but for which we have no
