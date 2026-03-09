@@ -75,8 +75,8 @@ def _clear_other_caches(functions: Iterable[Callable]) -> None:
             print(
                 f"failed to clear cache for function {func.__name__} from {func.__module__}"
             )
-            # all provided functions are supposed to be cached, so we exit if something went
-            # wrong to signal it has to be fixed
+            # all provided functions are supposed to be cached, so we exit if something went wrong
+            # to signal it has to be fixed
             exit(-1)
 
 

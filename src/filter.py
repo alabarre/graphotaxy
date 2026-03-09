@@ -27,10 +27,10 @@ def disable_lru_cache(maxsize: int = None, typed: bool = False) -> Callable:
     """
     _CacheInfo = namedtuple("CacheInfo", ["hits", "misses", "maxsize", "currsize"])
 
-    def decorator(func: Callable) -> Callable:
-        @functools.wraps(func)
+    def decorator(_func: Callable) -> Callable:
+        @functools.wraps(_func)
         def wrapper(*args, **kwargs) -> Callable:
-            return func(*args, **kwargs)
+            return _func(*args, **kwargs)
 
         # decorate function with same attributes as lru_cache would to guarantee compatibility
         wrapper.cache_clear = lambda: None
@@ -75,12 +75,13 @@ def get_recognizer(class_id: str) -> Callable | None:
         print(f"no recognizer available for class {class_id}")
 
 
-def filter_graphs(filename: str, class_id: str, invert: bool=False) -> Iterator:
+def filter_graphs(filename: str, class_id: str, invert: bool = False) -> Iterator:
     """
     Returns the list of all graphs in filename that belong to the class identified by class_id.
 
     :param filename:
     :param class_id:
+    :param invert:
     :return:
     """
     recognizer = get_recognizer(class_id)

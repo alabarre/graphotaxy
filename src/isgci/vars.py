@@ -1,7 +1,7 @@
 """
 Anthony Labarre © 2024-2026
 
-Variables useful in various modules of the isgci package.
+Variables useful in various modules of the ISGCI package.
 """
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------

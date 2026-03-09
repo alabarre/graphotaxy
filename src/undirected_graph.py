@@ -19,7 +19,6 @@ class UndirectedGraph(Graph):
 
     Additionally, number_of_edges() and size() run in time O(1) instead of O(m+n).
     """
-
     # we don't need edge attributes, so we remove them as in the example at
     # https://networkx.org/documentation/stable/reference/classes/graph.html
     all_edge_dict = dict()
@@ -47,7 +46,6 @@ class UndirectedGraph(Graph):
 
     # Graph.number_of_edges and Graph.size take time O(m+n); we reimplement them to have them call
     # len on the iterable of edges instead, which takes time O(1)
-    # TODO these implementations should form a PR for networkx too ...
     def number_of_edges(self, u: Hashable = None, v: Hashable = None) -> int:
         """
         Returns the number of edges in the graph. If neither u nor v are None, returns the number

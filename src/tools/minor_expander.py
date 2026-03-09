@@ -76,13 +76,7 @@ def known_subdivisions(graph: Graph) -> set[Graph]:
     """
     result = set()
 
-    # real_total = 1
-    # for i in range(graph.number_of_nodes(), 13):
-    #     real_total *= graph.number_of_edges() + 1
-    # real_total -= 1
-    # bar = tqdm(total=real_total)
-
-    def known_subdivisions_rec(graph: Graph) -> None:
+    def known_subdivisions_rec(other_graph: Graph) -> None:
         """
         Identifies the graph, adds it to the known subdivisions if need be, then splits each edge
         in turn and recurses until we have "too many nodes" (currently 13).
@@ -91,14 +85,14 @@ def known_subdivisions(graph: Graph) -> set[Graph]:
         @return:
         """
         # if graph is "known", record its name
-        graph_name = identify_smallgraph(graph)
+        graph_name = identify_smallgraph(other_graph)
         if graph_name:
             # print("[DEBUG] found:", graph_name)
             result.add(graph_name)
 
-        # only proceed to subdividing the graph further if it contains less vertices than the
+        # only proceed to subdividing the graph further if it contains fewer vertices than the
         # largest smallgraph in ISGCI
-        if graph.number_of_nodes() < 13:
+        if other_graph.number_of_nodes() < 13:
             # naive version
             """
             for u, v in set(graph.edges()):
@@ -116,13 +110,9 @@ def known_subdivisions(graph: Graph) -> set[Graph]:
                 bar.update()
             """
 
-            # compute all non isomorphic subdivisions of one edge first, and recurse only on those
-            # TODO still slow, but probably when we are recursing we end up recomputing stuff we already know
-            # print(f"[DEBUG] ... done, recursing on {len(non_isomorphic_subdivisions)} subdivisions")
-
+            # compute all non-isomorphic subdivisions of one edge first, and recurse only on those
             for subdivision in all_non_isomorphic_1_subdivisions(graph):
                 known_subdivisions_rec(subdivision)
-            # bar.update()
 
     known_subdivisions_rec(graph)
     return result
@@ -130,8 +120,7 @@ def known_subdivisions(graph: Graph) -> set[Graph]:
 
 def main() -> None:
     """
-
-    The only graphs that are involved in minor-free characterisations in ISGCI are:
+    The only graphs that are involved in minor-free characterizations in ISGCI are:
 
     [v] K_{2, 3}:   ['K_{2,3}', 'co(X_{90})', 'twin-C_{5}']
     [v] K_{3, 3}:   ['K_{3,3}', 'co(X_{86})']

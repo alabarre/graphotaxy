@@ -1,4 +1,7 @@
-# the following lines ensure that running unittest from the parent directory works; otherwise, 
+"""
+Anthony Labarre © 2026
+"""
+# the following lines ensure that running unittest from the parent directory works; otherwise,
 # python will not be able to find necessary modules in src
 import os
 import sys

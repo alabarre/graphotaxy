@@ -23,7 +23,7 @@ graph classes.
 from copy import deepcopy
 from functools import lru_cache
 from itertools import chain, combinations
-from typing import Iterable, Generator
+from typing import Iterable, Generator, List
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -51,7 +51,7 @@ def powerset(iterable: Iterable) -> Generator:
     return chain.from_iterable(combinations(s, r) for r in range(len(s) + 1))
 
 
-def unpack_xc(present: Iterable, forbidden: Iterable) -> list[nx.Graph]:
+def unpack_xc(present: Iterable, forbidden: Iterable) -> List[nx.Graph]:
     """
     Returns all graphs that can be obtained from an XC configuration. Those graphs must contain all
     present edges, and may additionally contain any missing edge **not** in the forbidden set.
@@ -72,7 +72,7 @@ def unpack_xc(present: Iterable, forbidden: Iterable) -> list[nx.Graph]:
     return results
 
 
-def unpack_xz(present: Iterable, allowed: Iterable) -> list[nx.Graph]:
+def unpack_xz(present: Iterable, allowed: Iterable) -> List[nx.Graph]:
     """
     Returns all graphs that can be obtained from an XZ configuration. Those graphs must contain all
     present edges, and may additionally contain any edge in the allowed set.
@@ -173,7 +173,7 @@ def main() -> None:
             [(0, 1), (0, 2), (1, 2), (1, 3), (2, 4), (3, 5), (3, 6), (4, 6), (5, 6)],
             [(3, 4), (4, 5)],
         ),
-        # TODO (minor) XZ_2 and XZ_3, although not useful right now
+        # note: XZ_2 and XZ_3 are not yet useful
         "XZ_4": (
             [(0, 1), (0, 2), (1, 2), (1, 3), (2, 4), (3, 6), (3, 7), (4, 5), (4, 8),
              (5, 7), (6, 8), (7, 8)],

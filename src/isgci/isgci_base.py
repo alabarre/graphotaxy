@@ -76,7 +76,9 @@ HTMLMIN_SETTINGS = {
 
 
 # Private functions -------------------------------------------------------------------------------
-def _isgci_mapping(description: str, graphclass_field: str, force_rebuild: bool = False) -> DefaultDict[str, str]:
+def _isgci_mapping(
+        description: str, graphclass_field: str, force_rebuild: bool = False
+) -> DefaultDict[str, str]:
     """
     Returns a dictionary mapping each ISGCI id to some parameter. Only intended for internal use by
     functions isgci_ids_to_names and isgci_ids_to_recognition_statuses.
@@ -123,7 +125,8 @@ def download_isgci(target_dir: str) -> None:
     if isdir(target_dir):
         print(
             fill(
-                f"Directory {target_dir} exists, removing it to avoid building a corrupted database.",
+                f"Directory {target_dir} exists, removing it to avoid building a corrupted "
+                f"database.",
                 width=80,
             )
         )
@@ -134,9 +137,7 @@ def download_isgci(target_dir: str) -> None:
     # retrieve the webpage containing the list of all classes
     print("Downloading the classes directory... ", end="")
     stdout.flush()
-    save_webpage_to_file(
-        urljoin(BASE_URL, "classes.cgi"), join(target_dir, "classes.cgi")
-    )
+    save_webpage_to_file(urljoin(BASE_URL, "classes.cgi"), join(target_dir, "classes.cgi"))
     print("done.")
 
     # retrieve all individual files
@@ -290,9 +291,7 @@ def reduced_isgci_inclusion_graph(
         try:
             vertex_data = GraphClass(join(source_dir, "classes", class_id))
         except FileNotFoundError:
-            print(
-                f"ERROR: missing file {join(source_dir, 'classes', class_id)}, aborting"
-            )
+            print(f"ERROR: missing file {join(source_dir, 'classes', class_id)}, aborting")
             print("Please download the database again")
             exit(-1)
 
@@ -339,7 +338,6 @@ def isgci_exclusion_graph() -> DiGraph:
     classes in ISGCI, and an arc connects a class A to a class B if being a member of A implies NOT
     being a member of B.
     """
-    # simply read data from a file and return it
     return DiGraph(read_dot(join(ROOT, "exclusion-graph.dot")))
 
 
@@ -487,7 +485,7 @@ def main() -> None:
 
         --download-db:      downloads the ISGCI database
         --rebuild-graph:    rebuilds the graph class inclusion graph
-        --relation:         prints how the given classes are related"
+        --relation:         prints how the given classes are related
 
     :return: None
     """
@@ -565,17 +563,17 @@ def main() -> None:
         if not path:
             print(f"classes are unrelated")
         else:
-            if isinstance(direction[0], str):  # TODO very ugly quick fix
+            if isinstance(direction[0], str):
                 print("".join([path] + direction))
             else:
                 direction = direction[0]
                 if direction > 0:
-                    # show equivalences TODO do that in relation function
+                    # show equivalences
                     for i in (-1, 0):
                         if args.relation[i] != path[i]:
                             path[i] = " = ".join([args.relation[i], path[i]])
                 else:
-                    # show equivalences TODO do that in relation function
+                    # show equivalences
                     if args.relation[-1] != path[0]:
                         path[0] = " = ".join([args.relation[-1], path[0]])
                     if args.relation[0] != path[-1]:

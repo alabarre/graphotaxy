@@ -5,6 +5,9 @@ Implementation of a classification digraph.
 
 """
 # Imports -----------------------------------------------------------------------------------------
+# ----- Standard imports --------------------------------------------------------------------------
+from typing import Set
+
 # ----- Third party imports -----------------------------------------------------------------------
 import networkx as nx
 
@@ -51,7 +54,7 @@ class ClassificationDigraph(nx.DiGraph):
 
     def __init__(self) -> None:
         """
-        Initialises the ClassificationDigraph. Its value defaults to the whole, simplified ISGCI
+        Initializes the ClassificationDigraph. Its value defaults to the whole, simplified ISGCI
         graph class inclusion graph, albeit without directed graph classes.
         """
         super().__init__(reduced_isgci_inclusion_graph())
@@ -76,9 +79,7 @@ class ClassificationDigraph(nx.DiGraph):
         """
         return class_id in self.nodes and self.nodes[class_id]["category"] == self.open
 
-    def label_and_propagate(
-        self, class_id: str, bool_val: bool, reason: str = ""
-    ) -> set:
+    def label_and_propagate(self, class_id: str, bool_val: bool, reason: str = "") -> set:
         """
         Labels node with id = class_id with the given value, and removes either its ancestors in
         classification_digraph (if value is positive), or its descendants (if value is negative).
@@ -108,11 +109,9 @@ class ClassificationDigraph(nx.DiGraph):
         @rtype: int
         @return:
         """
-        return sum(
-            1 for _, data in self.nodes(data=True) if data["category"] == self.open
-        )
+        return sum(1 for _, data in self.nodes(data=True) if data["category"] == self.open)
 
-    def positive_nodes(self) -> set[str]:
+    def positive_nodes(self) -> Set[str]:
         """
         Returns the set of all positive nodes.
 

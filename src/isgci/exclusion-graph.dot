@@ -1,6 +1,5 @@
 digraph G {
     node [shape=rect]
-    // TODO negated arrow style
     // graph classes ----------------------------------------------------------
     gc_110  [label="outerplanar"]
     gc_152  [texlbl="$P_4$-free"]

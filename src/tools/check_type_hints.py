@@ -6,8 +6,6 @@ incomplete type hints. Search is recursive, and virtual environment files are ig
 
 Usage:  check_type_hints.py FILE_OR_DIRECTORY
 
-# TODO make the program also report "wrong" type hints, like set[str] instead of Set[str]
-
 """
 # Imports -----------------------------------------------------------------------------------------
 # Standard imports --------------------------------------------------------------------------------
@@ -62,7 +60,8 @@ def project_files(directory: str) -> Iterable[LiteralString | str | bytes]:
         os.path.join(root, f)
         for root, _, f_names in os.walk(directory)
         for f in f_names
-        if f.endswith(".py") and "site-packages" not in root
+        if f.endswith(".py")  # only consider Python files
+           and "site-packages" not in root  # skip venv files
     ]
 
 

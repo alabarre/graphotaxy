@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2020-2023
+Anthony Labarre © 2020-2026
 
 Implementation of a GraphClass class. This does NOT provide a class for using graphs, but rather to
 obtain information about a specific graph class from ISGCI.
@@ -8,7 +8,7 @@ obtain information about a specific graph class from ISGCI.
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 from os.path import join
-from typing import Iterable
+from typing import Iterable, Set
 
 # ----- Third-party imports -----------------------------------------------------------------------
 from bs4 import BeautifulSoup
@@ -21,12 +21,12 @@ from isgci.vars import ISGCI_DIR
 class GraphClass:
     """
     A class for storing information about a graph class known to ISGCI. The graph class must be
-    initialised using its ISGCI id, or the URL to its page on ISGCI.
+    initialized using its ISGCI id, or the URL to its page on ISGCI.
     """
 
     def __init__(self, path_or_id: str, problem_name: str = "") -> None:
         """
-        Initialises data and retrieves information on graph class from path_or_id.
+        Initializes data and retrieves information on graph class from path_or_id.
 
         @type problem_name: None, str
         @type path_or_id: str
@@ -67,7 +67,7 @@ class GraphClass:
             self.soup.find("h1").decode_contents().replace("Graphclass:", "").strip()
         )
 
-    def _get_classes(self, relation: str) -> set[str]:
+    def _get_classes(self, relation: str) -> Set[str]:
         """
         Returns all classes that satisfy the specified relation.
 
@@ -153,7 +153,7 @@ class GraphClass:
 
         return _fisc
 
-    def maximal_subclasses(self) -> set[str]:
+    def maximal_subclasses(self) -> Set[str]:
         """
         Returns the ID's of the class's maximal subclasses.
 
@@ -169,7 +169,7 @@ class GraphClass:
         """
         return self._get_classes("maxsub")
 
-    def minimal_superclasses(self) -> set[str]:
+    def minimal_superclasses(self) -> Set[str]:
         """
         Returns the ID's of the class's minimal superclasses.
 
