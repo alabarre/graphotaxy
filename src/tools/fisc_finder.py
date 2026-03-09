@@ -1,9 +1,7 @@
 """
 Anthony Labarre © 2024
 
-Program intended to find a forbidden induced subgraph characterization for a
-given set of graphs.
-
+Program intended to find a forbidden induced subgraph characterization for a given set of graphs.
 
 Right now, the first goal will be to report the smallest induced subgraphs that
 do not appear in any of the input graphs. We'll be more ambitious later on.
@@ -123,10 +121,7 @@ def main() -> None:
         input_graphs = [input_graphs]
 
     all_avoided_subgraphs = []
-    with tqdm(
-            total=len(input_graphs), desc="Analyzing input graph(s)",
-            unit='graphs'
-    ) as pbar:
+    with tqdm(total=len(input_graphs), desc="Analyzing input graph(s)", unit='graphs') as pbar:
         for graph in input_graphs:
             # print("graph.edges:", graph.edges)
             all_avoided_subgraphs.append(SubgraphMatcher(graph).minimal_missed_subgraphs())

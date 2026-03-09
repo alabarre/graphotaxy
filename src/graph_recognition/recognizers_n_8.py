@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2025
+Anthony Labarre © 2025-2026
 
 O(n^8) algorithms.
 
@@ -57,9 +57,9 @@ def is_p7_odd_cycle_star123_sunlet4_free(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_bipartite(graph)
-        and is_p7_free(graph)
-        and is_h_free(graph, ["star_{1,2,3}", "sunlet_{4}"])
+            is_bipartite(graph)
+            and is_p7_free(graph)
+            and is_h_free(graph, ["star_{1,2,3}", "sunlet_{4}"])
     )
 
 
@@ -72,9 +72,9 @@ def is_co_p7_co_star123_co_sunlet4_odd_anti_cycle_free(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_co_bipartite(graph)
-        and is_co_p7_free(graph)
-        and is_h_free(graph, ["co(star_{1,2,3})", "co(sunlet_{4})"])
+            is_co_bipartite(graph)
+            and is_co_p7_free(graph)
+            and is_h_free(graph, ["co(star_{1,2,3})", "co(sunlet_{4})"])
     )
 
 
@@ -87,9 +87,9 @@ def is_c4_c5_c6_c7_c8_xc11_claw_diamond_free(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_maximum_degree_4(graph)
-        and is_claw_diamond_free(graph)
-        and is_c4_c5_c6_c7_c8_free(graph)
+            is_maximum_degree_4(graph)
+            and is_claw_diamond_free(graph)
+            and is_c4_c5_c6_c7_c8_free(graph)
     )
 
 
@@ -126,19 +126,19 @@ def is_auto_2471(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_co_maximum_degree_4(graph)
-        and is_co_diamond_free(graph)
-        and is_co_claw_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "co(C_{4})",
-                "co(C_{5})",
-                "co(C_{6})",
-                "co(C_{7})",
-                "co(C_{8})",
-            ],
-        )
+            is_co_maximum_degree_4(graph)
+            and is_co_diamond_free(graph)
+            and is_co_claw_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "co(C_{4})",
+            "co(C_{5})",
+            "co(C_{6})",
+            "co(C_{7})",
+            "co(C_{8})",
+        ],
+    )
     )
 
 
@@ -174,16 +174,16 @@ def is_wing_triangulated(graph: nx.Graph) -> bool:
     # wing-triangulated graphs are C_k free for all k >= 7; domino-free; and co(C_k)-free for all
     # k >= 5; we are only testing the smallgraphs we already have
     if not is_h_free(
-        graph,
-        [
-            "co(C_{5})",
-            "co(C_{6})",
-            "co(C_{7})",
-            "co(C_{8})",
-            "domino",
-            "C_{7}",
-            "C_{8}",
-        ],
+            graph,
+            [
+                "co(C_{5})",
+                "co(C_{6})",
+                "co(C_{7})",
+                "co(C_{8})",
+                "domino",
+                "C_{7}",
+                "C_{8}",
+            ],
     ):
         return False
 
@@ -196,10 +196,7 @@ def is_wing_triangulated(graph: nx.Graph) -> bool:
     p4_deg_seq = array('b', [2, 2, 1, 1])
     for e, f in combinations(wing_graph, 2):
         endpoints = set(e + f)
-        if (
-            len(endpoints) == 4
-            and degree_sequence(graph.subgraph(endpoints)) == p4_deg_seq
-        ):
+        if len(endpoints) == 4 and degree_sequence(graph.subgraph(endpoints)) == p4_deg_seq:
             wing_graph.add_edge(e, f)
 
     # check wing_graph's chordality (preemptively return True for empty graphs, as nx.is_chordal
@@ -215,9 +212,7 @@ def is_co_star123_co_sunlet4_odd_anti_cycle_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return is_co_bipartite(graph) and is_h_free(
-        graph, ["co(star_{1,2,3})", "co(sunlet_{4})"]
-    )
+    return is_co_bipartite(graph) and is_h_free(graph, ["co(star_{1,2,3})", "co(sunlet_{4})"])
 
 
 @assign_class_id("gc_1240")
@@ -266,10 +261,10 @@ def is_auto_2459(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_co_gem_free(graph)
-        and is_co_chordal(graph)
-        and is_h_u_2k1_free(graph, is_p3_free)
-        and is_h_free(graph, ["co(X_{102})", "co(X_{204})"])
+            is_co_gem_free(graph)
+            and is_co_chordal(graph)
+            and is_h_u_2k1_free(graph, is_p3_free)
+            and is_h_free(graph, ["co(X_{102})", "co(X_{204})"])
     )
 
 
@@ -305,23 +300,23 @@ def is_bipartite_and_bithreshold(graph: nx.Graph) -> bool:
     :return:
     """
     return (
-        is_bipartite(graph)
-        and is_e_free(graph)
-        and is_p6_free(graph)
-        and is_h_u_k2_free(graph, is_cograph)
-        and is_h_free(
-            graph,
-            [
-                "2C_{4}",
-                "3K_{2}",
-                "C_{6}",
-                "X_{25}",
-                "X_{26}",
-                "X_{27}",
-                "X_{28}",
-                "X_{29}",
-            ],
-        )
+            is_bipartite(graph)
+            and is_e_free(graph)
+            and is_p6_free(graph)
+            and is_h_u_k2_free(graph, is_cograph)
+            and is_h_free(
+        graph,
+        [
+            "2C_{4}",
+            "3K_{2}",
+            "C_{6}",
+            "X_{25}",
+            "X_{26}",
+            "X_{27}",
+            "X_{28}",
+            "X_{29}",
+        ],
+    )
     )
 
 
@@ -370,24 +365,24 @@ def is_line_and_mock_threshold(graph: nx.Graph) -> bool:
     # G contains no cycle of length at least 5 and none of the twelve graphs
     # shown in Fig. 4.
     return (
-        nx.girth(graph) < 5
-        and is_k23_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "2K_{1,3}",
-                "claw U triangle",
-                "2K_{3}",
-                "K_{3} U C_{4}",
-                "K_{1,3} U C_{4}",
-                "fish",
-                "2C_{4}",
-                "X_{27}",
-                "X_{84}",
-                "X_{85}",
-                "friendship_{3}",
-            ],
-        )
+            nx.girth(graph) < 5
+            and is_k23_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "2K_{1,3}",
+            "claw U triangle",
+            "2K_{3}",
+            "K_{3} U C_{4}",
+            "K_{1,3} U C_{4}",
+            "fish",
+            "2C_{4}",
+            "X_{27}",
+            "X_{84}",
+            "X_{85}",
+            "friendship_{3}",
+        ],
+    )
     )
 
 

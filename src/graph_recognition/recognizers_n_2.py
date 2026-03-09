@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
 O(n^2) recognizers.
 
@@ -10,7 +10,6 @@ import os
 from array import array
 from functools import lru_cache
 from itertools import combinations
-from typing import Callable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -174,8 +173,8 @@ def is_edge_regular(graph: nx.Graph) -> bool:
     :param graph:
     """
     # Complexity: O(|E|)
-    # the empty graph is trivially edge-regular; this check is also required
-    # to prevent a StopIteration exception below
+    # the empty graph is trivially edge-regular; this check is also required to prevent a
+    # StopIteration exception below
     if not graph.size():
         return True
 
@@ -185,7 +184,6 @@ def is_edge_regular(graph: nx.Graph) -> bool:
     k = number_of_common_neighbours(graph, *arbitrary_element(graph.edges))
 
     # check that each pair of adjacent vertices has exactly k common neighbors
-
     neighbourhoods = dict()
     for u, v in graph.edges:
         if u not in neighbourhoods:

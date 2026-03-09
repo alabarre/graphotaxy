@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
 O(n^6) algorithms.
 
@@ -136,9 +136,7 @@ def is_k33_k33_plus_e2_p3_cnplus4_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return is_co_chordal(graph) and is_h_free(
-        graph, ["K_{3,3}", "K_{3,3}+e", "co(2P_{3})"]
-    )
+    return is_co_chordal(graph) and is_h_free(graph, ["K_{3,3}", "K_{3,3}+e", "co(2P_{3})"])
 
 
 @assign_class_id("AUTO_747")
@@ -469,9 +467,7 @@ def is_anti_hole_co_domino_odd_anti_cycle_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return (
-        is_co_bipartite(graph) and is_anti_hole_free(graph) and is_co_domino_free(graph)
-    )
+    return is_co_bipartite(graph) and is_anti_hole_free(graph) and is_co_domino_free(graph)
 
 
 @assign_class_id("gc_1236")

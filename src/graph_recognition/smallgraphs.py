@@ -19,7 +19,6 @@ the development of this software, you have no need for them):
     --build-inclusion-graph: generates and writes the smallgraph inclusion graph to
         ./smallgraph_inclusion_graph, so the subgraphs.py module can take advantage of it.
 
-TODO make it much more user-friendly for people who want to add their own smallgraphs; explain how somewhere
 """
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
@@ -35,7 +34,7 @@ from datetime import datetime
 from io import TextIOWrapper
 from itertools import combinations
 from shutil import copyfile
-from typing import Iterable, Any
+from typing import Iterable, Any, Dict, List, DefaultDict
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -76,8 +75,8 @@ class GraphClassEncoder(json.JSONEncoder):
 # Functions ---------------------------------------------------------------------------------------
 # The following functions help us generate code in "the right order" ------------------------------
 def partition_by_pattern_max_size_then_number(
-    graphclass_bunch: Iterable[dict], smallgraph_names_and_orders: dict[str, int]
-) -> defaultdict[int, list[dict]]:
+        graphclass_bunch: Iterable[dict], smallgraph_names_and_orders: Dict[str, int]
+) -> defaultdict[int, List[dict]]:
     """
     Returns a dictionary indexed by order in which graphclass objects from the input are grouped
     according to the size of the largest pattern they contain. Assumes only fiscky classes are
@@ -109,7 +108,7 @@ def url_to_soup(url: str) -> BeautifulSoup:
     return BeautifulSoup(requests.get(url, timeout=10).text, "html.parser")
 
 
-def all_smallgraphs_by_order(force_rebuild: bool=False) -> defaultdict[int, set]:
+def all_smallgraphs_by_order(force_rebuild: bool = False) -> DefaultDict[int, set]:
     """
     Returns all smallgraphs in ISGCI as a dictionary of graph6 strings, partitioned by graph order.
 
@@ -196,20 +195,18 @@ def all_smallgraphs_by_order(force_rebuild: bool=False) -> defaultdict[int, set]
     return graphs_by_order
 
 
-def build_inclusion_graph(graph_dictionary: dict[int, set]) -> nx.DiGraph:
+def build_inclusion_graph(graph_dictionary: Dict[int, set]) -> nx.DiGraph:
     """
-    Returns the inclusion DAG of a graph dictionary, whose keys are the orders of our graphs and
-    whose values are iterables of pairs (graph name: str, graph6 encoding: str).
+    Returns the transitive closure of the inclusion DAG of a graph dictionary, whose keys are the
+    orders of our graphs and whose values are iterables of pairs of the form
+    (graph name: str, graph6 encoding: str).
 
     The inclusion DAG is defined by:
         - vertices: the graph names given in the input dictionary:
         - arcs: an arc (A, B) connects graph with name A to graph with name B if B is an induced
             subgraph of A
 
-    Note: as of 2025-04-23, building the graph takes about 2 minutes on my machine.
-
-    TODO explain that actually, we return the transitive closure of that graph.
-        it will be faster to compute containment between pairwise levels only (i, i+1) but we need to make sure this is correct.
+    Note: building the graph is likely to take a few minutes.
 
     :param graph_dictionary:
     :return:
@@ -235,12 +232,12 @@ def build_inclusion_graph(graph_dictionary: dict[int, set]) -> nx.DiGraph:
     # we are computing containment relationships between all pairs of graphs of different order,
     # which will actually yield the transitive closure of the smallgraph inclusion graph
     with tqdm(
-        total=sum(
-            len(graph_dictionary[lower_order]) * len(graph_dictionary[higher_order])
-            for lower_order, higher_order in combinations(sorted(graph_dictionary), 2)
-        ),
-        desc="Building smallgraph inclusion graph",
-        unit=" pairs",
+            total=sum(
+                len(graph_dictionary[lower_order]) * len(graph_dictionary[higher_order])
+                for lower_order, higher_order in combinations(sorted(graph_dictionary), 2)
+            ),
+            desc="Building smallgraph inclusion graph",
+            unit=" pairs",
     ) as pbar:
         for lower_order, higher_order in combinations(sorted(graph_dictionary), 2):
             for smaller_graph_name, graph_1_g6 in graph_dictionary[lower_order]:
@@ -251,9 +248,7 @@ def build_inclusion_graph(graph_dictionary: dict[int, set]) -> nx.DiGraph:
                     larger_graph = actual_graphs[graph_2_g6]
                     # if smaller_graph is an induced subgraph of larger_graph, add arc
                     # larger_graph_name -> smaller_graph_name
-                    matcher = nx.algorithms.isomorphism.GraphMatcher(
-                        larger_graph, smaller_graph
-                    )
+                    matcher = nx.algorithms.isomorphism.GraphMatcher(larger_graph, smaller_graph)
                     if matcher.subgraph_is_isomorphic():
                         inclusion_graph.add_edge(larger_graph_name, smaller_graph_name)
                     pbar.update()
@@ -274,9 +269,7 @@ def smallgraph_inclusion_graph(force_rebuild: bool = False) -> nx.DiGraph:
     :return:
     """
     # if we've computed the graph before, return it immediately
-    filename = os.path.join(
-        os.path.dirname(__file__), "smallgraph_inclusion_graph.json"
-    )
+    filename = os.path.join(os.path.dirname(__file__), "smallgraph_inclusion_graph.json")
     if os.path.exists(filename) and not force_rebuild:
         with open(filename, "r") as file:
             return nx.node_link_graph(json.load(file), edges="edges")
@@ -291,9 +284,7 @@ def smallgraph_inclusion_graph(force_rebuild: bool = False) -> nx.DiGraph:
     # write graph to json for further uses
     with open(filename, "w") as file:
         print("done, dumping json data to", filename)
-        json.dump(
-            nx.node_link_data(inclusion_graph, edges="edges"), file, **__JSON_DUMP_ARGS
-        )
+        json.dump(nx.node_link_data(inclusion_graph, edges="edges"), file, **__JSON_DUMP_ARGS)
 
     return inclusion_graph
 
@@ -311,7 +302,7 @@ def dump_graphs_to_lad_files(graphbunch: Iterable) -> None:
             output_file.write(g6string_to_lad(g6string))
 
 
-def get_fiscky_classes(force_rebuild: bool=False) -> list[dict]:
+def get_fiscky_classes(force_rebuild: bool = False) -> List[dict]:
     """
     Returns all fiscky classes in ISGCI.
 
@@ -332,10 +323,8 @@ def get_fiscky_classes(force_rebuild: bool=False) -> list[dict]:
     # 1) retrieve classes that have a FISC in local database
     class_files = os.listdir(PATHS["classes"])
 
-    # TODO ugly, these names should be loaded from isgci_base.py which should load them itself
-    #   move this bit to a function in isgci module
     for class_filename in tqdm(
-        class_files, desc="Retrieving fiscky classes from local db", unit=" files"
+            class_files, desc="Retrieving fiscky classes from local db", unit=" files"
     ):
         current_class = GraphClass(class_filename.split(".")[0])
         if current_class.fisc():
@@ -358,9 +347,7 @@ def get_fiscky_classes(force_rebuild: bool=False) -> list[dict]:
     fiscky_classes = [
         gc
         for gc in fiscky_classes
-        if all(
-            taboo not in word for word in gc.fisc() for taboo in forbidden_substrings
-        )
+        if all(taboo not in word for word in gc.fisc() for taboo in forbidden_substrings)
     ]
 
     # second pass needed: exclude "sun" but not "rising sun" nor "co-rising sun"
@@ -392,9 +379,7 @@ def generate_recognizers() -> None:
     # make backup if file exists
     filename = os.path.join(os.path.dirname(__file__), "generated_recognizers.py")
     if os.path.exists(filename):
-        bakname = "".join(
-            [filename, ".BAK.", datetime.today().strftime("%Y-%m-%d %H:%M:%S")]
-        )
+        bakname = "".join([filename, ".BAK.", datetime.today().strftime("%Y-%m-%d %H:%M:%S")])
         print(
             f"{os.path.basename(filename)} already exists, backing it up to "
             f"{os.path.basename(bakname)}"
@@ -427,9 +412,7 @@ def generate_recognizers() -> None:
             unit=" functions",
         )
         for order, graphclass_list in sorted(partition.items()):
-            message = (
-                "# All recognizers for patterns on at most " + str(order) + " vertices "
-            )
+            message = f"# All recognizers for patterns on at most {order} vertices "
             output.write(message.ljust(WRAP_WIDTH - 1, "-") + "\n")
             for gc in graphclass_list:
                 write_recognizer_code(output, gc, order, smallgraph_names_and_orders)
@@ -468,9 +451,7 @@ def write_recognizer_module_header(output: TextIOWrapper) -> None:
     """
     # write module header ---------------------------------------------------------------------
     today = datetime.today()
-    output.write(
-        textwrap.fill('"""Anthony Labarre © ' + str(today.year), width=WRAP_WIDTH)
-    )
+    output.write(textwrap.fill('"""Anthony Labarre © ' + str(today.year), width=WRAP_WIDTH))
     output.write("\n\n")
     output.write(
         textwrap.fill(
@@ -536,10 +517,10 @@ def write_recognizer_module_header(output: TextIOWrapper) -> None:
 
 
 def write_recognizer_code(
-    output: TextIOWrapper,
-    gc: dict,
-    order: int,
-    smallgraph_names_and_orders: dict,
+        output: TextIOWrapper,
+        gc: dict,
+        order: int,
+        smallgraph_names_and_orders: dict,
 ) -> None:
     """
     Writes the code of a recognizer for graph class gc to output.
@@ -576,7 +557,7 @@ def write_recognizer_code(
     output.write("\n\n")
 
 
-def store_graph(graph: nx.Graph, name: str, graph_dictionary: dict[int, Any]) -> None:
+def store_graph(graph: nx.Graph, name: str, graph_dictionary: Dict[int, Any]) -> None:
     """
     Stores the graph into the dictionary.
 
@@ -590,7 +571,7 @@ def store_graph(graph: nx.Graph, name: str, graph_dictionary: dict[int, Any]) ->
     )
 
 
-def missing_smallgraphs() -> dict[int, Any]:
+def missing_smallgraphs() -> Dict[int, Any]:
     """
     Writes the LAD files for some smallgraphs that appear in the FISC of some graph classes, or in
     various papers, but not on the smallgraphs page. The doctest below lists the names of the
@@ -833,13 +814,13 @@ def main() -> None:
         "--generate-recognizers",
         action="store_true",
         help="generates and writes all recognizers based on smallgraphs to "
-        "./generated_recognizers.py",
+             "./generated_recognizers.py",
     )
     parser.add_argument(
         "--build-inclusion-graph",
         action="store_true",
         help="generates and writes the smallgraph inclusion graph to "
-        "./smallgraph_inclusion_graph",
+             "./smallgraph_inclusion_graph",
     )
     parser.add_argument(
         "--dump-g6",
@@ -858,7 +839,6 @@ def main() -> None:
         sys.exit()
 
     if args.build_inclusion_graph:
-        # TODO ask for confirmation if exists
         smallgraph_inclusion_graph(force_rebuild=True)
         sys.exit()
 
@@ -871,13 +851,6 @@ def main() -> None:
                     output.write(smallgraph.g6 + "\n")
             print("done.")
 
-    # TODO and then finally generate all recognizers
-    """
-    - generate all smallgraphs LADS
-    - generate all missing smallgraph LADS
-    - then we can generate the containment graph
-    - generate actual code
-    """
 
 
 if __name__ == "__main__":

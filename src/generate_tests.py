@@ -85,6 +85,9 @@ EQUIV_IDS = {
 }
 EXCLUSION_GRAPH = isgci_exclusion_graph()
 ISGCI_GRAPH = reduced_isgci_inclusion_graph()
+# the following variable describes the naming scheme for generated test files as (PREFIX, SUFFIX):
+# each file will therefore be named PREFIX_SOMETHING_SUFFIX.py
+NAMING_SCHEME = ("test_", "_and_related")
 TEST_OUTPUT_DIR = os.path.join(os.pardir, "tests")
 TEST_DATA_DIR = os.path.join(TEST_OUTPUT_DIR, "test_data")
 WRAP_WIDTH = 100
@@ -308,7 +311,7 @@ def setupclass_method(class_id: str, path: str) -> str:
     @classmethod
     def setUpClass(self) -> None:
         """Stores positive and negative instances to test."""
-        super(Test_{class_id}_and_related, self).setUpClass()
+        super(Test_{class_id}{NAMING_SCHEME[1]}, self).setUpClass()
         self.positive = []
         basedir = "{os.path.join(TEST_DATA_DIR.replace(os.pardir, os.curdir), path)}"
         print(self.__qualname__.join("[]"), "initializing positive instances from", basedir, "...", end=" ")
@@ -351,7 +354,7 @@ def prepare_code_string(
     # 1. write the test code: this is a class that inherits from unittest.TestCase, and whose
     # methods will each correspond to testing either class_id or one of its ancestors, provided
     # that that ancestor has not been tested yet and that a corresponding recognizer is available.
-    code_string = f"class Test_{class_id}_and_related(unittest.TestCase):\n"
+    code_string = f"class Test_{class_id}{NAMING_SCHEME[1]}(unittest.TestCase):\n"
     code_string += (
             textwrap.fill(
                 f'    """A generic test case for class {class_id} and all its ancestors that have not '
@@ -554,7 +557,7 @@ def generate_test_file(
     @param ancestors:
     @return:
     """
-    output_file_path = os.path.join(TEST_OUTPUT_DIR, class_id.join(["test_", "_and_related.py"]))
+    output_file_path = os.path.join(TEST_OUTPUT_DIR, class_id.join(NAMING_SCHEME)) + ".py"
     with open(output_file_path, "w") as outfile:
         write_module_header(outfile, class_id)
         outfile.write(prepare_code_string(class_id, path, recognizers, ancestors, descendants))
@@ -573,7 +576,7 @@ def remove_existing_test_files() -> None:
     print("Removing previous test files...", end=" ")
     sys.stdout.flush()
     for filename in os.listdir(TEST_OUTPUT_DIR):
-        if filename.startswith("test_") and filename.endswith(".py"):
+        if filename.startswith(NAMING_SCHEME[0]) and filename.endswith(NAMING_SCHEME[1] + ".py"):
             os.remove(os.path.join(TEST_OUTPUT_DIR, filename))
 
     print("done.")

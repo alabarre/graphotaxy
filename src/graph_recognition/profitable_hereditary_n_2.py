@@ -38,7 +38,7 @@ from graph_recognition.profitable_hereditary_n import (
     is_planar,
     is_cubic,
     is_co_tree,
-    is_2k2_free,
+    is_2k2_free, is_mock_threshold,
 )
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
@@ -104,148 +104,6 @@ def is_threshold(graph: nx.Graph) -> bool:
         ds = array(ds.typecode, [d - 1 for d in ds])  # remove it and decrement all degrees
 
     return retval
-
-
-# the following fisc is partial for now: it comes from https://doi.org/10.1016/j.disc.2018.04.023
-# in which Theorem 18 lists all cycles and co-cycles of length >= 5 ... as well as 318 other
-# graphs, which may or may not be in ISGCI
-@assign_fisc(
-    [
-        "C_{5}",
-        "C_{6}",
-        "C_{7}",
-        "C_{8}",
-        "co(C_{5})",
-        "co(C_{6})",
-        "co(C_{7})",
-        "co(C_{8})",
-        # TODO the 318 other graphs:
-        # forbidden graphs from fig 6 p. 2173: all of them should appear here AND their complements
-        # fig 6 line 1
-        "domino",  # fig 6 line 1 column 1
-        "co-domino",
-        "2K_{3}",  # fig 6 line 1 column 2
-        "K_{3,3}",
-        "2K_{3} + e",  # fig 6 line 1 column 3
-        "K_{3,3}-e",
-        # TODO line 1 column 4 not found
-        "X_{7}",  # fig 6 line 1 column 5
-        "co(X_{7})",
-        # fig 6 line 2
-        "X_{27}",  # fig 6 line 2 column 1
-        "co(X_{27})",
-        # TODO line 2 column 2 not found
-        # TODO line 2 column 3 not found; how does it differ from the next entry?
-        # TODO line 2 column 4 not found; how does it differ from the previous entry?
-        # TODO line 2 column 5
-        # TODO line 3 column 1
-        # TODO line 3 column 2
-        # TODO line 3 column 3
-        # TODO line 3 column 4
-        # TODO line 3 column 5
-        # TODO line 4 column 1 not found
-        # TODO line 4 column 2 not found
-        # end of fig 6
-        # TODO the graphs from figure 7 + their complements
-        # forbidden graphs from fig 7 p. 2174: all of them should appear here AND their complements
-        "S_{4}",  # fig 7 (1, 1), self-complementary
-        # TODO fig 7 line 1 column 2
-        # TODO fig 7 line 1 column 3
-        # TODO fig 7 line 1 column 4
-        # TODO fig 7 line 1 column 5
-        # TODO fig 7 line 2 column 1
-        # TODO fig 7 line 2 column 2
-        # TODO fig 7 line 2 column 3
-        # TODO fig 7 line 2 column 4
-        # TODO fig 7 line 2 column 5
-        # TODO fig 7 line 3 column 1
-        # TODO fig 7 line 3 column 2
-        # TODO fig 7 line 3 column 3
-        # TODO fig 7 line 3 column 4
-        # TODO fig 7 line 3 column 5
-        # TODO fig 7 line 4 column 1
-        # TODO fig 7 line 4 column 2
-        "2C_{4}",  # fig 7 line 4 column 3
-        "co(2C_{4})",
-        # TODO fig 7 line 4 column 4
-        # TODO fig 7 line 4 column 5
-        # TODO fig 7 line 5 column 1
-        # TODO fig 7 line 5 column 2
-        # TODO fig 7 line 5 column 3
-        # TODO fig 7 line 5 column 4
-        # TODO fig 7 line 5 column 5
-        # TODO fig 7 line 6 column 1
-        # TODO fig 7 line 6 column 2
-        # TODO fig 7 line 6 column 3
-        # TODO fig 7 line 6 column 4
-        # TODO fig 7 line 6 column 5
-        # TODO fig 7 line 7 column 1
-        # TODO fig 7 line 7 column 2
-        # TODO fig 7 line 7 column 3
-        # TODO fig 7 line 7 column 4
-        # TODO fig 7 line 7 column 5
-        # TODO fig 7 line 8 column 1
-        # TODO fig 7 line 8 column 2
-        # TODO fig 7 line 8 column 3
-        # TODO fig 7 line 8 column 4
-        # TODO fig 7 line 8 column 5
-        # TODO the graphs from figure 8 + their complements
-        # TODO the graphs from figure 9 + their complements
-        # TODO the graphs from figure 10 + their complements
-    ]
-)
-@assign_class_id("gc_1289")
-@lru_cache(maxsize=None)
-def is_mock_threshold(graph: nx.Graph) -> bool:
-    """
-    A graph G is mock threshold if there is a vertex ordering v1, ... ,vn such that for every i the
-    degree of vi in G[v1,...,vi] is 0, 1, i−2 or i−1.
-
-    https://www.graphclasses.org/classes/gc_1289
-
-    :type graph: networkx.Graph
-    :param graph:
-    :return:
-    """
-    # see https://www.sciencedirect.com/science/article/pii/S0012365X18301286
-    num_nodes = graph.order()
-    degseq = degree_sequence(graph)
-    # Every graph on at most five vertices except C_5 is mock threshold (Proposition 13)
-    if num_nodes <= 5:
-        return degseq != array('b', [2, 2, 2, 2, 2])
-
-    # if 2 <= mindegree <= maxdegree <= n - 3, then the answer is no (Lemma 6)
-    maxdegree, *_, mindegree = degseq
-    if 2 <= mindegree <= maxdegree <= num_nodes - 3:
-        return False
-
-    # TODO (minor) check complexity; this mimicks Kahn's algorithm, so probably linear instead of
-    #  quadratic; if so, move function to profitable_hereditary_n.py
-    # copy degrees
-    degrees = dict(graph.degree)
-
-    # retrieve all valid candidates
-    candidates = {v for v, d in degrees.items() if d in {0, 1, num_nodes - 1, num_nodes - 2}}
-
-    retrieved = set()
-    while candidates:
-        # retrieve all candidates
-        retrieved.update(candidates)
-        # decrement the degree of all neighbors of each candidate
-        for v in candidates:
-            for w in graph[v]:
-                degrees[w] -= 1
-
-        # update number of nodes and record the new candidates; discard those that have already
-        # been retrieved
-        num_nodes -= len(candidates)
-        candidates = {v for v, d in degrees.items() if d in {0, 1, num_nodes - 1, num_nodes - 2}} - retrieved
-
-    # the graph is empty iff all vertices were retrieved
-    return len(retrieved) == graph.number_of_nodes()
-
-    # NOTE: the following one-liner also works, but is slower as the graph's size increases
-    # return empty_graph_by_removing_vertices(graph, vertex_has_degree_or_codegree_at_most_1)
 
 
 # not an actual ISGCI class
@@ -574,9 +432,6 @@ def is_line_graph_of_bipartite_graph(graph: nx.Graph) -> bool:
     return True
 
 
-@assign_fisc(
-    ["claw", "diamond", "C_{5}", "C_{7}"]
-)  # partial fisc for gc_251 TODO find out if we can be more specific
 @assign_class_id("gc_1335")
 @lru_cache(maxsize=None)
 def is_line_graph_of_planar_cubic_bipartite_graph(graph: nx.Graph) -> bool:
@@ -965,9 +820,7 @@ def is_co_chordal(graph: nx.Graph) -> bool:
     """
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
-    return all(
-        is_chordal(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
-    )
+    return all(is_chordal(complement(graph.subgraph(cc))) for cc in co_connected_components(graph))
 
 
 # FISC derived from the complements of is_planar's FISC
@@ -1166,8 +1019,6 @@ def is_c_n_plus_4_u_k_1_free(graph: nx.Graph) -> bool:
 
     # very naive algo: graph is (C_{n+4} ∪ K1)-free if removing a vertex and its neighbourhood always
     # yields a C_{n+4}-free (i.e., chordal) graph
-    # TODO if graph size is too large, then we end up with many large subgraphs to analyze; on the
-    #  other hand, we cannot ask GSS to search for anything but fixed subgraphs
     nodes = set(graph)
     return all(is_chordal(graph.subgraph(nodes - {v}.union(graph[v]))) for v in graph)
 

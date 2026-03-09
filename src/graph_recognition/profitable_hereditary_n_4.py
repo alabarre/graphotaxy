@@ -1,4 +1,4 @@
-"""Anthony Labarre © 2023-2025
+"""Anthony Labarre © 2023-2026
 
 This file contains recognizers for profitable hereditary classes, i.e. classes that admit a
 forbidden induced subgraph characterization, but can be recognized with a faster-than-naïve
@@ -37,12 +37,11 @@ from graph_recognition.profitable_hereditary_n import (
     is_chordal,
     is_split,
     is_co_maximum_degree_4,
-    is_2k2_free,
+    is_2k2_free, is_mock_threshold,
 )
 from graph_recognition.profitable_hereditary_n_2 import (
     is_comparability,
     is_co_chordal,
-    is_mock_threshold,
     is_co_diamond_free,
     is_co_paw_free,
     is_co_gem_free,
@@ -79,15 +78,12 @@ def is_c4_diamond_free(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     # equivalent to https://www.graphclasses.org/classes/gc_196.html
-    # A graph is weakly geodetic if for every pair of vertices of distance 2
-    # there is a unique common neighbour of them.
-    # iterate over the extremities of all non-edges; either they are at distance
-    # 2, and therefore must have exactly one common neighbor, or they are at
-    # distance > 2, in which case they have no common neighbor
-    return all(
-        sum(1 for _ in nx.common_neighbors(graph, u, v)) <= 1
-        for u, v in nx.non_edges(graph)
-    )
+    # A graph is weakly geodetic if for every pair of vertices of distance 2 there is a unique
+    # common neighbor of them.
+    # iterate over the extremities of all non-edges; either they are at distance 2, and therefore
+    # must have exactly one common neighbor, or they are at distance > 2, in which case they have
+    # no common neighbor
+    return all(number_of_common_neighbours(graph, u, v) <= 1 for u, v in nx.non_edges(graph))
 
 
 @assign_fisc(
@@ -135,7 +131,7 @@ def is_co_claw_free(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     # much faster than return is_h_free(graph, ["co-claw"]) when measured with timeit: return True
-    # iff graph contains a triangle and a vertex independent of that triangle
+    # iff graph contains no "triangle + independent vertex"
     return all(
         not set.intersection(
             set(nx.non_neighbors(graph, u)),

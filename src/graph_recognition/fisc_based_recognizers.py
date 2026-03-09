@@ -137,8 +137,6 @@ def is_diamond_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # return contains_no_induced_subgraph_with_degree_sequence(graph, [3, 3, 2, 2])
-    # TESTED: GSS is faster
     return is_h_free(graph, ["diamond"])
 
 
@@ -189,13 +187,7 @@ def is_p_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # the following naive algorithm turns out to be much faster than
-    # return is_h_free(graph, ["P"])
-    # this is very slow:
-    # return contains_no_induced_subgraph_with_degree_sequence_and_property(
-    #     graph, [3, 2, 2, 2, 1], is_bipartite
-    # )
-    # TODO let's try something else: for each C_{4}, check if one of the adjacent vertices yields a P
+    # for each C_{4}, check if one of the adjacent vertices yields a P
     c4_deg_seq = array('b', [2, 2, 2, 2])
     p_deg_seq = array('b', [3, 2, 2, 2, 1])
     for e, f in combinations(graph.edges, 2):
@@ -226,10 +218,6 @@ def is_co_p_free(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return is_h_free(graph, ["co(P)"])
-    # TESTED: GSS is faster
-    # return contains_no_induced_subgraph_with_degree_sequence_and_property(
-    #     graph, [3, 2, 2, 2, 1], lambda h: not is_bipartite(h)
-    # )
 
 
 @assign_fisc(["C_{5}"])
@@ -250,7 +238,6 @@ def is_c5_free(graph: nx.Graph) -> bool:
     if is_chordal(graph):
         return True
 
-    # return contains_no_induced_subgraph_with_degree_sequence(graph, [2, 2, 2, 2, 2])
     return is_h_free(graph, ["C_{5}"])
 
 
@@ -271,8 +258,6 @@ def is_p5_free(graph: nx.Graph) -> bool:
     if is_cograph(graph):
         return True
 
-    # return contains_no_induced_subgraph_with_degree_sequence_and_property(graph, [3, 3, 2, 2], is_bipartite)
-    #
     return is_h_free(graph, ["P_{5}"])
 
 
@@ -289,7 +274,6 @@ def is_co_k14_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # return contains_no_induced_subgraph_with_degree_sequence(graph, [3, 3, 3, 3, 1])
     return is_h_free(graph, ["co(K_{1,4})"])
 
 
@@ -306,7 +290,6 @@ def is_co_fork_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # return contains_no_induced_subgraph_with_degree_sequence(graph, [3, 3, 2, 2, 1])
     return is_h_free(graph, ["co-fork"])
 
 
@@ -323,7 +306,6 @@ def is_house_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # return contains_no_induced_subgraph_with_degree_sequence_and_property(graph, [3, 3, 2, 2, 1], lambda h: not is_bipartite(h))
     return is_h_free(graph, ["house"])
 
 
@@ -340,7 +322,6 @@ def is_gem_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # return contains_no_induced_subgraph_with_degree_sequence(graph, [4, 3, 3, 2, 2])
     return is_h_free(graph, ["gem"])
 
 
@@ -357,7 +338,6 @@ def is_k23_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # return contains_no_induced_subgraph_with_degree_sequence_and_property(graph, [4, 3, 3, 2, 2], is_bipartite)
     return is_h_free(graph, ["K_{2,3}"])
 
 
@@ -374,7 +354,6 @@ def is_bull_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # return contains_no_induced_subgraph_with_degree_sequence(graph, [3, 3, 2, 1, 1]) # TODO  move
     return is_h_free(graph, ["bull"])
 
 
@@ -391,9 +370,6 @@ def is_fork_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # return contains_no_induced_subgraph_with_degree_sequence(
-    #     graph, [3, 2, 1, 1, 1]
-    # )  # TODO  move
     return is_h_free(graph, ["fork"])
 
 
@@ -410,8 +386,6 @@ def is_k14_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # return contains_no_induced_subgraph_with_degree_sequence(graph, [4, 1, 1, 1, 1])
-    # slower than:
     return is_h_free(graph, ["K_{1,4}"])
 
 
@@ -2132,24 +2106,6 @@ def is_domino_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # return contains_no_induced_subgraph_with_degree_sequence_and_property(graph, [3, 3, 2, 2, 2, 2], is_bipartite, is_triangle_free)
-
-    # TODO try this: iterate over all triplets of edges, and check whether they induce a domino
-    #   domino is not unigraphic, but it's the only bipartite, triangle-free graph with sequence (3, 3, 2, 2, 2, 2)
-    # domino_degseq = [3, 3, 2, 2, 2, 2]
-    # for e, f, g in combinations(graph.edges, 3):
-    #     vertices = set(e + f + g)
-    #     if len(vertices) == 6:
-    #         subgraph = graph.subgraph(vertices)
-    #         if (
-    #             degree_sequence(graph) == domino_degseq
-    #             and is_bipartite(subgraph)
-    #             and is_triangle_free(subgraph)
-    #         ):
-    #             return False
-    #
-    # return True
-    # NOTE; no proof that my naive algorithm is faster than is_h_free
     return is_h_free(graph, ["domino"])
 
 
@@ -5989,14 +5945,13 @@ def is_gc_779(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_gc_1035(graph: nx.Graph) -> bool:
     """
-    Returns True iff graph is (6-fan, C_{4} U P_{2}, C_{5}, C_{6} U K_{1},
-    C_{7}, K_{2} U K_{3}, K_{2, 3}, P_{2} U P_{4}, W_{4} U K_{1}, W_{6},
-    X_{132}, X_{169}, X_{176}, X_{18}, X_{197}, X_{198}, X_{199}, X_{200},
-    X_{201}, X_{202}, X_{35}, X_{84}, co(C_{4} U P_{2}), co(C_{6} U K_{1}),
-    co(C_{7}), co(P_{2} U P_{4}), co(W_{4} U K_{1}), co(W_{6}), co(X_{132}),
-    co(X_{169}), co(X_{176}), co(X_{18}), co(X_{197}), co(X_{198}), co(X_{199}),
-    co(X_{200}), co(X_{201}), co(X_{35}), co(X_{84}), co(butterfly U K_{1}),
-    butterfly U K_{1}, co-6-fan, co-fish, fish)-free.
+    Returns True iff graph is (6-fan, C_{4} U P_{2}, C_{5}, C_{6} U K_{1}, C_{7}, K_{2} U K_{3},
+    K_{2, 3}, P_{2} U P_{4}, W_{4} U K_{1}, W_{6}, X_{132}, X_{169}, X_{176}, X_{18}, X_{197},
+    X_{198}, X_{199}, X_{200}, X_{201}, X_{202}, X_{35}, X_{84}, co(C_{4} U P_{2}),
+    co(C_{6} U K_{1}), co(C_{7}), co(P_{2} U P_{4}), co(W_{4} U K_{1}), co(W_{6}), co(X_{132}),
+    co(X_{169}), co(X_{176}), co(X_{18}), co(X_{197}), co(X_{198}), co(X_{199}), co(X_{200}),
+    co(X_{201}), co(X_{35}), co(X_{84}), co(butterfly U K_{1}), butterfly U K_{1}, co-6-fan,
+    co-fish, fish)-free.
 
     See https://www.graphclasses.org/classes/gc_1035
 

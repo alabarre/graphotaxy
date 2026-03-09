@@ -13,6 +13,8 @@ from itertools import chain
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+from benchmarks.mem_usage_graphs import UndirectedGraph
+
 # Functions ---------------------------------------------------------------------------------------
 # ----- conversion to LAD -------------------------------------------------------------------------
 """
@@ -136,11 +138,8 @@ def nx_graph_to_gr_file(graph: nx.Graph, filename: str) -> None:
     """
     with open(filename, "w") as output:
         # mandatory first line
-        output.write(
-            "p tw " + str(graph.number_of_nodes()) + " " + str(graph.size()) + "\n"
-        )
-        # every subsequent line is an edge u v, where indices must be in the range
-        # [1, n]
+        output.write("p tw " + str(graph.number_of_nodes()) + " " + str(graph.size()) + "\n")
+        # every subsequent line is an edge u v, where indices must be in the range [1, n]
         for u, v in graph.edges:
             output.write(str(u + 1) + " " + str(v + 1) + "\n")
 
@@ -163,9 +162,9 @@ def lad_file_to_nx_graph(filename: str) -> nx.Graph:
         graph = nx.empty_graph(int(data.readline()))
         for v, line in enumerate(data):
             # each line contains the degree of the node followed by its neighbors
-            graph.add_edges_from([(v, x) for x in map(int, line.split()[1:])])
+            graph.add_edges_from((v, x) for x in map(int, line.split()[1:]))
 
-        return graph
+        return UndirectedGraph(graph)
 
 
 def main() -> None:

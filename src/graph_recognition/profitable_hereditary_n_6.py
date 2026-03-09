@@ -78,7 +78,7 @@ def is_c6_free(graph: nx.Graph) -> bool:
     return True
 
 
-# This code segment must always be at the END of a recognizer file ------------
+# This code segment must always be at the END of a recognizer file --------------------------------
 RECOGNIZERS = current_module_recognizers(
     ".".join(
         [
@@ -87,4 +87,4 @@ RECOGNIZERS = current_module_recognizers(
         ]
     )
 )
-# -----------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------

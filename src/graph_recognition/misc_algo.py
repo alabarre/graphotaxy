@@ -6,12 +6,11 @@ Miscellaneous useful algorithms.
 """
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
-import inspect
 from array import array, typecodes
 from collections.abc import Hashable
 from functools import lru_cache
 from itertools import combinations
-from typing import Any, Callable, Iterator, Generator
+from typing import Any, Callable, Iterator, Generator, Dict
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -38,12 +37,14 @@ _NUMERIC_TYPECODES = typecodes.replace("uw", "")
 
 # Functions ---------------------------------------------------------------------------------------
 @lru_cache(maxsize=None)
-def all_pairs_shortest_path_length(
-        graph: nx.Graph, cutoff: int | None = None
-) -> dict[tuple, int]:
+def all_pairs_shortest_path_length(graph: nx.Graph, cutoff: int | None = None) -> Dict[tuple, int]:
     """
     Computes the shortest path lengths between all nodes in `G`. This is exactly what networkx
     offers, except we return a dictionary instead of an iterator so we can cache the results.
+
+    :param graph:
+    :param cutoff:
+    :return:
     """
     return dict(nx.all_pairs_shortest_path_length(graph, cutoff))
 
@@ -105,18 +106,9 @@ def is_h_u_k1_free(graph: nx.Graph, recognizer_for_h: Callable) -> bool:
     @param recognizer_for_h:
     @return:
     """
-    # TODO careful: sometimes it's useful if recognizer_for_h is much faster, so I'm making
-    #  exceptions in the warning below
-    caller = inspect.stack()[1][3]
-    if caller not in {"is_co_gem_free"}:
-        pass
-        # print("\nWARNING: don't use is_h_u_k1_free: it works, but it's much slower than GSS for large graphs")
-        # print(f"         (called by {caller}")
     # G is (H U K_{1})-free iff G - ({u} U N(u)) is H-free for every vertex v; this is equivalent
     # to verifying whether the subgraph of G induced by the non-neighbors of v is H-free for all v
-    return all(
-        recognizer_for_h(graph.subgraph(nx.non_neighbors(graph, v))) for v in graph
-    )
+    return all(recognizer_for_h(graph.subgraph(nx.non_neighbors(graph, v))) for v in graph)
 
 
 @lru_cache(maxsize=None)
@@ -174,7 +166,6 @@ def complement(graph: nx.Graph) -> nx.Graph:
     :type graph: networkx.Graph
     :return:
     """
-    # TODO this is faster than nx.complement, bench and submit at some point (generate large graphs)
     compl = graph.__class__()
     compl.add_nodes_from(graph)
     compl.add_edges_from(nx.non_edges(graph))
@@ -228,25 +219,9 @@ def has_dominating_set_of_size_at_most_2(graph: nx.Graph) -> bool:
     )
 
 
-@lru_cache(maxsize=None)
-def vertex_has_degree_or_codegree_at_most_1(graph: nx.Graph, v: Any) -> bool:
-    """
-    Returns True if v has 0, 1, n-2 or n-1 neighbors, False otherwise.
-
-    :param v: a vertex
-    :type graph: networkx.Graph
-    :param graph:
-    :return:
-    """
-    n = graph.number_of_nodes()
-    return graph.degree(v) in {0, 1, n - 2, n - 1}
-
-
 # Functions for recognizing a graph by repeatedly removing edges ----------------------------------
 @lru_cache(maxsize=None)
-def empty_graph_by_removing_edges_and_incident_edges(
-        graph: nx.Graph, criterion: Callable
-) -> bool:
+def empty_graph_by_removing_edges_and_incident_edges(graph: nx.Graph, criterion: Callable) -> bool:
     """
     Empties the graph by repeatedly removing edges that satisfy the criterion. Removing an edge
     {u, v} entails removing {u, v} as well as all other edges incident to u or v. Returns True if
@@ -366,6 +341,9 @@ def co_connected_components(graph: nx.Graph) -> Generator:
     """
     Generate the connected components of the complement of the graph. Simple adaptation of
     networkx's connected_components function.
+
+    :param graph:
+    :return:
     """
     seen = set()
     n = len(graph)
@@ -599,7 +577,6 @@ def contains_no_induced_subgraph_with_degree_sequence_and_property(
     :param degseq:
     :return:
     """
-    # TODO later: merge this function with contains_no_induced_subgraph_with_degree_sequence, and allow multiple properties
     # this is the obvious naive algorithm, except whenever possible we iterate over combinations of
     # k / 2 edges instead of combinations of k vertices; this is only valid if the pattern to
     # search for has at least k / 2 edges
@@ -637,15 +614,6 @@ def contains_no_induced_subgraph_with_degree_sequence_and_property(
                     return False
 
     return True
-
-    # for vertices in combinations(graph, len(degseq)):
-    #     subgraph = graph.subgraph(vertices)
-    #     if degree_sequence(subgraph) == degseq and all(
-    #         recognizer(subgraph) for recognizer in recognizers
-    #     ):
-    #         return False
-    #
-    # return True
 
 
 def explicit_triangles(graph: nx.Graph) -> Iterator[set]:

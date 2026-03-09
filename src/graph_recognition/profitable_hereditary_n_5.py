@@ -1,4 +1,4 @@
-"""Anthony Labarre © 2023-2025
+"""Anthony Labarre © 2023-2026
 
 This file contains recognizers for profitable hereditary classes, i.e. classes that admit a
 forbidden induced subgraph characterization, but can be recognized with a faster-than-naïve
@@ -56,7 +56,7 @@ def is_2p3_free(graph: nx.Graph) -> bool:
     all_nodes = set(graph.nodes)
     for u, v in nx.non_edges(graph):
         for w in nx.common_neighbors(graph, u, v):
-            #  now check whether removing u, v, w and their neighbours yields a P_{3}-free graph
+            #  now check whether removing u, v, w and their neighbors yields a P_{3}-free graph
             if not is_p3_free(
                 graph.subgraph(
                     all_nodes

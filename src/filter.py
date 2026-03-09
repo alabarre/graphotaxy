@@ -13,6 +13,11 @@ from collections import namedtuple
 from os.path import basename
 from typing import Iterator, Iterable, Callable
 
+# ----- My imports --------------------------------------------------------------------------------
+from undirected_graph import UndirectedGraph
+from graph_recognition.smallgraphs import all_smallgraphs_by_order
+from tools.compute_fisc_basis import basis
+
 
 def disable_lru_cache(maxsize: int = None, typed: bool = False) -> Callable:
     """
@@ -54,7 +59,23 @@ from graph_analyzer import GraphAnalyzer
 from readwrite import process_graphs, number_of_graphs_in_file
 
 
-def filter_graphs(filename: str, class_id: str) -> Iterator:
+def get_recognizer(class_id: str) -> Callable | None:
+    """
+    Returns the recognizer for the class identified by class_id.
+
+    :param class_id:
+    :return:
+    """
+    try:
+        # accessing the __wrapped__ function ensures we access the non-lru_cached version of the
+        # recognizer
+        return GraphAnalyzer().get_recognizer(class_id).__wrapped__
+
+    except ValueError:
+        print(f"no recognizer available for class {class_id}")
+
+
+def filter_graphs(filename: str, class_id: str, invert: bool=False) -> Iterator:
     """
     Returns the list of all graphs in filename that belong to the class identified by class_id.
 
@@ -62,23 +83,24 @@ def filter_graphs(filename: str, class_id: str) -> Iterator:
     :param class_id:
     :return:
     """
-    # retrieve the recognizer if possible
-    try:
-        # accessing the __wrapped__ function ensures we access the non-lru_cached version of the
-        # recognizer
-        recognizer = GraphAnalyzer().get_recognizer(class_id).__wrapped__
-
-    except ValueError:
-        print(f"no recognizer available for class {class_id}")
-        return
-
-    for graph in tqdm(
-            process_graphs(filename),
-            total=number_of_graphs_in_file(filename),
-            unit=" graphs",
-    ):
-        if recognizer(graph):
-            yield graph
+    recognizer = get_recognizer(class_id)
+    if recognizer:
+        if invert:
+            for graph in tqdm(
+                    process_graphs(filename),
+                    total=number_of_graphs_in_file(filename),
+                    unit=" graphs",
+            ):
+                if recognizer(graph):
+                    yield graph
+            else:
+                for graph in tqdm(
+                        process_graphs(filename),
+                        total=number_of_graphs_in_file(filename),
+                        unit=" graphs",
+                ):
+                    if not recognizer(graph):
+                        yield graph
 
 
 def write_graphs_to_file(graph_iterable: Iterable[nx.Graph], filename: str) -> int:
@@ -109,13 +131,20 @@ def write_graphs_to_file(graph_iterable: Iterable[nx.Graph], filename: str) -> i
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Filters all graphs in a file that belong to a specific graph class"
+        description="Filters all graphs that belong to a specific graph class"
     )
     parser.add_argument("-i", "--input", help="the graph file to analyze")
     parser.add_argument(
-        "-m",
-        "--membership",
+        "-s", "--smallgraphs", action="store_true",
+        help="filter smallgraphs rather than graphs from a file"
+    )
+    parser.add_argument(
+        "-m", "--membership",
         help="class for which the membership should be tested; use ISGCI ids",
+    )
+    parser.add_argument(
+        "-v", "--invert-matches", action="store_true",
+        help="output graphs that are NOT members of the given class"
     )
     if len(sys.argv) == 1:
         parser.print_help()
@@ -128,27 +157,51 @@ def main() -> None:
         print("Error: specify a class")
         sys.exit(-1)
 
-    # check input file
-    if not os.path.exists(args.input):
-        print("Error:", args.input, "does not exist")
-        sys.exit(-1)
-
+    print(args.invert_matches)
     # filter graphs
-    print(f"Processing graphs in {args.input}")
-    matches = filter_graphs(args.input, args.membership)
+    if args.smallgraphs:
+        recognizer = get_recognizer(args.membership)
+        all_smallgraphs = all_smallgraphs_by_order()
+        matches = set()
+        if args.invert_matches:
+            for graph_set in all_smallgraphs.values():
+                for name, g6 in graph_set:
+                    graph = UndirectedGraph(nx.from_graph6_bytes(g6.encode()))
+                    if not recognizer(graph):
+                        print(name)
+                        matches.add(name)
+        else:
+            for graph_set in all_smallgraphs.values():
+                for name, g6 in graph_set:
+                    graph = UndirectedGraph(nx.from_graph6_bytes(g6.encode()))
+                    if recognizer(graph):
+                        print(name)
+                        matches.add(name)
 
-    # output result if any
-    if matches:
-        output_filename = ("_and_" + args.membership).join(
-            os.path.splitext(basename(args.input))
-        )
-        count = write_graphs_to_file(matches, output_filename)
-        print(f"Wrote {count} filtered graphs to {output_filename}")
+        print("Basis:")
+        print(basis(matches))
 
     else:
-        print(
-            f"None of the input graphs belong to class {args.membership}, so no output file written"
-        )
+        # check input file
+        if not os.path.exists(args.input):
+            print("Error:", args.input, "does not exist")
+            sys.exit(-1)
+
+        print(f"Processing graphs in {args.input}")
+        matches = filter_graphs(args.input, args.membership, invert=args.invert_matches)
+
+        # output result if any
+        if matches:
+            output_filename = ("_and_" + args.membership).join(
+                os.path.splitext(basename(args.input))
+            )
+            count = write_graphs_to_file(matches, output_filename)
+            print(f"Wrote {count} filtered graphs to {output_filename}")
+
+        else:
+            print(
+                f"None of the input graphs belong to class {args.membership}, so no output file written"
+            )
 
 
 if __name__ == "__main__":

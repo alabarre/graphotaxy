@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2025
+Anthony Labarre © 2025-2026
 
 O(n^9) algorithms.
 

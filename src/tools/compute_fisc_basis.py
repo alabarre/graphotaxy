@@ -7,15 +7,17 @@ of subgraphs that all these subgraphs contain.
 # Imports -----------------------------------------------------------------------------------------
 # Standard imports --------------------------------------------------------------------------------
 import argparse
+from typing import Set
 
 # Third-party imports -----------------------------------------------------------------------------
 import networkx as nx
+
 # My imports --------------------------------------------------------------------------------------
 from graph_recognition.smallgraphs import smallgraph_inclusion_graph
 
 
 # Functions ---------------------------------------------------------------------------------------
-def basis(smallgraphs: set[str]) -> set[str]:
+def basis(smallgraphs: Set[str]) -> Set[str]:
     """
     Given a bunch of smallgraph names, returns a basis for that set, i.e., a minimal subset of that
     set such that all input subgraphs contain one of these as an induced subgraph.

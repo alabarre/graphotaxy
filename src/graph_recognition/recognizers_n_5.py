@@ -161,8 +161,8 @@ def is_clique_helly(graph: nx.Graph) -> bool:
         # largest degree in the subgraph is its order - 1
         induced_subgraph = graph.subgraph(extended_triangle)
         if (
-            max(induced_subgraph.degree, key=lambda pair: pair[1])[1]
-            != induced_subgraph.order() - 1
+                max(induced_subgraph.degree, key=lambda pair: pair[1])[1]
+                != induced_subgraph.order() - 1
         ):
             return False
 
@@ -279,10 +279,10 @@ def is_co_cnplus4_bull_co_dart_co_gem_free(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_co_gem_free(graph)
-        and is_co_chordal(graph)
-        and is_bull_free(graph)
-        and is_h_free(graph, ["co-dart"])
+            is_co_gem_free(graph)
+            and is_co_chordal(graph)
+            and is_bull_free(graph)
+            and is_h_free(graph, ["co-dart"])
     )
 
 
@@ -306,10 +306,10 @@ def is_co_cnplus4_co_claw_co_gem_house_free(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_co_gem_free(graph)
-        and is_co_chordal(graph)
-        and is_co_claw_free(graph)
-        and is_house_free(graph)
+            is_co_gem_free(graph)
+            and is_co_chordal(graph)
+            and is_co_claw_free(graph)
+            and is_house_free(graph)
     )
 
 
@@ -321,9 +321,7 @@ def is_co_cnplus4_co_dart_co_gem_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return (
-        is_co_gem_free(graph) and is_co_chordal(graph) and is_h_free(graph, ["co-dart"])
-    )
+    return is_co_gem_free(graph) and is_co_chordal(graph) and is_h_free(graph, ["co-dart"])
 
 
 @assign_class_id("gc_613")
@@ -351,10 +349,10 @@ def is_co_xc_10_free(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_k2_u_k3_free(graph)
-        and is_h_u_2k1_free(graph, is_triangle_free)
-        and is_h_u_2k1_free(graph, is_p3_free)
-        and is_h_u_k2_free(graph, is_p3_free)
+            is_k2_u_k3_free(graph)
+            and is_h_u_2k1_free(graph, is_triangle_free)
+            and is_h_u_2k1_free(graph, is_p3_free)
+            and is_h_u_k2_free(graph, is_p3_free)
     )
 
 
@@ -392,20 +390,20 @@ def is_co_xc_13_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # note: characterisation found by my xc_unpacker program
+    # note: characterization found by my xc_unpacker program
     return (
-        is_k2_u_k3_free(graph)
-        and is_odd_co_clique_free(graph, 5)
-        and is_h_u_2k1_free(graph, is_triangle_free)
-        and is_h_u_2k1_free(graph, is_p3_free)
-        and is_h_u_k2_free(graph, is_p3_free)
-        and is_h_free(
-            graph,
-            [
-                "co(K_{5} - e)",
-                "co(W_{4})",
-            ],
-        )
+            is_k2_u_k3_free(graph)
+            and is_odd_co_clique_free(graph, 5)
+            and is_h_u_2k1_free(graph, is_triangle_free)
+            and is_h_u_2k1_free(graph, is_p3_free)
+            and is_h_u_k2_free(graph, is_p3_free)
+            and is_h_free(
+        graph,
+        [
+            "co(K_{5} - e)",
+            "co(W_{4})",
+        ],
+    )
     )
 
 
@@ -539,8 +537,8 @@ def is_cograph_contraction(graph: nx.Graph) -> bool:
     for e, f in combinations(graph.edges, 2):
         p4_candidates = set(e + f)
         if (
-            len(p4_candidates) == 4
-            and degree_sequence(graph.subgraph(p4_candidates)) == p4_degseq
+                len(p4_candidates) == 4
+                and degree_sequence(graph.subgraph(p4_candidates)) == p4_degseq
         ):
             # we have a P_{4}, extract b and c and build clause
             b, c = {v for v, deg in graph.subgraph(p4_candidates).degree if deg == 1}
@@ -578,7 +576,7 @@ def is_quasi_median(graph: nx.Graph) -> bool:
 def is_xc_10_free_and_weakly_modular(graph: nx.Graph) -> bool:
     """
     A graph is weakly median if it is weakly modular and does not contain two vertices with an
-    unconnected triple of common neighbours.
+    unconnected triple of common neighbors.
 
     https://www.graphclasses.org/classes/gc_1168
 
@@ -596,11 +594,7 @@ def is_k_1_4_free_and_almost_claw_free_and_locally_connected(graph: nx.Graph) ->
     @param graph:
     @return:
     """
-    return (
-        is_k14_free(graph)
-        and is_locally_connected(graph)
-        and is_almost_claw_free(graph)
-    )
+    return is_k14_free(graph) and is_locally_connected(graph) and is_almost_claw_free(graph)
 
 
 @lru_cache(maxsize=None)
@@ -668,7 +662,7 @@ def vertex_neighbourhood_induces_split_graph(graph: nx.Graph, v: Hashable) -> bo
 @lru_cache(maxsize=None)
 def is_split_neighbourhood(graph: nx.Graph) -> bool:
     """
-    A graph is split-neighbourhood if every induced subgraph has a vertex whose neighborhood
+    A graph is split-neighborhood if every induced subgraph has a vertex whose neighborhood
     induces a split graph.
 
     https://www.graphclasses.org/classes/gc_608.html

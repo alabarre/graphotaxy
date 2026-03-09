@@ -198,11 +198,9 @@ def is_almost_claw_free(graph: nx.Graph) -> bool:
             current_subgraph = graph.subgraph(triplet + (center,))
             # if subgraph is a claw, record center and check the other properties
             if degree_sequence(current_subgraph) == claw_deg_seq:
-                # check whether subgraph induced by the center's neighbours has a dominating set of
+                # check whether subgraph induced by the center's neighbors has a dominating set of
                 # size <= 2
-                if not has_dominating_set_of_size_at_most_2(
-                    graph.subgraph(graph[center])
-                ):
+                if not has_dominating_set_of_size_at_most_2(graph.subgraph(graph[center])):
                     return False
 
                 # check whether adding center to claw_centers would still induce an independent set
@@ -240,10 +238,7 @@ def is_circular_arc_and_co_bipartite(graph: nx.Graph) -> bool:
     c4_degseq = array('b', [2, 2, 2, 2])
     for e, f in combinations(g_star, 2):
         endpoints = set(e + f)
-        if (
-            len(endpoints) == 4
-            and degree_sequence(graph.subgraph(endpoints)) == c4_degseq
-        ):
+        if len(endpoints) == 4 and degree_sequence(graph.subgraph(endpoints)) == c4_degseq:
             g_star.add_edge(e, f)
 
     return is_bipartite(g_star)
@@ -307,8 +302,7 @@ def is_co_p4_brittle(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_p4_brittle(complement(graph.subgraph(cc)))
-        for cc in co_connected_components(graph)
+        is_p4_brittle(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 

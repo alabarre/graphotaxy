@@ -362,7 +362,7 @@ def is_pseudo_median(graph: nx.Graph) -> bool:
     # 1) all v, w at distance 1 (= all edges)
     for u, (v, w) in product(graph, graph.edges):
         # skip if u not equidistant from v and w or not at distance >= 2
-        k = nx.shortest_path_length(graph, u, v)
+        k = int(nx.shortest_path_length(graph, u, v))
         if k < 2 or nx.shortest_path_length(graph, u, w) != k:
             continue
         if number_of_common_neighbors_at_distance(graph, u, v, w, k) != 1:
@@ -472,17 +472,14 @@ def is_interval_regular(graph: nx.Graph) -> bool:
 
     # NOTE: I used to precompute all intervals, but that was way too slow, so now I'm computing
     # them as I go in the hope that we'll stop early
-    # intervals = vertices_on_shortest_paths(graph)
     distances = all_pairs_shortest_path_length(graph)
     for u, v in combinations(graph.nodes, 2):
-        int_u_v = vertices_on_shortest_paths_between(
-            graph, u, v
-        )  # intervals[frozenset([u, v])]
-        # note: since combinations produces unique pairs, we must check the
-        # condition both ways (i.e., for u and for v)
+        int_u_v = vertices_on_shortest_paths_between(graph, u, v)
+        # note: since combinations produces unique pairs, we must check the condition both ways
+        # (i.e., for u and for v)
         if (
-                len(set(graph[u]) & int_u_v) != distances[u][v]
-                or len(set(graph[v]) & int_u_v) != distances[u][v]
+                len(set(graph[u]) & int_u_v) != distances[u][v] or
+                len(set(graph[v]) & int_u_v) != distances[u][v]
         ):
             return False
 
@@ -502,9 +499,7 @@ def is_interval_or_co_interval(graph: nx.Graph) -> bool:
 
 @assign_class_id("gc_1226")
 @lru_cache(maxsize=None)
-def is_bipartite_and_girth_at_least9_and_maximum_degree3_and_planar(
-        graph: nx.Graph,
-) -> bool:
+def is_bipartite_and_girth_at_least9_and_maximum_degree3_and_planar(graph: nx.Graph) -> bool:
     """
 
     https://www.graphclasses.org/classes/gc_1226.html

@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2023
+Anthony Labarre © 2023-2026
 
 O(n^7) algorithms.
 

@@ -7,7 +7,6 @@ algorithm.
 Recognizers in this file have running time O(m+n).
 
 """
-
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import os
@@ -55,8 +54,8 @@ def is_k_bounded_bipartite(graph: nx.Graph, k: int) -> bool:
             left, right = nx.bipartite.sets(graph.subgraph(cc))
             left_size_bound, right_size_bound = len(left) - k, len(right) - k
             if not (
-                all(graph.degree[u] >= right_size_bound for u in left)
-                and all(graph.degree[v] >= left_size_bound for v in right)
+                    all(graph.degree[u] >= right_size_bound for u in left)
+                    and all(graph.degree[v] >= left_size_bound for v in right)
             ):
                 return False
 
@@ -68,7 +67,7 @@ def is_k_bounded_bipartite(graph: nx.Graph, k: int) -> bool:
 
 @lru_cache(maxsize=None)
 def is_disjoint_union_of_edgeless_graph_and_single_other(
-    graph: nx.Graph, recognizer_for_other: Callable
+        graph: nx.Graph, recognizer_for_other: Callable
 ) -> bool:
     """
     Returns True iff graph is the disjoint union of an edgeless graph and of a single graph defined
@@ -199,11 +198,9 @@ def is_gc_1307(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # A graph is (C4,P3,triangle)-free if it is either a star, or edgeless
+    # a graph is (C_{4}, co(P_{3}), triangle)-free if it is either a star, or edgeless
     n = graph.number_of_nodes()
-    return not graph.size() or degree_sequence(graph) == array(
-        "Q", [n - 1] + [1] * (n - 1)
-    )
+    return not graph.size() or degree_sequence(graph) == array("Q", [n - 1] + [1] * (n - 1))
 
 
 @assign_fisc(["triangle", "P_{4}", "2K_{2}", "C_{4}"])
@@ -224,7 +221,7 @@ def is_gc_1313(graph: nx.Graph) -> bool:
     return is_disjoint_union_of_edgeless_graph_and_single_other(
         graph,
         lambda subgraph: degree_sequence(subgraph)
-        == array(
+                         == array(
             "Q",
             [subgraph.number_of_nodes() - 1] + [1] * (subgraph.number_of_nodes() - 1),
         ),
@@ -257,7 +254,7 @@ def is_split(graph: nx.Graph) -> bool:
     m -= 1  # decrease m's value (we stopped one step too far)
 
     return sum(deg_seq[: m + 1]) == (m + 1) * m + sum(
-        deg_seq[m + 1 :]
+        deg_seq[m + 1:]
     )  # and not m * (m-1) (2)
 
 
@@ -274,8 +271,8 @@ def is_gc_1312(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # a graph is (2K2,P3)-free if it is the disjoint union of a complete graph and an edgeless
-    # graph
+    # a graph is (2K_{2}, P_{3})-free if it is the disjoint union of a complete graph and an
+    # edgeless graph
     return is_disjoint_union_of_edgeless_graph_and_single_other(graph, is_complete)
 
 
@@ -384,7 +381,7 @@ def is_bipartite(graph: nx.Graph) -> bool:
     # if there are too many edges, the graph cannot be bipartite
     n = graph.number_of_nodes()
     m = graph.number_of_edges()
-    if m > (n**2) / 4:
+    if m > (n ** 2) / 4:
         return False
 
     return nx.is_bipartite(graph)
@@ -411,16 +408,19 @@ def is_block(graph: nx.Graph) -> bool:
 
 
 @assign_fisc(
-    [
-        "diamond",  # 3-cycle + 3-cycle
-        "K_{4}",
-        "house",  # 3-cycle + 4-cycle
-        "K_{2,3}",  # 4-cycle + 4-cycle
-        "domino",  # 4-cycle + 4-cycle
-        "twin-C_{5}",  # 4-cycle + 5-cycle
-        "X_{38}",  # 4-cycle + 5-cycle
-    ]
-)  # partial fisc built "by hand" TODO there might be others: generate the FISC and compute basis
+    {
+        'co(C_{4})',
+        'house',
+        'co-paw',
+        'K_{2,3}',
+        '4K_{1}',
+        'co-claw',
+        'co-diamond',
+        '2K_{2}',
+        'diamond',
+        'K_{4}'
+    }
+)  # basis of a partial fisc computed by filter.py
 @assign_class_id("gc_108")
 @lru_cache(maxsize=None)
 def is_cactus(graph: nx.Graph) -> bool:
@@ -462,7 +462,7 @@ def is_cactus(graph: nx.Graph) -> bool:
 def is_1_bounded_bipartite(graph: nx.Graph) -> bool:
     """
     A bipartite graph (X,Y,E) is 1-bounded bipartite if every vertex in X, resp. Y, has at most 1
-    non-neighbour in Y, resp. X. In other words, the degree of each vertex v in X is at least
+    non-neighbor in Y, resp. X. In other words, the degree of each vertex v in X is at least
     |Y| - 1, and the degree of each vertex in Y is at least |X| - 1.
 
     https://www.graphclasses.org/classes/gc_685.html
@@ -490,7 +490,7 @@ def is_1_bounded_bipartite(graph: nx.Graph) -> bool:
 def is_2_bounded_bipartite(graph: nx.Graph) -> bool:
     """
     A bipartite graph (X, Y, E) is 2-bounded bipartite if every vertex in X, resp. Y, has at most 2
-    non-neighbours in Y, resp. X.
+    non-neighbors in Y, resp. X.
 
     https://www.graphclasses.org/classes/gc_687.html
 
@@ -790,20 +790,6 @@ def is_chordal(graph: nx.Graph) -> bool:
     if is_complete(graph):
         return True
 
-    # and if every pair of independent vertices consists of nonsimplicial vertices, then it is not
-    # chordal; we want this function to remain linear, so do not check this condition if we have
-    # too many non-edges -> let's decide that the condition is not worth checking
-    # if |nonedges| > 2 * |edges|:
-    # TODO maybe restore later if this really proves useful
-    # n = graph.number_of_nodes()
-    # num_non_edges = (n * (n - 1)) // 2 - graph.size()
-    # if num_non_edges <= 2 * graph.size() and all(
-    #     not is_complete(graph.subgraph(set(graph[u]) | {u}))
-    #     and not is_complete(graph.subgraph(set(graph[v]) | {v}))
-    #     for u, v in nx.non_edges(graph)
-    # ):
-    #     return False
-
     # prevent nx.is_chordal from raising ValueError if there are no nodes
     if not graph.nodes:
         return True
@@ -848,9 +834,9 @@ def associated_forest(graph: nx.Graph, indegree: defaultdict[Any, int]) -> nx.Di
             largest = -1
             for vi in graph[vj]:
                 if (
-                    graph.degree[vi] > graph.degree[vj]
-                    or (graph.degree[vi] == graph.degree[vj] and vi < vj)
-                    and indegree[vi] > largest
+                        graph.degree[vi] > graph.degree[vj]
+                        or (graph.degree[vi] == graph.degree[vj] and vi < vj)
+                        and indegree[vi] > largest
                 ):
                     target = vi
                     largest = indegree[vi]
@@ -879,7 +865,7 @@ def is_quasi_threshold(graph: nx.Graph) -> bool:
     indegree = defaultdict(int)
     for vi, vj in graph.edges:
         if graph.degree[vi] > graph.degree[vj] or (
-            graph.degree[vi] == graph.degree[vj] and vi < vj
+                graph.degree[vi] == graph.degree[vj] and vi < vj
         ):
             indegree[vj] += 1
         else:
@@ -888,10 +874,8 @@ def is_quasi_threshold(graph: nx.Graph) -> bool:
     forest = associated_forest(graph, indegree)
 
     # use a depth-first search to compute the number anc(aj) of ancestors of Uj in F for each j;
-    # TODO check that the code below is indeed linear; if not, figure out "the dfs way"
     anc = {vj: len(nx.ancestors(forest, vj)) for vj in forest}
     return all(indegree[vj] == anc[vj] for vj in forest)
-    # return is_h_free(graph, ["P_{4}", "C_{4}"])  # the naïve way
 
 
 @assign_fisc(["3K_{1}", "2K_{2}", "C_{4}", "P_{4}"])
@@ -936,7 +920,7 @@ def is_caterpillar(graph: nx.Graph) -> bool:
     # returns True iff subgraph induced by all nonleaves is a path
     pruned_graph = graph.subgraph(n for n, d in graph.degree if d != 1)
 
-    # note: nx.is_path does not recognise paths ... so we check that pruned_graph is a tree with
+    # note: nx.is_path does not recognize paths ... so we check that pruned_graph is a tree with
     # degree sequence 2, 2, ... 2, 1, 1
     return degree_sequence(pruned_graph) == array(
         "Q", [2] * (pruned_graph.number_of_nodes() - 2) + [1, 1]
@@ -960,9 +944,7 @@ def is_lobster(graph: nx.Graph) -> bool:
     @return:
     """
     # returns True iff subgraph induced by all nonleaves is a caterpillar
-    return is_tree(
-        graph
-    ) and is_caterpillar(  # just to avoid building subgraph if possible
+    return is_tree(graph) and is_caterpillar(  # just to avoid building subgraph if possible
         graph.subgraph(n for n, d in graph.degree if d != 1)
     )
 
@@ -1060,7 +1042,7 @@ def is_co_bipartite(graph: nx.Graph) -> bool:
     # if complement has too many edges, then it cannot be bipartite
     n = graph.number_of_nodes()
     m = (n * (n - 1)) // 2 - graph.number_of_edges()
-    if m > (n**2) / 4:
+    if m > (n ** 2) / 4:
         return False
 
     # launch a BFS from each vertex, since we don't know that the complement is connected
@@ -2312,9 +2294,153 @@ def is_maximal_outerplanar(graph: nx.Graph) -> bool:
     :return:
     """
     return (
-        graph.number_of_edges() == 2 * graph.number_of_nodes() - 3
-        and is_outerplanar(graph)
+            graph.number_of_edges() == 2 * graph.number_of_nodes() - 3
+            and is_outerplanar(graph)
     )
+
+
+# the following fisc is partial for now: it comes from https://doi.org/10.1016/j.disc.2018.04.023
+# in which Theorem 18 lists all cycles and co-cycles of length >= 5 ... as well as 318 other
+# graphs, which may or may not be in ISGCI
+@assign_fisc(
+    [
+        "C_{5}",
+        "C_{6}",
+        "C_{7}",
+        "C_{8}",
+        "co(C_{5})",
+        "co(C_{6})",
+        "co(C_{7})",
+        "co(C_{8})",
+        # TODO the 318 other graphs:
+        # forbidden graphs from fig 6 p. 2173: all of them should appear here AND their complements
+        # fig 6 line 1
+        "domino",  # fig 6 line 1 column 1
+        "co-domino",
+        "2K_{3}",  # fig 6 line 1 column 2
+        "K_{3,3}",
+        "2K_{3} + e",  # fig 6 line 1 column 3
+        "K_{3,3}-e",
+        # TODO line 1 column 4 not found
+        "X_{7}",  # fig 6 line 1 column 5
+        "co(X_{7})",
+        # fig 6 line 2
+        "X_{27}",  # fig 6 line 2 column 1
+        "co(X_{27})",
+        # TODO line 2 column 2 not found
+        # TODO line 2 column 3 not found; how does it differ from the next entry?
+        # TODO line 2 column 4 not found; how does it differ from the previous entry?
+        # TODO line 2 column 5
+        # TODO line 3 column 1
+        # TODO line 3 column 2
+        # TODO line 3 column 3
+        # TODO line 3 column 4
+        # TODO line 3 column 5
+        # TODO line 4 column 1 not found
+        # TODO line 4 column 2 not found
+        # end of fig 6
+        # TODO the graphs from figure 7 + their complements
+        # forbidden graphs from fig 7 p. 2174: all of them should appear here AND their complements
+        "S_{4}",  # fig 7 (1, 1), self-complementary
+        # TODO fig 7 line 1 column 2
+        # TODO fig 7 line 1 column 3
+        # TODO fig 7 line 1 column 4
+        # TODO fig 7 line 1 column 5
+        # TODO fig 7 line 2 column 1
+        # TODO fig 7 line 2 column 2
+        # TODO fig 7 line 2 column 3
+        # TODO fig 7 line 2 column 4
+        # TODO fig 7 line 2 column 5
+        # TODO fig 7 line 3 column 1
+        # TODO fig 7 line 3 column 2
+        # TODO fig 7 line 3 column 3
+        # TODO fig 7 line 3 column 4
+        # TODO fig 7 line 3 column 5
+        # TODO fig 7 line 4 column 1
+        # TODO fig 7 line 4 column 2
+        "2C_{4}",  # fig 7 line 4 column 3
+        "co(2C_{4})",
+        # TODO fig 7 line 4 column 4
+        # TODO fig 7 line 4 column 5
+        # TODO fig 7 line 5 column 1
+        # TODO fig 7 line 5 column 2
+        # TODO fig 7 line 5 column 3
+        # TODO fig 7 line 5 column 4
+        # TODO fig 7 line 5 column 5
+        # TODO fig 7 line 6 column 1
+        # TODO fig 7 line 6 column 2
+        # TODO fig 7 line 6 column 3
+        # TODO fig 7 line 6 column 4
+        # TODO fig 7 line 6 column 5
+        # TODO fig 7 line 7 column 1
+        # TODO fig 7 line 7 column 2
+        # TODO fig 7 line 7 column 3
+        # TODO fig 7 line 7 column 4
+        # TODO fig 7 line 7 column 5
+        # TODO fig 7 line 8 column 1
+        # TODO fig 7 line 8 column 2
+        # TODO fig 7 line 8 column 3
+        # TODO fig 7 line 8 column 4
+        # TODO fig 7 line 8 column 5
+        # TODO the graphs from figure 8 + their complements
+        # TODO the graphs from figure 9 + their complements
+        # TODO the graphs from figure 10 + their complements
+    ]
+)
+@assign_class_id("gc_1289")
+@lru_cache(maxsize=None)
+def is_mock_threshold(graph: nx.Graph) -> bool:
+    """
+    A graph G is mock threshold if there is a vertex ordering v1, ... ,vn such that for every i the
+    degree of vi in G[v1,...,vi] is 0, 1, i−2 or i−1.
+
+    https://www.graphclasses.org/classes/gc_1289
+
+    Complexity: O(m+n) < O(n^10) (naïve).
+
+    :type graph: networkx.Graph
+    :param graph:
+    :return:
+    """
+    # see https://www.sciencedirect.com/science/article/pii/S0012365X18301286
+    num_nodes = graph.order()
+    degseq = degree_sequence(graph)
+    # Every graph on at most five vertices except C_5 is mock threshold (Proposition 13)
+    if num_nodes <= 5:
+        return degseq != array('b', [2, 2, 2, 2, 2])
+
+    # if 2 <= mindegree <= maxdegree <= n - 3, then the answer is no (Lemma 6)
+    maxdegree, *_, mindegree = degseq
+    if 2 <= mindegree <= maxdegree <= num_nodes - 3:
+        return False
+
+    # TODO (minor) check complexity; this mimicks Kahn's algorithm, so probably linear instead of
+    #  quadratic; if so, move function to profitable_hereditary_n.py
+    # copy degrees
+    degrees = dict(graph.degree)
+
+    # retrieve all valid candidates
+    candidates = {v for v, d in degrees.items() if d in {0, 1, num_nodes - 1, num_nodes - 2}}
+
+    retrieved = set()
+    while candidates:
+        # retrieve all candidates
+        retrieved.update(candidates)
+        # decrement the degree of all neighbors of each candidate
+        for v in candidates:
+            for w in graph[v]:
+                degrees[w] -= 1
+
+        # update number of nodes and record the new candidates; discard those that have already
+        # been retrieved
+        num_nodes -= len(candidates)
+        candidates = {v for v, d in degrees.items() if d in {0, 1, num_nodes - 1, num_nodes - 2}} - retrieved
+
+    # the graph is empty iff all vertices were retrieved
+    return len(retrieved) == graph.number_of_nodes()
+
+    # NOTE: the following one-liner also works, but is slower as the graph's size increases
+    # return empty_graph_by_removing_vertices(graph, vertex_has_degree_or_codegree_at_most_1)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

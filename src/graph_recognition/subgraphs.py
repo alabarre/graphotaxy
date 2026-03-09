@@ -1,27 +1,32 @@
 """
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
 Everything related to induced subgraph matching, carried out by instances of the SubgraphMatcher
-class.
+class. Anyone needing to check whether a set of smallgraphs known to ISGCI appears in a graph can
+simply use the function is_h_free, for instance as follows:
+
+    is_h_free(my_graph, ["K_{3}", "P_{5}"])  # any iterable of strings is fine
+
+The function returns True if none of the given subgraphs appear in my_graph, False otherwise.
+
+Internals of the matching process
+---------------------------------
 
 The matching task itself is ultimately carried out by the Glasgow Subgraph Solver (GSS for short).
 SubgraphMatcher provides a number of features designed to avoid carrying out the search at all
 whenever possible; namely:
 
     - caching all results, so that we never search for the same subgraph in the same graph twice;
-
     - using properties of the pattern and the target to find contradictions: for instance, if the
         target is bipartite but the pattern is not, then the pattern cannot appear in the target,
         and therefore we do not even need to search for it. Only properties that can be computed
-        quickly are interesting in that regard.
-
+        quickly are used.
     - propagating the results of a search to the rest of the cache:
         - if a subgraph appears in the graph, then so do all its induced subgraphs: we mark them as
-            found to avoid future searches
-
+            "found" to avoid future searches
         - if a subgraph does not appear in the graph, then the larger patterns that contain it as
-            an induced subgraph cannot appear in the graph either; we mark them as missing to avoid
-            future searches
+            an induced subgraph cannot appear in the graph either; we mark them as "missing" to
+            avoid future searches
 
 """
 # Imports -----------------------------------------------------------------------------------------
@@ -30,8 +35,9 @@ import logging
 import os.path
 import re
 import subprocess
+from itertools import filterfalse
 from tempfile import NamedTemporaryFile, TemporaryDirectory
-from typing import Iterable
+from typing import Iterable, Set
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -60,16 +66,6 @@ for i, function in enumerate(functions_to_cache):
 # a graph as parameter, we cannot make __MATCHERS a defaultdict
 __MATCHERS = dict()
 
-# the following data structure maps smallgraph names to their order
-SMALLGRAPH_NAMES_AND_ORDERS = {
-    # graph.name: k for k, graphbunch in all_smallgraphs_by_order().items()
-    graph[0]: k
-    for k, graphbunch in all_smallgraphs_by_order().items()
-    for graph in graphbunch
-}
-SMALLGRAPH_INCLUSION_GRAPH = smallgraph_inclusion_graph()
-_TEMP_DIR = TemporaryDirectory()
-
 
 # Classes -----------------------------------------------------------------------------------------
 class SubgraphMatcher:
@@ -79,11 +75,21 @@ class SubgraphMatcher:
     question is answered by the method no_match.
 
     The search itself is ultimately carried out by the Glasgow Subgraph Solver (GSS for short), but
-    number of techniques allow us to avoid running the search at all whenever possible. This is the
-    role of the method find_induced.
+    a number of techniques allow us to avoid running the search at all whenever possible. This is
+    the role of the method find_induced.
     """
     _unknown_status = -1
-    truth_mapping = {"true": True, "false": False}  # for parsing the output of GSS
+    _truth_mapping = {"true": True, "false": False}  # for parsing the output of GSS
+    # map smallgraph names to their order so we can search for them by increasing order
+    smallgraph_names_and_orders = {
+        graph[0]: k
+        for k, graphbunch in all_smallgraphs_by_order().items()
+        for graph in graphbunch
+    }
+    inclusion_graph = smallgraph_inclusion_graph()
+    _temp_dir = TemporaryDirectory()
+
+    # the following variables are only used for statistics
     number_of_calls_to_gss = 0
     number_of_calls_to_gcs = 0
 
@@ -95,25 +101,20 @@ class SubgraphMatcher:
         """
         self._graph = graph
         self._checked_subgraphs = dict.fromkeys(
-            SMALLGRAPH_NAMES_AND_ORDERS, self._unknown_status
+            SubgraphMatcher.smallgraph_names_and_orders,
+            self._unknown_status
         )
 
         # store target properties which will be useful to quickly rule out matches in
         # self.find_induced
-        self._graph_max_degree = (
-            0 if nx.is_empty(self._graph) else degree_sequence(self._graph)[0]
-        )
-        self._graph_min_degree = (
-            0 if nx.is_empty(self._graph) else degree_sequence(self._graph)[-1]
-        )
+        self._graph_max_degree = 0 if nx.is_empty(self._graph) else degree_sequence(self._graph)[0]
+        self._graph_min_degree = 0 if nx.is_empty(self._graph) else degree_sequence(self._graph)[-1]
 
-        # write graph to LAD files for further queries, so we translate it only once
+        # write graph to LAD file for further queries, so we translate it only once
         self._graph_lad_path = ""
-        with NamedTemporaryFile(prefix=_TEMP_DIR.name + os.sep, delete=False) as output:
+        with NamedTemporaryFile(prefix=SubgraphMatcher._temp_dir.name + os.sep, delete=False) as output:
             self._graph_lad_path = output.name
-            # print("[DEBUG] writing graph to lad file ... ", end="")
             nx_graph_to_lad_file(graph, self._graph_lad_path)
-            # print("done.")
 
     def find_induced(self, smallgraph_name: str) -> bool:
         """
@@ -123,14 +124,14 @@ class SubgraphMatcher:
         :param smallgraph_name:
         :return:
         """
-        # print("\n[DEBUG] now searching for", smallgraph_name)
-        # *****************************************************************************************
-        # * 1) try various tricks to avoid actually looking for induced subgraphs                 *
-        # *****************************************************************************************
         path_to_pattern_lad = os.path.join(
             os.path.dirname(__file__), "smallgraphs", smallgraph_name
         )
         pattern = lad_file_to_nx_graph(path_to_pattern_lad)
+
+        # *****************************************************************************************
+        # * 1) try various tricks to avoid actually looking for induced subgraphs                 *
+        # *****************************************************************************************
 
         # O(1) verifications ----------------------------------------------------------------------
         # if graph has fewer vertices or edges than pattern, then it cannot contain the pattern
@@ -145,7 +146,6 @@ class SubgraphMatcher:
         # looking for an independent set takes a long time; if we find a large
         # enough one, then we don't need to explicitly look for it
         if smallgraph_name[1:] == "K_{1}":
-            # print("now checking", smallgraph_name)  # DEBUG
             mis_size = len(nx.maximal_independent_set(self._graph))
             if mis_size >= int(smallgraph_name[0]):
                 # also update all larger sets; largest is 7
@@ -158,24 +158,13 @@ class SubgraphMatcher:
 
         # looking for a clique takes a long time; if we find a large enough one, then we don't need
         # to explicitly look for it
-        # TODO why is this commented?
-        """
         if smallgraph_name[:3] == "K_{" and smallgraph_name[4:] == "}":
-            # print("[DEBUG] now looking for a large clique")
-            # max_clique_size = len(nx.approximation.max_clique(self._graph))  # TODO slow
-            max_clique_size = nx.approximation.large_clique_size(
-                self._graph
-            )  # TODO bad results
+            max_clique_size = nx.approximation.large_clique_size(self._graph)
             if max_clique_size >= int(smallgraph_name[3]):
                 # also update all larger sets; largest is 7
                 for i in range(2, min(8, max_clique_size)):
                     self._checked_subgraphs["K_{" + str(i) + "}"] = True
                 return True
-            # print("max clique size:", max_clique_size)
-        """
-        # restore old name if changed
-        # if smallgraph_name == "K_3":
-        #     smallgraph_name = "triangle"
 
         # *****************************************************************************************
         # * 2) recurse on smaller patterns in the hope that they will provide                     *
@@ -184,38 +173,27 @@ class SubgraphMatcher:
         # if subgraph belongs to graph, then so do all its induced subgraphs; therefore, we first
         # recurse on all induced subgraphs sorted by increasing sizes; if any of them is missing,
         # then the pattern does not appear in the graph
-        # NOTE: nice idea, but I'm not sure it has any impact in practice.
-        """
-        for subpattern in sorted(
-            nx.descendants(SMALLGRAPH_INCLUSION_GRAPH, smallgraph_name),
-            key=SMALLGRAPH_NAMES_AND_ORDERS.get
-        ):
-            # print("    descendant", subpattern)
-            if self._checked_subgraphs[subpattern] == self._unknown_status:
-                self.set_and_propagate(
-                    [subpattern], self.find_induced(subpattern)
-                )
 
+        # """
+        for subpattern in sorted(
+                nx.descendants(SubgraphMatcher.inclusion_graph, smallgraph_name),
+                key=SubgraphMatcher.smallgraph_names_and_orders.get
+        ):
+            if self._checked_subgraphs[subpattern] == self._unknown_status:
+                self.set_and_propagate([subpattern], self.find_induced(subpattern))
+
+            # WARNING: do NOT simplify the expression below: True and False are not the only
+            # possible values
             if self._checked_subgraphs[subpattern] is False:
                 return False
         # """
-        # NOTE: I'm giving up on the following trick: computing the girth in
-        # practice will take much longer for large graphs than simply searching
-        # for the pattern
-        # if target's shortest cycle is longer than pattern's, then pattern
-        # cannot occur in target
-        # if girth(self._graph) > girth(pattern):
-        #    return False
 
         # *****************************************************************************************
         # * 3) if none of the above worked, call the solver                                       *
         # *****************************************************************************************
-        # print("[DEBUG] saving graph_lad before crash")
-        # shutil.copy(self._graph_lad_path, "/tmp/lastgraph.lad.BAK")  # DEBUG
-        # print("\nno way around it: using glasgow for\n", smallgraph_name)
-
-        # use the clique solver instead if the pattern is K_{?}
-        if smallgraph_name[:3] == "K_{" and smallgraph_name[4:] == "}":
+        # use the clique solver if the pattern is K_{?}
+        use_clique_solver = smallgraph_name[:3] == "K_{" and smallgraph_name[4:] == "}"
+        if use_clique_solver:
             glasgow_command = [
                 os.path.join(os.path.dirname(__file__), "./glasgow_clique_solver"),
                 "--format",
@@ -226,14 +204,8 @@ class SubgraphMatcher:
                 "--decide",
                 smallgraph_name[3],
             ]
-            logger.info("Starting GCS to find %s", smallgraph_name)
-            output = subprocess.check_output(glasgow_command).decode()
-            SubgraphMatcher.number_of_calls_to_gcs += 1
-            logger.info("GCS finished successfully")
-            return self.truth_mapping[re.findall("status = (false|true)", output)[0]]
 
-        else:
-            # this is the command for the glasgow subgraph solver
+        else:  # use the general-purpose solver if pattern is not a clique
             glasgow_command = [
                 os.path.join(os.path.dirname(__file__), "./glasgow_subgraph_solver"),
                 "--format",
@@ -244,30 +216,31 @@ class SubgraphMatcher:
                 path_to_pattern_lad,
                 self._graph_lad_path,
             ]
-            logger.info("Starting GSS to find %s", smallgraph_name)
-            output = subprocess.check_output(glasgow_command).decode()
+
+        solver_name = ['GSS', 'GCS'][use_clique_solver]
+        logger.info(f"Starting {solver_name} to find {smallgraph_name}")
+        output = subprocess.check_output(glasgow_command).decode()
+        if use_clique_solver:
+            SubgraphMatcher.number_of_calls_to_gcs += 1
+        else:
             SubgraphMatcher.number_of_calls_to_gss += 1
-            logger.info("GSS finished successfully")
-            return self.truth_mapping[re.findall("status = (false|true)", output)[0]]
+        logger.info(f"{solver_name} finished successfully")
+        return self._truth_mapping[re.findall("status = (false|true)", output)[0]]
 
     def no_match(self, subgraphs: Iterable[str]) -> bool:
-        """Returns True iff none of the input subgraphs appear as induced subgraphs of the input
+        """
+        Returns True iff none of the input subgraphs appear as induced subgraphs of the input
         graph.
 
         :param subgraphs: an iterable of strings
         :return:
         """
-        # print(
-        #     "[DEBUG] checked subgraphs states (before doing anything):",
-        #     [(pat, self._checked_subgraphs[pat]) for pat in subgraphs]
-        # )
-        # trivial condition, but sometimes we receive graphs which may be empty since we might run
-        # the method on subgraphs of a larger graph
+        # trivial but necessary check: we might receive an empty subgraph from a larger graph
         if not self._graph:
             return True
 
         # check for any unknown name
-        missing_names = set(subgraphs).difference(SMALLGRAPH_NAMES_AND_ORDERS)
+        missing_names = set(subgraphs).difference(SubgraphMatcher.smallgraph_names_and_orders)
         if missing_names:
             raise ValueError("names", missing_names, "are unknown")
 
@@ -282,20 +255,17 @@ class SubgraphMatcher:
                 for graph in subgraphs
                 if self._checked_subgraphs[graph] == self._unknown_status
             },
-            key=SMALLGRAPH_NAMES_AND_ORDERS.get,
+            key=SubgraphMatcher.smallgraph_names_and_orders.get,
         )
 
-        # print("[DEBUG] started with", subgraphs, ", kept", sorted_subgraphs)
-
         for pattern in sorted_subgraphs:
-            # print("[DEBUG] now looking for", pattern)
             # none of the subgraphs have been checked initially, but this may change with repeated
             # runs, or even during a single run since unfound patterns will impact their ancestors
             if self._checked_subgraphs[pattern] == self._unknown_status:
                 self.set_and_propagate([pattern], self.find_induced(pattern))
 
             # pattern found: quit early
-            # do NOT simplify the expression below: True and False are not the only
+            # WARNING: do NOT simplify the expression below: True and False are not the only
             # possible values
             if self._checked_subgraphs[pattern] is True:
                 return False
@@ -303,11 +273,12 @@ class SubgraphMatcher:
         return True
 
     def set_and_propagate(self, pattern_bunch: Iterable[str], value: bool) -> None:
-        """Records that a bunch of patterns appear (value=True) or do not appear (value=False) in
-        the target, and propagates implications: if there is no match, then patterns that contain
-        the given patterns as induced subgraph cannot appear in the target either. Likewise, if
-        there is a match, then patterns that the given pattern contains as induced subgraphs also
-        appear in the target.
+        """
+        Records that a bunch of patterns appear (value=True) or do not appear (value=False) in the
+        target, and propagates implications: if there is no match, then patterns that contain the
+        given patterns as induced subgraph cannot appear in the target either. Likewise, if there
+        is a match, then patterns that the given pattern contains as induced subgraphs also appear
+        in the target.
 
         This method is mostly intended for external algorithms to communicate their findings to the
         matcher.
@@ -317,31 +288,30 @@ class SubgraphMatcher:
         @param value:
         @param pattern_bunch:
         """
-        # print("\nsetting value to", value, "for the following patterns")  # DEBUG
         other_patterns = [nx.ancestors, nx.descendants][value]
         for pattern in pattern_bunch:
-            # print("    ", pattern)
             self._checked_subgraphs[pattern] = value
             if value != self._unknown_status:
-                for other_class in other_patterns(SMALLGRAPH_INCLUSION_GRAPH, pattern):
+                for other_class in other_patterns(SubgraphMatcher.inclusion_graph, pattern):
                     self._checked_subgraphs[other_class] = value
 
-    def contained_subgraphs(self) -> set[str]:
-        """Returns the set of all subgraphs that have been found as induced subgraphs of the graph.
+    def contained_subgraphs(self) -> Set[str]:
+        """
+        Returns the set of all subgraphs that have been found as induced subgraphs of the graph.
         This method only returns the subgraphs that have been queried, and does not perform any
         query itself.
 
         :return:
         """
+        # WARNING: don't simplify using self._checked_subgraphs, that expression would accept
+        # subgraphs with an unknown status and we only want the ones that are "truly True"
         return set(
             filter(
                 lambda x: self._checked_subgraphs[x] is True, self._checked_subgraphs
             )
         )
 
-    def _subgraphs_with_property_and_restriction(
-        self, _property: str, restriction: str
-    ) -> set[str]:
+    def _subgraphs_with_property_and_restriction(self, _property: str, restriction: str) -> Set[str]:
         """
         Returns the set of all subgraphs that satisfy:
 
@@ -359,7 +329,7 @@ class SubgraphMatcher:
             raise ValueError("restriction must be 'maximal' or 'minimal'")
 
         # make sure every pattern has been checked
-        for pattern in SMALLGRAPH_INCLUSION_GRAPH:
+        for pattern in SubgraphMatcher.inclusion_graph:
             self.no_match([pattern])
 
         # set up the basis (all matched or all missing subgraphs)
@@ -372,7 +342,7 @@ class SubgraphMatcher:
         basis = {
             subgraph
             for subgraph in basis
-            if SMALLGRAPH_NAMES_AND_ORDERS[subgraph] <= self._graph.order()
+            if SubgraphMatcher.smallgraph_names_and_orders[subgraph] <= self._graph.order()
         }
 
         graph_relation = {"maximal": nx.ancestors, "minimal": nx.descendants}[
@@ -386,12 +356,12 @@ class SubgraphMatcher:
             for subgraph in basis
             if all(
                 other not in basis
-                for other in graph_relation(SMALLGRAPH_INCLUSION_GRAPH, subgraph)
+                for other in graph_relation(SubgraphMatcher.inclusion_graph, subgraph)
             )
-            and SMALLGRAPH_NAMES_AND_ORDERS[subgraph] <= self._graph.order()
+               and SubgraphMatcher.smallgraph_names_and_orders[subgraph] <= self._graph.order()
         }
 
-    def minimal_missed_subgraphs(self) -> set[str]:
+    def minimal_missed_subgraphs(self) -> Set[str]:
         """
         Returns the set of all minimal subgraphs that are known not to occur as induced subgraphs
         of the graph. A subgraph H is a minimal miss in the target graph if no induced subgraph of
@@ -404,7 +374,7 @@ class SubgraphMatcher:
         """
         return self._subgraphs_with_property_and_restriction("missing", "minimal")
 
-    def missing_subgraphs(self) -> set[str]:
+    def missing_subgraphs(self) -> Set[str]:
         """
         Returns the set of all subgraphs that are known not to occur as induced subgraphs of the
         graph. This method only returns the subgraphs that have been queried, and does not perform
@@ -412,11 +382,7 @@ class SubgraphMatcher:
 
         :return:
         """
-        return set(
-            filter(
-                lambda x: self._checked_subgraphs[x] is False, self._checked_subgraphs
-            )
-        )
+        return set(filterfalse(self._checked_subgraphs.get, self._checked_subgraphs))
 
 
 # Functions ---------------------------------------------------------------------------------------

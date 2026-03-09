@@ -1,7 +1,5 @@
 # OPEN
 
-
-
 - [ ] I should be able to use "unknown" ids, right now I can't:
 ```pycon
 
@@ -90,6 +88,8 @@ SOLUTION: generated recognizers (and optimized ones) must receive class ids!!!!
 
 no, I did that and it's not the problem. --positive gc_1045, which is equivalent, works, so there's something wrong in the way
 I handle provided positive and negative classes
+
+
 
 
 
@@ -241,3 +241,15 @@ in fact, with n vertices there's always K_{1, n-1} which contains a (n-1)K_1
 
 does not seem to occur anymore, not sure what was wrong
 
+
+## filter.py
+
+- [x] why does 
+
+python3 filter.py --smallgraphs -m gc_1335  -v 
+
+yield something different from
+
+python3 filter.py --smallgraphs -m gc_251 -v 
+
+well actually the classes are not equivalent and the fisc i had for 1335 was recycled from 251. i removed it for now.

@@ -368,8 +368,7 @@ def is_girth_at_least_9(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_locally_bipartite(graph: nx.Graph) -> bool:
     """
-    A graph is locally bipartite if the open neighborhood of each vertex induces a bipartite
-    graph.
+    A graph is locally bipartite if the open neighborhood of each vertex induces a bipartite graph.
 
     See https://www.graphclasses.org/classes/gc_1262
 
@@ -647,8 +646,7 @@ def is_co_at_free(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        my_is_at_free(complement(graph.subgraph(cc)))
-        for cc in co_connected_components(graph)
+        my_is_at_free(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 
