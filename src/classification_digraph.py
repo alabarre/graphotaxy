@@ -102,6 +102,17 @@ class ClassificationDigraph(nx.DiGraph):
         self.remove_nodes_from(other_classes(self, class_id))
         return to_remove
 
+    def negative_nodes(self) -> Set[str]:
+        """
+        Returns the set of all negative nodes.
+
+        @return:
+        """
+        return {
+            class_id for class_id, data in self.nodes(data=True)
+            if data["category"] == self.negative
+        }
+
     def number_of_open_nodes(self) -> int:
         """
         Returns the number of open nodes in the classification.
