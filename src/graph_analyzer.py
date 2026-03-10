@@ -11,9 +11,6 @@ To use a GraphAnalyzer:
     analyzer.run_classification(paths_to_input_files)  # feed it data and go
     analyzer.print_summary_of_findings()               # print results
 
-TODO memory usage issues for large datasets, probably due to us keeping each classification until
-    the end; rewrite code to compute this as we go.
-
 """
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
@@ -385,57 +382,6 @@ class GraphAnalyzer:
 
         raise ValueError(class_id + " not found, nor any equivalent id")
 
-    '''
-    def classes_stats(self) -> DefaultDict[str, int]:
-        """
-        Returns a dictionary whose entries are of the form (class_id, num_members), where
-        num_members is the number of graphs that belong to the graph class identified by class_id.
-
-        :return:
-        """
-        # retrieve all classes of which at least one input graph is a member
-        enumeration_of_positive_classes = defaultdict(int)
-        union_of_all_positive_classes = set.union(
-            *(
-                classification_digraph.positive_nodes()
-                for classification_digraph in self.classifications
-            )
-        )
-        # TODO the following line is True so that's not where my bug comes from
-        # print("union_of_all_positive_classes == self.relevant_classes?", union_of_all_positive_classes == self.relevant_classes )
-
-        # for each positive class, enumerate its members
-        tc_isgci = nx.transitive_closure_dag(deepcopy(self.isgci_graph))
-        for classification in self.classifications:
-            ancestors_to_increase = set()
-            to_delete = set()
-            for node in classification.positive_nodes():
-                # increment the counter of all relevant predecessors of the class; that is, those
-                # predecessors that appear in union_of_all_positive_classes; this does not include
-                # the class, since transitive closure tc_isgci does not add loops, so we add it
-                # manually
-                ancestors_to_increase.add(node)
-
-                # to speed up the process, remove from tc_isgci all nodes that were not found as we
-                # go (if an ancestor is not in the union of all positive classes for this run, it
-                # will not be in that union later either)
-                for positive_id in tc_isgci.predecessors(node):
-                    if positive_id in union_of_all_positive_classes:
-                        ancestors_to_increase.add(positive_id)
-
-                    else:
-                        to_delete.add(positive_id)
-
-            # update counts
-            for class_id in ancestors_to_increase:
-                enumeration_of_positive_classes[class_id] += 1
-
-            # remove useless nodes
-            tc_isgci.remove_nodes_from(to_delete)
-
-        return enumeration_of_positive_classes
-    '''
-
     def update_classes_stats(self, classification: ClassificationDigraph) -> None:
         """
         Increments the counters of each positive node in the classification, as well as those of
@@ -474,17 +420,6 @@ class GraphAnalyzer:
                 return function
 
         raise ValueError(f"no recognizer found for {class_id} or any equivalent class")
-
-    '''
-    def gray_area(self) -> Tuple[int, int]:
-        """
-        Returns the min and max number of unknown nodes among all classifications.
-
-        @rtype: tuple
-        """
-        counts = {classification.number_of_open_nodes() for classification in self.classifications}
-        return min(counts), max(counts)
-    '''
 
     def number_of_graphs(self) -> int:
         """
@@ -579,77 +514,6 @@ class GraphAnalyzer:
                 if recog_status[node] in {"Linear", "Polynomial"}:
                     print(urllib.parse.urljoin(BASE_CLASS_URL, node), recog_status[node])
 
-        ###########################################################################################
-        # OLD VERSION
-        ###########################################################################################
-        '''
-        # sort classes by descending cardinality
-        print(underlined("Summary of findings"))
-        results = sorted(((val, key) for key, val in self.classes_stats().items()), reverse=True)
-
-        # retrieve all unknown nodes among all classifications
-        union_of_unknown_nodes = {
-            node
-            for classification in self.classifications
-            for node in classification
-            if classification.has_open_node(node)
-        }
-        # print()
-        num_graphs = self.number_of_graphs()
-
-        if num_graphs == 1:
-            print("The graph is:\n")
-
-        isgci_graph = reduced_isgci_inclusion_graph()
-        ids_to_names = isgci_ids_to_names()
-        recog_status = isgci_recognition_statuses()
-        for num, class_id in results:
-            print(
-                ["{:.2f}".format(100 * num / num_graphs).rjust(6) + "% are", "-"][num_graphs == 1],
-                ids_to_names[class_id],
-                "---",
-                urllib.parse.urljoin(BASE_CLASS_URL, class_id),
-            )
-            # print unidentified maximal subclasses, so I know what to implement next
-            if print_unknown_descendants:
-                unknown_children = set(isgci_graph.successors(class_id)).intersection(
-                    union_of_unknown_nodes
-                )
-                print(f"    class has {len(unknown_children)} unidentified maximal subclasses")
-                for child in unknown_children:
-                    print(
-                        " " * 8,
-                        ids_to_names[child],
-                        "---",
-                        urllib.parse.urljoin(BASE_CLASS_URL, child),
-                        recog_status[child],
-                    )
-
-                if unknown_children:
-                    print()
-
-                unknown_descendants = (
-                    set(nx.descendants(isgci_graph, class_id))
-                    .intersection(union_of_unknown_nodes)
-                    .difference(unknown_children)
-                )
-                print(f"    class has {len(unknown_descendants)} further unidentified descendants")
-                for child in unknown_descendants:
-                    print(
-                        " " * 8,
-                        ids_to_names[child],
-                        "---",
-                        urllib.parse.urljoin(BASE_CLASS_URL, child),
-                        recog_status[child],
-                    )
-
-                print()
-
-        lo, hi = self.gray_area()
-
-        print()
-        print("We have", [f"between {lo} and {hi}", lo][lo == hi], "unidentified classes.")
-        '''
         if print_todo:
             # print all classes that can be recognized in polynomial time, but for which we have no
             # implemented recognizer yet
