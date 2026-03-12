@@ -113,8 +113,7 @@ def is_02_graph(graph: nx.Graph) -> bool:
         return False
 
     return all(
-        number_of_common_neighbours(graph, u, v) in {0, 2}
-        for u, v in combinations(graph.nodes, 2)
+        number_of_common_neighbours(graph, u, v) in {0, 2} for u, v in combinations(graph.nodes, 2)
     )
 
 
@@ -322,7 +321,7 @@ def is_co_hereditary_welsh_powell_perfect(graph: nx.Graph) -> bool:
     )
 
 
-# This code segment must always be at the END of a recognizer file ------------
+# This code segment must always be at the END of a recognizer file --------------------------------
 RECOGNIZERS = current_module_recognizers(
     ".".join(
         [
@@ -331,4 +330,4 @@ RECOGNIZERS = current_module_recognizers(
         ]
     )
 )
-# -----------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------

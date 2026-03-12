@@ -4361,6 +4361,24 @@ def is_auto_1536(graph: nx.Graph) -> bool:
     """
     return is_split(graph) and is_h_free(graph, ["S_{3}", "net", "rising sun"])
 
+@assign_class_id("gc_27")
+@lru_cache(maxsize=None)
+def is_superbrittle(graph: nx.Graph) -> bool:
+    """
+    A graph G is superbrittle iff in every induced subgraph of G no vertex is both a midpoint of an
+    induced P4 and an endpoint of an induced P4 .
+
+    https://www.graphclasses.org/classes/gc_27
+
+    Complexity: O(n^5) < O(n^7) (naïve)
+
+    :param graph:
+    :return:
+    """
+    # TODO: call other recognizers where possible
+    return is_h_free(["C_{5}", "house", "A", "co(A)", "parapluie", "parachute", "P_{5}"])
+    # naive algorithm is much faster than this O(n^5) attempt:
+    # return empty_graph_by_removing_vertices(graph, vertex_is_superbrittle)
 
 @assign_class_id("gc_972")
 @lru_cache(maxsize=None)

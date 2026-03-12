@@ -414,3 +414,13 @@ def is_h_free(graph: nx.Graph, subgraphs: Iterable[str]) -> bool:
         __MATCHERS[graph] = SubgraphMatcher(graph)
 
     return __MATCHERS[graph].no_match(subgraphs)
+
+
+def clear_subgraph_cache(graph: nx.Graph) -> None:
+    """
+    Clears the subgraphs cache for a given graph.
+
+    :param graph:
+    :return:
+    """
+    del __MATCHERS[graph]

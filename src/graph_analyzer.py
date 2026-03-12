@@ -30,7 +30,8 @@ from tqdm import tqdm
 
 # ----- My imports --------------------------------------------------------------------------------
 from classification_digraph import ClassificationDigraph
-from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings
+from graph_recognition import misc_algo
+from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings, clear_subgraph_cache
 from isgci.isgci_base import (
     isgci_equivalences,
     BASE_CLASS_URL,
@@ -93,12 +94,11 @@ class GraphAnalyzer:
         """
         Initializes all data structures.
         """
-        # data related to classification ----------------------------------------------------------
+        # data related to a modified behavior GraphAnalyzer ---------------------------------------
         self.blacklisted = set()
-        # self.classifications = []
-        self.recognizers = []
+
+        # data related to classification ----------------------------------------------------------
         self.enumeration_of_positive_classes = defaultdict(int)
-        self.equivalences = isgci_equivalences()
         self.isgci_graph = ClassificationDigraph()
         self.isgci_exclusion_graph = isgci_exclusion_graph()
         self.max_unknown_classes = 0
@@ -106,7 +106,6 @@ class GraphAnalyzer:
         self.num_graphs = 0
         self.prototype_classification_digraph = ClassificationDigraph()
         self.relevant_classes = set()
-        self.setup_recognizers()
         self.tc_isgci = nx.transitive_closure_dag(deepcopy(self.isgci_graph))
         self.unknown_nodes = set(self.isgci_graph.nodes)
 
@@ -116,6 +115,11 @@ class GraphAnalyzer:
         self.gss_crashed = False
         self.hits_and_misses = {"hits": 0, "misses": 0}
         self.recognizers_that_were_run = set()
+
+        # other useful data -----------------------------------------------------------------------
+        self.equivalences = isgci_equivalences()
+        self.recognizers = []
+        self.setup_recognizers()
 
     def register_recognizer(self, class_id: str, recognizer: Callable) -> None:
         """
@@ -177,10 +181,35 @@ class GraphAnalyzer:
             unit=" graph",
             total=num_graphs,
         )
+        # record functions whose caches need to be cleared and which are not recognizers
+        # TODO: later I'll write a function to retrieve these automatically, right now I only
+        #   want to check if it's worth it
+        other_caches_to_clear = [
+            misc_algo.all_pairs_shortest_path_length,
+            misc_algo.degree_sequence,
+            misc_algo.is_complete,
+            misc_algo.is_h_u_k1_free,
+            misc_algo.is_h_u_k2_free,
+            misc_algo.is_h_u_2k1_free,
+            misc_algo.complement,
+            misc_algo.number_of_common_neighbours,
+            misc_algo.dominates,
+            misc_algo.has_dominating_set_of_size_at_most_2,
+            misc_algo.empty_graph_by_removing_edges_and_incident_edges,
+            misc_algo.empty_graph_by_removing_vertices,
+            misc_algo.is_connected,
+            misc_algo.plain_co_bfs,
+            misc_algo.is_co_connected,
+            misc_algo.is_even_clique_free,
+            misc_algo.is_odd_clique_free,
+            misc_algo.is_even_co_clique_free,
+            misc_algo.must_contain_a_clique_of_size,
+            misc_algo.must_contain_an_independent_set_of_size,
+            misc_algo.is_odd_co_clique_free,
+        ]
+        # finally, start the analysis
         for graph in main_pbar:
             # create classification for current graph
-            # self.classifications.append(deepcopy(self.prototype_classification_digraph))
-            # classification = self.classifications[-1]
             classification = deepcopy(self.prototype_classification_digraph)
             # set up the progress bar for the classification of the current graph
             pbar = tqdm(
@@ -206,6 +235,8 @@ class GraphAnalyzer:
 
             # current graph has been classified: the corresponding cached data is no longer needed
             self._clear_recognizer_caches(called_recognizers)
+            _clear_other_caches(other_caches_to_clear)
+            clear_subgraph_cache(graph)
             self.update_classes_stats(classification)
             if self.gss_crashed:
                 print("[WARNING] the glasgow subgraph or clique solver crashed")
@@ -448,7 +479,7 @@ class GraphAnalyzer:
             if key in self.relevant_classes
         }
         # sort classes by descending cardinality
-        print(underlined("Summary of findings NEW VERSION"))
+        print("# Summary of findings")
         new_results = sorted(
             ((val, key) for key, val in self.enumeration_of_positive_classes.items()), reverse=True
         )
@@ -464,9 +495,7 @@ class GraphAnalyzer:
         for num, class_id in new_results:
             print(
                 ["{:.2f}".format(100 * num / num_graphs).rjust(6) + "% are", "-"][num_graphs == 1],
-                ids_to_names[class_id],
-                "---",
-                urllib.parse.urljoin(BASE_CLASS_URL, class_id),
+                f"[{ids_to_names[class_id]}]({urllib.parse.urljoin(BASE_CLASS_URL, class_id)})"
             )
             # print unidentified maximal subclasses, so I know what to implement next
             if print_unknown_descendants:
