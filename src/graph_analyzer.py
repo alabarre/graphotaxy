@@ -17,7 +17,7 @@ To use a GraphAnalyzer:
 import subprocess
 import sys
 import urllib
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from copy import deepcopy
 from importlib import import_module
 from itertools import chain
@@ -89,7 +89,7 @@ class GraphAnalyzer:
 
         # other useful data -----------------------------------------------------------------------
         self.equivalences = isgci_equivalences()
-        self.recognizers = []
+        self.recognizers = OrderedDict()
         self.setup_recognizers()
 
     # Methods related to recognizers --------------------------------------------------------------
@@ -103,11 +103,7 @@ class GraphAnalyzer:
         # self.recognizers contains pairs of the form (class_id, recognizer) for each recognizable
         # class as well as for the equivalent classes; which is why we do not explicitly compute
         # equivalences ourselves
-        for name, function in self.recognizers:
-            if name == class_id:
-                return function
-
-        raise ValueError(f"no recognizer found for {class_id} or any equivalent class")
+        return self.recognizers[class_id]
 
     def register_recognizer(self, class_id: str, recognizer: Callable) -> None:
         """
@@ -118,8 +114,8 @@ class GraphAnalyzer:
         :param recognizer:
         :return:
         """
-        self.recognizers.append((class_id, recognizer))
-        self.recognizers.extend((eq_id, recognizer) for _, eq_id in self.equivalences[class_id])
+        self.recognizers[class_id] = recognizer
+        self.recognizers.update({eq_id: recognizer for _, eq_id in self.equivalences[class_id]})
 
     def setup_recognizers(self) -> None:
         """
@@ -178,7 +174,7 @@ class GraphAnalyzer:
             self.classification = deepcopy(self.prototype_classification_digraph)
             # set up the progress bar for the classification of the current graph
             pbar = tqdm(
-                self.recognizers,
+                self.recognizers.items(),
                 desc="  Running recognizers",
                 leave=False,
                 unit=" recognizer",
