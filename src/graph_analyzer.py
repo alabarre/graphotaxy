@@ -28,6 +28,7 @@ import networkx as nx
 from tqdm import tqdm
 
 # ----- My imports --------------------------------------------------------------------------------
+from cache_utils import clear_other_caches, get_cached_non_recognizers
 from classification_digraph import ClassificationDigraph
 from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings, clear_subgraph_cache
 from isgci.isgci_base import (
@@ -56,54 +57,9 @@ def underlined(message: str) -> str:
     return "\n".join([message, len(message) * "-"])
 
 
-# TODO refactor: this has nothing to do with analyzing
-def _clear_other_caches(functions: Iterable[Callable]) -> None:
-    """
-    Clears the caches of all provided functions. Only functions decorated with lru_cache are
-    allowed.
-
-    :param functions: the functions whose cache must be cleared
-    :return: nothing
-    """
-    for func in functions:
-        try:
-            func.cache_clear()
-        except AttributeError:
-            print(f"failed to clear cache for function {func.__name__} from {func.__module__}")
-            # all provided functions are supposed to be cached, so we exit if something went wrong
-            # to signal it has to be fixed
-            exit(-1)
-
-
-def get_cached_non_recognizers(module_name: str, package: object = None) -> Set[Callable]:
-    """
-    Returns all functions from module_name that have been decorated with lru_cache.
-
-    >>> sorted(map(lambda x: x.__name__, get_cached_non_recognizers("graph_recognition.misc_algo")))
-
-    :param module_name:
-    :param package:
-    :return:
-    """
-    module = import_module(module_name, package)
-    return {
-        obj for obj in vars(module).values()
-        if getattr(obj, "cache_info", None) is not None  # function is cached
-           and getattr(obj, "class_id", None) is None  # but it is not a recognizer
-    }
-
-
 # Classes -----------------------------------------------------------------------------------------
 class GraphAnalyzer:
-    """
-    The class responsible for identifying graphs based on their graph class.
-
-    A GraphAnalyzer first loads a set of graphs from a given file into a list, so that each graph
-    has a corresponding index. Graph recognition tasks should be carried out first, so that other
-    methods can benefit from the acquired knowledge by running algorithms optimized for a given
-    graph class (e.g. it is worth knowing that a graph is a permutation graph if we are interested
-    in deciding whether two graphs are isomorphic).
-    """
+    """The class responsible for classifying a bunch of undirected graphs."""
 
     def __init__(self) -> None:
         """
@@ -137,6 +93,7 @@ class GraphAnalyzer:
         self.recognizers = []
         self.setup_recognizers()
 
+    # Methods related to recognizers --------------------------------------------------------------
     def register_recognizer(self, class_id: str, recognizer: Callable) -> None:
         """
         Adds a recognizer to the list of recognizers to use for the given class as well as all
@@ -177,6 +134,7 @@ class GraphAnalyzer:
             for class_id, recognizer in algos.items():
                 self.register_recognizer(class_id, recognizer)
 
+    # Methods related to the actual classification ------------------------------------------------
     def run_classification(self, input_files: List[str]) -> None:
         """Starts the classification of all graphs from the given input files."""
         # run all available recognizers on all stored graphs, propagating results as we go to avoid
@@ -232,9 +190,11 @@ class GraphAnalyzer:
             self.num_graphs += 1
 
             # the corresponding cached data is no longer needed, so we clear the caches of:
-            self._clear_recognizer_caches(called_recognizers)  # all called recognizers
+            hits, misses = clear_other_caches(called_recognizers)  # all called recognizers
+            self.hits_and_misses["hits"] += hits
+            self.hits_and_misses["misses"] += misses
             clear_subgraph_cache(graph)  # everything related to subgraph matching
-            _clear_other_caches(other_caches_to_clear)  # and all other cached functions
+            clear_other_caches(other_caches_to_clear)  # and all other cached functions
 
     def recognize_graph_and_propagate_results(
             self,
@@ -306,6 +266,7 @@ class GraphAnalyzer:
             classification.set_reason(class_id, message)
             self.gss_crashed = True
 
+    # Methods related to setting up GraphAnalyzer -------------------------------------------------
     def _acknowledge_classes(self, ids: Iterable[str], value: bool) -> None:
         """
         Records that ALL graphs are known to be (or NOT to be, depending on value) members of the
@@ -320,29 +281,6 @@ class GraphAnalyzer:
                 value,
                 "user-provided information",
             )
-
-    def _clear_recognizer_caches(
-            self, called_recognizers: Iterable[Callable[[UndirectedGraph], bool]]
-    ) -> None:
-        """
-        Clears the caches of all called recognizers. Only recognizers decorated with lru_cache are
-        allowed.
-
-        @return:
-        """
-        for recognizer in called_recognizers:
-            try:
-                self.hits_and_misses["hits"] += recognizer.cache_info().hits
-                self.hits_and_misses["misses"] += recognizer.cache_info().misses
-                recognizer.cache_clear()
-            except AttributeError:
-                print(
-                    f"failed to clear cache for function {recognizer.__name__} from "
-                    f"{recognizer.__module__}"
-                )
-                # all recognizers are supposed to be cached, so we exit if something went wrong
-                # to signal it has to be fixed
-                exit(-1)
 
     def acknowledge_positive_classes(self, positive_ids: Iterable[str]) -> None:
         """
