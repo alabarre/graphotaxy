@@ -13,8 +13,8 @@ from typing import Iterable, Callable, Set, Tuple
 # Functions ---------------------------------------------------------------------------------------
 def clear_other_caches(functions: Iterable[Callable]) -> Tuple[int, int]:
     """
-    Clears the caches of all provided functions. Only functions decorated with lru_cache are
-    allowed.
+    Clears the caches of all provided functions, and returns the total number of cache hits and
+    cache misses they performed. Only functions decorated with lru_cache are allowed.
 
     :param functions: the functions whose cache must be cleared
     :return: nothing

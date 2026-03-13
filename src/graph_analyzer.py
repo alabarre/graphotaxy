@@ -38,7 +38,6 @@ from isgci.isgci_base import (
     isgci_exclusion_graph, isgci_recognition_statuses, isgci_version_info,
 )
 from readwrite import process_graphs, number_of_graphs_in_file
-from undirected_graph import UndirectedGraph
 
 
 # Functions ---------------------------------------------------------------------------------------
@@ -94,6 +93,22 @@ class GraphAnalyzer:
         self.setup_recognizers()
 
     # Methods related to recognizers --------------------------------------------------------------
+    def get_recognizer(self, class_id: str) -> Callable:
+        """
+        Returns a recognizer for the given class_id if one is available, None otherwise.
+
+        @param class_id:
+        @return:
+        """
+        # self.recognizers contains pairs of the form (class_id, recognizer) for each recognizable
+        # class as well as for the equivalent classes; which is why we do not explicitly compute
+        # equivalences ourselves
+        for name, function in self.recognizers:
+            if name == class_id:
+                return function
+
+        raise ValueError(f"no recognizer found for {class_id} or any equivalent class")
+
     def register_recognizer(self, class_id: str, recognizer: Callable) -> None:
         """
         Adds a recognizer to the list of recognizers to use for the given class as well as all
@@ -266,6 +281,29 @@ class GraphAnalyzer:
             classification.set_reason(class_id, message)
             self.gss_crashed = True
 
+    def update_classes_stats(self, classification: ClassificationDigraph) -> None:
+        """
+        Increments the counters of each positive node in the classification, as well as those of
+        their ancestors.
+
+        :return:
+        """
+        # for each positive node in the classification: increment its counter as well as those of
+        # its ancestors. it is necessary to compute the union beforehand, otherwise positive nodes
+        # that share ancestors will wrongfully increment their counters multiple times
+        minus_nodes, plus_nodes = classification.negative_nodes(), classification.positive_nodes()
+        for node in set.union(*({v}.union(self.tc_isgci.predecessors(v)) for v in plus_nodes)):
+            self.enumeration_of_positive_classes[node] += 1
+
+        # update relevant positive nodes and unknown nodes
+        self.relevant_classes.update(plus_nodes)
+        self.unknown_nodes.discard(plus_nodes.union(minus_nodes))
+
+        # update other stats
+        num_open_nodes = classification.number_of_open_nodes()
+        self.max_unknown_classes = max(self.max_unknown_classes, num_open_nodes)
+        self.min_unknown_classes = min(self.min_unknown_classes, num_open_nodes)
+
     # Methods related to setting up GraphAnalyzer -------------------------------------------------
     def _acknowledge_classes(self, ids: Iterable[str], value: bool) -> None:
         """
@@ -327,10 +365,11 @@ class GraphAnalyzer:
         )
         self.scope.update(only_ids)
 
+    # Other helpful methods -----------------------------------------------------------------------
     def _get_stored_class_id(self, class_id: str) -> str:
         """
-        Returns the class id equivalent stored in the classification graphs that is equivalent to
-        the given class_id (possibly class_id itself).
+        Returns the class id stored in the classification graph that is equivalent to the given
+        class_id (possibly class_id itself).
 
         @type class_id: str
         @rtype: str
@@ -346,45 +385,6 @@ class GraphAnalyzer:
 
         raise ValueError(class_id + " not found, nor any equivalent id")
 
-    def update_classes_stats(self, classification: ClassificationDigraph) -> None:
-        """
-        Increments the counters of each positive node in the classification, as well as those of
-        their ancestors.
-
-        :return:
-        """
-        # for each positive node in the classification: increment its counter as well as those of
-        # its ancestors. it is necessary to compute the union beforehand, otherwise positive nodes
-        # that share ancestors will wrongfully increment their counters multiple times
-        minus_nodes, plus_nodes = classification.negative_nodes(), classification.positive_nodes()
-        for node in set.union(*({v}.union(self.tc_isgci.predecessors(v)) for v in plus_nodes)):
-            self.enumeration_of_positive_classes[node] += 1
-
-        # update relevant positive nodes and unknown nodes
-        self.relevant_classes.update(plus_nodes)
-        self.unknown_nodes.discard(plus_nodes.union(minus_nodes))
-
-        # update other stats
-        num_open_nodes = classification.number_of_open_nodes()
-        self.max_unknown_classes = max(self.max_unknown_classes, num_open_nodes)
-        self.min_unknown_classes = min(self.min_unknown_classes, num_open_nodes)
-
-    def get_recognizer(self, class_id: str) -> Callable:
-        """
-        Returns a recognizer for the given class_id if one is available, None otherwise.
-
-        @param class_id:
-        @return:
-        """
-        # self.recognizers contains pairs of the form (class_id, recognizer) for each recognizable
-        # class as well as for the equivalent classes; which is why we do not explicitly compute
-        # equivalences ourselves
-        for name, function in self.recognizers:
-            if name == class_id:
-                return function
-
-        raise ValueError(f"no recognizer found for {class_id} or any equivalent class")
-
     def number_of_graphs(self) -> int:
         """
         Returns the number of stored graphs.
@@ -393,6 +393,7 @@ class GraphAnalyzer:
         """
         return self.num_graphs
 
+    # Methods related to reporting results --------------------------------------------------------
     def print_summary_of_findings(
             self, print_unknown_descendants: bool = False, print_todo: bool = False
     ) -> None:
@@ -491,7 +492,6 @@ class GraphAnalyzer:
 
         @return:
         """
-        # TODO add info on "only" classes as instructed by user
         # TODO add info on positive / negative classes communicated by user
         print(underlined("Analysis statistics"))
         # information on recognizers
