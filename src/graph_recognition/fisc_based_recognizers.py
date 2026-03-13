@@ -1,4 +1,4 @@
-"""Anthony Labarre © 2023-2025
+"""Anthony Labarre © 2023-2026
 
 This file contains all naïve recognizers for those graph classes in ISGCI that admit a FISC
 (forbidden induced subgraph characterisation).
@@ -8,24 +8,6 @@ patterns. Additionally, every pattern in a given set will be examined by increas
 
 For now, only "fixed" subgraphs are taken into account. This excludes general configurations like
 C_{n+4}, XC, XZ, ...
-
-Most of the code below has been automatically generated. If you wish to write your own recognizers,
-follow the following pattern:
-
-@assign_class_id(some_class_id)
-@lru_cache(maxsize=None)
-def is_bla_free(graph):
-    if graph not in MATCHERS:
-        MATCHERS[graph] = SubgraphMatcher(graph)
-
-    result = ... # True if graph is bla-free, False otherwise
-
-    # let the matcher know the result; it MUST be negated, because
-    # dispatch_findings records that ALL members of foo appear in the graph (True)
-    # or that NONE of them do (False)
-    dispatch_findings(graph, foo, not result)
-
-    return result
 
 """
 # Imports -----------------------------------------------------------------------------------------
@@ -109,15 +91,13 @@ def is_k_clique_free(graph: nx.Graph, k: int) -> bool:
     # since vertices in a k-clique have degree k-1, restrict our search to vertices of degree at
     # least k-1
     ds = degree_sequence(graph)
-    if (
-        ds and ds[-1] <= k
-    ):  # don't create a useless copy if all vertices already have degree > k
+    if ds and ds[-1] <= k:  # don't create a useless copy if all vertices already have degree > k
         graph = graph.subgraph(v for v, d in graph.degree if d > k)
         # check criterion again, since graph has changed (we can afford it, it takes time O(1))
         if must_contain_a_clique_of_size(graph, k):
             return False
 
-    # graph is k-clique-free iff the neighbourhood of each vertex of degree >= k-1 is
+    # graph is k-clique-free iff the neighborhood of each vertex of degree >= k-1 is
     # (k-1)-clique-free
     return is_h_free(graph, ["K_{" + str(k) + "}"])
 
@@ -166,10 +146,10 @@ def is_gc_1376(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_cograph(graph)
-        and is_c4_free(graph)
-        and is_diamond_free(graph)
-        and is_paw_free(graph)
+            is_cograph(graph)
+            and is_c4_free(graph)
+            and is_diamond_free(graph)
+            and is_paw_free(graph)
     )
 
 
@@ -198,7 +178,7 @@ def is_p_free(graph: nx.Graph) -> bool:
                 for v in set(graph[u]) - vertices:
                     candidate = graph.subgraph(vertices | {v})
                     if degree_sequence(candidate) == p_deg_seq and is_bipartite(
-                        candidate
+                            candidate
                     ):
                         return False
     return True
@@ -1214,7 +1194,7 @@ def is_gc_854(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_cograph(graph) and is_k23_free(graph) and is_h_free(graph, ["co-butterfly"])
+            is_cograph(graph) and is_k23_free(graph) and is_h_free(graph, ["co-butterfly"])
     )
 
 
@@ -1314,7 +1294,7 @@ def is_auto_1454(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_cograph(graph) and is_k2_u_k3_free(graph) and is_h_free(graph, ["butterfly"])
+            is_cograph(graph) and is_k2_u_k3_free(graph) and is_h_free(graph, ["butterfly"])
     )
 
 
@@ -1456,9 +1436,9 @@ def is_gc_429(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_p5_free(graph)
-        and is_c5_free(graph)
-        and is_h_free(graph, ["co(P_{2} U P_{3})"])
+            is_p5_free(graph)
+            and is_c5_free(graph)
+            and is_h_free(graph, ["co(P_{2} U P_{3})"])
     )
 
 
@@ -1642,10 +1622,10 @@ def is_auto_1533(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_p5_free(graph)
-        and is_c5_free(graph)
-        and is_house_free(graph)
-        and is_co_p_free(graph)
+            is_p5_free(graph)
+            and is_c5_free(graph)
+            and is_house_free(graph)
+            and is_co_p_free(graph)
     )
 
 
@@ -1703,10 +1683,10 @@ def is_auto_1450(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_2k2_free(graph)
-        and is_4k1_free(graph)
-        and is_co_diamond_free(graph)
-        and is_h_free(graph, ["C_{5}"])
+            is_2k2_free(graph)
+            and is_4k1_free(graph)
+            and is_co_diamond_free(graph)
+            and is_h_free(graph, ["C_{5}"])
     )
 
 
@@ -1722,10 +1702,10 @@ def is_auto_1516(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_co_gem_free(graph)
-        and is_h_free(graph, ["co-butterfly"])
-        and is_p_free(graph)
-        and is_co_fork_free(graph)
+            is_co_gem_free(graph)
+            and is_h_free(graph, ["co-butterfly"])
+            and is_p_free(graph)
+            and is_co_fork_free(graph)
     )
 
 
@@ -1741,10 +1721,10 @@ def is_gc_479(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_p_free(graph)
-        and is_co_p_free(graph)
-        and is_fork_free(graph)
-        and is_co_fork_free(graph)
+            is_p_free(graph)
+            and is_co_p_free(graph)
+            and is_fork_free(graph)
+            and is_co_fork_free(graph)
     )
 
 
@@ -1846,9 +1826,9 @@ def is_gc_512(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_co_gem_free(graph)
-        and is_p5_free(graph)
-        and is_h_free(graph, ["C_{5}", "co(P)", "fork", "co-fork"])
+            is_co_gem_free(graph)
+            and is_p5_free(graph)
+            and is_h_free(graph, ["C_{5}", "co(P)", "fork", "co-fork"])
     )
 
 
@@ -1909,9 +1889,9 @@ def is_gc_513(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_co_gem_free(graph)
-        and is_p5_free(graph)
-        and is_h_free(graph, ["C_{5}", "P", "co(P)", "fork", "bull"])
+            is_co_gem_free(graph)
+            and is_p5_free(graph)
+            and is_h_free(graph, ["C_{5}", "P", "co(P)", "fork", "bull"])
     )
 
 
@@ -1953,21 +1933,21 @@ def is_gc_502(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_p5_free(graph)
-        and is_k2_u_k3_free(graph)
-        and is_k23_free(graph)
-        and is_house_p2_u_p3_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "C_{5}",
-                "co(P_{2} U P_{3})",
-                "P",
-                "co(P)",
-                "fork",
-                "co-fork",
-            ],
-        )
+            is_p5_free(graph)
+            and is_k2_u_k3_free(graph)
+            and is_k23_free(graph)
+            and is_house_p2_u_p3_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "C_{5}",
+            "co(P_{2} U P_{3})",
+            "P",
+            "co(P)",
+            "fork",
+            "co-fork",
+        ],
+    )
     )
 
 
@@ -1985,20 +1965,20 @@ def is_xc_9_free(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_p5_free(graph)
-        and is_k2_u_k3_free(graph)
-        and is_k23_free(graph)
-        and is_house_p2_u_p3_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "P",
-                "co(P)",
-                "co(P_{2} U P_{3})",
-                "co-fork",
-                "fork",
-            ],
-        )
+            is_p5_free(graph)
+            and is_k2_u_k3_free(graph)
+            and is_k23_free(graph)
+            and is_house_p2_u_p3_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "P",
+            "co(P)",
+            "co(P_{2} U P_{3})",
+            "co-fork",
+            "fork",
+        ],
+    )
     )
 
 
@@ -2829,9 +2809,9 @@ def is_auto_2102(graph: nx.Graph) -> bool:
     """
     #      co(W_{4})
     return (
-        is_h_u_k1_free(graph, is_2k2_free)
-        and is_h_free(graph, ["co-butterfly"])
-        and is_h_free(graph, ["co(W_{5})"])
+            is_h_u_k1_free(graph, is_2k2_free)
+            and is_h_free(graph, ["co-butterfly"])
+            and is_h_free(graph, ["co(W_{5})"])
     )
 
 
@@ -2847,7 +2827,7 @@ def is_auto_1488(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_p5_free(graph) and is_co_gem_free(graph) and is_h_free(graph, ["co-domino"])
+            is_p5_free(graph) and is_co_gem_free(graph) and is_h_free(graph, ["co-domino"])
     )
 
 
@@ -3145,9 +3125,9 @@ def is_gc_1176(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_triangle_free(graph)
-        and is_p6_free(graph)
-        and is_h_free(graph, ["C_{5}", "C_{6}"])
+            is_triangle_free(graph)
+            and is_p6_free(graph)
+            and is_h_free(graph, ["C_{5}", "C_{6}"])
     )
 
 
@@ -3273,9 +3253,9 @@ def is_gc_627(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_cograph(graph)
-        and is_2k2_free(graph)
-        and is_h_free(graph, ["co(2P_{3})", "K_{3,3}", "K_{3,3}+e"])
+            is_cograph(graph)
+            and is_2k2_free(graph)
+            and is_h_free(graph, ["co(2P_{3})", "K_{3,3}", "K_{3,3}+e"])
     )
 
 
@@ -3307,9 +3287,9 @@ def is_auto_1483(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_cograph(graph)
-        and is_c4_free(graph)
-        and is_h_free(graph, ["K_{3} U P_{3}", "2P_{3}", "2K_{3}"])
+            is_cograph(graph)
+            and is_c4_free(graph)
+            and is_h_free(graph, ["K_{3} U P_{3}", "2P_{3}", "2K_{3}"])
     )
 
 
@@ -3342,9 +3322,9 @@ def is_gc_809(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_p5_free(graph)
-        and is_k23_free(graph)
-        and is_h_free(graph, ["diamond", "P", "X_{163}", "X_{95}"])
+            is_p5_free(graph)
+            and is_k23_free(graph)
+            and is_h_free(graph, ["diamond", "P", "X_{163}", "X_{95}"])
     )
 
 
@@ -3361,9 +3341,9 @@ def is_auto_3700(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_split(graph)
-        and is_co_claw_free(graph)
-        and is_h_free(graph, ["S_{3}", "net"])
+            is_split(graph)
+            and is_co_claw_free(graph)
+            and is_h_free(graph, ["S_{3}", "net"])
     )
 
 
@@ -3381,12 +3361,12 @@ def is_auto_2140(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_co_diamond_free(graph)
-        and is_k2_u_k3_free(graph)
-        and is_h_free(
-            graph,
-            ["house", "co(P)", "co(X_{163})", "co(X_{95})"],
-        )
+            is_co_diamond_free(graph)
+            and is_k2_u_k3_free(graph)
+            and is_h_free(
+        graph,
+        ["house", "co(P)", "co(X_{163})", "co(X_{95})"],
+    )
     )
 
 
@@ -3472,34 +3452,34 @@ def is_gc_1037(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_p6_free(graph)
-        and is_k2_u_k3_free(graph)
-        and is_k23_free(graph)
-        and is_h_u_k2_free(graph, is_c4_free)
-        and is_h_free(
-            graph,
-            [
-                "W_{4}",
-                "co(W_{4})",
-                "C_{5}",
-                "co-fish",
-                "co(P_{6})",
-                "fish",
-                "co-domino",
-                "C_{6}",
-                "X_{84}",
-                "co(X_{5})",
-                "co-antenna",
-                "X_{18}",
-                "co(C_{6})",
-                "domino",
-                "X_{5}",
-                "antenna",
-                "co(X_{18})",
-                "co(X_{84})",
-                "co(C_{4} U P_{2})",
-            ],
-        )
+            is_p6_free(graph)
+            and is_k2_u_k3_free(graph)
+            and is_k23_free(graph)
+            and is_h_u_k2_free(graph, is_c4_free)
+            and is_h_free(
+        graph,
+        [
+            "W_{4}",
+            "co(W_{4})",
+            "C_{5}",
+            "co-fish",
+            "co(P_{6})",
+            "fish",
+            "co-domino",
+            "C_{6}",
+            "X_{84}",
+            "co(X_{5})",
+            "co-antenna",
+            "X_{18}",
+            "co(C_{6})",
+            "domino",
+            "X_{5}",
+            "antenna",
+            "co(X_{18})",
+            "co(X_{84})",
+            "co(C_{4} U P_{2})",
+        ],
+    )
     )
 
 
@@ -4190,7 +4170,7 @@ def is_auto_1484(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_p5_free(graph) and is_co_gem_free(graph) and is_h_free(graph, ["co(X_{38})"])
+            is_p5_free(graph) and is_co_gem_free(graph) and is_h_free(graph, ["co(X_{38})"])
     )
 
 
@@ -4361,6 +4341,7 @@ def is_auto_1536(graph: nx.Graph) -> bool:
     """
     return is_split(graph) and is_h_free(graph, ["S_{3}", "net", "rising sun"])
 
+
 @assign_class_id("gc_27")
 @lru_cache(maxsize=None)
 def is_superbrittle(graph: nx.Graph) -> bool:
@@ -4370,22 +4351,22 @@ def is_superbrittle(graph: nx.Graph) -> bool:
 
     https://www.graphclasses.org/classes/gc_27
 
-    Complexity: O(n^5) < O(n^7) (naïve)
+    Complexity of naïve matching: O(n^7) (naïve)
 
     :param graph:
     :return:
     """
-    # TODO: call other recognizers where possible
-    return is_h_free(["C_{5}", "house", "A", "co(A)", "parapluie", "parachute", "P_{5}"])
+    return is_gc_268(graph) and is_h_free(graph, ["A", "co(A)", "parapluie", "parachute"])
     # naive algorithm is much faster than this O(n^5) attempt:
     # return empty_graph_by_removing_vertices(graph, vertex_is_superbrittle)
+
 
 @assign_class_id("gc_972")
 @lru_cache(maxsize=None)
 def is_gc_972(graph: nx.Graph) -> bool:
     """
-    Returns True iff graph is (C_{5}, S_{3}, X_{11}, co(3K_{2}), co(C_{7}),
-    co(P_{2} U P_{4}), co(X_{173}))-free.
+    Returns True iff graph is (C_{5}, S_{3}, X_{11}, co(3K_{2}), co(C_{7}), co(P_{2} U P_{4}),
+    co(X_{173}))-free.
 
     See https://www.graphclasses.org/classes/gc_972
 
@@ -4419,18 +4400,18 @@ def is_auto_1485(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_co_diamond_free(graph)
-        and is_p5_free(graph)
-        and is_k2_u_k3_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "co(X_{37})",
-                "co-twin-C_{5}",
-                "co-domino",
-                "co(X_{38})",
-            ],
-        )
+            is_co_diamond_free(graph)
+            and is_p5_free(graph)
+            and is_k2_u_k3_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "co(X_{37})",
+            "co-twin-C_{5}",
+            "co-domino",
+            "co(X_{38})",
+        ],
+    )
     )
 
 
@@ -4745,25 +4726,25 @@ def is_gc_688(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_k4_free(graph)
-        and is_co_diamond_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "W_{5}",
-                "W_{4} U K_{1}",
-                "co(butterfly U K_{1})",
-                "K_{3,3} U K_{1}",
-                "co(X_{39})",
-                "X_{88}",
-                "co(X_{38})",
-                "X_{87}",
-                "co(C_{7})",
-                "X_{89}",
-                "X_{86}",
-                "X_{90}",
-            ],
-        )
+            is_k4_free(graph)
+            and is_co_diamond_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "W_{5}",
+            "W_{4} U K_{1}",
+            "co(butterfly U K_{1})",
+            "K_{3,3} U K_{1}",
+            "co(X_{39})",
+            "X_{88}",
+            "co(X_{38})",
+            "X_{87}",
+            "co(C_{7})",
+            "X_{89}",
+            "X_{86}",
+            "X_{90}",
+        ],
+    )
     )
 
 
@@ -4814,29 +4795,29 @@ def is_auto_1474(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_p6_free(graph)
-        and is_p2up4_free(graph)
-        and is_k2_u_k3_free(graph)
-        and is_h_u_k2_free(graph, is_c4_free)
-        and is_h_free(
-            graph,
-            [
-                "C_{5}",
-                "C_{6}",
-                "antenna",
-                "co(2P_{3})",
-                "fish",
-                "3K_{2}",
-                "K_{3,3}",
-                "K_{3,3}+e",
-                "X_{18}",
-                "co(C_{6})",
-                "co(X_{84})",
-                "X_{5}",
-                "domino",
-                "co(C_{7})",
-            ],
-        )
+            is_p6_free(graph)
+            and is_p2up4_free(graph)
+            and is_k2_u_k3_free(graph)
+            and is_h_u_k2_free(graph, is_c4_free)
+            and is_h_free(
+        graph,
+        [
+            "C_{5}",
+            "C_{6}",
+            "antenna",
+            "co(2P_{3})",
+            "fish",
+            "3K_{2}",
+            "K_{3,3}",
+            "K_{3,3}+e",
+            "X_{18}",
+            "co(C_{6})",
+            "co(X_{84})",
+            "X_{5}",
+            "domino",
+            "co(C_{7})",
+        ],
+    )
     )
 
 
@@ -4931,31 +4912,31 @@ def is_auto_1735(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_p6_free(graph)
-        and is_k2_u_k3_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "co(W_{4})",
-                "co-butterfly",
-                "C_{5}",
-                "co-fish",
-                "fish",
-                "co(2P_{3})",
-                "co(X_{95})",
-                "C_{6}",
-                "K_{3,3}+e",
-                "co(C_{6})",
-                "X_{98}",
-                "domino",
-                "X_{5}",
-                "K_{3,3}",
-                "A",
-                "K_{3,3}-e",
-                "co(X_{84})",
-                "co(C_{7})",
-            ],
-        )
+            is_p6_free(graph)
+            and is_k2_u_k3_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "co(W_{4})",
+            "co-butterfly",
+            "C_{5}",
+            "co-fish",
+            "fish",
+            "co(2P_{3})",
+            "co(X_{95})",
+            "C_{6}",
+            "K_{3,3}+e",
+            "co(C_{6})",
+            "X_{98}",
+            "domino",
+            "X_{5}",
+            "K_{3,3}",
+            "A",
+            "K_{3,3}-e",
+            "co(X_{84})",
+            "co(C_{7})",
+        ],
+    )
     )
 
 
@@ -4970,20 +4951,20 @@ def is_auto_1493(graph: nx.Graph) -> bool:
     :return:
     """
     return (
-        is_anti_hole_free(graph)
-        and is_p5_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "S_{3}",
-                "co(A)",
-                "co(E)",
-                "co(X_{1})",
-                "co-domino",
-                "co-rising sun",
-                "net",
-            ],
-        )
+            is_anti_hole_free(graph)
+            and is_p5_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "S_{3}",
+            "co(A)",
+            "co(E)",
+            "co(X_{1})",
+            "co-domino",
+            "co-rising sun",
+            "net",
+        ],
+    )
     )
 
 
@@ -5226,9 +5207,9 @@ def is_auto_1745(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_3k1_free(graph)
-        and is_2k2_free(graph)
-        and is_h_free(graph, ["C_{5}", "co(C_{6})", "co(C_{7})", "co(C_{8})"])
+            is_3k1_free(graph)
+            and is_2k2_free(graph)
+            and is_h_free(graph, ["C_{5}", "co(C_{6})", "co(C_{7})", "co(C_{8})"])
     )
 
 
@@ -5269,19 +5250,19 @@ def is_auto_2109(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_3k1_free(graph)
-        and is_2k2_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "C_{5}",
-                "co(H)",
-                "co(C_{6})",
-                "co(X_{85})",
-                "co(C_{7})",
-                "co(C_{8})",
-            ],
-        )
+            is_3k1_free(graph)
+            and is_2k2_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "C_{5}",
+            "co(H)",
+            "co(C_{6})",
+            "co(X_{85})",
+            "co(C_{7})",
+            "co(C_{8})",
+        ],
+    )
     )
 
 
@@ -5313,20 +5294,20 @@ def is_auto_2787(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_3k1_free(graph)
-        and is_2k2_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "C_{5}",
-                "co(K_{1,4})",
-                "co(H)",
-                "co(C_{6})",
-                "co(X_{85})",
-                "co(C_{7})",
-                "co(C_{8})",
-            ],
-        )
+            is_3k1_free(graph)
+            and is_2k2_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "C_{5}",
+            "co(K_{1,4})",
+            "co(H)",
+            "co(C_{6})",
+            "co(X_{85})",
+            "co(C_{7})",
+            "co(C_{8})",
+        ],
+    )
     )
 
 
@@ -5344,15 +5325,15 @@ def is_auto_740(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_girth_at_least_9(graph)
-        and is_k14_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "H",
-                "X_{85}",
-            ],
-        )
+            is_girth_at_least_9(graph)
+            and is_k14_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "H",
+            "X_{85}",
+        ],
+    )
     )
 
 
@@ -5422,26 +5403,26 @@ def is_auto_1814(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_c4_free(graph)
-        and is_k14_free(graph)
-        and is_odd_clique_free(graph, 5)
-        and is_h_free(
-            graph,
-            [
-                "C_{5}",
-                "dart",
-                "co(P_{3} U 2K_{1})",
-                "cricket",
-                "gem",
-                "K_{5} - e",
-                "co(K_{3} U 2K_{1})",
-                "butterfly",
-                "co(claw U K_{1})",
-                "C_{6}",
-                "C_{7}",
-                "C_{8}",
-            ],
-        )
+            is_c4_free(graph)
+            and is_k14_free(graph)
+            and is_odd_clique_free(graph, 5)
+            and is_h_free(
+        graph,
+        [
+            "C_{5}",
+            "dart",
+            "co(P_{3} U 2K_{1})",
+            "cricket",
+            "gem",
+            "K_{5} - e",
+            "co(K_{3} U 2K_{1})",
+            "butterfly",
+            "co(claw U K_{1})",
+            "C_{6}",
+            "C_{7}",
+            "C_{8}",
+        ],
+    )
     )
 
 
@@ -5459,26 +5440,26 @@ def is_auto_3802(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_co_gem_free(graph)
-        and is_2k2_free(graph)
-        and is_c5_free(graph)
-        and is_odd_co_clique_free(graph, 5)  # K_{5}
-        and is_h_u_2k1_free(graph, is_co_p3_free)  # co(K_{5} - e)
-        and is_h_u_k1_free(graph, is_claw_free)  # claw U K_{1}
-        and is_h_u_2k1_free(graph, is_triangle_free)
-        and is_h_u_2k1_free(graph, is_p3_free)
-        and is_h_free(
-            graph,
-            [
-                "co-butterfly",
-                "co-dart",
-                "co(K_{1,4})",
-                "co-cricket",
-                "co(C_{6})",
-                "co(C_{7})",
-                "co(C_{8})",
-            ],
-        )
+            is_co_gem_free(graph)
+            and is_2k2_free(graph)
+            and is_c5_free(graph)
+            and is_odd_co_clique_free(graph, 5)  # K_{5}
+            and is_h_u_2k1_free(graph, is_co_p3_free)  # co(K_{5} - e)
+            and is_h_u_k1_free(graph, is_claw_free)  # claw U K_{1}
+            and is_h_u_2k1_free(graph, is_triangle_free)
+            and is_h_u_2k1_free(graph, is_p3_free)
+            and is_h_free(
+        graph,
+        [
+            "co-butterfly",
+            "co-dart",
+            "co(K_{1,4})",
+            "co-cricket",
+            "co(C_{6})",
+            "co(C_{7})",
+            "co(C_{8})",
+        ],
+    )
     )
 
 
@@ -5496,28 +5477,28 @@ def is_auto_2139(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_c4_free(graph)
-        and is_p2up4_free(graph)
-        and is_p5_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "C_{5}",
-                "3K_{2}",
-                "H",
-                "S_{3}",
-                "2P_{3}",
-                "net",
-                "co(X_{70})",
-                "X_{1}",
-                "co(X_{159})",
-                "co(X_{162})",
-                "co(X_{46})",
-                "rising sun",
-                "X_{160}",
-                "co(X_{161})",
-            ],
-        )
+            is_c4_free(graph)
+            and is_p2up4_free(graph)
+            and is_p5_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "C_{5}",
+            "3K_{2}",
+            "H",
+            "S_{3}",
+            "2P_{3}",
+            "net",
+            "co(X_{70})",
+            "X_{1}",
+            "co(X_{159})",
+            "co(X_{162})",
+            "co(X_{46})",
+            "rising sun",
+            "X_{160}",
+            "co(X_{161})",
+        ],
+    )
     )
 
 
@@ -5722,9 +5703,9 @@ def is_auto_2113(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_2k2_free(graph)
-        and is_co_claw_free(graph)
-        and is_h_free(graph, ["co(X_{91})"])
+            is_2k2_free(graph)
+            and is_co_claw_free(graph)
+            and is_h_free(graph, ["co(X_{91})"])
     )
 
 
@@ -5796,22 +5777,22 @@ def is_auto_2090(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_p5_free(graph)
-        and is_co_gem_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "C_{5}",
-                "co(C_{6})",
-                "co(X_{20})",
-                "co(C_{7})",
-                "co(X_{19})",
-                "co(C_{8})",
-                "co(P_{8})",
-                "co(X_{22})",
-                "co(X_{21})",
-            ],
-        )
+            is_p5_free(graph)
+            and is_co_gem_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "C_{5}",
+            "co(C_{6})",
+            "co(X_{20})",
+            "co(C_{7})",
+            "co(X_{19})",
+            "co(C_{8})",
+            "co(P_{8})",
+            "co(X_{22})",
+            "co(X_{21})",
+        ],
+    )
     )
 
 
@@ -5828,22 +5809,22 @@ def is_gc_538(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_gem_free(graph)
-        and is_c5_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "house",
-                "C_{6}",
-                "C_{7}",
-                "X_{20}",
-                "P_{8}",
-                "C_{8}",
-                "X_{22}",
-                "X_{19}",
-                "X_{21}",
-            ],
-        )
+            is_gem_free(graph)
+            and is_c5_free(graph)
+            and is_house_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "C_{6}",
+            "C_{7}",
+            "X_{20}",
+            "P_{8}",
+            "C_{8}",
+            "X_{22}",
+            "X_{19}",
+            "X_{21}",
+        ],
+    )
     )
 
 
@@ -5908,11 +5889,10 @@ def is_auto_2134(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_gc_779(graph: nx.Graph) -> bool:
     """
-    Returns True iff graph is (BW_{3}, W_{5}, W_{7}, X_{103}, X_{104}, X_{105},
-    X_{106}, X_{107}, X_{108}, X_{109}, X_{110}, X_{111}, X_{112}, X_{113},
-    X_{114}, X_{115}, X_{116}, X_{117}, X_{118}, X_{119}, X_{120}, X_{121},
-    X_{122}, X_{123}, X_{124}, X_{125}, X_{126}, X_{53}, X_{88}, co(C_{6}),
-    co(C_{8}), co(T_{2}), co(X_{3}))-free.
+    Returns True iff graph is (BW_{3}, W_{5}, W_{7}, X_{103}, X_{104}, X_{105}, X_{106}, X_{107},
+    X_{108}, X_{109}, X_{110}, X_{111}, X_{112}, X_{113}, X_{114}, X_{115}, X_{116}, X_{117},
+    X_{118}, X_{119}, X_{120}, X_{121}, X_{122}, X_{123}, X_{124}, X_{125}, X_{126}, X_{53},
+    X_{88}, co(C_{6}), co(C_{8}), co(T_{2}), co(X_{3}))-free.
 
     See https://www.graphclasses.org/classes/gc_779
 
@@ -5977,55 +5957,55 @@ def is_gc_1035(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_k23_free(graph)
-        and is_p2up4_free(graph)
-        and is_k2_u_k3_free(graph)
-        and is_h_u_k2_free(graph, is_c4_free)
-        and is_h_free(
-            graph,
-            [
-                "C_{5}",
-                "X_{169}",
-                "co-fish",
-                "fish",
-                "X_{198}",
-                "co(W_{4} U K_{1})",
-                "X_{197}",
-                "X_{84}",
-                "X_{18}",
-                "co(X_{197})",
-                "butterfly U K_{1}",
-                "W_{4} U K_{1}",
-                "co(X_{198})",
-                "co(X_{169})",
-                "co(X_{18})",
-                "co(butterfly U K_{1})",
-                "co(X_{84})",
-                "co(P_{2} U P_{4})",
-                "co(C_{4} U P_{2})",
-                "co-6-fan",
-                "C_{7}",
-                "X_{35}",
-                "co(C_{7})",
-                "X_{199}",
-                "X_{132}",
-                "X_{176}",
-                "C_{6} U K_{1}",
-                "co(X_{176})",
-                "W_{6}",
-                "X_{200}",
-                "co(X_{132})",
-                "co(X_{200})",
-                "co(W_{6})",
-                "co(X_{35})",
-                "6-fan",
-                "co(X_{199})",
-                "co(C_{6} U K_{1})",
-                "X_{202}",
-                "X_{201}",
-                "co(X_{201})",
-            ],
-        )
+            is_k23_free(graph)
+            and is_p2up4_free(graph)
+            and is_k2_u_k3_free(graph)
+            and is_h_u_k2_free(graph, is_c4_free)
+            and is_h_free(
+        graph,
+        [
+            "C_{5}",
+            "X_{169}",
+            "co-fish",
+            "fish",
+            "X_{198}",
+            "co(W_{4} U K_{1})",
+            "X_{197}",
+            "X_{84}",
+            "X_{18}",
+            "co(X_{197})",
+            "butterfly U K_{1}",
+            "W_{4} U K_{1}",
+            "co(X_{198})",
+            "co(X_{169})",
+            "co(X_{18})",
+            "co(butterfly U K_{1})",
+            "co(X_{84})",
+            "co(P_{2} U P_{4})",
+            "co(C_{4} U P_{2})",
+            "co-6-fan",
+            "C_{7}",
+            "X_{35}",
+            "co(C_{7})",
+            "X_{199}",
+            "X_{132}",
+            "X_{176}",
+            "C_{6} U K_{1}",
+            "co(X_{176})",
+            "W_{6}",
+            "X_{200}",
+            "co(X_{132})",
+            "co(X_{200})",
+            "co(W_{6})",
+            "co(X_{35})",
+            "6-fan",
+            "co(X_{199})",
+            "co(C_{6} U K_{1})",
+            "X_{202}",
+            "X_{201}",
+            "co(X_{201})",
+        ],
+    )
     )
 
 
@@ -6311,24 +6291,24 @@ def is_gc_1031(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_k4_free(graph)
-        and is_p5_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "W_{5}",
-                "co(X_{39})",
-                "X_{88}",
-                "co(X_{38})",
-                "co(C_{7})",
-                "X_{89}",
-                "X_{86}",
-                "X_{90}",
-                "X_{194}",
-                "co(X_{195})",
-                "co(X_{196})",
-            ],
-        )
+            is_k4_free(graph)
+            and is_p5_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "W_{5}",
+            "co(X_{39})",
+            "X_{88}",
+            "co(X_{38})",
+            "co(C_{7})",
+            "X_{89}",
+            "X_{86}",
+            "X_{90}",
+            "X_{194}",
+            "co(X_{195})",
+            "co(X_{196})",
+        ],
+    )
     )
 
 
@@ -6346,24 +6326,24 @@ def is_auto_2292(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_4k1_free(graph)
-        and is_house_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "co(W_{5})",
-                "co(X_{88})",
-                "X_{39}",
-                "co(X_{90})",
-                "C_{7}",
-                "co(X_{86})",
-                "co(X_{89})",
-                "X_{38}",
-                "co(X_{194})",
-                "X_{195}",
-                "X_{196}",
-            ],
-        )
+            is_4k1_free(graph)
+            and is_house_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "co(W_{5})",
+            "co(X_{88})",
+            "X_{39}",
+            "co(X_{90})",
+            "C_{7}",
+            "co(X_{86})",
+            "co(X_{89})",
+            "X_{38}",
+            "co(X_{194})",
+            "X_{195}",
+            "X_{196}",
+        ],
+    )
     )
 
 

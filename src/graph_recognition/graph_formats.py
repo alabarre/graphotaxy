@@ -8,6 +8,7 @@ formats. I don't aim to be exhaustive, just writing what I happen to need as I g
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import argparse
+from functools import lru_cache
 from itertools import chain
 
 # ----- Third-party imports -----------------------------------------------------------------------
@@ -144,6 +145,7 @@ def nx_graph_to_gr_file(graph: nx.Graph, filename: str) -> None:
             output.write(str(u + 1) + " " + str(v + 1) + "\n")
 
 
+@lru_cache(maxsize=None)
 def lad_file_to_nx_graph(filename: str) -> nx.Graph:
     """
     Returns a nx.Graph constructed from a LAD file.
@@ -159,12 +161,13 @@ def lad_file_to_nx_graph(filename: str) -> nx.Graph:
     :return:
     """
     with open(filename, "r") as data:
-        graph = nx.empty_graph(int(data.readline()))
+        graph = UndirectedGraph()
+        graph.add_nodes_from(range(int(data.readline())))
         for v, line in enumerate(data):
             # each line contains the degree of the node followed by its neighbors
             graph.add_edges_from((v, x) for x in map(int, line.split()[1:]))
 
-        return UndirectedGraph(graph)
+        return graph
 
 
 def main() -> None:

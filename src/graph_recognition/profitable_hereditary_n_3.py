@@ -312,7 +312,8 @@ def is_p2up4_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_h_u_k2_free(graph, is_cograph)
+    # let's first check whether there is a P_{4}: if not, there won't be a P_{2} U P_{4} either
+    return is_cograph(graph) or is_h_u_k2_free(graph, is_cograph)
 
 
 @assign_fisc(["triangle", "P_{4}"])

@@ -26,22 +26,19 @@ I restricted myself to connected bipartite graphs because I use them to generate
 
 
 
-'critical h-free'
-'cubic-and-hamiltonian=gc_1316'
-'data sources.md'
-'data sources.txt'
+## critical h-free'
+
+## cubic-and-hamiltonian=gc_1316
 
 ## bipartite-cubic-planar=gc_1334
 
-generated from planar connected graphs using nauty-pickg:
+Generated from planar connected graphs using nauty-pickg:
 
-for file in $(ls *g6); do nauty-pickg -b -d3 -D3 $file > ../bipartite-cubic-planar\=gc_1334/bipartite-cubic-$file; done
+`for file in $(ls *g6); do nauty-pickg -b -d3 -D3 $file > ../bipartite-cubic-planar\=gc_1334/bipartite-cubic-$file; done`
 
 Unfortunately that yields only one such graph, for n=8.
 
 TODO find other generators / datasets for that class
-
-
 
 ## block=gc_93
 
@@ -65,7 +62,6 @@ Taken from https://users.cecs.anu.edu.au/~bdm/data/graphs.html
 
 Generated using Tom Johnston's software: https://tomjohnston.co.uk/blog/2020-10-04-enumerating-circle-graphs.html
 
-
 ## claw-free=gc_62
 
 `for ((i=1; i<11; i++)); do nauty-geng -cF $i claw-free-connected-$i.g6; done`
@@ -74,7 +70,7 @@ Generated using Tom Johnston's software: https://tomjohnston.co.uk/blog/2020-10-
 
 Generated from the datasets in bipartite with nauty.
 
-Example: nauty-complg -l bipartite-5.sparse6 cobipartite-5.s6;
+Example: `nauty-complg -l bipartite-5.sparse6 cobipartite-5.s6`
 
 Note: I then converted everything in that directory to g6, because it used less space.
 

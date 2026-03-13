@@ -16,7 +16,6 @@ from typing import Iterator
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
-import pandas as pd
 
 # ----- My imports --------------------------------------------------------------------------------
 from undirected_graph import UndirectedGraph
@@ -27,7 +26,7 @@ def edge_list_file_to_edge_set(filename: str) -> Iterator:
     """
     Returns a set of edge sets from a given file. Loops and weights are discarded.
 
-    >>> from time import perf_counter; import networkx as nx; start = perf_counter()
+    >>> from time import perf_counter; start = perf_counter()
     >>> x = set(edge_list_file_to_edge_set("/home/anthony/Downloads/bio-mouse-gene/bio-mouse-gene.edges"))
     >>> end = perf_counter()
     >>> print(end - start)

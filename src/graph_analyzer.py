@@ -8,7 +8,7 @@ To use a GraphAnalyzer:
 
     analyzer = GraphAnalyzer()                         # instantiate it
     # possibly set options through method calls, see class definition below
-    analyzer.run_classification(paths_to_input_files)  # feed it data and go
+    analyzer.run_classification(paths_to_input_files)  # feed it data and start classification
     analyzer.print_summary_of_findings()               # print results
 
 """
@@ -18,11 +18,10 @@ import subprocess
 import sys
 import urllib
 from collections import defaultdict
-from collections.abc import Callable
 from copy import deepcopy
 from importlib import import_module
 from itertools import chain
-from typing import Iterable, Set, List
+from typing import Callable, Iterable, Set, List
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -30,12 +29,10 @@ from tqdm import tqdm
 
 # ----- My imports --------------------------------------------------------------------------------
 from classification_digraph import ClassificationDigraph
-from graph_recognition import misc_algo
 from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings, clear_subgraph_cache
 from isgci.isgci_base import (
     isgci_equivalences,
     BASE_CLASS_URL,
-    reduced_isgci_inclusion_graph,
     isgci_ids_to_names,
     isgci_exclusion_graph, isgci_recognition_statuses, isgci_version_info,
 )
@@ -78,6 +75,24 @@ def _clear_other_caches(functions: Iterable[Callable]) -> None:
             exit(-1)
 
 
+def get_cached_non_recognizers(module_name: str, package: object = None) -> Set[Callable]:
+    """
+    Returns all functions from module_name that have been decorated with lru_cache.
+
+    >>> sorted(map(lambda x: x.__name__, get_cached_non_recognizers("graph_recognition.misc_algo")))
+
+    :param module_name:
+    :param package:
+    :return:
+    """
+    module = import_module(module_name, package)
+    return {
+        obj for obj in vars(module).values()
+        if getattr(obj, "cache_info", None) is not None  # function is cached
+           and getattr(obj, "class_id", None) is None  # but it is not a recognizer
+    }
+
+
 # Classes -----------------------------------------------------------------------------------------
 class GraphAnalyzer:
     """
@@ -96,18 +111,19 @@ class GraphAnalyzer:
         """
         # data related to a modified behavior GraphAnalyzer ---------------------------------------
         self.blacklisted = set()
+        self.scope = set()
 
         # data related to classification ----------------------------------------------------------
+        self.classification = None  # stores the classification if we have only one graph
         self.enumeration_of_positive_classes = defaultdict(int)
-        self.isgci_graph = ClassificationDigraph()
         self.isgci_exclusion_graph = isgci_exclusion_graph()
         self.max_unknown_classes = 0
         self.min_unknown_classes = sys.maxsize
         self.num_graphs = 0
         self.prototype_classification_digraph = ClassificationDigraph()
         self.relevant_classes = set()
-        self.tc_isgci = nx.transitive_closure_dag(deepcopy(self.isgci_graph))
-        self.unknown_nodes = set(self.isgci_graph.nodes)
+        self.tc_isgci = nx.transitive_closure_dag(ClassificationDigraph())
+        self.unknown_nodes = set(self.tc_isgci.nodes)
 
         # data related to analysis statistics -----------------------------------------------------
         self.discarded_due_to_exclusion = 0
@@ -182,35 +198,11 @@ class GraphAnalyzer:
             total=num_graphs,
         )
         # record functions whose caches need to be cleared and which are not recognizers
-        # TODO: later I'll write a function to retrieve these automatically, right now I only
-        #   want to check if it's worth it
-        other_caches_to_clear = [
-            misc_algo.all_pairs_shortest_path_length,
-            misc_algo.degree_sequence,
-            misc_algo.is_complete,
-            misc_algo.is_h_u_k1_free,
-            misc_algo.is_h_u_k2_free,
-            misc_algo.is_h_u_2k1_free,
-            misc_algo.complement,
-            misc_algo.number_of_common_neighbours,
-            misc_algo.dominates,
-            misc_algo.has_dominating_set_of_size_at_most_2,
-            misc_algo.empty_graph_by_removing_edges_and_incident_edges,
-            misc_algo.empty_graph_by_removing_vertices,
-            misc_algo.is_connected,
-            misc_algo.plain_co_bfs,
-            misc_algo.is_co_connected,
-            misc_algo.is_even_clique_free,
-            misc_algo.is_odd_clique_free,
-            misc_algo.is_even_co_clique_free,
-            misc_algo.must_contain_a_clique_of_size,
-            misc_algo.must_contain_an_independent_set_of_size,
-            misc_algo.is_odd_co_clique_free,
-        ]
+        other_caches_to_clear = get_cached_non_recognizers("graph_recognition.misc_algo")
         # finally, start the analysis
         for graph in main_pbar:
             # create classification for current graph
-            classification = deepcopy(self.prototype_classification_digraph)
+            self.classification = deepcopy(self.prototype_classification_digraph)
             # set up the progress bar for the classification of the current graph
             pbar = tqdm(
                 self.recognizers,
@@ -221,26 +213,28 @@ class GraphAnalyzer:
             called_recognizers = set()
             for class_id, function in pbar:
                 pbar.set_description("".join(["    ", BASE_CLASS_URL, class_id, " "]))
-                if classification.has_open_node(class_id):
+                if self.classification.has_open_node(class_id):
                     if class_id in self.blacklisted:
-                        classification.set_reason(class_id, "user blacklisted this class")
+                        self.classification.set_reason(class_id, "user blacklisted this class")
                     else:
                         self.recognize_graph_and_propagate_results(
                             graph,
                             function,
                             called_recognizers,
-                            classification,
+                            self.classification,
                             class_id,
                         )
 
-            # current graph has been classified: the corresponding cached data is no longer needed
-            self._clear_recognizer_caches(called_recognizers)
-            _clear_other_caches(other_caches_to_clear)
-            clear_subgraph_cache(graph)
-            self.update_classes_stats(classification)
+            # current graph has been classified, update stats:
+            self.update_classes_stats(self.classification)
             if self.gss_crashed:
                 print("[WARNING] the glasgow subgraph or clique solver crashed")
             self.num_graphs += 1
+
+            # the corresponding cached data is no longer needed, so we clear the caches of:
+            self._clear_recognizer_caches(called_recognizers)  # all called recognizers
+            clear_subgraph_cache(graph)  # everything related to subgraph matching
+            _clear_other_caches(other_caches_to_clear)  # and all other cached functions
 
     def recognize_graph_and_propagate_results(
             self,
@@ -393,6 +387,7 @@ class GraphAnalyzer:
             set(self.prototype_classification_digraph)
             - {self._get_stored_class_id(elem) for elem in only_ids}
         )
+        self.scope.update(only_ids)
 
     def _get_stored_class_id(self, class_id: str) -> str:
         """
@@ -404,11 +399,11 @@ class GraphAnalyzer:
         @param class_id:
         @return:
         """
-        if class_id in self.isgci_graph:
+        if class_id in self.tc_isgci:
             return class_id
 
         for _, eq_id in self.equivalences[class_id]:
-            if eq_id in self.isgci_graph:
+            if eq_id in self.tc_isgci:
                 return eq_id
 
         raise ValueError(class_id + " not found, nor any equivalent id")
@@ -479,27 +474,28 @@ class GraphAnalyzer:
             if key in self.relevant_classes
         }
         # sort classes by descending cardinality
-        print("# Summary of findings")
-        new_results = sorted(
+        print(underlined("Summary of findings"))
+        results = sorted(
             ((val, key) for key, val in self.enumeration_of_positive_classes.items()), reverse=True
         )
 
-        num_graphs = self.number_of_graphs()
-
-        if num_graphs == 1:
+        if self.num_graphs == 1:
             print("The graph is:\n")
 
-        isgci_graph = reduced_isgci_inclusion_graph()  # TODO isn't self.tc_isgci enough? or self.isgci_graph?
         ids_to_names = isgci_ids_to_names()
         recog_status = isgci_recognition_statuses()
-        for num, class_id in new_results:
+        for num, class_id in results:
             print(
-                ["{:.2f}".format(100 * num / num_graphs).rjust(6) + "% are", "-"][num_graphs == 1],
-                f"[{ids_to_names[class_id]}]({urllib.parse.urljoin(BASE_CLASS_URL, class_id)})"
-            )
+                "".join([
+                    ["- " + "{:.2f}".format(100 * num / self.num_graphs).rjust(6) + "% are ", "- "][
+                        self.num_graphs == 1],
+                    f"[{ids_to_names[class_id]}]({urllib.parse.urljoin(BASE_CLASS_URL, class_id)})"
+                ]))
             # print unidentified maximal subclasses, so I know what to implement next
             if print_unknown_descendants:
-                unknown_children = self.unknown_nodes.intersection(isgci_graph.successors(class_id))
+                unknown_children = self.unknown_nodes.intersection(
+                    self.tc_isgci.successors(class_id)
+                )
                 print(f"    class has {len(unknown_children)} unidentified maximal subclasses")
                 for child in unknown_children:
                     print(
@@ -514,7 +510,7 @@ class GraphAnalyzer:
                     print()
 
                 unknown_descendants = (
-                    set(nx.descendants(isgci_graph, class_id))
+                    set(nx.descendants(self.tc_isgci, class_id))
                     .intersection(self.unknown_nodes)
                     .difference(unknown_children)
                 )
@@ -575,29 +571,26 @@ class GraphAnalyzer:
         # information on skipped classes
         print("- skipped classes:")
         print(
-            f"    - {self.discarded_due_to_propagation // self.number_of_graphs()} classes were "
-            f"skipped thanks to inclusion relationships",
+            f"    - {self.discarded_due_to_propagation // self.num_graphs} classes were skipped "
+            f"thanks to inclusion relationships",
             end="",
         )
+        print([".", f" (average over {self.num_graphs} graphs)."][self.num_graphs > 1])
         print(
-            [".", f" (average over {self.number_of_graphs()} graphs)."][
-                self.number_of_graphs() > 1
-                ]
-        )
-        print(
-            f"    - {self.discarded_due_to_exclusion // self.number_of_graphs()} classes were "
+            f"    - {self.discarded_due_to_exclusion // self.num_graphs} classes were "
             f"skipped thanks to exclusion relationships",
             end="",
         )
-        print(
-            [".", f" (average over {self.number_of_graphs()} graphs)."][
-                self.number_of_graphs() > 1
-                ]
-        )
+        print([".", f" (average over {self.num_graphs} graphs)."][self.num_graphs > 1])
         if self.blacklisted:
             print(
-                f"    - {len(self.blacklisted)} classes were skipped as per instructed by the "
+                f"    - {len(self.blacklisted)} classes were skipped as instructed by the "
                 f"user; specifically: {sorted(self.blacklisted)}"
+            )
+        if self.scope:
+            print(
+                f"    - only the following {len(self.scope)} classes were considered as "
+                f"instructed by the user; specifically: {sorted(self.scope)}"
             )
 
         print("- external tools:")
