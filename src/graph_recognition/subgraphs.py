@@ -184,6 +184,7 @@ class SubgraphMatcher:
 
             # WARNING: do NOT simplify the expression below: True and False are not the only
             # possible values
+            # noinspection PySimplifyBooleanCheck
             if self._checked_subgraphs[subpattern] is False:
                 return False
         # """
@@ -267,6 +268,7 @@ class SubgraphMatcher:
             # pattern found: quit early
             # WARNING: do NOT simplify the expression below: True and False are not the only
             # possible values
+            # noinspection PySimplifyBooleanCheck
             if self._checked_subgraphs[pattern] is True:
                 return False
 
@@ -304,7 +306,8 @@ class SubgraphMatcher:
         :return:
         """
         # WARNING: don't simplify using self._checked_subgraphs, that expression would accept
-        # subgraphs with an unknown status and we only want the ones that are "truly True"
+        # subgraphs with an unknown status, and we only want the ones that are "truly True"
+        # (as opposed to "merely not False")
         return set(
             filter(
                 lambda x: self._checked_subgraphs[x] is True, self._checked_subgraphs
@@ -423,4 +426,6 @@ def clear_subgraph_cache(graph: nx.Graph) -> None:
     :param graph:
     :return:
     """
+    # note: this function normally belongs in cache_utils, but I want to keep __MATCHERS private so
+    # it will remain here
     del __MATCHERS[graph]

@@ -115,36 +115,30 @@ def vertices_on_shortest_paths(graph: nx.Graph) -> dict:
     @return:
     """
     if is_connected(graph):
-        intervals = dict()
-        for u, v in combinations(graph, 2):
-            intervals[frozenset([u, v])] = set(
-                chain(*(nx.all_shortest_paths(graph, u, v)))
-            )
+        return {
+            frozenset([u, v]): set(chain(*(nx.all_shortest_paths(graph, u, v))))
+            for u, v in combinations(graph, 2)
+        }
 
-        return intervals
-
-    else:
-        # graph is disconnected: launch parallel searches on each connected component; using a
-        # defaultdict allows us to avoid checking whether the pair we will query exists
-        result = defaultdict(set)
-        for cc in nx.connected_components(graph):
-            all_pairs = set(combinations(cc, 2))
-            with mp.Pool() as p:
-                result.update(
-                    dict(
-                        zip(
-                            map(frozenset, all_pairs),
-                            p.starmap(
-                                func=vertices_on_shortest_paths_between,
-                                iterable=(
-                                    (graph.subgraph(cc), u, v) for u, v in all_pairs
-                                ),
-                            ),
-                        )
+    # graph is disconnected: launch parallel searches on each connected component; using a
+    # defaultdict allows us to avoid checking whether the pair we will query exists
+    result = defaultdict(set)
+    for cc in nx.connected_components(graph):
+        all_pairs = set(combinations(cc, 2))
+        with mp.Pool() as p:
+            result.update(
+                dict(
+                    zip(
+                        map(frozenset, all_pairs),
+                        p.starmap(
+                            func=vertices_on_shortest_paths_between,
+                            iterable=((graph.subgraph(cc), u, v) for u, v in all_pairs),
+                        ),
                     )
                 )
+            )
 
-        return result
+    return result
 
 
 @lru_cache(maxsize=None)
@@ -191,8 +185,7 @@ def is_d(graph: nx.Graph) -> bool:
     :return:
     """
     # this is the naive algo from: https://doi.org/10.1016/0166-218X(95)00042-P :
-    # keep removing a d-vertex from G; G is a D-graph iff we end up with an
-    # empty graph
+    # keep removing a d-vertex from G; G is a D-graph iff we end up with an empty graph
     return empty_graph_by_removing_vertices(graph, vertex_is_d)
 
 
@@ -316,9 +309,7 @@ def is_median_and_planar(graph: nx.Graph) -> bool:
     return is_planar(graph) and is_median(graph)
 
 
-def number_of_common_neighbors_at_distance(
-        graph: nx.Graph, u: Any, v: Any, w: Any, k: int
-) -> int:
+def number_of_common_neighbors_at_distance(graph: nx.Graph, u: Any, v: Any, w: Any, k: int) -> int:
     """
     Returns the number of common neighbors of v and w at distance k - 1 from u.
 
@@ -553,11 +544,7 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
     for cc in nx.connected_components(graph):
         for u, v, w in combinations(cc, 3):
             # do u, v, w form a metric triangle?
-            f_u_v, f_u_w, f_v_w = (
-                frozenset({u, v}),
-                frozenset({u, w}),
-                frozenset({v, w}),
-            )
+            f_u_v, f_u_w, f_v_w = frozenset({u, v}), frozenset({u, w}), frozenset({v, w})
             if (
                     intervals[f_u_v] & intervals[f_u_w] == {u}
                     and intervals[f_u_v] & intervals[f_v_w] == {v}

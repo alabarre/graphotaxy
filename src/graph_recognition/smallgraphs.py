@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2023-2025
+Anthony Labarre © 2023-2026
 
 Utilities for handling smallgraphs. This module is responsible for providing the LAD files that
 will be used by the Glasgow Subgraph Solver.
@@ -23,7 +23,6 @@ the development of this software, you have no need for them):
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import json
-import logging
 import os
 import pathlib
 import shutil
@@ -168,25 +167,19 @@ def all_smallgraphs_by_order(force_rebuild: bool = False) -> DefaultDict[int, se
             .strip()
         )
 
-        # the first letter of the g6string is the order n of the graph; since
-        # we are dealing with small graphs only, we know that this letter has
-        # value n+63 (https://users.cecs.anu.edu.au/~bdm/data/formats.txt)
+        # the first letter of the g6 string is the order n of the graph; since we are dealing with
+        # small graphs only, we know that this letter has value n+63
+        # (https://users.cecs.anu.edu.au/~bdm/data/formats.txt)
         graphs_by_order[ord(g6string[0]) - 63].add((name, g6string))
 
-    # write LAD files **now**, because some of them need to be read by
-    # missing_smallgraphs()
+    # write LAD files **now**, because some of them need to be read by missing_smallgraphs()
     for graphbunch in graphs_by_order.values():
         dump_graphs_to_lad_files(graphbunch)
 
-    # get all smallgraphs that are missing from the above directory and update
-    # return value
+    # get all smallgraphs that are missing from the above directory and update return value
     for key, val in missing_smallgraphs().items():
         graphs_by_order[key].update(val)
         dump_graphs_to_lad_files(val)
-
-    logging.info(
-        "done, got %s smallgraphs", sum(len(val) for _, val in graphs_by_order.items())
-    )
 
     # write graph to json for further uses
     with open(filename, "w") as file:
@@ -275,8 +268,6 @@ def smallgraph_inclusion_graph(force_rebuild: bool = False) -> nx.DiGraph:
             return nx.node_link_graph(json.load(file), edges="edges")
 
     # otherwise, compute it from scratch
-    logging.info("building the smallgraphs inclusion graph... ")
-
     # retrieve all smallgraphs from ISGCI's list
     all_smallgraphs = all_smallgraphs_by_order()
     inclusion_graph = build_inclusion_graph(all_smallgraphs)
@@ -369,7 +360,7 @@ def get_fiscky_classes(force_rebuild: bool = False) -> List[dict]:
 
 def generate_recognizers() -> None:
     """
-    Generates all recognizers for classes that can be recognised using fixed forbidden induced
+    Generates all recognizers for classes that can be recognized using fixed forbidden induced
     subgraphs. This does NOT include configurations like C_{n+4}, holes, XZ, etc.
 
     >>> generate_recognizers()
@@ -543,9 +534,7 @@ def write_recognizer_code(
         )
     )
     output.write("\n")
-    output.write(
-        f"\n    See {requests.compat.urljoin(BASE_URL, 'classes/' + class_id)}\n"
-    )
+    output.write(f"\n    See {requests.compat.urljoin(BASE_URL, 'classes/' + class_id)}\n")
     output.write(f"\n    Complexity of naïve matching: O(n^{order})\n\n")
     output.write("    :type graph: nx.Graph\n")
     output.write('    """\n')

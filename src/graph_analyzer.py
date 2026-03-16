@@ -21,6 +21,7 @@ from collections import defaultdict, OrderedDict
 from copy import deepcopy
 from importlib import import_module
 from itertools import chain
+from os import listdir
 from typing import Callable, Iterable, Set, List
 
 # ----- Third-party imports -----------------------------------------------------------------------
@@ -28,7 +29,7 @@ import networkx as nx
 from tqdm import tqdm
 
 # ----- My imports --------------------------------------------------------------------------------
-from cache_utils import clear_other_caches, get_cached_non_recognizers
+from cache_utils import clear_function_caches, get_cached_non_recognizers
 from classification_digraph import ClassificationDigraph
 from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings, clear_subgraph_cache
 from isgci.isgci_base import (
@@ -76,6 +77,8 @@ class GraphAnalyzer:
         self.min_unknown_classes = sys.maxsize
         self.num_graphs = 0
         self.prototype_classification_digraph = ClassificationDigraph()
+        self.provided_negative = set()
+        self.provided_positive = set()
         self.relevant_classes = set()
         self.tc_isgci = nx.transitive_closure_dag(ClassificationDigraph())
         self.unknown_nodes = set(self.tc_isgci.nodes)
@@ -100,9 +103,8 @@ class GraphAnalyzer:
         @param class_id:
         @return:
         """
-        # self.recognizers contains pairs of the form (class_id, recognizer) for each recognizable
-        # class as well as for the equivalent classes; which is why we do not explicitly compute
-        # equivalences ourselves
+        # since self.recognizers maps class ids to recognizer for each recognizable class as well
+        # as for its equivalent classes, we can simply search for the provided class_id
         return self.recognizers[class_id]
 
     def register_recognizer(self, class_id: str, recognizer: Callable) -> None:
@@ -166,8 +168,12 @@ class GraphAnalyzer:
             unit=" graph",
             total=num_graphs,
         )
-        # record functions whose caches need to be cleared and which are not recognizers
-        other_caches_to_clear = get_cached_non_recognizers("graph_recognition.misc_algo")
+        # record functions whose caches need to be cleared and which are not recognizers; these
+        # include all such functions defined in the graph_recognition module
+        other_caches_to_clear = set.union(*(
+            get_cached_non_recognizers("graph_recognition." + module.replace(".py", ""))
+            for module in listdir("graph_recognition") if module.endswith(".py")
+        ))
         # finally, start the analysis
         for graph in main_pbar:
             # create classification for current graph
@@ -201,11 +207,11 @@ class GraphAnalyzer:
             self.num_graphs += 1
 
             # the corresponding cached data is no longer needed, so we clear the caches of:
-            hits, misses = clear_other_caches(called_recognizers)  # all called recognizers
+            hits, misses = clear_function_caches(called_recognizers)  # all called recognizers
             self.hits_and_misses["hits"] += hits
             self.hits_and_misses["misses"] += misses
             clear_subgraph_cache(graph)  # everything related to subgraph matching
-            clear_other_caches(other_caches_to_clear)  # and all other cached functions
+            clear_function_caches(other_caches_to_clear)  # and all other cached functions
 
     def recognize_graph_and_propagate_results(
             self,
@@ -324,6 +330,7 @@ class GraphAnalyzer:
         :return:
         """
         self._acknowledge_classes(positive_ids, True)
+        self.provided_positive = sorted(positive_ids)
 
     def acknowledge_negative_classes(self, negative_ids: Iterable[str]) -> None:
         """
@@ -334,6 +341,7 @@ class GraphAnalyzer:
         :return:
         """
         self._acknowledge_classes(negative_ids, False)
+        self.provided_negative = sorted(negative_ids)
 
     def blacklist(self, skip_ids: Iterable[str]) -> None:
         """
@@ -488,7 +496,6 @@ class GraphAnalyzer:
 
         @return:
         """
-        # TODO add info on positive / negative classes communicated by user
         print(underlined("Analysis statistics"))
         # information on recognizers
         print("- recognizers:")
@@ -525,6 +532,16 @@ class GraphAnalyzer:
             print(
                 f"    - only the following {len(self.scope)} classes were considered as "
                 f"instructed by the user; specifically: {sorted(self.scope)}"
+            )
+        if self.provided_negative:
+            print(
+                f"    - the following {len(self.provided_negative)} classes were identified as "
+                f"negative by the user: {self.provided_negative}"
+            )
+        if self.provided_positive:
+            print(
+                f"    - the following {len(self.provided_positive)} classes were identified as "
+                f"positive by the user: {self.provided_positive}"
             )
 
         print("- external tools:")

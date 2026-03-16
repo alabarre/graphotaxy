@@ -555,10 +555,7 @@ def contains_no_induced_subgraph_with_degree_sequence(graph: nx.Graph, degseq: a
     else:
         for edge_subset in combinations(graph.edges, k // 2):
             vertices = set(sum(edge_subset, ()))
-            if (
-                    len(vertices) == k
-                    and degree_sequence(graph.subgraph(vertices)) == degseq
-            ):
+            if len(vertices) == k and degree_sequence(graph.subgraph(vertices)) == degseq:
                 return False
 
     return True
@@ -584,9 +581,7 @@ def contains_no_induced_subgraph_with_degree_sequence_and_property(
     if sum(degseq) // 2 < k // 2:
         return all(
             degree_sequence(graph.subgraph(vertices)) != degseq
-            or any(
-                not recognizer(graph.subgraph(vertices)) for recognizer in recognizers
-            )
+            or any(not recognizer(graph.subgraph(vertices)) for recognizer in recognizers)
             for vertices in combinations(graph, k)
         )
 
@@ -643,8 +638,5 @@ def enumerate_all_p4s(graph: nx.Graph) -> Generator:
     # examine all pairs of edges
     for e, f in combinations(graph.edges, 2):
         p4_candidates = set(e + f)
-        if (
-                len(p4_candidates) == 4
-                and degree_sequence(graph.subgraph(p4_candidates)) == p4_degseq
-        ):
+        if len(p4_candidates) == 4 and degree_sequence(graph.subgraph(p4_candidates)) == p4_degseq:
             yield p4_candidates

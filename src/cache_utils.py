@@ -11,7 +11,7 @@ from typing import Iterable, Callable, Set, Tuple
 
 
 # Functions ---------------------------------------------------------------------------------------
-def clear_other_caches(functions: Iterable[Callable]) -> Tuple[int, int]:
+def clear_function_caches(functions: Iterable[Callable]) -> Tuple[int, int]:
     """
     Clears the caches of all provided functions, and returns the total number of cache hits and
     cache misses they performed. Only functions decorated with lru_cache are allowed.

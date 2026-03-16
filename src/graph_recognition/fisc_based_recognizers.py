@@ -5241,8 +5241,8 @@ def is_auto_2277(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_auto_2109(graph: nx.Graph) -> bool:
     """
-    Returns True iff graph is (2K_{2}, 3K_{1}, C_{5}, co(C_{6}), co(C_{7}),
-    co(C_{8}), co(H), co(X_{85}))-free.
+    Returns True iff graph is (2K_{2}, 3K_{1}, C_{5}, co(C_{6}), co(C_{7}), co(C_{8}), co(H),
+    co(X_{85}))-free.
 
     See https://www.graphclasses.org/classes/AUTO_2109
 
@@ -5393,9 +5393,8 @@ def is_auto_744(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_auto_1814(graph: nx.Graph) -> bool:
     """
-    Returns True iff graph is (C_{4}, C_{5}, C_{6}, C_{7}, C_{8}, K_{1, 4},
-    K_{5}, K_{5} - e, co(K_{3} U 2K_{1}), co(P_{3} U 2K_{1}), co(claw U K_{1}),
-    butterfly, cricket, dart, gem)-free.
+    Returns True iff graph is (C_{4}, C_{5}, C_{6}, C_{7}, C_{8}, K_{1, 4}, K_{5}, K_{5} - e,
+    co(K_{3} U 2K_{1}), co(P_{3} U 2K_{1}), co(claw U K_{1}), butterfly, cricket, dart, gem)-free.
 
     See https://www.graphclasses.org/classes/AUTO_1814
 
@@ -5430,9 +5429,9 @@ def is_auto_1814(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_auto_3802(graph: nx.Graph) -> bool:
     """
-    Returns True iff graph is (2K_{2}, 5K_{1}, C_{5}, K_{3} U 2K_{1}, P_{3} U
-    2K_{1}, co(C_{6}), co(C_{7}), co(C_{8}), co(K_{1, 4}), co(K_{5} - e), claw U
-    K_{1}, co-butterfly, co-cricket, co-dart, co-gem)-free.
+    Returns True iff graph is (2K_{2}, 5K_{1}, C_{5}, K_{3} U 2K_{1}, P_{3} U 2K_{1}, co(C_{6}),
+    co(C_{7}), co(C_{8}), co(K_{1, 4}), co(K_{5} - e), claw U K_{1}, co-butterfly, co-cricket,
+    co-dart, co-gem)-free.
 
     See https://www.graphclasses.org/classes/AUTO_3802
 
