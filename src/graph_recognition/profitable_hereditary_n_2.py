@@ -13,7 +13,7 @@ Recognizers in this file have running time O(n^2).
 import os
 from array import array
 from functools import lru_cache
-from itertools import combinations
+from itertools import combinations, takewhile
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -92,19 +92,21 @@ def is_threshold(graph: nx.Graph) -> bool:
     not a threshold sequence.
     """
     ds = degree_sequence(graph)
-    ds = array(ds.typecode, reversed(ds))
-    retval = True
+    ds.reverse()
     while ds:
-        if ds[0] == 0:  # if isolated node
-            ds.pop(0)  # remove it
+        # instead of popping leading zeroes separately, remove them all at once
+        length_of_longest_zero_prefix = sum(1 for _ in takewhile(lambda val: val == 0, ds))
+        if ds[length_of_longest_zero_prefix - 1] == 0:
+            ds = ds[length_of_longest_zero_prefix:]
             continue
+
         if ds[-1] != len(ds) - 1:  # is the largest degree node dominating?
-            retval = False  # no, not a threshold degree sequence
-            break
+            return False
+
         ds.pop()  # yes, largest is the dominating node
         ds = array(ds.typecode, [d - 1 for d in ds])  # remove it and decrement all degrees
 
-    return retval
+    return True
 
 
 # not an actual ISGCI class
@@ -798,7 +800,7 @@ def is_p4_co_cycle_free(graph: nx.Graph) -> bool:
 # configurations (here: co(C_{n+4}))
 @assign_fisc(
     [
-        "co(C_{4})",
+        "co(C_{4})",  # = 2K_{2}
         "C_{5}",
         "co(C_{5})",
         "co(C_{6})",
@@ -823,10 +825,11 @@ def is_co_chordal(graph: nx.Graph) -> bool:
     # that we can thereby stop early
     # if graph is co-chordal, its complement contains no C_4, C_5, C_6, C_7, C_8, and therefore
     # the original graph cannot contain the complements of these configurations
-    print("\nis_co_chordal: trying is_h_free first")
-    if not is_2k2_free(graph) or not is_h_free(graph, ["C_{5}", "co(C_{6})", "co(C_{7})", "co(C_{8})"]):
+    if not is_2k2_free(graph):
         return False
-    print("\ndidn't work :'-(")
+
+    # note: we can still check 'or not is_h_free(graph, ["C_{5}", "co(C_{6})", "co(C_{7})", "co(C_{8})"])'
+    # but that is much slower
 
     # split graphs are both chordal and co-chordal, so let's try that first if it allows us to
     # avoid examining co-connected components
@@ -928,9 +931,7 @@ def is_co_line(graph: nx.Graph) -> bool:
     return True
 
 
-@assign_fisc(
-    ["co-claw", "co-diamond", "C_{5}", "co(C_{7})"]
-)  # fisc derived from complement class
+@assign_fisc(["co-claw", "co-diamond", "C_{5}", "co(C_{7})"])  # fisc derived from complement class
 @assign_class_id("gc_744")
 @lru_cache(maxsize=None)
 def is_co_line_graph_of_bipartite_graph(graph: nx.Graph) -> bool:
@@ -1000,6 +1001,25 @@ def is_co_comparability(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
+    if not is_h_free(graph, [
+        "C_{6}",  # complement of "co(C_{6})",
+        "C_{7}",  # complement of "co(C_{7})",
+        "C_{8}",  # complement of "co(C_{8})",
+        "T_{2}",  # complement of "co(T_{2})",
+        "X_{2}",  # complement of "co(X_{2})",
+        "X_{3}",  # complement of "co(X_{3})",
+        "X_{30}",  # complement of "co(X_{30})",
+        "X_{31}",  # complement of "co(X_{31})",
+        "X_{32}",  # complement of "co(X_{32})",
+        "X_{33}",  # complement of "co(X_{33})",
+        "X_{34}",  # complement of "co(X_{34})",
+        "X_{35}",  # complement of "co(X_{35})",
+        "X_{36}",  # complement of "co(X_{36})",
+        "co(C_{5})",  # complement of "C_{5}",
+        "co(C_{7})",  # complement of "C_{7}",
+    ]):
+        return False
+
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(

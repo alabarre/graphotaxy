@@ -45,6 +45,7 @@ import networkx as nx
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.graph_formats import nx_graph_to_lad_file, lad_file_to_nx_graph
 from graph_recognition.misc_algo import degree_sequence
+import graph_recognition.profitable_hereditary_n
 from graph_recognition.recognizers_utils import cached_function
 from graph_recognition.smallgraphs import (
     all_smallgraphs_by_order,
@@ -158,6 +159,7 @@ class SubgraphMatcher:
 
         # looking for a clique takes a long time; if we find a large enough one, then we don't need
         # to explicitly look for it
+        '''
         if smallgraph_name[:3] == "K_{" and smallgraph_name[4:] == "}":
             max_clique_size = nx.approximation.large_clique_size(self._graph)
             if max_clique_size >= int(smallgraph_name[3]):
@@ -165,7 +167,7 @@ class SubgraphMatcher:
                 for i in range(2, min(8, max_clique_size)):
                     self._checked_subgraphs["K_{" + str(i) + "}"] = True
                 return True
-
+        '''
         # *****************************************************************************************
         # * 2) recurse on smaller patterns in the hope that they will provide                     *
         # *    answers without relying on the solver for current pattern                          *
@@ -188,6 +190,15 @@ class SubgraphMatcher:
             if self._checked_subgraphs[subpattern] is False:
                 return False
         # """
+
+        # 2b) try profitable hereditary recognizers but only O(n) ones
+        #'''
+        if any(
+                recognizer(self._graph) and not recognizer(pattern)
+                for recognizer in graph_recognition.profitable_hereditary_n.RECOGNIZERS.values()
+        ):
+            return False
+        #'''
 
         # *****************************************************************************************
         # * 3) if none of the above worked, call the solver                                       *
@@ -259,7 +270,7 @@ class SubgraphMatcher:
         )
 
         for pattern in sorted_subgraphs:
-            print("[DEBUG] now checking", pattern)
+            # print("[DEBUG] now checking", pattern)
             # none of the subgraphs have been checked initially, but this may change with repeated
             # runs, or even during a single run since unfound patterns will impact their ancestors
             if self._checked_subgraphs[pattern] == self._unknown_status:
@@ -348,9 +359,7 @@ class SubgraphMatcher:
             if SubgraphMatcher.smallgraph_names_and_orders[subgraph] <= self._graph.order()
         }
 
-        graph_relation = {"maximal": nx.ancestors, "minimal": nx.descendants}[
-            restriction
-        ]
+        graph_relation = {"maximal": nx.ancestors, "minimal": nx.descendants}[restriction]
 
         # only record subgraphs whose descendants in the inclusion graph do not appear in the
         # target

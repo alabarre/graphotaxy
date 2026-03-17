@@ -15,6 +15,7 @@ import networkx as nx
 from isgci.isgci_base import reduced_isgci_inclusion_graph
 from isgci.vars import OPEN, HARD, EASY
 
+
 # Classes -----------------------------------------------------------------------------------------
 class ClassificationDigraph(nx.DiGraph):
     """
@@ -58,13 +59,8 @@ class ClassificationDigraph(nx.DiGraph):
         graph class inclusion graph, albeit without directed graph classes.
         """
         super().__init__(reduced_isgci_inclusion_graph())
-        for directed_id in (  # remove directed graph classes
-            "gc_1197",
-            "gc_1198",
-            "gc_1199",
-            "gc_1200",
-            "gc_1201",
-        ):
+        # remove directed graph classes
+        for directed_id in ("gc_1197", "gc_1198", "gc_1199", "gc_1200", "gc_1201"):
             if directed_id in self:
                 self.remove_node(directed_id)
 
@@ -102,16 +98,37 @@ class ClassificationDigraph(nx.DiGraph):
         self.remove_nodes_from(other_classes(self, class_id))
         return to_remove
 
+    def _nodes_from_category(self, category: str) -> Set[str]:
+        """
+        Returns the set of all nodes from a particular category.
+
+        :return:
+        """
+        return {cid for cid, data in self.nodes(data=True) if data["category"] == category}
+
     def negative_nodes(self) -> Set[str]:
         """
         Returns the set of all negative nodes.
 
         @return:
         """
-        return {
-            class_id for class_id, data in self.nodes(data=True)
-            if data["category"] == self.negative
-        }
+        return self._nodes_from_category(self.negative)
+
+    def open_nodes(self) -> Set[str]:
+        """
+        Returns the set of all open nodes.
+
+        @return:
+        """
+        return self._nodes_from_category(self.open)
+
+    def positive_nodes(self) -> Set[str]:
+        """
+        Returns the set of all positive nodes.
+
+        @return:
+        """
+        return self._nodes_from_category(self.positive)
 
     def number_of_open_nodes(self) -> int:
         """
@@ -121,17 +138,6 @@ class ClassificationDigraph(nx.DiGraph):
         @return:
         """
         return sum(1 for _, data in self.nodes(data=True) if data["category"] == self.open)
-
-    def positive_nodes(self) -> Set[str]:
-        """
-        Returns the set of all positive nodes.
-
-        @return:
-        """
-        return {
-            class_id for class_id, data in self.nodes(data=True)
-            if data["category"] == self.positive
-        }
 
     def set_reason(self, class_id: str, reason: str) -> None:
         """

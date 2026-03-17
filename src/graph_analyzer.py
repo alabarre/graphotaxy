@@ -67,7 +67,7 @@ class GraphAnalyzer:
         self.provided_positive = set()
         self.relevant_classes = set()
         self.tc_isgci = nx.transitive_closure_dag(ClassificationDigraph())
-        self.unknown_nodes = set(self.tc_isgci.nodes)
+        self.unknown_nodes = set()
 
         # data related to analysis statistics -----------------------------------------------------
         self.discarded_due_to_exclusion = 0
@@ -280,14 +280,13 @@ class GraphAnalyzer:
         # its ancestors. it is necessary to compute the union beforehand, otherwise positive nodes
         # that share ancestors will wrongfully increment their counters multiple times
         minus_nodes, plus_nodes = classification.negative_nodes(), classification.positive_nodes()
-        print(f"[DEBUG] plus_nodes = {plus_nodes}")
         if plus_nodes:
             for node in set.union(*({v}.union(self.tc_isgci.predecessors(v)) for v in plus_nodes)):
                 self.enumeration_of_positive_classes[node] += 1
 
         # update relevant positive nodes and unknown nodes
         self.relevant_classes.update(plus_nodes)
-        self.unknown_nodes.discard(plus_nodes.union(minus_nodes))
+        self.unknown_nodes.update(classification.open_nodes())
 
         # update other stats
         num_open_nodes = classification.number_of_open_nodes()
@@ -424,9 +423,9 @@ class GraphAnalyzer:
             # print unidentified maximal subclasses, so I know what to implement next
             if print_unknown_descendants:
                 unknown_children = self.unknown_nodes.intersection(
-                    self.tc_isgci.successors(class_id)
+                    self.prototype_classification_digraph.successors(class_id)
                 )
-                print(f"    class has {len(unknown_children)} unidentified maximal subclasses")
+                print(f"    - class has {len(unknown_children)} unidentified maximal subclasses")
                 for child in unknown_children:
                     print(
                         " " * 8,
@@ -440,18 +439,16 @@ class GraphAnalyzer:
                     print()
 
                 unknown_descendants = (
-                    set(nx.descendants(self.tc_isgci, class_id))
+                    set(nx.descendants(self.prototype_classification_digraph, class_id))
                     .intersection(self.unknown_nodes)
                     .difference(unknown_children)
                 )
-                print(f"    class has {len(unknown_descendants)} further unidentified descendants")
+                print(f"    - class has {len(unknown_descendants)} further unidentified descendants")
                 for child in unknown_descendants:
                     print(
-                        " " * 8,
-                        ids_to_names[child],
-                        "---",
-                        urllib.parse.urljoin(BASE_CLASS_URL, child),
-                        recog_status[child],
+                        " " * 8 + f"[{ids_to_names[class_id]}]"
+                                  f"({urllib.parse.urljoin(BASE_CLASS_URL, class_id)}) "
+                                  f"{recog_status[child]}"
                     )
 
                 print()

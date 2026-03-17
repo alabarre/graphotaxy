@@ -20,7 +20,7 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import is_h_u_k2_free, is_connected, degree_sequence
-from graph_recognition.profitable_hereditary_n import is_chordal
+from graph_recognition.profitable_hereditary_n import is_chordal, is_cograph
 from graph_recognition.profitable_hereditary_n_4 import is_claw_free
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
@@ -61,7 +61,7 @@ def is_c6_free(graph: nx.Graph) -> bool:
     """
     # if graph has a C_6 then it has a P_4, so if graph is a cograph it has no P_4 and therefore no
     # C_6
-    if is_chordal(graph):
+    if is_cograph(graph):
         return True
 
     # the following naive algorithm turns out to be much faster than

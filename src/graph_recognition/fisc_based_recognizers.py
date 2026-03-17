@@ -29,7 +29,7 @@ from graph_recognition.misc_algo import (
     is_odd_co_clique_free,
     must_contain_a_clique_of_size,
     degree_sequence,
-    must_contain_an_independent_set_of_size,
+    must_contain_an_independent_set_of_size, enumerate_all_p4s,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
@@ -38,7 +38,6 @@ from graph_recognition.profitable_hereditary_n import (
     is_p3_free,
     is_2k2_free,
     is_bipartite,
-    is_chordal,
 )
 from graph_recognition.profitable_hereditary_n_2 import (
     is_co_diamond_free,
@@ -215,8 +214,15 @@ def is_c5_free(graph: nx.Graph) -> bool:
     """
     # if graph has a C_5 then it has a P_4, so if graph is a cograph it has no P_4 and therefore no
     # C_5
-    if is_chordal(graph):
+    if is_cograph(graph):
         return True
+
+    c5_deg_seq = array('b', [2, 2, 2, 2, 2])
+    for p4 in enumerate_all_p4s(graph):
+        for v in graph.nodes:
+            if v not in p4 and degree_sequence(graph.subgraph(p4.union({v}))) == c5_deg_seq:
+                return False
+    return True
 
     return is_h_free(graph, ["C_{5}"])
 
