@@ -1,8 +1,8 @@
 """
 Anthony Labarre © 2023-2026
 
-graphotaxy's main file. Takes as input a graph file containing one or more graphs, and outputs
-the classes in ISGCI to which these graphs belong, being as precise as possible.
+graphotaxy's main file. Takes as input one or more files each containing one or more graphs, and
+outputs the classes in ISGCI to which these graphs belong, being as precise as possible.
 
 """
 # Imports -----------------------------------------------------------------------------------------
@@ -28,7 +28,8 @@ logger = logging.getLogger(__name__)
 
 # Functions ---------------------------------------------------------------------------------------
 def knows(class_ids: Iterable[str]) -> None:
-    """Checks whether the classes provided as class id's can be recognized, whether directly or by
+    """
+    Checks whether the classes provided as class id's can be recognized, whether directly or by
     means of a recognizer for an equivalent class.
 
     >>> knows(["gc_1362", "gc_66", "gc_2"])
@@ -48,7 +49,7 @@ def knows(class_ids: Iterable[str]) -> None:
             )
             break
 
-        except ValueError:
+        except KeyError:
             print(f"{_id.ljust(longest_name_length)}: no recognizer available")
 
 
@@ -81,15 +82,14 @@ def check_for_multiple_recognizers() -> None:
     # otherwise, print classes with multiple recognizers
     for a, b in ids_to_recognizers.items():
         if len(b) > 1:
-            print(
-                f"https://www.graphclasses.org/classes/{a} has more than one recognizer:"
-            )
+            print(f"https://www.graphclasses.org/classes/{a} has more than one recognizer:")
             for recognizer in b:
                 print(f"  {recognizer.__name__} in {recognizer.__module__}")
 
 
 def print_capabilities() -> None:
-    """Prints program's capabilities. Currently, this means:
+    """
+    Prints program's capabilities. Currently, this means:
 
     - the number of implemented recognizers
     - the number of classes that can be recognized, taking equivalences into account (e.g., if

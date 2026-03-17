@@ -38,23 +38,8 @@ from isgci.isgci_base import (
     isgci_ids_to_names,
     isgci_exclusion_graph, isgci_recognition_statuses, isgci_version_info,
 )
+from printing import underlined
 from readwrite import process_graphs, number_of_graphs_in_file
-
-
-# Functions ---------------------------------------------------------------------------------------
-# TODO refactor: this has nothing to do with analyzing, should I have a "printing" module?
-def underlined(message: str) -> str:
-    """
-    Returns an underlined version of a message.
-
-    >>> print(underlined("Hello!"))
-    Hello!
-    ------
-
-    :param message: any text
-    :return: the input text, underlined
-    """
-    return "\n".join([message, len(message) * "-"])
 
 
 # Classes -----------------------------------------------------------------------------------------
@@ -225,11 +210,11 @@ class GraphAnalyzer:
         Determines whether graph belongs to the graph class identified by class_id and propagates
         the implications of the result.
 
-        :param graph: an undirected graph
-        :param recognizer: the function to use to recognize the graph
-        :param called_recognizers: the set of all recognizers that have been called for this graph
-        :param classification: the classification digraph of the given graph
-        :param class_id: the id of the class for which membership must be tested
+        :param graph: an undirected graph.
+        :param recognizer: the function to use to recognize the graph.
+        :param called_recognizers: the set of all recognizers that have been called for this graph.
+        :param classification: the classification digraph of the given graph.
+        :param class_id: the id of the class for which membership must be tested.
         :return:
         """
         try:
@@ -410,7 +395,6 @@ class GraphAnalyzer:
         @param print_todo:
         @return:
         """
-        # NEW VERSION
         # discard the counters of all irrelevant classes
         self.enumeration_of_positive_classes = {
             key: val for key, val in self.enumeration_of_positive_classes.items()

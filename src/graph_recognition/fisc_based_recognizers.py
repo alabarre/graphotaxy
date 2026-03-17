@@ -129,7 +129,7 @@ def is_p4_diamond_paw_free(graph: nx.Graph) -> bool:
 
     See https://www.graphclasses.org/classes/gc_1375
 
-    Complexity: O(n^4) (naïve)
+    Complexity of naïve matching: O(n^4)
 
     :type graph: networkx.Graph
     """
@@ -2082,7 +2082,7 @@ def is_domino_free(graph: nx.Graph) -> bool:
 
     See https://www.graphclasses.org/classes/gc_592
 
-    Complexity: O(m^3) <= O(n^6) (naive)
+    Complexity of naïve matching: O(n^6)
 
     :type graph: networkx.Graph
     """
@@ -4351,7 +4351,7 @@ def is_superbrittle(graph: nx.Graph) -> bool:
 
     https://www.graphclasses.org/classes/gc_27
 
-    Complexity of naïve matching: O(n^7) (naïve)
+    Complexity of naïve matching: O(n^7)
 
     :param graph:
     :return:
