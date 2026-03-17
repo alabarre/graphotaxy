@@ -277,7 +277,7 @@ def main() -> None:
             end="",
         )
         nx.write_graphml(
-            next(iter(analyzer.classification)),
+            analyzer.classification,
             os.path.basename(args.input[0]) + ".graphml",
         )
         print("done.")

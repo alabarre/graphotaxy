@@ -252,14 +252,14 @@ class SubgraphMatcher:
         # discard already checked subgraphs and sort the rest by subgraph order
         sorted_subgraphs = sorted(
             {
-                graph
-                for graph in subgraphs
+                graph for graph in subgraphs
                 if self._checked_subgraphs[graph] == self._unknown_status
             },
             key=SubgraphMatcher.smallgraph_names_and_orders.get,
         )
 
         for pattern in sorted_subgraphs:
+            print("[DEBUG] now checking", pattern)
             # none of the subgraphs have been checked initially, but this may change with repeated
             # runs, or even during a single run since unfound patterns will impact their ancestors
             if self._checked_subgraphs[pattern] == self._unknown_status:
@@ -428,4 +428,5 @@ def clear_subgraph_cache(graph: nx.Graph) -> None:
     """
     # note: this function normally belongs in cache_utils, but I want to keep __MATCHERS private so
     # it will remain here
-    del __MATCHERS[graph]
+    if graph in __MATCHERS:  # mandatory check: we may not have called is_h_free at all
+        del __MATCHERS[graph]

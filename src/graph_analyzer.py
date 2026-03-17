@@ -26,6 +26,7 @@ from typing import Callable, Iterable, Set, List
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from cupy import positive
 from tqdm import tqdm
 
 # ----- My imports --------------------------------------------------------------------------------
@@ -279,8 +280,10 @@ class GraphAnalyzer:
         # its ancestors. it is necessary to compute the union beforehand, otherwise positive nodes
         # that share ancestors will wrongfully increment their counters multiple times
         minus_nodes, plus_nodes = classification.negative_nodes(), classification.positive_nodes()
-        for node in set.union(*({v}.union(self.tc_isgci.predecessors(v)) for v in plus_nodes)):
-            self.enumeration_of_positive_classes[node] += 1
+        print(f"[DEBUG] plus_nodes = {plus_nodes}")
+        if plus_nodes:
+            for node in set.union(*({v}.union(self.tc_isgci.predecessors(v)) for v in plus_nodes)):
+                self.enumeration_of_positive_classes[node] += 1
 
         # update relevant positive nodes and unknown nodes
         self.relevant_classes.update(plus_nodes)

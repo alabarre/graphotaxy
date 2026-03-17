@@ -45,6 +45,7 @@ from graph_recognition.recognizers_utils import (
     assign_class_id,
     assign_fisc,
 )
+from graph_recognition.subgraphs import is_h_free
 
 
 # Auxiliary functions -----------------------------------------------------------------------------
@@ -820,7 +821,18 @@ def is_co_chordal(graph: nx.Graph) -> bool:
     """
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
-    return all(is_chordal(complement(graph.subgraph(cc))) for cc in co_connected_components(graph))
+    # if graph is co-chordal, its complement contains no C_4, C_5, C_6, C_7, C_8, and therefore
+    # the original graph cannot contain the complements of these configurations
+    print("\nis_co_chordal: trying is_h_free first")
+    if not is_2k2_free(graph) or not is_h_free(graph, ["C_{5}", "co(C_{6})", "co(C_{7})", "co(C_{8})"]):
+        return False
+    print("\ndidn't work :'-(")
+
+    # split graphs are both chordal and co-chordal, so let's try that first if it allows us to
+    # avoid examining co-connected components
+    return is_split(graph) or all(
+        is_chordal(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
+    )
 
 
 # FISC derived from the complements of is_planar's FISC

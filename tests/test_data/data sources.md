@@ -2,6 +2,24 @@ Anthony Labarre © 2023-2026
 
 This file documents the origin of all datasets in the present directory. They are intended for testing purposes.
 
+# Generators
+
+Generators are available for a few classes. The `nauty` suite has a few of them:
+
+- `nauty-genbg`: various families of bipartite graphs
+- `nauty-genbgL`: identical to `nauty-genbg`?
+- `nauty-geng`: more general graph generator, can generate specific families by combining various options
+- `nauty-gengL`: identical to `nauty-geng`?
+- `nauty-genktreeg`:  Generate all k-trees on n vertices.
+- `nauty-genposetg`: Generate the Hasse diagrams of the posets with n points (are they in ISGCI?)
+- `nauty-genquarticg`: generate all non-isomorphic quartic graphs of a given order 
+- `nauty-genrang`:  Generate random graphs.
+- `nauty-genspecialg`:  Generate special graphs.
+- `nauty-gentourng`:  Generate all tournaments of a specified class.
+- `nauty-gentreeg`:   Generate (unrooted) trees.
+
+Other generators I found or wrote are available in the `./tests/generators` directory.
+
 # Building new datasets
 
 `nauty` has a few tools that can help generate new datasets from old datasets:
@@ -16,19 +34,13 @@ Since graphotaxy can read g6 and s6 files compressed with bzip2, gzip or xzip, s
 
 # Datasets
 
-## bipartite=gc_69
+## 2-edge-connected=gc_1362
 
-Generated with:
+generated from the datasets in connected by my filter.py program
 
-`for ((i=1; i<11; ++i)); do nauty-geng -blc $i connected-bipartite-$i.g6; done`
+## biconnected=gc_771
 
-I restricted myself to connected bipartite graphs because I use them to generate line graphs afterwards, and the fact that a line graph is co-claw or co-diamond-free is not always true for disconnected graphs.
-
-
-
-## critical h-free'
-
-## cubic-and-hamiltonian=gc_1316
+`for ((i=1; i<11; i++)); do nauty-geng -C $i bi-vertex-connected-graphs-$i.g6; done`
 
 ## bipartite-cubic-planar=gc_1334
 
@@ -39,6 +51,24 @@ Generated from planar connected graphs using nauty-pickg:
 Unfortunately that yields only one such graph, for n=8.
 
 TODO find other generators / datasets for that class
+
+## bipartite=gc_69
+
+Generated with:
+
+`for ((i=1; i<11; ++i)); do nauty-geng -blc $i connected-bipartite-$i.g6; done`
+
+I restricted myself to connected bipartite graphs because I use them to generate line graphs afterwards, and the fact that a line graph is co-claw or co-diamond-free is not always true for disconnected graphs.
+
+
+# TODO
+
+sort categories below according to ls output (done for sections above)
+
+
+## critical h-free'
+
+## cubic-and-hamiltonian=gc_1316
 
 ## block=gc_93
 
@@ -86,10 +116,7 @@ generated from c4-free using nauty-complg
 
 Generated from the datasets in chordal with nauty.
 
-for file in $(ls *g6)
-do
-    nauty-complg -l $file co$file
-done
+`for file in $(ls *g6); do nauty-complg -l $file co$file; done`
 
 ## (co-claw,co-diamond)-free=AUTO_1467
 
@@ -245,9 +272,6 @@ From https://users.cecs.anu.edu.au/~bdm/data/graphs.html
 
 `for ((i=1; i<11; i++)); do nauty-geng -ct $i triangle-free-graphs-connected-$i.g6; done`
 
-## biconnected=gc_771
-
-`for ((i=1; i<11; i++)); do nauty-geng -C $i bi-vertex-connected-graphs-$i.g6; done`
 
 ## strict-2-threshold=gc_316
 
@@ -296,9 +320,6 @@ generated from the datasets in outerplanar=gc_110 by nauty-complg:
 for file in $(ls); do nauty-complg -l $file co$file; done
 
 
-## 2-edge-connected=gc_1362
-
-generated from the datasets in connected by my filter.py program
 
 ## 2-strongly-regular=gc_1195
 

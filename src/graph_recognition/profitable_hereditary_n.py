@@ -253,9 +253,7 @@ def is_split(graph: nx.Graph) -> bool:
 
     m -= 1  # decrease m's value (we stopped one step too far)
 
-    return sum(deg_seq[: m + 1]) == (m + 1) * m + sum(
-        deg_seq[m + 1:]
-    )  # and not m * (m-1) (2)
+    return sum(deg_seq[: m + 1]) == (m + 1) * m + sum(deg_seq[m + 1:])  # and not m * (m-1) (2)
 
 
 @assign_fisc(["P_{3}", "2K_{2}"])
@@ -340,9 +338,7 @@ def is_complete_bipartite(graph: nx.Graph) -> bool:
 # note: the FISC below was found by minor_expander.py; it is incomplete, since planar graphs are
 # characterized by forbidden induced **minors**; but this is as far as we can go since the other
 # subgraphs produced by minor_expander.py are unknown to ISGCI
-@assign_fisc(
-    ["K_{3,3}", "co(X_{86})", "K_{5}", "X_{46}", "co(K_{2} U claw)", "co(X_{120})"]
-)
+@assign_fisc(["K_{3,3}", "co(X_{86})", "K_{5}", "X_{46}", "co(K_{2} U claw)", "co(X_{120})"])
 @assign_class_id("gc_43")
 @lru_cache(maxsize=None)
 def is_planar(graph: nx.Graph) -> bool:
