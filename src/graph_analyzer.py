@@ -466,14 +466,6 @@ class GraphAnalyzer:
                 if recog_status[node] in {"Linear", "Polynomial"}:
                     print(urllib.parse.urljoin(BASE_CLASS_URL, node), recog_status[node])
 
-        if print_todo:
-            # print all classes that can be recognized in polynomial time, but for which we have no
-            # implemented recognizer yet
-            print("All polynomially-recognizable unknown nodes:")
-            for node in self.unknown_nodes:
-                if recog_status[node] in {"Linear", "Polynomial"}:
-                    print(urllib.parse.urljoin(BASE_CLASS_URL, node), recog_status[node])
-
     def print_analysis_statistics(self) -> None:
         """
         Prints various information regarding the analysis that has been performed.

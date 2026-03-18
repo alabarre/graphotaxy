@@ -38,6 +38,15 @@ Since graphotaxy can read g6 and s6 files compressed with bzip2, gzip or xzip, s
 
 generated from the datasets in connected by my filter.py program
 
+## 2-tree=gc_721
+
+`for ((i=2; i<15; i++)); do nauty-genktreeg -k2 -l $i 2-trees-$i.g6; done`
+
+## 3-tree=gc_983
+
+`for ((i=3; i<15; i++)); do nauty-genktreeg -k3 -l $i 3-trees-$i.g6; done`
+
+
 ## biconnected=gc_771
 
 `for ((i=1; i<11; i++)); do nauty-geng -C $i bi-vertex-connected-graphs-$i.g6; done`
