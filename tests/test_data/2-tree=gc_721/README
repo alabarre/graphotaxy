@@ -1,0 +1,8 @@
+2026-03-18:
+
+Note: nauty-genktreeg -k2 2 generates a single edge, which is the only 2-tree on 2 vertices.
+
+On the other hand, https://cglab.ca/~morin/publications/gt/2trees.pdf show that the minimum degree of a 2-tree
+must be 2, so a single edge cannot be a tree.
+
+Marking 2-trees-2.g6 as to IGNORE until this is resolved.

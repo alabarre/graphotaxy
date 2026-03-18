@@ -2,6 +2,8 @@ Anthony Labarre © 2023-2026
 
 This file documents the origin of all datasets in the present directory. They are intended for testing purposes.
 
+Some files have the extension .IGNORE. These are datasets that are problematic for some reason. Those reasons are explained in the README file in the same directory as those files.
+
 # Generators
 
 Generators are available for a few classes. The `nauty` suite has a few of them:

@@ -109,26 +109,23 @@ def is_2_tree(graph: nx.Graph) -> bool:
     :return:
     """
     # The algorithm runs in O(n) time and uses only the degree sequence of G.
-    # See https://doi.org/10.1002/jgt.20302 , Theorem 1.
-    deg_seq = degree_sequence(graph)
-    n = len(deg_seq)
-    n_2 = deg_seq.count(2)
+    # See https://doi.org/10.1002/jgt.20302 , Theorem 1. Also available here:
+    # https://cglab.ca/~morin/publications/gt/2trees.pdf
+    degseq = degree_sequence(graph)
+    n = len(degseq)
+    n_2 = degseq.count(2)
+    min_degree, max_degree = degseq[-1], degseq[0]
 
-    # the if statement checks conditions a, b, c
-    min_degree, max_degree = deg_seq[-1], deg_seq[0]
-
-    if (
-            graph.size() == 4 * n - 6
-            and max_degree <= n - 1
-            and min_degree == 2
-            and n_2 >= 2
-    ):
-        # condition d: D is NOT of the form 2, 2, ..., 2, d, d, d, d for any d >= 5
-        if deg_seq[0] == 2 and deg_seq[-4] == deg_seq[-1] and deg_seq[-1] >= 5:
+    # checking conditions a, b and c in Theorem 1; requiring that sum(degseq) = 4n - 6 = 2|E| is
+    # equivalent to requiring that |E| = 2n - 3
+    if graph.size() == 2 * n - 3 and max_degree <= n - 1 and min_degree == 2 and n_2 >= 2:
+        # condition d: D is NOT of the form 2^{n-4} d^{4} for any d >= 5; for this to happen, we
+        # would need len(D) >= 4
+        if len(degseq) >= 4 and degseq[0] == 2 and degseq[-4] == degseq[-1] and degseq[-1] >= 5:
             return False
 
         # condition e: if all elements of D are even, then we must have n_2 >= n/3 + 1
-        if all(e % 2 == 0 for e in deg_seq) and n_2 < n / 3 + 1:
+        if all(e % 2 == 0 for e in degseq) and n_2 < n / 3 + 1:
             return False
 
         return True
