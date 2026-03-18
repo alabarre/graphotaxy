@@ -538,8 +538,8 @@ def is_auto_1444(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_locally_connected(graph: nx.Graph) -> bool:
     """
-    A graph G is locally connected iff for every vertex v , the open neighborhood N(v) of v
-    induces a connected graph in G.
+    A graph G is locally connected iff for every vertex v, the open neighborhood N(v) of v induces
+    a connected graph in G.
 
     Note that disconnected graphs can be locally connected (e.g. disjoint union of cliques).
 

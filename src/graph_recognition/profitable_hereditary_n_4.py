@@ -18,6 +18,8 @@ from itertools import combinations
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from networkx import connected_components
+from networkx.algorithms.matching import is_perfect_matching
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
@@ -27,8 +29,7 @@ from graph_recognition.misc_algo import (
     is_even_clique_free,
     is_even_co_clique_free,
     explicit_triangles,
-    co_connected_components,
-)
+    co_connected_components, is_connected, )
 from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_cograph,
@@ -61,6 +62,32 @@ from graph_recognition.recognizers_utils import (
     assign_class_id,
     assign_fisc,
 )
+
+
+# Auxiliary functions -----------------------------------------------------------------------------
+@lru_cache(maxsize=None)
+def maximum_matching(graph: nx.Graph) -> dict:
+    """
+    Returns a matching of maximum cardinality for the input graph.
+
+    Complexity: O(m+n) if graph is bipartite, O(n^3) otherwise. The function checks bipartiteness
+    and selects the right algorithm.
+
+    :param graph:
+    :return:
+    """
+    if not graph:
+        return dict()
+
+    if is_bipartite(graph):
+        # networkx's function crashes on disconnected graphs, so we can't simply return
+        # nx.bipartite.maximum_matching(graph)
+        result = dict()
+        for cc in connected_components(graph):
+            result.update(nx.bipartite.maximum_matching(graph.subgraph(cc)))
+        return result
+
+    return dict(nx.max_weight_matching(graph))
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -160,6 +187,15 @@ def is_claw_free(graph: nx.Graph) -> bool:
     if graph and degree_sequence(graph)[0] > 2 * graph.size() ** 0.5:
         return False
 
+    # every claw-free graph of even order has a perfect matching
+    # https://www.combinatorics.org/ojs/index.php/eljc/article/download/v13i1r59/pdf/, thm. 5 p. 4
+    # Note: they don't mention connectedness in this quoted result, but obviously it is required:
+    # otherwise, we can simply add singletons, which by definition cannot be paired, and
+    if is_connected(graph) and not graph.number_of_nodes() % 2 and not is_perfect_matching(graph,
+                                                                                           maximum_matching(graph)):
+        return False
+
+    # no way around it: check membership
     # for each vertex u, check whether u and any 3 of its neighbors induce a claw
     claw_deg_seq = array("b", [3, 1, 1, 1])
     return all(
@@ -220,9 +256,9 @@ def is_hole_free(graph: nx.Graph) -> bool:
         in_path[u] = True
         for v, w in graph.edges:
             if (
-                graph.has_edge(u, v)
-                and not graph.has_edge(u, w)
-                and not not_in_hole[(u, v, w)]
+                    graph.has_edge(u, v)
+                    and not graph.has_edge(u, w)
+                    and not not_in_hole[(u, v, w)]
             ):
                 in_path[v] = True
                 if process(u, v, w):
@@ -437,7 +473,7 @@ def is_claw_free_and_locally_connected(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return is_claw_free(graph) and is_locally_connected(graph)
+    return is_locally_connected(graph) and is_claw_free(graph)
 
 
 # the fisc will be obtained through calls to constituent class recognizers
@@ -647,10 +683,10 @@ def is_auto_1501(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-        is_co_diamond_free(graph)
-        and is_co_claw_free(graph)
-        and is_2k2_free(graph)
-        and is_4k1_free(graph)
+            is_co_diamond_free(graph)
+            and is_co_claw_free(graph)
+            and is_2k2_free(graph)
+            and is_4k1_free(graph)
     )
 
 
@@ -844,8 +880,7 @@ def is_anti_hole_free(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_hole_free(complement(graph.subgraph(cc)))
-        for cc in co_connected_components(graph)
+        is_hole_free(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 

@@ -640,3 +640,5 @@ def enumerate_all_p4s(graph: nx.Graph) -> Generator:
         p4_candidates = set(e + f)
         if len(p4_candidates) == 4 and degree_sequence(graph.subgraph(p4_candidates)) == p4_degseq:
             yield p4_candidates
+
+
