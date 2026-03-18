@@ -192,13 +192,14 @@ class SubgraphMatcher:
         # """
 
         # 2b) try profitable hereditary recognizers but only O(n) ones
-        '''
+        # NOTE: commenting this until I figure out why many unit tests fail when I activate it
+        #'''
         if any(
                 recognizer(self._graph) and not recognizer(pattern)
                 for recognizer in graph_recognition.profitable_hereditary_n.RECOGNIZERS.values()
         ):
             return False
-        '''
+        #'''
 
         # *****************************************************************************************
         # * 3) if none of the above worked, call the solver                                       *

@@ -1,4 +1,4 @@
-"""Anthony Labarre © 2023-2025
+"""Anthony Labarre © 2023-2026
 
 This file contains recognizers for profitable hereditary classes, i.e. classes that admit a
 forbidden induced subgraph characterization, but can be recognized with a faster-than-naïve
@@ -105,7 +105,9 @@ def is_tree(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return nx.is_tree(graph)
+    # artificially deciding that a graph without any node is a tree in order to avoid crashes when
+    # function is called on empty subgraphs
+    return not graph.number_of_nodes() or nx.is_tree(graph)
 
 
 @assign_fisc(["P_{3}"])
