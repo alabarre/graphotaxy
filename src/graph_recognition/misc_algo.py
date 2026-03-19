@@ -185,40 +185,6 @@ def number_of_common_neighbours(graph: nx.Graph, u: Any, v: Any) -> int:
     return sum(1 for _ in nx.common_neighbors(graph, u, v))
 
 
-@lru_cache(maxsize=None)
-def dominates(graph: nx.Graph, a: Any, b: Any) -> bool:
-    """
-    Returns True iff a dominates b, i.e. if the neighborhood of a contains the neighborhood of
-    b (excluding a).
-
-    :param b:
-    :param a:
-    :type graph: nx.Graph
-    """
-    return set(graph[b]) - {a} <= set(graph[a])
-
-
-@lru_cache(maxsize=None)
-def has_dominating_set_of_size_at_most_2(graph: nx.Graph) -> bool:
-    """
-    Return True if graph has a dominating set of size <= 2, False otherwise.
-
-    :param graph:
-    :return:
-    """
-    # if there is a dominating vertex, say yes
-    if degree_sequence(graph)[0] == graph.number_of_nodes() - 1:
-        return True
-
-    # if there is a pair of dominating vertices, say yes
-    all_nodes = set(graph)
-    return any(
-        # x, y is a dominating pair if {x, y} U N(x) U N(y) = G.nodes
-        {x}.union({y}).union(graph[x]).union(graph[y]) == all_nodes
-        for x, y in combinations(graph, 2)
-    )
-
-
 # Functions for recognizing a graph by repeatedly removing edges ----------------------------------
 @lru_cache(maxsize=None)
 def empty_graph_by_removing_edges_and_incident_edges(graph: nx.Graph, criterion: Callable) -> bool:

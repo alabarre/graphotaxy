@@ -190,9 +190,10 @@ def is_claw_free(graph: nx.Graph) -> bool:
     # every claw-free graph of even order has a perfect matching
     # https://www.combinatorics.org/ojs/index.php/eljc/article/download/v13i1r59/pdf/, thm. 5 p. 4
     # Note: they don't mention connectedness in this quoted result, but obviously it is required:
-    # otherwise, we can simply add singletons, which by definition cannot be paired, and
-    if is_connected(graph) and not graph.number_of_nodes() % 2 and not is_perfect_matching(graph,
-                                                                                           maximum_matching(graph)):
+    # otherwise, we can simply add singletons, which by definition cannot be paired
+    if is_connected(graph) and not graph.number_of_nodes() % 2 and not is_perfect_matching(
+            graph, maximum_matching(graph)
+    ):
         return False
 
     # no way around it: check membership
@@ -202,6 +203,8 @@ def is_claw_free(graph: nx.Graph) -> bool:
         degree_sequence(graph.subgraph({u, v, w, x})) != claw_deg_seq
         for u in graph
         for v, w, x in combinations(graph[u], 3)
+        # discarding vertices whose neighborhood is not independent seems to speed things up
+        if not graph.has_edge(v, w) and not graph.has_edge(w, x) and not graph.has_edge(v, x)
     )
 
 
@@ -519,8 +522,9 @@ def is_c4_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # computing girth takes too long for large graphs, let's try the naive algo, except we iterate
-    # over pairs of edges instead of all 4-tuples of vertices
+    if nx.girth(graph) > 4:
+        return True
+
     c4_deg_seq = array("b", [2, 2, 2, 2])
     # note: the following might contain sets of size 3, but it's probably faster *not* to check
     # their size

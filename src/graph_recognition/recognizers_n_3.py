@@ -19,12 +19,12 @@ import networkx as nx
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     complement,
-    dominates,
     empty_graph_by_removing_vertices,
     all_pairs_shortest_path_length,
     is_connected,
     degree_sequence, co_connected_components,
 )
+from graph_recognition.domination import dominates
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
     is_bipartite,

@@ -20,12 +20,12 @@ import networkx as nx
 from graph_recognition.misc_algo import (
     degree_sequence,
     complement,
-    has_dominating_set_of_size_at_most_2,
     empty_graph_by_removing_vertices,
     is_connected,
     enumerate_all_p4s,
     co_connected_components, number_of_common_neighbours,
 )
+from graph_recognition.domination import has_dominating_set_of_size_at_most_2
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
     is_bipartite,
