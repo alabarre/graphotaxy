@@ -16,6 +16,7 @@ from typing import Any, Iterator
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+from graph_recognition.domination import dominates
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     complement,
@@ -24,7 +25,6 @@ from graph_recognition.misc_algo import (
     is_connected,
     degree_sequence, co_connected_components,
 )
-from graph_recognition.domination import dominates
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
     is_bipartite,
@@ -505,6 +505,21 @@ def is_bipartite_and_girth_at_least9_and_maximum_degree3_and_planar(graph: nx.Gr
     )
 
 
+@lru_cache(maxsize=None)
+def distance(graph: nx.Graph, pair: frozenset) -> int:
+    """
+    Returns the distance between two vertices in a graph.
+
+    I use a pair of vertices as a frozenset so I can lru_cache the function and have the same
+    answer available for (u, v) and (v, u).
+
+    :param pair: the two vertices to query
+    :param graph:
+    :return:
+    """
+    return int(nx.shortest_path_length(graph, *pair))
+
+
 @assign_class_id("gc_222")
 @lru_cache(maxsize=None)
 def is_weakly_modular(graph: nx.Graph) -> bool:
@@ -539,7 +554,7 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
     # Note: the second definition yields a faster algorithm, but currently fails on my test data
     # sets, so either my implementation is wrong or the paper is. Let us settle for definition 1)
     # for now
-    distances = all_pairs_shortest_path_length(graph)
+    # distances = all_pairs_shortest_path_length(graph)
     intervals = vertices_on_shortest_paths(graph)
     for cc in nx.connected_components(graph):
         for u, v, w in combinations(cc, 3):
@@ -551,7 +566,7 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
                     and intervals[f_u_w] & intervals[f_v_w] == {w}
             ):
                 # do all vertices in I(v, w) have the same distance to u?
-                if len({distances[x][u] for x in intervals[f_v_w]}) != 1:
+                if len({distance(graph, frozenset([x, u])) for x in intervals[f_v_w]}) != 1:
                     return False
 
     return True

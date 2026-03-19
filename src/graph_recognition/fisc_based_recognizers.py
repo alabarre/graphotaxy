@@ -9,13 +9,14 @@ patterns. Additionally, every pattern in a given set will be examined by increas
 For now, only "fixed" subgraphs are taken into account. This excludes general configurations like
 C_{n+4}, XC, XZ, ...
 
+Unless you have a much better recognition algorithm than exhaustive search, calling is_h_free is
+usually much faster.
+
 """
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import os
-from array import array
 from functools import lru_cache
-from itertools import combinations
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -37,7 +38,6 @@ from graph_recognition.profitable_hereditary_n import (
     is_split,
     is_p3_free,
     is_2k2_free,
-    is_bipartite,
 )
 from graph_recognition.profitable_hereditary_n_2 import (
     is_co_diamond_free,
@@ -166,21 +166,7 @@ def is_p_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # for each C_{4}, check if one of the adjacent vertices yields a P
-    c4_deg_seq = array('b', [2, 2, 2, 2])
-    p_deg_seq = array('b', [3, 2, 2, 2, 1])
-    for e, f in combinations(graph.edges, 2):
-        vertices = set(e + f)
-        if degree_sequence(graph.subgraph(vertices)) == c4_deg_seq:
-            # found a C_{4}, let's now check if some vertex adjacent to vertices can give us a P
-            for u in vertices:
-                for v in set(graph[u]) - vertices:
-                    candidate = graph.subgraph(vertices | {v})
-                    if degree_sequence(candidate) == p_deg_seq and is_bipartite(
-                            candidate
-                    ):
-                        return False
-    return True
+    return is_h_free(graph, ["P"])
 
 
 @assign_fisc(["co(P)"])
@@ -2034,7 +2020,7 @@ def is_c6_free(graph: nx.Graph) -> bool:
 
     See https://www.graphclasses.org/classes/gc_436
 
-    Complexity: O(m^3) <= O(n^6) (naïve)
+    Complexity of naïve matching: O(n^6)
 
     :type graph: networkx.Graph
     """
@@ -2055,6 +2041,7 @@ def is_auto_224(graph: nx.Graph) -> bool:
     See https://www.graphclasses.org/classes/AUTO_224
 
     Complexity of naïve matching: O(n^6)
+
     :type graph: networkx.Graph
     """
     return is_h_free(graph, ["co(2P_{3})"])

@@ -598,13 +598,11 @@ def enumerate_all_p4s(graph: nx.Graph) -> Generator:
     :param graph:
     :return:
     """
-    # P_4 can be recognized using its degree sequence
-    p4_degseq = array('b', [2, 2, 1, 1])
     # in order to go through fewer subsets, don't examine every 4-subset of vertices; instead,
     # examine all pairs of edges
     for e, f in combinations(graph.edges, 2):
         p4_candidates = set(e + f)
-        if len(p4_candidates) == 4 and degree_sequence(graph.subgraph(p4_candidates)) == p4_degseq:
+        # if set has 4 elements, then e and f are independent, so checking whether they induce a
+        # P_{4} is equivalent to checking that the subgraph has exactly 3 edges
+        if len(p4_candidates) == 4 and graph.subgraph(p4_candidates).size() == 3:
             yield p4_candidates
-
-

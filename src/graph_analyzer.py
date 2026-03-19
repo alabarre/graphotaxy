@@ -16,6 +16,8 @@ To use a GraphAnalyzer:
 # ----- Standard imports --------------------------------------------------------------------------
 import subprocess
 import sys
+import threading
+import time
 import urllib
 from collections import defaultdict, OrderedDict
 from copy import deepcopy
@@ -26,7 +28,6 @@ from typing import Callable, Iterable, Set, List
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
-from cupy import positive
 from tqdm import tqdm
 
 # ----- My imports --------------------------------------------------------------------------------
@@ -80,6 +81,8 @@ class GraphAnalyzer:
         self.equivalences = isgci_equivalences()
         self.recognizers = OrderedDict()
         self.setup_recognizers()
+        self.active_progress_bars = []
+        self.stop_refresh = False
 
     # Methods related to recognizers --------------------------------------------------------------
     def get_recognizer(self, class_id: str) -> Callable:
@@ -154,6 +157,8 @@ class GraphAnalyzer:
             unit=" graph",
             total=num_graphs,
         )
+        self.active_progress_bars.append(main_pbar)
+
         # record functions whose caches need to be cleared and which are not recognizers; these
         # include all such functions defined in the graph_recognition module
         other_caches_to_clear = set.union(*(
@@ -161,6 +166,8 @@ class GraphAnalyzer:
             for module in listdir("graph_recognition") if module.endswith(".py")
         ))
         # finally, start the analysis
+        # set up a thread to refresh progress bars when nothing seems to be happening
+        threading.Thread(target=self._auto_refresh, daemon=True).start()
         for graph in main_pbar:
             # create classification for current graph
             self.classification = deepcopy(self.prototype_classification_digraph)
@@ -171,6 +178,9 @@ class GraphAnalyzer:
                 leave=False,
                 unit=" recognizer",
             )
+
+            self.active_progress_bars.append(pbar)
+
             called_recognizers = set()
             for class_id, function in pbar:
                 pbar.set_description("".join(["    ", BASE_CLASS_URL, class_id, " "]))
@@ -191,13 +201,15 @@ class GraphAnalyzer:
             if self.gss_crashed:
                 print("[WARNING] the glasgow subgraph or clique solver crashed")
             self.num_graphs += 1
-
             # the corresponding cached data is no longer needed, so we clear the caches of:
             hits, misses = clear_function_caches(called_recognizers)  # all called recognizers
             self.hits_and_misses["hits"] += hits
             self.hits_and_misses["misses"] += misses
             clear_subgraph_cache(graph)  # everything related to subgraph matching
             clear_function_caches(other_caches_to_clear)  # and all other cached functions
+            self.active_progress_bars.pop()
+
+        self.stop_refresh = True
 
     def recognize_graph_and_propagate_results(
             self,
@@ -357,6 +369,18 @@ class GraphAnalyzer:
         self.scope.update(only_ids)
 
     # Other helpful methods -----------------------------------------------------------------------
+    def _auto_refresh(self, interval: int = 1) -> None:
+        """
+        Refreshes progress bars.
+
+        :param interval:
+        :return:
+        """
+        while not self.stop_refresh:
+            time.sleep(interval)
+            for p in self.active_progress_bars:
+                p.refresh()
+
     def _get_stored_class_id(self, class_id: str) -> str:
         """
         Returns the class id stored in the classification graph that is equivalent to the given
