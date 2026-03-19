@@ -247,6 +247,10 @@ def is_co_gem_free(graph: nx.Graph) -> bool:
     Complexity: O(n^2) < O(n^5) (naïve)
     :type graph: networkx.Graph
     """
+    # if graph has no P_{4}, then it has no P_{4} U K_{1}
+    if is_cograph(graph):
+        return True
+
     # improved algorithm: G is co-gem-free iff G - ({u} U N(u)) is P_4-free for every vertex v
     return is_h_u_k1_free(graph, is_cograph)
 

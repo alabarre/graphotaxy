@@ -62,6 +62,7 @@ from graph_recognition.recognizers_utils import (
     assign_class_id,
     assign_fisc,
 )
+from graph_recognition.subgraphs import is_h_free
 
 
 # Auxiliary functions -----------------------------------------------------------------------------
@@ -525,13 +526,8 @@ def is_c4_free(graph: nx.Graph) -> bool:
     if nx.girth(graph) > 4:
         return True
 
-    c4_deg_seq = array("b", [2, 2, 2, 2])
-    # note: the following might contain sets of size 3, but it's probably faster *not* to check
-    # their size
-    return all(
-        degree_sequence(graph.subgraph(set(e + f))) != c4_deg_seq
-        for e, f in combinations(graph.edges, 2)
-    )
+    return is_h_free(graph, ["C_{4}"])
+
 
 
 @assign_class_id("AUTO_1500")

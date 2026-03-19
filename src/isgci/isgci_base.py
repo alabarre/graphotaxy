@@ -27,10 +27,9 @@ import os.path
 from collections import defaultdict
 from datetime import datetime
 from itertools import product
-from os import scandir
+from os import scandir, rename
 from os.path import basename, exists, join, isdir
 from pathlib import Path
-from shutil import rmtree
 from sys import stdout
 from textwrap import fill
 from typing import DefaultDict, List
@@ -121,7 +120,8 @@ def download_isgci(target_dir: str) -> None:
     if target_dir != ISGCI_DIR:
         target_dir = join(target_dir, basename(ISGCI_DIR))
 
-    # if target_dir exists, remove it to avoid building a corrupted db by mixing old and new files
+    # if target_dir exists, move it out of the way to avoid building a corrupted db by mixing old
+    # and new files
     if isdir(target_dir):
         print(
             fill(
@@ -130,7 +130,10 @@ def download_isgci(target_dir: str) -> None:
                 width=80,
             )
         )
-        rmtree(target_dir)
+        rename(
+            target_dir,
+            "".join([target_dir, ".BAK.", datetime.today().strftime("%Y-%m-%d-at-%H:%M:%S")])
+        )
 
     Path(target_dir).mkdir(exist_ok=True)
 

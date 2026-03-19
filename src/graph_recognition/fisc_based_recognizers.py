@@ -20,6 +20,7 @@ from itertools import combinations
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+from graph_recognition.domination import has_dominating_set_of_size_at_most_2, has_dominating_triangle_or_p3
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     is_h_u_k1_free,
@@ -29,8 +30,7 @@ from graph_recognition.misc_algo import (
     is_odd_co_clique_free,
     must_contain_a_clique_of_size,
     degree_sequence,
-    must_contain_an_independent_set_of_size, enumerate_all_p4s, is_connected, )
-from graph_recognition.domination import has_dominating_set_of_size_at_most_2, has_dominating_triangle_or_p3
+    must_contain_an_independent_set_of_size, is_connected, )
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
     is_p3_triangle_free,
@@ -217,13 +217,7 @@ def is_c5_free(graph: nx.Graph) -> bool:
     if is_cograph(graph):
         return True
 
-    c5_deg_seq = array('b', [2, 2, 2, 2, 2])
-    for p4 in enumerate_all_p4s(graph):
-        for v in graph.nodes:
-            if v not in p4 and degree_sequence(graph.subgraph(p4.union({v}))) == c5_deg_seq:
-                return False
-
-    return True
+    return is_h_free(graph, ["C_{5}"])
 
 
 @assign_fisc(["P_{5}"])
@@ -2029,6 +2023,27 @@ def is_6k1_free(graph: nx.Graph) -> bool:
         return False
 
     return is_h_free(graph, ["6K_{1}"])
+
+
+@assign_fisc(["C_{6}"])
+@assign_class_id("gc_436")
+@lru_cache(maxsize=None)
+def is_c6_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is C_{6}-free.
+
+    See https://www.graphclasses.org/classes/gc_436
+
+    Complexity: O(m^3) <= O(n^6) (naïve)
+
+    :type graph: networkx.Graph
+    """
+    # if graph has a C_6 then it has a P_4, so if graph is a cograph it has no P_4 and therefore no
+    # C_6
+    if is_cograph(graph):
+        return True
+
+    return is_h_free(graph, ["C_{6}"])
 
 
 @assign_class_id("AUTO_224")
