@@ -8,7 +8,7 @@ Algorithms related to domination in graphs.
 # ----- Standard imports --------------------------------------------------------------------------
 from functools import lru_cache
 from itertools import combinations
-from typing import Any
+from typing import Any, Iterable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 from networkx import Graph
@@ -31,6 +31,20 @@ def dominates(graph: Graph, a: Any, b: Any) -> bool:
 
 
 @lru_cache(maxsize=None)
+def is_dominating_set(graph: Graph, vset: Iterable) -> bool:
+    """
+    Returns True if vset is a dominating set for graph, False otherwise.
+
+    :param graph:
+    :param vset:
+    :return:
+    """
+    # vset is a dominating set for graph iff the union of vset's elements and their neighborhoods
+    # is the whole vertex set
+    return set.union(*({v}.union(graph[v]) for v in vset)) == set(graph)
+
+
+@lru_cache(maxsize=None)
 def has_dominating_set_of_size_at_most_2(graph: Graph) -> bool:
     """
     Return True if graph has a dominating set of size <= 2, False otherwise.
@@ -43,9 +57,20 @@ def has_dominating_set_of_size_at_most_2(graph: Graph) -> bool:
         return True
 
     # if there is a pair of dominating vertices, say yes
-    all_nodes = set(graph)
+    return any(is_dominating_set(graph, pair) for pair in combinations(graph, 2))
+
+
+@lru_cache(maxsize=None)
+def has_dominating_triangle_or_p3(graph: Graph) -> bool:
+    """
+    Return True if graph has a dominating set of size 3 that induces a K_{3} or a P_{3}, False
+    otherwise.
+
+    :param graph:
+    :return:
+    """
+    # a triplet induces a P_{3} or a K_{3} if it has at least two edges
     return any(
-        # x, y is a dominating pair if {x, y} U N(x) U N(y) = G.nodes
-        {x}.union({y}).union(graph[x]).union(graph[y]) == all_nodes
-        for x, y in combinations(graph, 2)
+        is_dominating_set(graph, triplet) for triplet in combinations(graph, 3)
+        if graph.subgraph(triplet).size() >= 2
     )

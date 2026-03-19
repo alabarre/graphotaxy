@@ -30,7 +30,7 @@ from graph_recognition.misc_algo import (
     must_contain_a_clique_of_size,
     degree_sequence,
     must_contain_an_independent_set_of_size, enumerate_all_p4s, is_connected, )
-from graph_recognition.domination import has_dominating_set_of_size_at_most_2
+from graph_recognition.domination import has_dominating_set_of_size_at_most_2, has_dominating_triangle_or_p3
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
     is_p3_triangle_free,
@@ -243,13 +243,13 @@ def is_p5_free(graph: nx.Graph) -> bool:
     if is_cograph(graph):
         return True
 
-    # TODO every connected P_{5}-free graph has a dominating clique of size <= 3 or a dominating P_{3}
-    #   see https://doi.org/10.4230/LIPIcs.ISAAC.2017.16 page 16:4
-    #   this can be checked faster than the call below, so it's worth including
-    """
-    if is_connected(graph):
-        if not has_dominating_set_of_size_at_most_2(graph): TODO finish; domination.py module?
-    """
+    # every connected P_{5}-free graph has a dominating clique of size <= 3 or a dominating P_{3}
+    # see https://doi.org/10.4230/LIPIcs.ISAAC.2017.16 page 16:4
+    if is_connected(graph) and (
+            not has_dominating_set_of_size_at_most_2(graph) or
+            not has_dominating_triangle_or_p3(graph)
+    ):
+        return False
 
     return is_h_free(graph, ["P_{5}"])
 
