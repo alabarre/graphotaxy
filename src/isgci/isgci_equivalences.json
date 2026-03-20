@@ -197,12 +197,12 @@
     "AUTO_2076": [],
     "AUTO_2077": [
         [
-            "absolutely perfect\n\n",
-            "gc_146"
-        ],
-        [
             "co-chordal\n\n",
             "gc_145"
+        ],
+        [
+            "absolutely perfect\n\n",
+            "gc_146"
         ]
     ],
     "AUTO_2079": [],
@@ -253,20 +253,20 @@
     "AUTO_2125": [],
     "AUTO_2126": [
         [
-            "comparability graphs of semiorders\n\n",
-            "gc_159"
-        ],
-        [
-            "co-chordal \u2229 superperfect\n\n",
-            "gc_559"
-        ],
-        [
             "co-interval\n\n",
             "gc_157"
         ],
         [
             "co-chordal \u2229 comparability\n\n",
             "gc_158"
+        ],
+        [
+            "comparability graphs of semiorders\n\n",
+            "gc_159"
+        ],
+        [
+            "co-chordal \u2229 superperfect\n\n",
+            "gc_559"
         ]
     ],
     "AUTO_2127": [],
@@ -415,57 +415,61 @@
     "AUTO_3313": [],
     "AUTO_3585": [
         [
-            "co-comparability \u2229 comparability\n\n",
-            "gc_286"
-        ],
-        [
             "permutation\n\n",
             "gc_23"
         ],
         [
+            "circle graph with equator\n\n",
+            "gc_285"
+        ],
+        [
             "containment graph of intervals\n\n",
             "gc_288"
+        ],
+        [
+            "co-comparability \u2229 comparability\n\n",
+            "gc_286"
+        ],
+        [
+            "comparability graphs of dimension 2 posets\n\n",
+            "gc_287"
         ],
         [
             "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd-hole)-free\n\n",
             "AUTO_3594"
-        ],
-        [
-            "circle graph with equator\n\n",
-            "gc_285"
-        ],
-        [
-            "comparability graphs of dimension 2 posets\n\n",
-            "gc_287"
         ]
     ],
     "AUTO_3594": [
         [
-            "co-comparability \u2229 comparability\n\n",
-            "gc_286"
-        ],
-        [
-            "circle graph with equator\n\n",
-            "gc_285"
-        ],
-        [
-            "permutation\n\n",
-            "gc_23"
+            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd\n\n",
+            "AUTO_3585"
         ],
         [
             "containment graph of intervals\n\n",
             "gc_288"
         ],
         [
-            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd anti-hole)-free\n\n",
-            "AUTO_3585"
+            "co-comparability \u2229 comparability\n\n",
+            "gc_286"
         ],
         [
             "comparability graphs of dimension 2 posets\n\n",
             "gc_287"
+        ],
+        [
+            "permutation\n\n",
+            "gc_23"
+        ],
+        [
+            "circle graph with equator\n\n",
+            "gc_285"
         ]
     ],
     "AUTO_3602": [
+        [
+            "P_{4}-lite\n\n",
+            "gc_12"
+        ],
         [
             "C_{5}-free \u2229 P_{4}-tidy\n\n",
             "gc_13"
@@ -473,17 +477,17 @@
         [
             "P_{4}-tidy \u2229 perfect\n\n",
             "gc_962"
-        ],
-        [
-            "P_{4}-lite\n\n",
-            "gc_12"
         ]
     ],
     "AUTO_3653": [],
     "AUTO_3683": [],
     "AUTO_3686": [
         [
-            "(C_{5},S_{3},co(3K_{2}),co(P_{2} U P_{4}))-free \u2229 P_{4}-tidy\n\n",
+            "P_{4}-tidy \u2229 hereditary clique-Helly \u2229 perfect\n\n",
+            "gc_959"
+        ],
+        [
+            "(C_{5},S_{3},co(3K_{2}),co(P_{2} U P_{4}))-free\n\n",
             "gc_961"
         ],
         [
@@ -493,10 +497,6 @@
         [
             "P_{4}-tidy \u2229 (S_{3},co(3K_{2}),co(E),co(P_{2} U P_{4}),odd anti-hole,odd-\nhole)-free\n\n",
             "AUTO_768"
-        ],
-        [
-            "P_{4}-tidy \u2229 hereditary clique-Helly \u2229 perfect\n\n",
-            "gc_959"
         ]
     ],
     "AUTO_3700": [],
@@ -514,8 +514,8 @@
     "AUTO_526": [],
     "AUTO_726": [
         [
-            "S_{3}-free \u2229 chordal\n\n",
-            "gc_29"
+            "hereditary disk-Helly\n\n",
+            "gc_795"
         ],
         [
             "C_{4}-free \u2229 induced-hereditary pseudo-modular\n\n",
@@ -526,8 +526,8 @@
             "gc_793"
         ],
         [
-            "hereditary disk-Helly\n\n",
-            "gc_795"
+            "S_{3}-free \u2229 chordal\n\n",
+            "gc_29"
         ],
         [
             "hereditary Helly\n\n",
@@ -536,22 +536,22 @@
     ],
     "AUTO_727": [
         [
-            "\u03c4_{k}-perfect for all k >= 2\n\n",
-            "gc_35"
-        ],
-        [
             "(S_{3},net)-free \u2229 chordal\n\n",
             "gc_34"
+        ],
+        [
+            "\u03c4_{k}-perfect for all k >= 2\n\n",
+            "gc_35"
         ]
     ],
     "AUTO_728": [
         [
-            "chordal \u2229 neighbourhood perfect\n\n",
-            "gc_130"
-        ],
-        [
             "chordal \u2229 odd-sun-free\n\n",
             "gc_36"
+        ],
+        [
+            "chordal \u2229 neighbourhood perfect\n\n",
+            "gc_130"
         ],
         [
             "balanced \u2229 chordal\n\n",
@@ -574,20 +574,20 @@
             "gc_593"
         ],
         [
-            "independent module-composed\n\n",
-            "gc_835"
+            "(6,2)-chordal \u2229 bipartite\n\n",
+            "gc_78"
         ],
         [
-            "bipartite \u2229 module-composed\n\n",
-            "gc_836"
+            "independent module-composed\n\n",
+            "gc_835"
         ],
         [
             "bipartite \u2229 distance-hereditary\n\n",
             "gc_77"
         ],
         [
-            "(6,2)-chordal \u2229 bipartite\n\n",
-            "gc_78"
+            "bipartite \u2229 module-composed\n\n",
+            "gc_836"
         ]
     ],
     "AUTO_732": [
@@ -596,12 +596,12 @@
             "gc_119"
         ],
         [
-            "(6,1)-chordal \u2229 bipartite\n\n",
-            "gc_117"
-        ],
-        [
             "(hole,odd-cycle)-free\n\n",
             "AUTO_773"
+        ],
+        [
+            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
+            "gc_115"
         ],
         [
             "bipartite \u2229 weakly chordal\n\n",
@@ -612,8 +612,8 @@
             "gc_118"
         ],
         [
-            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
-            "gc_115"
+            "(6,1)-chordal \u2229 bipartite\n\n",
+            "gc_117"
         ],
         [
             "chordal bipartite\n\n",
@@ -648,50 +648,50 @@
     ],
     "AUTO_737": [
         [
-            "chordal \u2229 unit circular arc\n\n",
-            "gc_381"
+            "claw-free \u2229 interval\n\n",
+            "gc_301"
         ],
         [
             "(S_{3},claw,net)-free \u2229 chordal\n\n",
             "gc_300"
         ],
         [
-            "indifference\n\n",
-            "gc_555"
-        ],
-        [
-            "proper interval\n\n",
-            "gc_298"
-        ],
-        [
-            "unit interval\n\n",
-            "gc_299"
+            "chordal \u2229 unit circular arc\n\n",
+            "gc_381"
         ],
         [
             "linear interval\n\n",
             "gc_1356"
         ],
         [
+            "indifference\n\n",
+            "gc_555"
+        ],
+        [
             "clique graphs of interval\n\n",
             "gc_1046"
         ],
         [
-            "claw-free \u2229 interval\n\n",
-            "gc_301"
+            "proper interval\n\n",
+            "gc_298"
         ],
         [
             "astral triple-free\n\n",
             "gc_302"
+        ],
+        [
+            "unit interval\n\n",
+            "gc_299"
         ]
     ],
     "AUTO_738": [
         [
-            "ptolemaic\n\n",
-            "gc_95"
-        ],
-        [
             "chordal \u2229 distance-hereditary\n\n",
             "gc_306"
+        ],
+        [
+            "ptolemaic\n\n",
+            "gc_95"
         ],
         [
             "chordal \u2229 gem-free\n\n",
@@ -700,16 +700,16 @@
     ],
     "AUTO_739": [
         [
-            "strongly chordal\n\n",
-            "gc_125"
+            "hereditary dually chordal\n\n",
+            "gc_318"
         ],
         [
             "chordal \u2229 sun-free\n\n",
             "gc_317"
         ],
         [
-            "hereditary dually chordal\n\n",
-            "gc_318"
+            "strongly chordal\n\n",
+            "gc_125"
         ]
     ],
     "AUTO_740": [
@@ -725,10 +725,6 @@
         ]
     ],
     "AUTO_743": [
-        [
-            "(P_{5},co(C_{6}))-free \u2229 weakly chordal\n\n",
-            "gc_679"
-        ],
         [
             "P_{5}-free \u2229 weakly chordal\n\n",
             "gc_844"
@@ -794,26 +790,26 @@
     ],
     "AUTO_754": [
         [
-            "chordal \u2229 domino\n\n",
-            "gc_580"
-        ],
-        [
             "line graphs of acyclic multigraphs\n\n",
             "gc_710"
         ],
         [
             "AC\n\n",
             "gc_384"
+        ],
+        [
+            "chordal \u2229 domino\n\n",
+            "gc_580"
         ]
     ],
     "AUTO_755": [
         [
-            "(P_{5},bull)-free \u2229 interval\n\n",
-            "gc_573"
-        ],
-        [
             "homogeneously representable\n\n",
             "gc_571"
+        ],
+        [
+            "(P_{5},bull)-free \u2229 interval\n\n",
+            "gc_573"
         ]
     ],
     "AUTO_756": [
@@ -875,20 +871,20 @@
     ],
     "AUTO_768": [
         [
-            "(C_{5},S_{3},XZ_{11},XZ_{12},XZ_{13},XZ_{14},XZ_{6},XZ_{7},XZ_{8},XZ_{9},co(3K_{2}),co(P_{2}\nU\nP_{4}),co(XZ_{11}),co(XZ_{12}),co(XZ_{13}),co(XZ_{14}),co(XZ_{6}),co(XZ_{7}),co(XZ_{8}),co(XZ_{9}))-free\n\n",
-            "AUTO_3686"
+            "P_{4}-tidy \u2229 hereditary clique-Helly \u2229 perfect\n\n",
+            "gc_959"
+        ],
+        [
+            "(C_{5},S_{3},co(3K_{2}),co(P_{2} U P_{4}))-free\n\n",
+            "gc_961"
         ],
         [
             "P_{4}-tidy \u2229 balanced\n\n",
             "gc_958"
         ],
         [
-            "P_{4}-tidy \u2229 hereditary clique-Helly \u2229 perfect\n\n",
-            "gc_959"
-        ],
-        [
-            "(C_{5},S_{3},co(3K_{2}),co(P_{2} U P_{4}))-free \u2229 P_{4}-tidy\n\n",
-            "gc_961"
+            "(C_{5},S_{3},XZ_{11},XZ_{12},XZ_{13},XZ_{14},XZ_{6},XZ_{7},XZ_{8},XZ_{9},co(3K_{2}),co(P_{2}\nU\nP_{4}),co(XZ_{11}),co(XZ_{12}),co(XZ_{13}),co(XZ_{14}),co(XZ_{6}),co(XZ_{7}),co(XZ_{8}),co(XZ_{9}))-free\n\n",
+            "AUTO_3686"
         ]
     ],
     "AUTO_77": [],
@@ -910,24 +906,24 @@
             "gc_119"
         ],
         [
-            "(6,1)-chordal \u2229 bipartite\n\n",
-            "gc_117"
-        ],
-        [
-            "bipartite \u2229 weakly chordal\n\n",
-            "gc_116"
+            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
+            "gc_115"
         ],
         [
             "(C_{n+6},odd-cycle)-free\n\n",
             "AUTO_732"
         ],
         [
+            "bipartite \u2229 weakly chordal\n\n",
+            "gc_116"
+        ],
+        [
             "hereditary perfect elimination bipartite\n\n",
             "gc_118"
         ],
         [
-            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
-            "gc_115"
+            "(6,1)-chordal \u2229 bipartite\n\n",
+            "gc_117"
         ],
         [
             "chordal bipartite\n\n",
@@ -968,23 +964,23 @@
     "AUTO_92": [],
     "gc_1": [
         [
-            "\u03b2-perfect \u2229 co-\u03b2-perfect\n\n",
-            "gc_990"
-        ],
-        [
             "pseudo-split\n\n",
             "gc_2"
+        ],
+        [
+            "\u03b2-perfect \u2229 co-\u03b2-perfect\n\n",
+            "gc_990"
         ]
     ],
     "gc_10": [],
     "gc_100": [
         [
-            "(C_{4},C_{5})-free \u2229 cop-win\n\n",
-            "gc_579"
-        ],
-        [
             "bridged\n\n",
             "gc_99"
+        ],
+        [
+            "(C_{4},C_{5})-free \u2229 cop-win\n\n",
+            "gc_579"
         ]
     ],
     "gc_1000": [],
@@ -1066,8 +1062,16 @@
     ],
     "gc_1013": [
         [
+            "proper interval bigraph\n\n",
+            "gc_882"
+        ],
+        [
             "AT-free \u2229 bipartite\n\n",
             "gc_82"
+        ],
+        [
+            "unit interval bigraph\n\n",
+            "gc_883"
         ],
         [
             "bipartite permutation\n\n",
@@ -1078,54 +1082,46 @@
             "gc_893"
         ],
         [
+            "bipartite \u2229 trapezoid\n\n",
+            "gc_1014"
+        ],
+        [
             "bipartite tolerance\n\n",
             "gc_602"
         ],
         [
+            "(T_{2},X_{2},X_{3},hole,triangle)-free\n\n",
+            "gc_531"
+        ]
+    ],
+    "gc_1014": [
+        [
             "proper interval bigraph\n\n",
             "gc_882"
+        ],
+        [
+            "AT-free \u2229 bipartite\n\n",
+            "gc_82"
         ],
         [
             "unit interval bigraph\n\n",
             "gc_883"
         ],
         [
-            "(T_{2},X_{2},X_{3},hole,triangle)-free\n\n",
-            "gc_531"
+            "bipartite permutation\n\n",
+            "gc_81"
         ],
-        [
-            "bipartite \u2229 trapezoid\n\n",
-            "gc_1014"
-        ]
-    ],
-    "gc_1014": [
         [
             "bipartite \u2229 bounded tolerance\n\n",
             "gc_1013"
         ],
         [
-            "AT-free \u2229 bipartite\n\n",
-            "gc_82"
-        ],
-        [
-            "bipartite permutation\n\n",
-            "gc_81"
-        ],
-        [
             "bipartite \u2229 co-comparability\n\n",
             "gc_893"
         ],
         [
             "bipartite tolerance\n\n",
             "gc_602"
-        ],
-        [
-            "proper interval bigraph\n\n",
-            "gc_882"
-        ],
-        [
-            "unit interval bigraph\n\n",
-            "gc_883"
         ],
         [
             "(T_{2},X_{2},X_{3},hole,triangle)-free\n\n",
@@ -1149,12 +1145,12 @@
     "gc_1019": [],
     "gc_102": [
         [
-            "(C_{4},C_{5})-free \u2229 Helly\n\n",
-            "gc_104"
-        ],
-        [
             "bridged \u2229 clique-Helly\n\n",
             "gc_103"
+        ],
+        [
+            "(C_{4},C_{5})-free \u2229 Helly\n\n",
+            "gc_104"
         ]
     ],
     "gc_1020": [],
@@ -1203,16 +1199,16 @@
     ],
     "gc_1029": [
         [
-            "3-tree \u2229 planar\n\n",
-            "gc_984"
+            "Apollonian network\n\n",
+            "gc_980"
         ],
         [
             "chordal \u2229 maximal planar\n\n",
             "gc_982"
         ],
         [
-            "Apollonian network\n\n",
-            "gc_980"
+            "3-tree \u2229 planar\n\n",
+            "gc_984"
         ]
     ],
     "gc_103": [
@@ -1236,7 +1232,7 @@
     "gc_1033": [],
     "gc_1034": [
         [
-            "(6-fan,C_{4} U P_{2},C_{5},C_{6} U K_{1},C_{7},K_{2} U K_{3},K_{2,3},P_{2} U\nP_{4},W_{4} U\nK_{1},W_{6},X_{132},X_{169},X_{176},X_{18},X_{197},X_{198},X_{199},X_{200},X_{201},X_{202},X_{35},X_{84},co(C_{4}\nU P_{2}),co(C_{6} U K_{1}),co(C_{7}),co(P_{2} U P_{4}),co(W_{4} U\nK_{1}),co(W_{6}),co(X_{132}),co(X_{169}),co(X_{176}),co(X_{18}),co(X_{197}),co(X_{198}),co(X_{199}),co(X_{200}),co(X_{201}),co(X_{35}),co(X_{84}),co(butterfly\nU K_{1}),butterfly U K_{1},co-6-fan,co-fish,fish)-free\n\n",
+            "(6-fan,C_{4} U P_{2},C_{5},C_{6} U K_{1},C_{7},K_{2} U K_{3},K_{2,3},P_{2}\n\n",
             "gc_1035"
         ]
     ],
@@ -1298,20 +1294,20 @@
     ],
     "gc_1043": [
         [
+            "(C_{n+4} U K_{1},S_{3},W_{4},W_{5},co(C_{6}),claw,net)-free\n\n",
+            "gc_1236"
+        ],
+        [
             "proper Helly circular arc\n\n",
             "gc_889"
         ],
         [
-            "claw-free \u2229 normal Helly circular arc\n\n",
-            "gc_1346"
-        ],
-        [
-            "(C_{n+4} U K_{1},S_{3},W_{4},co(odd-cycle U K_{1}),even anti-hole,net)-free\n\n",
+            "(C_{n+4} U K_{1},S_{3},W_{4},co(odd-cycle U K_{1}),even\n\n",
             "gc_890"
         ],
         [
-            "(C_{n+4} U K_{1},S_{3},W_{4},W_{5},co(C_{6}),claw,net)-free\n\n",
-            "gc_1236"
+            "claw-free \u2229 normal Helly circular arc\n\n",
+            "gc_1346"
         ]
     ],
     "gc_1044": [],
@@ -1323,40 +1319,40 @@
     ],
     "gc_1046": [
         [
-            "chordal \u2229 unit circular arc\n\n",
-            "gc_381"
+            "claw-free \u2229 interval\n\n",
+            "gc_301"
         ],
         [
             "(S_{3},claw,net)-free \u2229 chordal\n\n",
             "gc_300"
         ],
         [
-            "indifference\n\n",
-            "gc_555"
-        ],
-        [
-            "proper interval\n\n",
-            "gc_298"
-        ],
-        [
-            "unit interval\n\n",
-            "gc_299"
+            "chordal \u2229 unit circular arc\n\n",
+            "gc_381"
         ],
         [
             "linear interval\n\n",
             "gc_1356"
         ],
         [
+            "indifference\n\n",
+            "gc_555"
+        ],
+        [
             "(C_{n+4},S_{3},claw,net)-free\n\n",
             "AUTO_737"
         ],
         [
-            "claw-free \u2229 interval\n\n",
-            "gc_301"
+            "proper interval\n\n",
+            "gc_298"
         ],
         [
             "astral triple-free\n\n",
             "gc_302"
+        ],
+        [
+            "unit interval\n\n",
+            "gc_299"
         ]
     ],
     "gc_1047": [],
@@ -1372,16 +1368,16 @@
     ],
     "gc_1049": [
         [
-            "bounded multitolerance\n\n",
-            "gc_341"
+            "trapezoid\n\n",
+            "gc_59"
         ],
         [
             "co-comparability graphs of posets of interval dimension 2\n\n",
             "gc_340"
         ],
         [
-            "trapezoid\n\n",
-            "gc_59"
+            "bounded multitolerance\n\n",
+            "gc_341"
         ]
     ],
     "gc_105": [
@@ -1435,16 +1431,16 @@
     "gc_106": [],
     "gc_1060": [
         [
-            "B_{k}-VPG\n\n",
-            "gc_1061"
-        ],
-        [
             "k-SEG\n\n",
             "gc_1203"
         ],
         [
             "string\n\n",
             "gc_741"
+        ],
+        [
+            "B_{k}-VPG\n\n",
+            "gc_1061"
         ]
     ],
     "gc_1061": [
@@ -1480,12 +1476,12 @@
             "gc_740"
         ],
         [
-            "PURE-2-DIR\n\n",
-            "gc_867"
-        ],
-        [
             "bipartite \u2229 boxicity 2\n\n",
             "gc_743"
+        ],
+        [
+            "PURE-2-DIR\n\n",
+            "gc_867"
         ]
     ],
     "gc_1067": [
@@ -1506,22 +1502,6 @@
     "gc_1071": [],
     "gc_1072": [
         [
-            "chordal \u2229 cograph\n\n",
-            "gc_344"
-        ],
-        [
-            "trivially perfect\n\n",
-            "gc_327"
-        ],
-        [
-            "comparability graphs of arborescence orders\n\n",
-            "gc_346"
-        ],
-        [
-            "intersection graph of nested intervals\n\n",
-            "gc_347"
-        ],
-        [
             "quasi-threshold\n\n",
             "gc_781"
         ],
@@ -1532,6 +1512,22 @@
         [
             "(C_{4},P_{4})-free\n\n",
             "gc_343"
+        ],
+        [
+            "trivially perfect\n\n",
+            "gc_327"
+        ],
+        [
+            "intersection graph of nested intervals\n\n",
+            "gc_347"
+        ],
+        [
+            "comparability graphs of arborescence orders\n\n",
+            "gc_346"
+        ],
+        [
+            "chordal \u2229 cograph\n\n",
+            "gc_344"
         ]
     ],
     "gc_1073": [
@@ -1540,28 +1536,28 @@
             "gc_331"
         ],
         [
-            "co-interval \u2229 cograph \u2229 interval\n\n",
-            "gc_334"
-        ],
-        [
-            "comparability graphs of threshold orders\n\n",
-            "gc_332"
-        ],
-        [
-            "threshold\n\n",
-            "gc_328"
-        ],
-        [
-            "(2K_{2},C_{4},P_{4})-free\n\n",
-            "gc_329"
+            "Dilworth 1\n\n",
+            "gc_330"
         ],
         [
             "cograph \u2229 split\n\n",
             "gc_333"
         ],
         [
-            "Dilworth 1\n\n",
-            "gc_330"
+            "(2K_{2},C_{4},P_{4})-free\n\n",
+            "gc_329"
+        ],
+        [
+            "comparability graphs of threshold orders\n\n",
+            "gc_332"
+        ],
+        [
+            "co-interval \u2229 cograph \u2229 interval\n\n",
+            "gc_334"
+        ],
+        [
+            "threshold\n\n",
+            "gc_328"
         ]
     ],
     "gc_1074": [
@@ -1685,10 +1681,6 @@
             "gc_119"
         ],
         [
-            "(6,1)-chordal \u2229 bipartite\n\n",
-            "gc_117"
-        ],
-        [
             "(hole,odd-cycle)-free\n\n",
             "AUTO_773"
         ],
@@ -1703,6 +1695,10 @@
         [
             "hereditary perfect elimination bipartite\n\n",
             "gc_118"
+        ],
+        [
+            "(6,1)-chordal \u2229 bipartite\n\n",
+            "gc_117"
         ],
         [
             "chordal bipartite\n\n",
@@ -1749,24 +1745,24 @@
             "gc_119"
         ],
         [
-            "(6,1)-chordal \u2229 bipartite\n\n",
-            "gc_117"
-        ],
-        [
             "(hole,odd-cycle)-free\n\n",
             "AUTO_773"
+        ],
+        [
+            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
+            "gc_115"
         ],
         [
             "(C_{n+6},odd-cycle)-free\n\n",
             "AUTO_732"
         ],
         [
-            "hereditary perfect elimination bipartite\n\n",
-            "gc_118"
+            "(6,1)-chordal \u2229 bipartite\n\n",
+            "gc_117"
         ],
         [
-            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
-            "gc_115"
+            "hereditary perfect elimination bipartite\n\n",
+            "gc_118"
         ],
         [
             "chordal bipartite\n\n",
@@ -1785,12 +1781,12 @@
     ],
     "gc_1161": [
         [
-            "partial cube\n\n",
-            "gc_1160"
-        ],
-        [
             "binary Hamming\n\n",
             "gc_1159"
+        ],
+        [
+            "partial cube\n\n",
+            "gc_1160"
         ]
     ],
     "gc_1162": [],
@@ -1798,26 +1794,26 @@
     "gc_1164": [],
     "gc_1165": [
         [
-            "Hilbertian\n\n",
-            "gc_261"
+            "median\n\n",
+            "gc_211"
         ],
         [
             "pseudo-median \u2229 triangle-free\n\n",
             "gc_1166"
         ],
         [
-            "median\n\n",
-            "gc_211"
+            "Hilbertian\n\n",
+            "gc_261"
         ]
     ],
     "gc_1166": [
         [
-            "Hilbertian\n\n",
-            "gc_261"
-        ],
-        [
             "median\n\n",
             "gc_211"
+        ],
+        [
+            "Hilbertian\n\n",
+            "gc_261"
         ],
         [
             "bipartite \u2229 quasi-median\n\n",
@@ -1843,8 +1839,16 @@
             "gc_119"
         ],
         [
+            "hereditary perfect elimination bipartite\n\n",
+            "gc_118"
+        ],
+        [
             "(hole,odd-cycle)-free\n\n",
             "AUTO_773"
+        ],
+        [
+            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
+            "gc_115"
         ],
         [
             "(C_{n+6},odd-cycle)-free\n\n",
@@ -1857,14 +1861,6 @@
         [
             "chordal bipartite\n\n",
             "gc_79"
-        ],
-        [
-            "hereditary perfect elimination bipartite\n\n",
-            "gc_118"
-        ],
-        [
-            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
-            "gc_115"
         ]
     ],
     "gc_1170": [],
@@ -1897,20 +1893,20 @@
     "gc_1177": [],
     "gc_1178": [
         [
-            "\u03b2-perfect \u2229 perfect\n\n",
-            "gc_988"
-        ],
-        [
             "chordal\n\n",
             "gc_32"
         ],
         [
-            "C_{n+4}-free\n\n",
-            "gc_382"
-        ],
-        [
             "triangulated\n\n",
             "gc_945"
+        ],
+        [
+            "\u03b2-perfect \u2229 perfect\n\n",
+            "gc_988"
+        ],
+        [
+            "C_{n+4}-free\n\n",
+            "gc_382"
         ]
     ],
     "gc_1179": [
@@ -1925,12 +1921,12 @@
             "gc_119"
         ],
         [
-            "(6,1)-chordal \u2229 bipartite\n\n",
-            "gc_117"
-        ],
-        [
             "(hole,odd-cycle)-free\n\n",
             "AUTO_773"
+        ],
+        [
+            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
+            "gc_115"
         ],
         [
             "(C_{n+6},odd-cycle)-free\n\n",
@@ -1941,8 +1937,8 @@
             "gc_116"
         ],
         [
-            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
-            "gc_115"
+            "(6,1)-chordal \u2229 bipartite\n\n",
+            "gc_117"
         ],
         [
             "chordal bipartite\n\n",
@@ -1961,12 +1957,12 @@
     "gc_1189": [],
     "gc_119": [
         [
-            "(6,1)-chordal \u2229 bipartite\n\n",
-            "gc_117"
-        ],
-        [
             "(hole,odd-cycle)-free\n\n",
             "AUTO_773"
+        ],
+        [
+            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
+            "gc_115"
         ],
         [
             "(C_{n+6},odd-cycle)-free\n\n",
@@ -1977,12 +1973,12 @@
             "gc_116"
         ],
         [
-            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
-            "gc_115"
-        ],
-        [
             "hereditary perfect elimination bipartite\n\n",
             "gc_118"
+        ],
+        [
+            "(6,1)-chordal \u2229 bipartite\n\n",
+            "gc_117"
         ],
         [
             "chordal bipartite\n\n",
@@ -2000,7 +1996,7 @@
     "gc_1198": [],
     "gc_1199": [
         [
-            "Directed adjoint \u2229 partial directed line\n\n",
+            "Directed\n\n",
             "gc_1201"
         ]
     ],
@@ -2010,18 +2006,18 @@
             "gc_13"
         ],
         [
-            "(C_{5},XZ_{11},XZ_{12},XZ_{13},XZ_{14},XZ_{6},XZ_{7},XZ_{8},XZ_{9},co(XZ_{11}),co(XZ_{12}),co(XZ_{13}),co(XZ_{14}),co(XZ_{6}),co(XZ_{7}),co(XZ_{8}),co(XZ_{9}))-free\n\n",
-            "AUTO_3602"
-        ],
-        [
             "P_{4}-tidy \u2229 perfect\n\n",
             "gc_962"
+        ],
+        [
+            "(C_{5},XZ_{11},XZ_{12},XZ_{13},XZ_{14},XZ_{6},XZ_{7},XZ_{8},XZ_{9},co(XZ_{11}),co(XZ_{12}),co(XZ_{13}),co(XZ_{14}),co(XZ_{6}),co(XZ_{7}),co(XZ_{8}),co(XZ_{9}))-free\n\n",
+            "AUTO_3602"
         ]
     ],
     "gc_1200": [],
     "gc_1201": [
         [
-            "Directed directed line\n\n",
+            "Directed\n\n",
             "gc_1199"
         ]
     ],
@@ -2032,12 +2028,12 @@
             "gc_1060"
         ],
         [
-            "B_{k}-VPG\n\n",
-            "gc_1061"
-        ],
-        [
             "string\n\n",
             "gc_741"
+        ],
+        [
+            "B_{k}-VPG\n\n",
+            "gc_1061"
         ]
     ],
     "gc_1204": [],
@@ -2058,20 +2054,20 @@
     ],
     "gc_121": [
         [
-            "C_{6}-free \u2229 modular\n\n",
-            "gc_587"
-        ],
-        [
-            "(X_{79},X_{80})-free \u2229 modular\n\n",
-            "gc_589"
-        ],
-        [
             "hereditary absolute bipartite retract\n\n",
             "gc_213"
         ],
         [
+            "C_{6}-free \u2229 modular\n\n",
+            "gc_587"
+        ],
+        [
             "BW_{3}-free \u2229 modular\n\n",
             "gc_591"
+        ],
+        [
+            "(X_{79},X_{80})-free \u2229 modular\n\n",
+            "gc_589"
         ]
     ],
     "gc_1210": [],
@@ -2083,12 +2079,12 @@
     ],
     "gc_1212": [
         [
-            "(C_{n+4},odd-sun)-free\n\n",
-            "AUTO_728"
-        ],
-        [
             "chordal \u2229 neighbourhood perfect\n\n",
             "gc_130"
+        ],
+        [
+            "(C_{n+4},odd-sun)-free\n\n",
+            "AUTO_728"
         ],
         [
             "chordal \u2229 odd-sun-free\n\n",
@@ -2107,7 +2103,7 @@
     ],
     "gc_1218": [
         [
-            "(2K_{3},2K_{3} + e,2P_{3},C_{5},C_{6},C_{7},K_{2,3},K_{3} U\nP_{3},W_{4},X_{84},X_{95},co(A),co(C_{6}),co(P_{6}),co(X_{5}),co(X_{98}),butterfly,co-\ndomino,co-fish,fish)-free\n\n",
+            "(2K_{3},2K_{3} + e,2P_{3},C_{5},C_{6},C_{7},K_{2,3},K_{3}\n\n",
             "gc_1217"
         ]
     ],
@@ -2167,30 +2163,30 @@
     "gc_1235": [],
     "gc_1236": [
         [
-            "clique graphs of normal Helly circular arc\n\n",
-            "gc_1043"
+            "(C_{n+4} U K_{1},S_{3},W_{4},co(odd-cycle U K_{1}),even\n\n",
+            "gc_890"
         ],
         [
             "proper Helly circular arc\n\n",
             "gc_889"
         ],
         [
-            "claw-free \u2229 normal Helly circular arc\n\n",
-            "gc_1346"
+            "clique graphs of normal Helly circular arc\n\n",
+            "gc_1043"
         ],
         [
-            "(C_{n+4} U K_{1},S_{3},W_{4},co(odd-cycle U K_{1}),even anti-hole,net)-free\n\n",
-            "gc_890"
+            "claw-free \u2229 normal Helly circular arc\n\n",
+            "gc_1346"
         ]
     ],
     "gc_1237": [
         [
-            "2-leaf power\n\n",
-            "gc_652"
-        ],
-        [
             "P_{3}-free\n\n",
             "gc_406"
+        ],
+        [
+            "2-leaf power\n\n",
+            "gc_652"
         ]
     ],
     "gc_1238": [
@@ -2201,12 +2197,12 @@
     ],
     "gc_1239": [
         [
-            "(C_{n+4},X_{102},X_{204},co(P_{3} U 2K_{1}),gem)-free\n\n",
-            "gc_1240"
-        ],
-        [
             "chordal \u2229 probe diamond-free\n\n",
             "gc_1266"
+        ],
+        [
+            "(C_{n+4},X_{102},X_{204},co(P_{3} U 2K_{1}),gem)-free\n\n",
+            "gc_1240"
         ]
     ],
     "gc_124": [],
@@ -2248,12 +2244,12 @@
     ],
     "gc_1244": [
         [
-            "complete split\n\n",
-            "gc_1242"
-        ],
-        [
             "probe complete\n\n",
             "gc_1243"
+        ],
+        [
+            "complete split\n\n",
+            "gc_1242"
         ]
     ],
     "gc_1245": [],
@@ -2261,36 +2257,36 @@
     "gc_1247": [],
     "gc_1248": [
         [
-            "complete multipartite\n\n",
-            "gc_1249"
-        ],
-        [
             "co(P_{3})-free\n\n",
             "gc_1271"
+        ],
+        [
+            "complete multipartite\n\n",
+            "gc_1249"
         ]
     ],
     "gc_1249": [
         [
-            "co-cluster\n\n",
-            "gc_1248"
-        ],
-        [
             "co(P_{3})-free\n\n",
             "gc_1271"
+        ],
+        [
+            "co-cluster\n\n",
+            "gc_1248"
         ]
     ],
     "gc_125": [
         [
-            "(C_{n+4},sun)-free\n\n",
-            "AUTO_739"
+            "hereditary dually chordal\n\n",
+            "gc_318"
         ],
         [
             "chordal \u2229 sun-free\n\n",
             "gc_317"
         ],
         [
-            "hereditary dually chordal\n\n",
-            "gc_318"
+            "(C_{n+4},sun)-free\n\n",
+            "AUTO_739"
         ]
     ],
     "gc_1250": [
@@ -2319,12 +2315,12 @@
             "gc_1254"
         ],
         [
-            "neighbourhood chordal\n\n",
-            "gc_1253"
-        ],
-        [
             "locally chordal\n\n",
             "gc_1251"
+        ],
+        [
+            "neighbourhood chordal\n\n",
+            "gc_1253"
         ]
     ],
     "gc_1253": [
@@ -2347,12 +2343,12 @@
             "gc_1252"
         ],
         [
-            "neighbourhood chordal\n\n",
-            "gc_1253"
-        ],
-        [
             "locally chordal\n\n",
             "gc_1251"
+        ],
+        [
+            "neighbourhood chordal\n\n",
+            "gc_1253"
         ]
     ],
     "gc_1255": [],
@@ -2408,12 +2404,12 @@
     ],
     "gc_1266": [
         [
-            "(C_{n+4},X_{102},X_{204},co(P_{3} U 2K_{1}),gem)-free\n\n",
-            "gc_1240"
-        ],
-        [
             "probe block\n\n",
             "gc_1239"
+        ],
+        [
+            "(C_{n+4},X_{102},X_{204},co(P_{3} U 2K_{1}),gem)-free\n\n",
+            "gc_1240"
         ]
     ],
     "gc_1267": [],
@@ -2423,12 +2419,12 @@
     "gc_1270": [],
     "gc_1271": [
         [
-            "co-cluster\n\n",
-            "gc_1248"
-        ],
-        [
             "complete multipartite\n\n",
             "gc_1249"
+        ],
+        [
+            "co-cluster\n\n",
+            "gc_1248"
         ]
     ],
     "gc_1272": [],
@@ -2508,26 +2504,26 @@
     ],
     "gc_13": [
         [
-            "(C_{5},XZ_{11},XZ_{12},XZ_{13},XZ_{14},XZ_{6},XZ_{7},XZ_{8},XZ_{9},co(XZ_{11}),co(XZ_{12}),co(XZ_{13}),co(XZ_{14}),co(XZ_{6}),co(XZ_{7}),co(XZ_{8}),co(XZ_{9}))-free\n\n",
-            "AUTO_3602"
+            "P_{4}-lite\n\n",
+            "gc_12"
         ],
         [
             "P_{4}-tidy \u2229 perfect\n\n",
             "gc_962"
         ],
         [
-            "P_{4}-lite\n\n",
-            "gc_12"
+            "(C_{5},XZ_{11},XZ_{12},XZ_{13},XZ_{14},XZ_{6},XZ_{7},XZ_{8},XZ_{9},co(XZ_{11}),co(XZ_{12}),co(XZ_{13}),co(XZ_{14}),co(XZ_{6}),co(XZ_{7}),co(XZ_{8}),co(XZ_{9}))-free\n\n",
+            "AUTO_3602"
         ]
     ],
     "gc_130": [
         [
-            "(C_{n+4},odd-sun)-free\n\n",
-            "AUTO_728"
-        ],
-        [
             "chordal \u2229 odd-sun-free\n\n",
             "gc_36"
+        ],
+        [
+            "(C_{n+4},odd-sun)-free\n\n",
+            "AUTO_728"
         ],
         [
             "balanced \u2229 chordal\n\n",
@@ -2542,12 +2538,12 @@
     ],
     "gc_1301": [
         [
-            "bipartite chain\n\n",
-            "gc_442"
-        ],
-        [
             "difference\n\n",
             "gc_524"
+        ],
+        [
+            "bipartite chain\n\n",
+            "gc_442"
         ],
         [
             "2K_{2}-free \u2229 bipartite\n\n",
@@ -2601,27 +2597,27 @@
     "gc_1324": [],
     "gc_1325": [
         [
-            "bipartite \u2229 convex-round\n\n",
-            "gc_645"
-        ],
-        [
             "biconvex\n\n",
             "gc_66"
+        ],
+        [
+            "bipartite \u2229 convex-round\n\n",
+            "gc_645"
         ]
     ],
     "gc_1326": [
         [
-            "(co(T_{2}),co(X_{205}),co(X_{206}),co(X_{207}),co(X_{208}),even anti-hole,odd\nanti-cycle)-free\n\n",
-            "AUTO_2581"
-        ],
-        [
             "co-bipartite \u2229 concave-round\n\n",
             "gc_1329"
+        ],
+        [
+            "(co(T_{2}),co(X_{205}),co(X_{206}),co(X_{207}),co(X_{208}),even anti-hole,odd\nanti-cycle)-free\n\n",
+            "AUTO_2581"
         ]
     ],
     "gc_1327": [
         [
-            "(X_{42},co(T_{2}),co(X_{205}),co(X_{206}),co(X_{207}),co(X_{208}),net)-free \u2229\nnormal circular arc \u2229 quasi-line\n\n",
+            "(X_{42},co(T_{2}),co(X_{205}),co(X_{206}),co(X_{207}),co(X_{208}),net)-free \u2229\nnormal circular arc\n\n",
             "gc_1331"
         ],
         [
@@ -2653,12 +2649,12 @@
     "gc_1330": [],
     "gc_1331": [
         [
-            "concave-round\n\n",
-            "gc_641"
-        ],
-        [
             "(C_{n+4} U K_{1},S_{3} U\nK_{1},X_{42},co(T_{2}),co(X_{205}),co(X_{206}),co(X_{207}),co(X_{208}),co(odd-\ncycle U K_{1}),even anti-hole,net)-free\n\n",
             "gc_1327"
+        ],
+        [
+            "concave-round\n\n",
+            "gc_641"
         ]
     ],
     "gc_1332": [
@@ -2702,20 +2698,20 @@
     "gc_1345": [],
     "gc_1346": [
         [
-            "clique graphs of normal Helly circular arc\n\n",
-            "gc_1043"
+            "(C_{n+4} U K_{1},S_{3},W_{4},co(odd-cycle U K_{1}),even\n\n",
+            "gc_890"
+        ],
+        [
+            "(C_{n+4} U K_{1},S_{3},W_{4},W_{5},co(C_{6}),claw,net)-free\n\n",
+            "gc_1236"
         ],
         [
             "proper Helly circular arc\n\n",
             "gc_889"
         ],
         [
-            "(C_{n+4} U K_{1},S_{3},W_{4},co(odd-cycle U K_{1}),even anti-hole,net)-free\n\n",
-            "gc_890"
-        ],
-        [
-            "(C_{n+4} U K_{1},S_{3},W_{4},W_{5},co(C_{6}),claw,net)-free\n\n",
-            "gc_1236"
+            "clique graphs of normal Helly circular arc\n\n",
+            "gc_1043"
         ]
     ],
     "gc_1347": [
@@ -2726,22 +2722,22 @@
     ],
     "gc_1348": [
         [
-            "block duplicate\n\n",
-            "gc_1349"
-        ],
-        [
             "(C_{n+4},dart,gem)-free\n\n",
             "gc_1350"
+        ],
+        [
+            "block duplicate\n\n",
+            "gc_1349"
         ]
     ],
     "gc_1349": [
         [
-            "strictly chordal\n\n",
-            "gc_1348"
-        ],
-        [
             "(C_{n+4},dart,gem)-free\n\n",
             "gc_1350"
+        ],
+        [
+            "strictly chordal\n\n",
+            "gc_1348"
         ]
     ],
     "gc_135": [
@@ -2779,47 +2775,47 @@
             "gc_297"
         ],
         [
-            "(C_{n+4} U K_{1},S_{3} U K_{1},X_{42},co(T_{2}),co(X_{2}),co(X_{3}),co(odd-\ncycle U K_{1}),even anti-hole,net)-free\n\n",
+            "(C_{n+4} U K_{1},S_{3} U K_{1},X_{42},co(T_{2}),co(X_{2}),co(X_{3}),odd-cycle\nU\n\n",
             "gc_881"
         ]
     ],
     "gc_1355": [],
     "gc_1356": [
         [
-            "chordal \u2229 unit circular arc\n\n",
-            "gc_381"
+            "claw-free \u2229 interval\n\n",
+            "gc_301"
         ],
         [
             "(S_{3},claw,net)-free \u2229 chordal\n\n",
             "gc_300"
         ],
         [
+            "chordal \u2229 unit circular arc\n\n",
+            "gc_381"
+        ],
+        [
             "indifference\n\n",
             "gc_555"
-        ],
-        [
-            "proper interval\n\n",
-            "gc_298"
-        ],
-        [
-            "unit interval\n\n",
-            "gc_299"
-        ],
-        [
-            "(C_{n+4},S_{3},claw,net)-free\n\n",
-            "AUTO_737"
         ],
         [
             "clique graphs of interval\n\n",
             "gc_1046"
         ],
         [
-            "claw-free \u2229 interval\n\n",
-            "gc_301"
+            "(C_{n+4},S_{3},claw,net)-free\n\n",
+            "AUTO_737"
+        ],
+        [
+            "proper interval\n\n",
+            "gc_298"
         ],
         [
             "astral triple-free\n\n",
             "gc_302"
+        ],
+        [
+            "unit interval\n\n",
+            "gc_299"
         ]
     ],
     "gc_1357": [],
@@ -2928,12 +2924,12 @@
     ],
     "gc_140": [
         [
-            "(claw,odd anti-hole,odd-hole)-free\n\n",
-            "AUTO_733"
-        ],
-        [
             "claw-free \u2229 perfect\n\n",
             "gc_139"
+        ],
+        [
+            "(claw,odd anti-hole,odd-hole)-free\n\n",
+            "AUTO_733"
         ]
     ],
     "gc_141": [],
@@ -2962,7 +2958,7 @@
     ],
     "gc_147": [
         [
-            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{35},X_{36},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},co-\nXF_{1}\\^{2n+3},co-XF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd anti-hole)-free\n\n",
+            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{35},X_{36},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},co-\nXF_{1}\\^{2n+3},co-XF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd\n\n",
             "AUTO_2128"
         ]
     ],
@@ -2981,23 +2977,19 @@
     "gc_150": [],
     "gc_151": [
         [
+            "P_{4}-free\n\n",
+            "gc_152"
+        ],
+        [
             "comparability graphs of series-parallel posets\n\n",
             "gc_153"
         ],
         [
             "cliquewidth 2\n\n",
             "gc_481"
-        ],
-        [
-            "P_{4}-free\n\n",
-            "gc_152"
         ]
     ],
     "gc_152": [
-        [
-            "comparability graphs of series-parallel posets\n\n",
-            "gc_153"
-        ],
         [
             "cliquewidth 2\n\n",
             "gc_481"
@@ -3005,6 +2997,10 @@
         [
             "cograph\n\n",
             "gc_151"
+        ],
+        [
+            "comparability graphs of series-parallel posets\n\n",
+            "gc_153"
         ]
     ],
     "gc_153": [
@@ -3026,44 +3022,44 @@
     "gc_156": [],
     "gc_157": [
         [
-            "comparability graphs of semiorders\n\n",
-            "gc_159"
-        ],
-        [
-            "co-chordal \u2229 superperfect\n\n",
-            "gc_559"
-        ],
-        [
             "(co(C_{n+4}),co(T_{2}),co(X_{31}),co-XF_{2}\\^{n+1},co-XF_{3}\\^{n})-free\n\n",
             "AUTO_2126"
         ],
         [
             "co-chordal \u2229 comparability\n\n",
             "gc_158"
+        ],
+        [
+            "comparability graphs of semiorders\n\n",
+            "gc_159"
+        ],
+        [
+            "co-chordal \u2229 superperfect\n\n",
+            "gc_559"
         ]
     ],
     "gc_158": [
         [
-            "comparability graphs of semiorders\n\n",
-            "gc_159"
-        ],
-        [
-            "co-chordal \u2229 superperfect\n\n",
-            "gc_559"
+            "co-interval\n\n",
+            "gc_157"
         ],
         [
             "(co(C_{n+4}),co(T_{2}),co(X_{31}),co-XF_{2}\\^{n+1},co-XF_{3}\\^{n})-free\n\n",
             "AUTO_2126"
         ],
         [
-            "co-interval\n\n",
-            "gc_157"
+            "comparability graphs of semiorders\n\n",
+            "gc_159"
+        ],
+        [
+            "co-chordal \u2229 superperfect\n\n",
+            "gc_559"
         ]
     ],
     "gc_159": [
         [
-            "co-chordal \u2229 superperfect\n\n",
-            "gc_559"
+            "co-interval\n\n",
+            "gc_157"
         ],
         [
             "(co(C_{n+4}),co(T_{2}),co(X_{31}),co-XF_{2}\\^{n+1},co-XF_{3}\\^{n})-free\n\n",
@@ -3074,18 +3070,18 @@
             "gc_158"
         ],
         [
-            "co-interval\n\n",
-            "gc_157"
+            "co-chordal \u2229 superperfect\n\n",
+            "gc_559"
         ]
     ],
     "gc_16": [
         [
-            "P_{4}-reducible\n\n",
-            "gc_15"
-        ],
-        [
             "(C_{5},P,P_{5},S_{3},co(P),co-fork,fork,house,net)-free\n\n",
             "gc_17"
+        ],
+        [
+            "P_{4}-reducible\n\n",
+            "gc_15"
         ]
     ],
     "gc_160": [],
@@ -3098,12 +3094,12 @@
     ],
     "gc_163": [
         [
-            "(XF_{1}\\^{2n+3},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{35}),co(X_{36}),co-\nXF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},odd-hole)-free\n\n",
-            "gc_767"
-        ],
-        [
             "comparability\n\n",
             "gc_72"
+        ],
+        [
+            "(XF_{1}\\^{2n+3},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{35}),co(X_{36}),co-\nXF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},odd-hole)-free\n\n",
+            "gc_767"
         ]
     ],
     "gc_164": [],
@@ -3145,32 +3141,32 @@
     ],
     "gc_17": [
         [
-            "P_{4}-reducible\n\n",
-            "gc_15"
-        ],
-        [
             "P_{4}-extendible \u2229 P_{4}-sparse\n\n",
             "gc_16"
+        ],
+        [
+            "P_{4}-reducible\n\n",
+            "gc_15"
         ]
     ],
     "gc_170": [
         [
-            "(2K_{2},P_{4})-free\n\n",
-            "gc_171"
-        ],
-        [
             "co-interval \u2229 cograph\n\n",
             "gc_172"
+        ],
+        [
+            "(2K_{2},P_{4})-free\n\n",
+            "gc_171"
         ]
     ],
     "gc_171": [
         [
-            "co-trivially perfect\n\n",
-            "gc_170"
-        ],
-        [
             "co-interval \u2229 cograph\n\n",
             "gc_172"
+        ],
+        [
+            "co-trivially perfect\n\n",
+            "gc_170"
         ]
     ],
     "gc_172": [
@@ -3194,26 +3190,26 @@
     ],
     "gc_177": [
         [
-            "HHDG-free\n\n",
-            "gc_178"
+            "(domino,gem,house)-free \u2229 pseudo-modular\n\n",
+            "gc_586"
         ],
         [
             "distance-hereditary\n\n",
             "gc_80"
         ],
         [
-            "(domino,gem,house)-free \u2229 pseudo-modular\n\n",
-            "gc_586"
+            "HHDG-free\n\n",
+            "gc_178"
         ]
     ],
     "gc_178": [
         [
-            "distance-hereditary\n\n",
-            "gc_80"
-        ],
-        [
             "(domino,gem,house)-free \u2229 pseudo-modular\n\n",
             "gc_586"
+        ],
+        [
+            "distance-hereditary\n\n",
+            "gc_80"
         ],
         [
             "(5,2)-crossing-chordal\n\n",
@@ -3232,32 +3228,32 @@
     ],
     "gc_18": [
         [
-            "(5,1)\n\n",
-            "gc_489"
-        ],
-        [
             "(C_{5},P,P_{5},co(P),co-fork,fork,house)-free\n\n",
             "gc_24"
+        ],
+        [
+            "(5,1)\n\n",
+            "gc_489"
         ]
     ],
     "gc_180": [
         [
-            "domino\n\n",
-            "gc_179"
-        ],
-        [
             "line graphs of multigraphs without triangles\n\n",
             "gc_707"
+        ],
+        [
+            "domino\n\n",
+            "gc_179"
         ]
     ],
     "gc_181": [
         [
-            "chordal \u2229 dually chordal\n\n",
-            "gc_183"
-        ],
-        [
             "Helly chordal \u2229 clique-chordal\n\n",
             "gc_182"
+        ],
+        [
+            "chordal \u2229 dually chordal\n\n",
+            "gc_183"
         ]
     ],
     "gc_182": [
@@ -3272,12 +3268,12 @@
     ],
     "gc_183": [
         [
-            "doubly chordal\n\n",
-            "gc_181"
-        ],
-        [
             "Helly chordal \u2229 clique-chordal\n\n",
             "gc_182"
+        ],
+        [
+            "doubly chordal\n\n",
+            "gc_181"
         ]
     ],
     "gc_184": [
@@ -3317,12 +3313,12 @@
     ],
     "gc_19": [
         [
-            "(S_{3},net)-free \u2229 extended P_{4}-sparse\n\n",
-            "gc_461"
-        ],
-        [
             "(P,P_{5},S_{3},co(P),co-fork,fork,house,net)-free\n\n",
             "gc_188"
+        ],
+        [
+            "(S_{3},net)-free \u2229 extended P_{4}-sparse\n\n",
+            "gc_461"
         ]
     ],
     "gc_190": [
@@ -3343,19 +3339,15 @@
     ],
     "gc_192": [
         [
-            "Gallai\n\n",
-            "gc_73"
-        ],
-        [
             "i-triangulated\n\n",
             "gc_191"
+        ],
+        [
+            "Gallai\n\n",
+            "gc_73"
         ]
     ],
     "gc_194": [
-        [
-            "very strongly perfect\n\n",
-            "gc_265"
-        ],
         [
             "(odd building,odd-hole)-free\n\n",
             "gc_874"
@@ -3363,6 +3355,10 @@
         [
             "(5,2)-odd-chordal\n\n",
             "gc_264"
+        ],
+        [
+            "very strongly perfect\n\n",
+            "gc_265"
         ]
     ],
     "gc_195": [],
@@ -3381,12 +3377,12 @@
     "gc_198": [],
     "gc_199": [
         [
-            "(K_{5},X_{126},X_{174},co(3K_{2}))-minor-free\n\n",
-            "gc_897"
-        ],
-        [
             "treewidth 3\n\n",
             "gc_900"
+        ],
+        [
+            "(K_{5},X_{126},X_{174},co(3K_{2}))-minor-free\n\n",
+            "gc_897"
         ]
     ],
     "gc_2": [
@@ -3411,12 +3407,12 @@
             "gc_52"
         ],
         [
-            "Helly \u2229 reflexive\n\n",
-            "gc_582"
-        ],
-        [
             "clique-Helly \u2229 dismantlable \u2229 reflexive\n\n",
             "gc_583"
+        ],
+        [
+            "Helly \u2229 reflexive\n\n",
+            "gc_582"
         ]
     ],
     "gc_201": [
@@ -3481,12 +3477,12 @@
     ],
     "gc_211": [
         [
-            "pseudo-median \u2229 triangle-free\n\n",
-            "gc_1166"
-        ],
-        [
             "Hilbertian\n\n",
             "gc_261"
+        ],
+        [
+            "pseudo-median \u2229 triangle-free\n\n",
+            "gc_1166"
         ],
         [
             "bipartite \u2229 quasi-median\n\n",
@@ -3495,20 +3491,20 @@
     ],
     "gc_212": [
         [
-            "(0,2)-colorable \u2229 chordal\n\n",
-            "gc_655"
+            "tree\n\n",
+            "gc_342"
         ],
         [
-            "cycle-free\n\n",
-            "gc_631"
+            "(0,2)-colorable \u2229 chordal\n\n",
+            "gc_655"
         ],
         [
             "K_{3}-minor-free\n\n",
             "gc_896"
         ],
         [
-            "tree\n\n",
-            "gc_342"
+            "cycle-free\n\n",
+            "gc_631"
         ]
     ],
     "gc_213": [
@@ -3517,16 +3513,16 @@
             "gc_587"
         ],
         [
-            "(X_{79},X_{80})-free \u2229 modular\n\n",
-            "gc_589"
-        ],
-        [
             "hereditary modular\n\n",
             "gc_121"
         ],
         [
             "BW_{3}-free \u2229 modular\n\n",
             "gc_591"
+        ],
+        [
+            "(X_{79},X_{80})-free \u2229 modular\n\n",
+            "gc_589"
         ]
     ],
     "gc_214": [
@@ -3619,8 +3615,20 @@
     ],
     "gc_23": [
         [
+            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd\n\n",
+            "AUTO_3585"
+        ],
+        [
+            "containment graph of intervals\n\n",
+            "gc_288"
+        ],
+        [
             "co-comparability \u2229 comparability\n\n",
             "gc_286"
+        ],
+        [
+            "comparability graphs of dimension 2 posets\n\n",
+            "gc_287"
         ],
         [
             "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd-hole)-free\n\n",
@@ -3629,18 +3637,6 @@
         [
             "circle graph with equator\n\n",
             "gc_285"
-        ],
-        [
-            "containment graph of intervals\n\n",
-            "gc_288"
-        ],
-        [
-            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd anti-hole)-free\n\n",
-            "AUTO_3585"
-        ],
-        [
-            "comparability graphs of dimension 2 posets\n\n",
-            "gc_287"
         ]
     ],
     "gc_230": [
@@ -3661,34 +3657,34 @@
     ],
     "gc_233": [
         [
-            "HHDS-free\n\n",
-            "gc_21"
-        ],
-        [
             "(house,hole,domino,sun)-free\n\n",
             "gc_232"
+        ],
+        [
+            "HHDS-free\n\n",
+            "gc_21"
         ]
     ],
     "gc_234": [
         [
-            "AT-free \u2229 chordal\n\n",
-            "gc_235"
-        ],
-        [
-            "1-DIR\n\n",
-            "gc_865"
-        ],
-        [
-            "chordal \u2229 co-comparability\n\n",
-            "gc_238"
+            "(C_{n+4},T_{2},X_{31},XF_{2}\\^{n+1},XF_{3}\\^{n})-free\n\n",
+            "gc_765"
         ],
         [
             "boxicity 1\n\n",
             "gc_236"
         ],
         [
-            "(C_{n+4},T_{2},X_{31},XF_{2}\\^{n+1},XF_{3}\\^{n})-free\n\n",
-            "gc_765"
+            "AT-free \u2229 chordal\n\n",
+            "gc_235"
+        ],
+        [
+            "chordal \u2229 co-comparability\n\n",
+            "gc_238"
+        ],
+        [
+            "1-DIR\n\n",
+            "gc_865"
         ],
         [
             "C_{4}-free \u2229 co-comparability\n\n",
@@ -3697,24 +3693,24 @@
     ],
     "gc_235": [
         [
-            "1-DIR\n\n",
-            "gc_865"
-        ],
-        [
-            "chordal \u2229 co-comparability\n\n",
-            "gc_238"
-        ],
-        [
-            "interval\n\n",
-            "gc_234"
+            "(C_{n+4},T_{2},X_{31},XF_{2}\\^{n+1},XF_{3}\\^{n})-free\n\n",
+            "gc_765"
         ],
         [
             "boxicity 1\n\n",
             "gc_236"
         ],
         [
-            "(C_{n+4},T_{2},X_{31},XF_{2}\\^{n+1},XF_{3}\\^{n})-free\n\n",
-            "gc_765"
+            "interval\n\n",
+            "gc_234"
+        ],
+        [
+            "chordal \u2229 co-comparability\n\n",
+            "gc_238"
+        ],
+        [
+            "1-DIR\n\n",
+            "gc_865"
         ],
         [
             "C_{4}-free \u2229 co-comparability\n\n",
@@ -3723,24 +3719,24 @@
     ],
     "gc_236": [
         [
+            "(C_{n+4},T_{2},X_{31},XF_{2}\\^{n+1},XF_{3}\\^{n})-free\n\n",
+            "gc_765"
+        ],
+        [
             "AT-free \u2229 chordal\n\n",
             "gc_235"
-        ],
-        [
-            "1-DIR\n\n",
-            "gc_865"
-        ],
-        [
-            "chordal \u2229 co-comparability\n\n",
-            "gc_238"
         ],
         [
             "interval\n\n",
             "gc_234"
         ],
         [
-            "(C_{n+4},T_{2},X_{31},XF_{2}\\^{n+1},XF_{3}\\^{n})-free\n\n",
-            "gc_765"
+            "chordal \u2229 co-comparability\n\n",
+            "gc_238"
+        ],
+        [
+            "1-DIR\n\n",
+            "gc_865"
         ],
         [
             "C_{4}-free \u2229 co-comparability\n\n",
@@ -3749,50 +3745,50 @@
     ],
     "gc_237": [
         [
+            "(C_{n+4},T_{2},X_{31},XF_{2}\\^{n+1},XF_{3}\\^{n})-free\n\n",
+            "gc_765"
+        ],
+        [
+            "boxicity 1\n\n",
+            "gc_236"
+        ],
+        [
             "AT-free \u2229 chordal\n\n",
             "gc_235"
         ],
         [
-            "1-DIR\n\n",
-            "gc_865"
+            "interval\n\n",
+            "gc_234"
         ],
         [
             "chordal \u2229 co-comparability\n\n",
             "gc_238"
         ],
         [
-            "interval\n\n",
-            "gc_234"
+            "1-DIR\n\n",
+            "gc_865"
+        ]
+    ],
+    "gc_238": [
+        [
+            "(C_{n+4},T_{2},X_{31},XF_{2}\\^{n+1},XF_{3}\\^{n})-free\n\n",
+            "gc_765"
         ],
         [
             "boxicity 1\n\n",
             "gc_236"
         ],
-        [
-            "(C_{n+4},T_{2},X_{31},XF_{2}\\^{n+1},XF_{3}\\^{n})-free\n\n",
-            "gc_765"
-        ]
-    ],
-    "gc_238": [
         [
             "AT-free \u2229 chordal\n\n",
             "gc_235"
         ],
         [
-            "1-DIR\n\n",
-            "gc_865"
-        ],
-        [
             "interval\n\n",
             "gc_234"
         ],
         [
-            "boxicity 1\n\n",
-            "gc_236"
-        ],
-        [
-            "(C_{n+4},T_{2},X_{31},XF_{2}\\^{n+1},XF_{3}\\^{n})-free\n\n",
-            "gc_765"
+            "1-DIR\n\n",
+            "gc_865"
         ],
         [
             "C_{4}-free \u2229 co-comparability\n\n",
@@ -3807,81 +3803,81 @@
     ],
     "gc_24": [
         [
-            "(5,1)\n\n",
-            "gc_489"
-        ],
-        [
             "P_{4}-sparse\n\n",
             "gc_18"
+        ],
+        [
+            "(5,1)\n\n",
+            "gc_489"
         ]
     ],
     "gc_240": [],
     "gc_241": [
         [
-            "permutation \u2229 split\n\n",
-            "gc_243"
-        ],
-        [
             "(2K_{2},C_{4},C_{5},S_{3},co-rising sun,net,rising sun)-free\n\n",
             "gc_245"
         ],
         [
-            "chordal \u2229 co-chordal \u2229 co-comparability \u2229 comparability\n\n",
-            "gc_242"
+            "permutation \u2229 split\n\n",
+            "gc_243"
         ],
         [
             "split \u2229 threshold signed\n\n",
             "gc_244"
+        ],
+        [
+            "chordal \u2229 co-chordal \u2229 co-comparability \u2229 comparability\n\n",
+            "gc_242"
         ]
     ],
     "gc_242": [
         [
-            "permutation \u2229 split\n\n",
-            "gc_243"
-        ],
-        [
-            "co-interval \u2229 interval\n\n",
-            "gc_241"
+            "split \u2229 threshold signed\n\n",
+            "gc_244"
         ],
         [
             "(2K_{2},C_{4},C_{5},S_{3},co-rising sun,net,rising sun)-free\n\n",
             "gc_245"
         ],
         [
-            "split \u2229 threshold signed\n\n",
-            "gc_244"
+            "permutation \u2229 split\n\n",
+            "gc_243"
+        ],
+        [
+            "co-interval \u2229 interval\n\n",
+            "gc_241"
         ]
     ],
     "gc_243": [
         [
-            "co-interval \u2229 interval\n\n",
-            "gc_241"
-        ],
-        [
             "(2K_{2},C_{4},C_{5},S_{3},co-rising sun,net,rising sun)-free\n\n",
             "gc_245"
-        ],
-        [
-            "chordal \u2229 co-chordal \u2229 co-comparability \u2229 comparability\n\n",
-            "gc_242"
         ],
         [
             "split \u2229 threshold signed\n\n",
             "gc_244"
-        ]
-    ],
-    "gc_244": [
-        [
-            "permutation \u2229 split\n\n",
-            "gc_243"
         ],
         [
             "co-interval \u2229 interval\n\n",
             "gc_241"
         ],
         [
+            "chordal \u2229 co-chordal \u2229 co-comparability \u2229 comparability\n\n",
+            "gc_242"
+        ]
+    ],
+    "gc_244": [
+        [
             "(2K_{2},C_{4},C_{5},S_{3},co-rising sun,net,rising sun)-free\n\n",
             "gc_245"
+        ],
+        [
+            "co-interval \u2229 interval\n\n",
+            "gc_241"
+        ],
+        [
+            "permutation \u2229 split\n\n",
+            "gc_243"
         ],
         [
             "chordal \u2229 co-chordal \u2229 co-comparability \u2229 comparability\n\n",
@@ -3890,30 +3886,30 @@
     ],
     "gc_245": [
         [
-            "permutation \u2229 split\n\n",
-            "gc_243"
-        ],
-        [
             "co-interval \u2229 interval\n\n",
             "gc_241"
         ],
         [
-            "chordal \u2229 co-chordal \u2229 co-comparability \u2229 comparability\n\n",
-            "gc_242"
+            "permutation \u2229 split\n\n",
+            "gc_243"
         ],
         [
             "split \u2229 threshold signed\n\n",
             "gc_244"
+        ],
+        [
+            "chordal \u2229 co-chordal \u2229 co-comparability \u2229 comparability\n\n",
+            "gc_242"
         ]
     ],
     "gc_246": [
         [
-            "Dilworth 2\n\n",
-            "gc_335"
+            "(3K_{2},C_{4} U P_{2},C_{5},P_{2} U\nP_{4},P_{5},S_{3},X_{1},X_{46},X_{70},co(3K_{2}),co(C_{4} U P_{2}),P_{2}\n\n",
+            "gc_578"
         ],
         [
-            "(3K_{2},C_{4} U P_{2},C_{5},P_{2} U\nP_{4},P_{5},S_{3},X_{1},X_{46},X_{70},co(3K_{2}),co(C_{4} U P_{2}),co(P_{2} U\nP_{4}),co(X_{1}),co(X_{46}),co(X_{70}),co-fish,co-rising\nsun,fish,house,net,rising sun)-free\n\n",
-            "gc_578"
+            "Dilworth 2\n\n",
+            "gc_335"
         ]
     ],
     "gc_247": [],
@@ -3933,12 +3929,12 @@
     ],
     "gc_251": [
         [
-            "gridline\n\n",
-            "gc_736"
-        ],
-        [
             "(claw,diamond,odd-hole)-free\n\n",
             "gc_252"
+        ],
+        [
+            "gridline\n\n",
+            "gc_736"
         ]
     ],
     "gc_252": [
@@ -3967,22 +3963,22 @@
     "gc_256": [],
     "gc_257": [
         [
-            "(C_{5},K_{2} U K_{3},K_{2,3},P,P_{2} U P_{3},P_{5},co(P),co(P_{2} U P_{3}),co-\nfork,fork,house)-free\n\n",
-            "gc_502"
-        ],
-        [
             "C_{5}-free \u2229 matrogenic\n\n",
             "gc_258"
+        ],
+        [
+            "(C_{5},K_{2} U K_{3},K_{2,3},P,P_{2} U P_{3},P_{5},co(P),co(P_{2} U P_{3}),co-\nfork,fork,house)-free\n\n",
+            "gc_502"
         ]
     ],
     "gc_258": [
         [
-            "matroidal\n\n",
-            "gc_257"
-        ],
-        [
             "(C_{5},K_{2} U K_{3},K_{2,3},P,P_{2} U P_{3},P_{5},co(P),co(P_{2} U P_{3}),co-\nfork,fork,house)-free\n\n",
             "gc_502"
+        ],
+        [
+            "matroidal\n\n",
+            "gc_257"
         ]
     ],
     "gc_259": [],
@@ -4000,12 +3996,12 @@
     ],
     "gc_261": [
         [
-            "pseudo-median \u2229 triangle-free\n\n",
-            "gc_1166"
-        ],
-        [
             "median\n\n",
             "gc_211"
+        ],
+        [
+            "pseudo-median \u2229 triangle-free\n\n",
+            "gc_1166"
         ],
         [
             "bipartite \u2229 quasi-median\n\n",
@@ -4026,23 +4022,19 @@
     ],
     "gc_264": [
         [
+            "(odd building,odd-hole)-free\n\n",
+            "gc_874"
+        ],
+        [
             "Meyniel\n\n",
             "gc_194"
         ],
         [
             "very strongly perfect\n\n",
             "gc_265"
-        ],
-        [
-            "(odd building,odd-hole)-free\n\n",
-            "gc_874"
         ]
     ],
     "gc_265": [
-        [
-            "Meyniel\n\n",
-            "gc_194"
-        ],
         [
             "(odd building,odd-hole)-free\n\n",
             "gc_874"
@@ -4050,6 +4042,10 @@
         [
             "(5,2)-odd-chordal\n\n",
             "gc_264"
+        ],
+        [
+            "Meyniel\n\n",
+            "gc_194"
         ]
     ],
     "gc_266": [],
@@ -4066,12 +4062,12 @@
     ],
     "gc_269": [
         [
-            "Meyniel \u2229 co-Meyniel\n\n",
-            "gc_22"
-        ],
-        [
             "(C_{5},P_{5},house)-free\n\n",
             "gc_268"
+        ],
+        [
+            "Meyniel \u2229 co-Meyniel\n\n",
+            "gc_22"
         ]
     ],
     "gc_27": [
@@ -4100,8 +4096,16 @@
     ],
     "gc_274": [
         [
+            "![cal C](images/calC.gif)(G)-perfect\n\n",
+            "gc_279"
+        ],
+        [
             "kernel solvable\n\n",
             "gc_281"
+        ],
+        [
+            "(odd anti-hole,odd-hole)-free\n\n",
+            "gc_597"
         ],
         [
             "perfectly 1-transversable\n\n",
@@ -4110,28 +4114,20 @@
         [
             "perfect\n\n",
             "gc_56"
-        ],
-        [
-            "(odd anti-hole,odd-hole)-free\n\n",
-            "gc_597"
-        ],
-        [
-            "![cal C](images/calC.gif)(G)-perfect\n\n",
-            "gc_279"
         ]
     ],
     "gc_275": [
         [
-            "K_{4}-minor-free\n\n",
-            "gc_309"
+            "partial 2-tree\n\n",
+            "gc_310"
         ],
         [
             "treewidth 2\n\n",
             "gc_899"
         ],
         [
-            "partial 2-tree\n\n",
-            "gc_310"
+            "K_{4}-minor-free\n\n",
+            "gc_309"
         ]
     ],
     "gc_276": [
@@ -4157,65 +4153,65 @@
             "gc_281"
         ],
         [
-            "perfectly 1-transversable\n\n",
-            "gc_280"
-        ],
-        [
-            "perfect\n\n",
-            "gc_56"
-        ],
-        [
             "(odd anti-hole,odd-hole)-free\n\n",
             "gc_597"
         ],
         [
+            "perfectly 1-transversable\n\n",
+            "gc_280"
+        ],
+        [
             "Berge\n\n",
             "gc_274"
+        ],
+        [
+            "perfect\n\n",
+            "gc_56"
         ]
     ],
     "gc_28": [],
     "gc_280": [
         [
-            "kernel solvable\n\n",
-            "gc_281"
+            "![cal C](images/calC.gif)(G)-perfect\n\n",
+            "gc_279"
         ],
         [
-            "perfect\n\n",
-            "gc_56"
+            "kernel solvable\n\n",
+            "gc_281"
         ],
         [
             "(odd anti-hole,odd-hole)-free\n\n",
             "gc_597"
         ],
         [
+            "Berge\n\n",
+            "gc_274"
+        ],
+        [
+            "perfect\n\n",
+            "gc_56"
+        ]
+    ],
+    "gc_281": [
+        [
             "![cal C](images/calC.gif)(G)-perfect\n\n",
             "gc_279"
         ],
         [
-            "Berge\n\n",
-            "gc_274"
-        ]
-    ],
-    "gc_281": [
+            "(odd anti-hole,odd-hole)-free\n\n",
+            "gc_597"
+        ],
         [
             "perfectly 1-transversable\n\n",
             "gc_280"
         ],
         [
-            "perfect\n\n",
-            "gc_56"
-        ],
-        [
-            "(odd anti-hole,odd-hole)-free\n\n",
-            "gc_597"
-        ],
-        [
-            "![cal C](images/calC.gif)(G)-perfect\n\n",
-            "gc_279"
-        ],
-        [
             "Berge\n\n",
             "gc_274"
+        ],
+        [
+            "perfect\n\n",
+            "gc_56"
         ]
     ],
     "gc_282": [],
@@ -4233,117 +4229,109 @@
     ],
     "gc_285": [
         [
-            "co-comparability \u2229 comparability\n\n",
-            "gc_286"
-        ],
-        [
-            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd-hole)-free\n\n",
-            "AUTO_3594"
-        ],
-        [
-            "permutation\n\n",
-            "gc_23"
+            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd\n\n",
+            "AUTO_3585"
         ],
         [
             "containment graph of intervals\n\n",
             "gc_288"
         ],
         [
-            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd anti-hole)-free\n\n",
-            "AUTO_3585"
+            "co-comparability \u2229 comparability\n\n",
+            "gc_286"
         ],
         [
             "comparability graphs of dimension 2 posets\n\n",
             "gc_287"
+        ],
+        [
+            "permutation\n\n",
+            "gc_23"
+        ],
+        [
+            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd-hole)-free\n\n",
+            "AUTO_3594"
         ]
     ],
     "gc_286": [
         [
-            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd-hole)-free\n\n",
-            "AUTO_3594"
-        ],
-        [
-            "circle graph with equator\n\n",
-            "gc_285"
-        ],
-        [
-            "permutation\n\n",
-            "gc_23"
+            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd\n\n",
+            "AUTO_3585"
         ],
         [
             "containment graph of intervals\n\n",
             "gc_288"
         ],
         [
-            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd anti-hole)-free\n\n",
-            "AUTO_3585"
-        ],
-        [
             "comparability graphs of dimension 2 posets\n\n",
             "gc_287"
+        ],
+        [
+            "permutation\n\n",
+            "gc_23"
+        ],
+        [
+            "circle graph with equator\n\n",
+            "gc_285"
+        ],
+        [
+            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd-hole)-free\n\n",
+            "AUTO_3594"
         ]
     ],
     "gc_287": [
         [
-            "co-comparability \u2229 comparability\n\n",
-            "gc_286"
-        ],
-        [
-            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd-hole)-free\n\n",
-            "AUTO_3594"
-        ],
-        [
-            "circle graph with equator\n\n",
-            "gc_285"
-        ],
-        [
-            "permutation\n\n",
-            "gc_23"
+            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd\n\n",
+            "AUTO_3585"
         ],
         [
             "containment graph of intervals\n\n",
             "gc_288"
         ],
         [
-            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd anti-hole)-free\n\n",
-            "AUTO_3585"
-        ]
-    ],
-    "gc_288": [
-        [
             "co-comparability \u2229 comparability\n\n",
             "gc_286"
-        ],
-        [
-            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd-hole)-free\n\n",
-            "AUTO_3594"
-        ],
-        [
-            "circle graph with equator\n\n",
-            "gc_285"
         ],
         [
             "permutation\n\n",
             "gc_23"
         ],
         [
-            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd anti-hole)-free\n\n",
+            "circle graph with equator\n\n",
+            "gc_285"
+        ],
+        [
+            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd-hole)-free\n\n",
+            "AUTO_3594"
+        ]
+    ],
+    "gc_288": [
+        [
+            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd\n\n",
             "AUTO_3585"
+        ],
+        [
+            "co-comparability \u2229 comparability\n\n",
+            "gc_286"
         ],
         [
             "comparability graphs of dimension 2 posets\n\n",
             "gc_287"
+        ],
+        [
+            "permutation\n\n",
+            "gc_23"
+        ],
+        [
+            "circle graph with equator\n\n",
+            "gc_285"
+        ],
+        [
+            "(C_{n+6},T_{2},X_{2},X_{3},X_{30},X_{31},X_{32},X_{33},X_{34},X_{36},XF_{1}\\^{2n+3},XF_{2}\\^{n+1},XF_{3}\\^{n},XF_{4}\\^{n},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{36}),co-\nXF_{1}\\^{2n+3},co-XF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},co-\nXF_{5}\\^{2n+3},co-XF_{6}\\^{2n+2},odd-hole)-free\n\n",
+            "AUTO_3594"
         ]
     ],
     "gc_29": [
-        [
-            "C_{4}-free \u2229 induced-hereditary pseudo-modular\n\n",
-            "gc_30"
-        ],
-        [
-            "chordal \u2229 hereditary clique-Helly\n\n",
-            "gc_793"
-        ],
         [
             "hereditary disk-Helly\n\n",
             "gc_795"
@@ -4355,13 +4343,29 @@
         [
             "hereditary Helly\n\n",
             "gc_31"
+        ],
+        [
+            "C_{4}-free \u2229 induced-hereditary pseudo-modular\n\n",
+            "gc_30"
+        ],
+        [
+            "chordal \u2229 hereditary clique-Helly\n\n",
+            "gc_793"
         ]
     ],
     "gc_290": [],
     "gc_291": [
         [
-            "(K_{3,3},K_{5})-minor-free\n\n",
-            "gc_898"
+            "partial bar visibility\n\n",
+            "gc_731"
+        ],
+        [
+            "disk contact\n\n",
+            "gc_954"
+        ],
+        [
+            "coin\n\n",
+            "gc_955"
         ],
         [
             "triangle contact\n\n",
@@ -4372,20 +4376,12 @@
             "gc_730"
         ],
         [
-            "partial bar visibility\n\n",
-            "gc_731"
-        ],
-        [
-            "coin\n\n",
-            "gc_955"
-        ],
-        [
-            "disk contact\n\n",
-            "gc_954"
-        ],
-        [
             "planar\n\n",
             "gc_43"
+        ],
+        [
+            "(K_{3,3},K_{5})-minor-free\n\n",
+            "gc_898"
         ]
     ],
     "gc_292": [],
@@ -4414,80 +4410,80 @@
             "gc_1354"
         ],
         [
-            "(C_{n+4} U K_{1},S_{3} U K_{1},X_{42},co(T_{2}),co(X_{2}),co(X_{3}),co(odd-\ncycle U K_{1}),even anti-hole,net)-free\n\n",
+            "(C_{n+4} U K_{1},S_{3} U K_{1},X_{42},co(T_{2}),co(X_{2}),co(X_{3}),odd-cycle\nU\n\n",
             "gc_881"
         ]
     ],
     "gc_298": [
         [
-            "chordal \u2229 unit circular arc\n\n",
-            "gc_381"
+            "claw-free \u2229 interval\n\n",
+            "gc_301"
         ],
         [
             "(S_{3},claw,net)-free \u2229 chordal\n\n",
             "gc_300"
         ],
         [
-            "indifference\n\n",
-            "gc_555"
-        ],
-        [
-            "unit interval\n\n",
-            "gc_299"
+            "chordal \u2229 unit circular arc\n\n",
+            "gc_381"
         ],
         [
             "linear interval\n\n",
             "gc_1356"
         ],
         [
-            "(C_{n+4},S_{3},claw,net)-free\n\n",
-            "AUTO_737"
+            "indifference\n\n",
+            "gc_555"
         ],
         [
             "clique graphs of interval\n\n",
             "gc_1046"
         ],
         [
-            "claw-free \u2229 interval\n\n",
-            "gc_301"
+            "(C_{n+4},S_{3},claw,net)-free\n\n",
+            "AUTO_737"
         ],
         [
             "astral triple-free\n\n",
             "gc_302"
+        ],
+        [
+            "unit interval\n\n",
+            "gc_299"
         ]
     ],
     "gc_299": [
         [
-            "chordal \u2229 unit circular arc\n\n",
-            "gc_381"
+            "claw-free \u2229 interval\n\n",
+            "gc_301"
         ],
         [
             "(S_{3},claw,net)-free \u2229 chordal\n\n",
             "gc_300"
         ],
         [
-            "indifference\n\n",
-            "gc_555"
-        ],
-        [
-            "proper interval\n\n",
-            "gc_298"
+            "chordal \u2229 unit circular arc\n\n",
+            "gc_381"
         ],
         [
             "linear interval\n\n",
             "gc_1356"
         ],
         [
-            "(C_{n+4},S_{3},claw,net)-free\n\n",
-            "AUTO_737"
+            "indifference\n\n",
+            "gc_555"
         ],
         [
             "clique graphs of interval\n\n",
             "gc_1046"
         ],
         [
-            "claw-free \u2229 interval\n\n",
-            "gc_301"
+            "(C_{n+4},S_{3},claw,net)-free\n\n",
+            "AUTO_737"
+        ],
+        [
+            "proper interval\n\n",
+            "gc_298"
         ],
         [
             "astral triple-free\n\n",
@@ -4501,110 +4497,126 @@
             "gc_795"
         ],
         [
-            "chordal \u2229 hereditary clique-Helly\n\n",
-            "gc_793"
-        ],
-        [
             "S_{3}-free \u2229 chordal\n\n",
             "gc_29"
+        ],
+        [
+            "hereditary Helly\n\n",
+            "gc_31"
         ],
         [
             "(C_{n+4},S_{3})-free\n\n",
             "AUTO_726"
         ],
         [
-            "hereditary Helly\n\n",
-            "gc_31"
+            "chordal \u2229 hereditary clique-Helly\n\n",
+            "gc_793"
         ]
     ],
     "gc_300": [
         [
+            "claw-free \u2229 interval\n\n",
+            "gc_301"
+        ],
+        [
             "chordal \u2229 unit circular arc\n\n",
             "gc_381"
-        ],
-        [
-            "indifference\n\n",
-            "gc_555"
-        ],
-        [
-            "proper interval\n\n",
-            "gc_298"
-        ],
-        [
-            "unit interval\n\n",
-            "gc_299"
         ],
         [
             "linear interval\n\n",
             "gc_1356"
         ],
         [
-            "(C_{n+4},S_{3},claw,net)-free\n\n",
-            "AUTO_737"
+            "indifference\n\n",
+            "gc_555"
         ],
         [
             "clique graphs of interval\n\n",
             "gc_1046"
         ],
         [
-            "claw-free \u2229 interval\n\n",
-            "gc_301"
+            "(C_{n+4},S_{3},claw,net)-free\n\n",
+            "AUTO_737"
+        ],
+        [
+            "proper interval\n\n",
+            "gc_298"
         ],
         [
             "astral triple-free\n\n",
             "gc_302"
+        ],
+        [
+            "unit interval\n\n",
+            "gc_299"
         ]
     ],
     "gc_301": [
         [
-            "chordal \u2229 unit circular arc\n\n",
-            "gc_381"
-        ],
-        [
             "(S_{3},claw,net)-free \u2229 chordal\n\n",
             "gc_300"
         ],
         [
-            "indifference\n\n",
-            "gc_555"
-        ],
-        [
-            "proper interval\n\n",
-            "gc_298"
-        ],
-        [
-            "unit interval\n\n",
-            "gc_299"
+            "chordal \u2229 unit circular arc\n\n",
+            "gc_381"
         ],
         [
             "linear interval\n\n",
             "gc_1356"
         ],
         [
-            "(C_{n+4},S_{3},claw,net)-free\n\n",
-            "AUTO_737"
+            "indifference\n\n",
+            "gc_555"
         ],
         [
             "clique graphs of interval\n\n",
             "gc_1046"
+        ],
+        [
+            "(C_{n+4},S_{3},claw,net)-free\n\n",
+            "AUTO_737"
+        ],
+        [
+            "proper interval\n\n",
+            "gc_298"
         ],
         [
             "astral triple-free\n\n",
             "gc_302"
+        ],
+        [
+            "unit interval\n\n",
+            "gc_299"
         ]
     ],
     "gc_302": [
         [
-            "chordal \u2229 unit circular arc\n\n",
-            "gc_381"
+            "claw-free \u2229 interval\n\n",
+            "gc_301"
         ],
         [
             "(S_{3},claw,net)-free \u2229 chordal\n\n",
             "gc_300"
         ],
         [
+            "chordal \u2229 unit circular arc\n\n",
+            "gc_381"
+        ],
+        [
+            "linear interval\n\n",
+            "gc_1356"
+        ],
+        [
             "indifference\n\n",
             "gc_555"
+        ],
+        [
+            "clique graphs of interval\n\n",
+            "gc_1046"
+        ],
+        [
+            "(C_{n+4},S_{3},claw,net)-free\n\n",
+            "AUTO_737"
         ],
         [
             "proper interval\n\n",
@@ -4613,22 +4625,6 @@
         [
             "unit interval\n\n",
             "gc_299"
-        ],
-        [
-            "linear interval\n\n",
-            "gc_1356"
-        ],
-        [
-            "(C_{n+4},S_{3},claw,net)-free\n\n",
-            "AUTO_737"
-        ],
-        [
-            "clique graphs of interval\n\n",
-            "gc_1046"
-        ],
-        [
-            "claw-free \u2229 interval\n\n",
-            "gc_301"
         ]
     ],
     "gc_303": [
@@ -4646,23 +4642,19 @@
     "gc_305": [],
     "gc_306": [
         [
+            "(C_{n+4},gem)-free\n\n",
+            "AUTO_738"
+        ],
+        [
             "ptolemaic\n\n",
             "gc_95"
         ],
         [
             "chordal \u2229 gem-free\n\n",
             "gc_307"
-        ],
-        [
-            "(C_{n+4},gem)-free\n\n",
-            "AUTO_738"
         ]
     ],
     "gc_307": [
-        [
-            "ptolemaic\n\n",
-            "gc_95"
-        ],
         [
             "chordal \u2229 distance-hereditary\n\n",
             "gc_306"
@@ -4670,6 +4662,10 @@
         [
             "(C_{n+4},gem)-free\n\n",
             "AUTO_738"
+        ],
+        [
+            "ptolemaic\n\n",
+            "gc_95"
         ]
     ],
     "gc_308": [
@@ -4680,12 +4676,12 @@
     ],
     "gc_309": [
         [
-            "treewidth 2\n\n",
-            "gc_899"
-        ],
-        [
             "partial 2-tree\n\n",
             "gc_310"
+        ],
+        [
+            "treewidth 2\n\n",
+            "gc_899"
         ],
         [
             "series-parallel\n\n",
@@ -4694,8 +4690,16 @@
     ],
     "gc_31": [
         [
+            "hereditary disk-Helly\n\n",
+            "gc_795"
+        ],
+        [
             "S_{3}-free \u2229 chordal\n\n",
             "gc_29"
+        ],
+        [
+            "(C_{n+4},S_{3})-free\n\n",
+            "AUTO_726"
         ],
         [
             "C_{4}-free \u2229 induced-hereditary pseudo-modular\n\n",
@@ -4704,21 +4708,9 @@
         [
             "chordal \u2229 hereditary clique-Helly\n\n",
             "gc_793"
-        ],
-        [
-            "hereditary disk-Helly\n\n",
-            "gc_795"
-        ],
-        [
-            "(C_{n+4},S_{3})-free\n\n",
-            "AUTO_726"
         ]
     ],
     "gc_310": [
-        [
-            "K_{4}-minor-free\n\n",
-            "gc_309"
-        ],
         [
             "treewidth 2\n\n",
             "gc_899"
@@ -4726,35 +4718,39 @@
         [
             "series-parallel\n\n",
             "gc_275"
+        ],
+        [
+            "K_{4}-minor-free\n\n",
+            "gc_309"
         ]
     ],
     "gc_311": [],
     "gc_312": [
         [
-            "(1,1)-colorable\n\n",
-            "gc_417"
+            "split\n\n",
+            "gc_39"
         ],
         [
             "(2K_{2},C_{4},C_{5})-free\n\n",
             "gc_313"
         ],
         [
-            "split\n\n",
-            "gc_39"
+            "(1,1)-colorable\n\n",
+            "gc_417"
         ]
     ],
     "gc_313": [
         [
-            "(1,1)-colorable\n\n",
-            "gc_417"
+            "split\n\n",
+            "gc_39"
         ],
         [
             "chordal \u2229 co-chordal\n\n",
             "gc_312"
         ],
         [
-            "split\n\n",
-            "gc_39"
+            "(1,1)-colorable\n\n",
+            "gc_417"
         ]
     ],
     "gc_314": [],
@@ -4772,30 +4768,30 @@
     ],
     "gc_317": [
         [
-            "(C_{n+4},sun)-free\n\n",
-            "AUTO_739"
+            "hereditary dually chordal\n\n",
+            "gc_318"
         ],
         [
             "strongly chordal\n\n",
             "gc_125"
         ],
         [
-            "hereditary dually chordal\n\n",
-            "gc_318"
+            "(C_{n+4},sun)-free\n\n",
+            "AUTO_739"
         ]
     ],
     "gc_318": [
         [
-            "(C_{n+4},sun)-free\n\n",
-            "AUTO_739"
+            "chordal \u2229 sun-free\n\n",
+            "gc_317"
         ],
         [
             "strongly chordal\n\n",
             "gc_125"
         ],
         [
-            "chordal \u2229 sun-free\n\n",
-            "gc_317"
+            "(C_{n+4},sun)-free\n\n",
+            "AUTO_739"
         ]
     ],
     "gc_319": [
@@ -4806,20 +4802,20 @@
     ],
     "gc_32": [
         [
-            "\u03b2-perfect \u2229 perfect\n\n",
-            "gc_988"
-        ],
-        [
-            "rigid circuit\n\n",
-            "gc_1178"
-        ],
-        [
             "C_{n+4}-free\n\n",
             "gc_382"
         ],
         [
             "triangulated\n\n",
             "gc_945"
+        ],
+        [
+            "\u03b2-perfect \u2229 perfect\n\n",
+            "gc_988"
+        ],
+        [
+            "rigid circuit\n\n",
+            "gc_1178"
         ]
     ],
     "gc_320": [
@@ -4851,20 +4847,12 @@
     ],
     "gc_327": [
         [
-            "chordal \u2229 cograph\n\n",
-            "gc_344"
-        ],
-        [
-            "comparability graphs of arborescence orders\n\n",
-            "gc_346"
-        ],
-        [
-            "intersection graph of nested intervals\n\n",
-            "gc_347"
-        ],
-        [
             "quasi-threshold\n\n",
             "gc_781"
+        ],
+        [
+            "NLCT-width 1\n\n",
+            "gc_1072"
         ],
         [
             "cograph \u2229 interval\n\n",
@@ -4875,22 +4863,30 @@
             "gc_343"
         ],
         [
-            "NLCT-width 1\n\n",
-            "gc_1072"
+            "intersection graph of nested intervals\n\n",
+            "gc_347"
+        ],
+        [
+            "comparability graphs of arborescence orders\n\n",
+            "gc_346"
+        ],
+        [
+            "chordal \u2229 cograph\n\n",
+            "gc_344"
         ]
     ],
     "gc_328": [
         [
+            "Dilworth 1\n\n",
+            "gc_330"
+        ],
+        [
+            "cograph \u2229 split\n\n",
+            "gc_333"
+        ],
+        [
             "co-trivially perfect \u2229 trivially perfect\n\n",
             "gc_331"
-        ],
-        [
-            "co-interval \u2229 cograph \u2229 interval\n\n",
-            "gc_334"
-        ],
-        [
-            "comparability graphs of threshold orders\n\n",
-            "gc_332"
         ],
         [
             "(2K_{2},C_{4},P_{4})-free\n\n",
@@ -4901,61 +4897,53 @@
             "gc_1073"
         ],
         [
-            "cograph \u2229 split\n\n",
-            "gc_333"
-        ],
-        [
-            "Dilworth 1\n\n",
-            "gc_330"
-        ]
-    ],
-    "gc_329": [
-        [
-            "co-trivially perfect \u2229 trivially perfect\n\n",
-            "gc_331"
-        ],
-        [
-            "co-interval \u2229 cograph \u2229 interval\n\n",
-            "gc_334"
-        ],
-        [
             "comparability graphs of threshold orders\n\n",
             "gc_332"
         ],
         [
-            "threshold\n\n",
-            "gc_328"
+            "co-interval \u2229 cograph \u2229 interval\n\n",
+            "gc_334"
+        ]
+    ],
+    "gc_329": [
+        [
+            "Dilworth 1\n\n",
+            "gc_330"
+        ],
+        [
+            "cograph \u2229 split\n\n",
+            "gc_333"
+        ],
+        [
+            "co-trivially perfect \u2229 trivially perfect\n\n",
+            "gc_331"
         ],
         [
             "linear NLC-width 1\n\n",
             "gc_1073"
         ],
         [
-            "cograph \u2229 split\n\n",
-            "gc_333"
+            "comparability graphs of threshold orders\n\n",
+            "gc_332"
         ],
         [
-            "Dilworth 1\n\n",
-            "gc_330"
+            "co-interval \u2229 cograph \u2229 interval\n\n",
+            "gc_334"
+        ],
+        [
+            "threshold\n\n",
+            "gc_328"
         ]
     ],
     "gc_33": [],
     "gc_330": [
         [
+            "cograph \u2229 split\n\n",
+            "gc_333"
+        ],
+        [
             "co-trivially perfect \u2229 trivially perfect\n\n",
             "gc_331"
-        ],
-        [
-            "co-interval \u2229 cograph \u2229 interval\n\n",
-            "gc_334"
-        ],
-        [
-            "comparability graphs of threshold orders\n\n",
-            "gc_332"
-        ],
-        [
-            "threshold\n\n",
-            "gc_328"
         ],
         [
             "(2K_{2},C_{4},P_{4})-free\n\n",
@@ -4966,22 +4954,26 @@
             "gc_1073"
         ],
         [
-            "cograph \u2229 split\n\n",
-            "gc_333"
+            "comparability graphs of threshold orders\n\n",
+            "gc_332"
+        ],
+        [
+            "co-interval \u2229 cograph \u2229 interval\n\n",
+            "gc_334"
+        ],
+        [
+            "threshold\n\n",
+            "gc_328"
         ]
     ],
     "gc_331": [
         [
-            "co-interval \u2229 cograph \u2229 interval\n\n",
-            "gc_334"
+            "Dilworth 1\n\n",
+            "gc_330"
         ],
         [
-            "comparability graphs of threshold orders\n\n",
-            "gc_332"
-        ],
-        [
-            "threshold\n\n",
-            "gc_328"
+            "cograph \u2229 split\n\n",
+            "gc_333"
         ],
         [
             "(2K_{2},C_{4},P_{4})-free\n\n",
@@ -4992,75 +4984,87 @@
             "gc_1073"
         ],
         [
-            "cograph \u2229 split\n\n",
-            "gc_333"
+            "comparability graphs of threshold orders\n\n",
+            "gc_332"
         ],
         [
-            "Dilworth 1\n\n",
-            "gc_330"
+            "co-interval \u2229 cograph \u2229 interval\n\n",
+            "gc_334"
+        ],
+        [
+            "threshold\n\n",
+            "gc_328"
         ]
     ],
     "gc_332": [
         [
-            "co-trivially perfect \u2229 trivially perfect\n\n",
-            "gc_331"
-        ],
-        [
-            "co-interval \u2229 cograph \u2229 interval\n\n",
-            "gc_334"
-        ],
-        [
-            "(2K_{2},C_{4},P_{4})-free\n\n",
-            "gc_329"
-        ],
-        [
-            "threshold\n\n",
-            "gc_328"
-        ],
-        [
-            "linear NLC-width 1\n\n",
-            "gc_1073"
+            "Dilworth 1\n\n",
+            "gc_330"
         ],
         [
             "cograph \u2229 split\n\n",
             "gc_333"
         ],
         [
-            "Dilworth 1\n\n",
-            "gc_330"
+            "co-trivially perfect \u2229 trivially perfect\n\n",
+            "gc_331"
+        ],
+        [
+            "(2K_{2},C_{4},P_{4})-free\n\n",
+            "gc_329"
+        ],
+        [
+            "linear NLC-width 1\n\n",
+            "gc_1073"
+        ],
+        [
+            "co-interval \u2229 cograph \u2229 interval\n\n",
+            "gc_334"
+        ],
+        [
+            "threshold\n\n",
+            "gc_328"
         ]
     ],
     "gc_333": [
         [
+            "Dilworth 1\n\n",
+            "gc_330"
+        ],
+        [
             "co-trivially perfect \u2229 trivially perfect\n\n",
             "gc_331"
+        ],
+        [
+            "(2K_{2},C_{4},P_{4})-free\n\n",
+            "gc_329"
+        ],
+        [
+            "linear NLC-width 1\n\n",
+            "gc_1073"
+        ],
+        [
+            "comparability graphs of threshold orders\n\n",
+            "gc_332"
         ],
         [
             "co-interval \u2229 cograph \u2229 interval\n\n",
             "gc_334"
         ],
         [
-            "comparability graphs of threshold orders\n\n",
-            "gc_332"
-        ],
-        [
             "threshold\n\n",
             "gc_328"
-        ],
-        [
-            "(2K_{2},C_{4},P_{4})-free\n\n",
-            "gc_329"
-        ],
-        [
-            "linear NLC-width 1\n\n",
-            "gc_1073"
-        ],
-        [
-            "Dilworth 1\n\n",
-            "gc_330"
         ]
     ],
     "gc_334": [
+        [
+            "Dilworth 1\n\n",
+            "gc_330"
+        ],
+        [
+            "cograph \u2229 split\n\n",
+            "gc_333"
+        ],
         [
             "co-trivially perfect \u2229 trivially perfect\n\n",
             "gc_331"
@@ -5070,34 +5074,26 @@
             "gc_329"
         ],
         [
+            "linear NLC-width 1\n\n",
+            "gc_1073"
+        ],
+        [
             "comparability graphs of threshold orders\n\n",
             "gc_332"
         ],
         [
             "threshold\n\n",
             "gc_328"
-        ],
-        [
-            "linear NLC-width 1\n\n",
-            "gc_1073"
-        ],
-        [
-            "cograph \u2229 split\n\n",
-            "gc_333"
-        ],
-        [
-            "Dilworth 1\n\n",
-            "gc_330"
         ]
     ],
     "gc_335": [
         [
-            "threshold signed\n\n",
-            "gc_246"
+            "(3K_{2},C_{4} U P_{2},C_{5},P_{2} U\nP_{4},P_{5},S_{3},X_{1},X_{46},X_{70},co(3K_{2}),co(C_{4} U P_{2}),P_{2}\n\n",
+            "gc_578"
         ],
         [
-            "(3K_{2},C_{4} U P_{2},C_{5},P_{2} U\nP_{4},P_{5},S_{3},X_{1},X_{46},X_{70},co(3K_{2}),co(C_{4} U P_{2}),co(P_{2} U\nP_{4}),co(X_{1}),co(X_{46}),co(X_{70}),co-fish,co-rising\nsun,fish,house,net,rising sun)-free\n\n",
-            "gc_578"
+            "threshold signed\n\n",
+            "gc_246"
         ]
     ],
     "gc_336": [],
@@ -5126,16 +5122,16 @@
     ],
     "gc_340": [
         [
-            "bounded bitolerance\n\n",
-            "gc_1049"
-        ],
-        [
             "bounded multitolerance\n\n",
             "gc_341"
         ],
         [
             "trapezoid\n\n",
             "gc_59"
+        ],
+        [
+            "bounded bitolerance\n\n",
+            "gc_1049"
         ]
     ],
     "gc_341": [
@@ -5158,12 +5154,12 @@
             "gc_655"
         ],
         [
-            "cycle-free\n\n",
-            "gc_631"
-        ],
-        [
             "K_{3}-minor-free\n\n",
             "gc_896"
+        ],
+        [
+            "cycle-free\n\n",
+            "gc_631"
         ],
         [
             "bipartite \u2229 bridged\n\n",
@@ -5172,50 +5168,42 @@
     ],
     "gc_343": [
         [
-            "chordal \u2229 cograph\n\n",
-            "gc_344"
-        ],
-        [
-            "trivially perfect\n\n",
-            "gc_327"
-        ],
-        [
-            "comparability graphs of arborescence orders\n\n",
-            "gc_346"
-        ],
-        [
-            "intersection graph of nested intervals\n\n",
-            "gc_347"
-        ],
-        [
             "quasi-threshold\n\n",
             "gc_781"
+        ],
+        [
+            "NLCT-width 1\n\n",
+            "gc_1072"
         ],
         [
             "cograph \u2229 interval\n\n",
             "gc_345"
         ],
         [
-            "NLCT-width 1\n\n",
-            "gc_1072"
+            "comparability graphs of arborescence orders\n\n",
+            "gc_346"
+        ],
+        [
+            "trivially perfect\n\n",
+            "gc_327"
+        ],
+        [
+            "intersection graph of nested intervals\n\n",
+            "gc_347"
+        ],
+        [
+            "chordal \u2229 cograph\n\n",
+            "gc_344"
         ]
     ],
     "gc_344": [
         [
-            "trivially perfect\n\n",
-            "gc_327"
-        ],
-        [
-            "comparability graphs of arborescence orders\n\n",
-            "gc_346"
-        ],
-        [
-            "intersection graph of nested intervals\n\n",
-            "gc_347"
-        ],
-        [
             "quasi-threshold\n\n",
             "gc_781"
+        ],
+        [
+            "NLCT-width 1\n\n",
+            "gc_1072"
         ],
         [
             "cograph \u2229 interval\n\n",
@@ -5226,44 +5214,64 @@
             "gc_343"
         ],
         [
-            "NLCT-width 1\n\n",
-            "gc_1072"
+            "trivially perfect\n\n",
+            "gc_327"
+        ],
+        [
+            "comparability graphs of arborescence orders\n\n",
+            "gc_346"
+        ],
+        [
+            "intersection graph of nested intervals\n\n",
+            "gc_347"
         ]
     ],
     "gc_345": [
         [
-            "chordal \u2229 cograph\n\n",
-            "gc_344"
-        ],
-        [
-            "trivially perfect\n\n",
-            "gc_327"
-        ],
-        [
-            "comparability graphs of arborescence orders\n\n",
-            "gc_346"
-        ],
-        [
-            "intersection graph of nested intervals\n\n",
-            "gc_347"
-        ],
-        [
             "quasi-threshold\n\n",
             "gc_781"
+        ],
+        [
+            "NLCT-width 1\n\n",
+            "gc_1072"
         ],
         [
             "(C_{4},P_{4})-free\n\n",
             "gc_343"
         ],
         [
-            "NLCT-width 1\n\n",
-            "gc_1072"
+            "trivially perfect\n\n",
+            "gc_327"
+        ],
+        [
+            "intersection graph of nested intervals\n\n",
+            "gc_347"
+        ],
+        [
+            "comparability graphs of arborescence orders\n\n",
+            "gc_346"
+        ],
+        [
+            "chordal \u2229 cograph\n\n",
+            "gc_344"
         ]
     ],
     "gc_346": [
         [
-            "chordal \u2229 cograph\n\n",
-            "gc_344"
+            "quasi-threshold\n\n",
+            "gc_781"
+        ],
+        [
+            "NLCT-width 1\n\n",
+            "gc_1072"
+        ],
+        [
+            "cograph \u2229 interval\n\n",
+            "gc_345"
+        ],
+        [
+            "(C_{4},P_{4})-free\n\n",
+            "gc_343"
         ],
         [
             "trivially perfect\n\n",
@@ -5274,6 +5282,12 @@
             "gc_347"
         ],
         [
+            "chordal \u2229 cograph\n\n",
+            "gc_344"
+        ]
+    ],
+    "gc_347": [
+        [
             "quasi-threshold\n\n",
             "gc_781"
         ],
@@ -5284,52 +5298,34 @@
         [
             "(C_{4},P_{4})-free\n\n",
             "gc_343"
-        ],
-        [
-            "NLCT-width 1\n\n",
-            "gc_1072"
-        ]
-    ],
-    "gc_347": [
-        [
-            "comparability graphs of arborescence orders\n\n",
-            "gc_346"
-        ],
-        [
-            "quasi-threshold\n\n",
-            "gc_781"
         ],
         [
             "trivially perfect\n\n",
             "gc_327"
         ],
         [
-            "chordal \u2229 cograph\n\n",
-            "gc_344"
-        ],
-        [
-            "cograph \u2229 interval\n\n",
-            "gc_345"
-        ],
-        [
-            "(C_{4},P_{4})-free\n\n",
-            "gc_343"
-        ],
-        [
             "NLCT-width 1\n\n",
             "gc_1072"
+        ],
+        [
+            "comparability graphs of arborescence orders\n\n",
+            "gc_346"
+        ],
+        [
+            "chordal \u2229 cograph\n\n",
+            "gc_344"
         ]
     ],
     "gc_348": [],
     "gc_349": [],
     "gc_35": [
         [
-            "(C_{n+4},S_{3},net)-free\n\n",
-            "AUTO_727"
-        ],
-        [
             "(S_{3},net)-free \u2229 chordal\n\n",
             "gc_34"
+        ],
+        [
+            "(C_{n+4},S_{3},net)-free\n\n",
+            "AUTO_727"
         ]
     ],
     "gc_350": [],
@@ -5359,12 +5355,12 @@
     ],
     "gc_36": [
         [
-            "(C_{n+4},odd-sun)-free\n\n",
-            "AUTO_728"
-        ],
-        [
             "chordal \u2229 neighbourhood perfect\n\n",
             "gc_130"
+        ],
+        [
+            "(C_{n+4},odd-sun)-free\n\n",
+            "AUTO_728"
         ],
         [
             "balanced \u2229 chordal\n\n",
@@ -5423,58 +5419,58 @@
     ],
     "gc_381": [
         [
+            "claw-free \u2229 interval\n\n",
+            "gc_301"
+        ],
+        [
             "(S_{3},claw,net)-free \u2229 chordal\n\n",
             "gc_300"
-        ],
-        [
-            "indifference\n\n",
-            "gc_555"
-        ],
-        [
-            "proper interval\n\n",
-            "gc_298"
-        ],
-        [
-            "unit interval\n\n",
-            "gc_299"
         ],
         [
             "linear interval\n\n",
             "gc_1356"
         ],
         [
-            "(C_{n+4},S_{3},claw,net)-free\n\n",
-            "AUTO_737"
+            "indifference\n\n",
+            "gc_555"
         ],
         [
             "clique graphs of interval\n\n",
             "gc_1046"
         ],
         [
-            "claw-free \u2229 interval\n\n",
-            "gc_301"
+            "(C_{n+4},S_{3},claw,net)-free\n\n",
+            "AUTO_737"
+        ],
+        [
+            "proper interval\n\n",
+            "gc_298"
         ],
         [
             "astral triple-free\n\n",
             "gc_302"
+        ],
+        [
+            "unit interval\n\n",
+            "gc_299"
         ]
     ],
     "gc_382": [
-        [
-            "\u03b2-perfect \u2229 perfect\n\n",
-            "gc_988"
-        ],
         [
             "chordal\n\n",
             "gc_32"
         ],
         [
-            "rigid circuit\n\n",
-            "gc_1178"
-        ],
-        [
             "triangulated\n\n",
             "gc_945"
+        ],
+        [
+            "\u03b2-perfect \u2229 perfect\n\n",
+            "gc_988"
+        ],
+        [
+            "rigid circuit\n\n",
+            "gc_1178"
         ]
     ],
     "gc_383": [],
@@ -5508,16 +5504,16 @@
     "gc_389": [],
     "gc_39": [
         [
-            "(1,1)-colorable\n\n",
-            "gc_417"
+            "chordal \u2229 co-chordal\n\n",
+            "gc_312"
         ],
         [
             "(2K_{2},C_{4},C_{5})-free\n\n",
             "gc_313"
         ],
         [
-            "chordal \u2229 co-chordal\n\n",
-            "gc_312"
+            "(1,1)-colorable\n\n",
+            "gc_417"
         ]
     ],
     "gc_390": [],
@@ -5563,34 +5559,34 @@
     "gc_415": [],
     "gc_416": [
         [
-            "odd-cycle-free\n\n",
-            "gc_70"
-        ],
-        [
-            "bipartite\n\n",
-            "gc_69"
-        ],
-        [
             "perfect \u2229 triangle-free\n\n",
             "gc_71"
         ],
         [
             "bisplit \u2229 triangle-free\n\n",
             "gc_458"
+        ],
+        [
+            "odd-cycle-free\n\n",
+            "gc_70"
+        ],
+        [
+            "bipartite\n\n",
+            "gc_69"
         ]
     ],
     "gc_417": [
         [
-            "(2K_{2},C_{4},C_{5})-free\n\n",
-            "gc_313"
+            "split\n\n",
+            "gc_39"
         ],
         [
             "chordal \u2229 co-chordal\n\n",
             "gc_312"
         ],
         [
-            "split\n\n",
-            "gc_39"
+            "(2K_{2},C_{4},C_{5})-free\n\n",
+            "gc_313"
         ]
     ],
     "gc_418": [],
@@ -5606,8 +5602,16 @@
     "gc_429": [],
     "gc_43": [
         [
-            "(K_{3,3},K_{5})-minor-free\n\n",
-            "gc_898"
+            "partial bar visibility\n\n",
+            "gc_731"
+        ],
+        [
+            "disk contact\n\n",
+            "gc_954"
+        ],
+        [
+            "coin\n\n",
+            "gc_955"
         ],
         [
             "triangle contact\n\n",
@@ -5622,16 +5626,8 @@
             "gc_291"
         ],
         [
-            "coin\n\n",
-            "gc_955"
-        ],
-        [
-            "disk contact\n\n",
-            "gc_954"
-        ],
-        [
-            "partial bar visibility\n\n",
-            "gc_731"
+            "(K_{3,3},K_{5})-minor-free\n\n",
+            "gc_898"
         ]
     ],
     "gc_430": [],
@@ -5664,12 +5660,12 @@
     ],
     "gc_442": [
         [
-            "(2K_{2},C_{5},triangle)-free\n\n",
-            "gc_1301"
-        ],
-        [
             "difference\n\n",
             "gc_524"
+        ],
+        [
+            "(2K_{2},C_{5},triangle)-free\n\n",
+            "gc_1301"
         ],
         [
             "2K_{2}-free \u2229 bipartite\n\n",
@@ -5678,16 +5674,16 @@
     ],
     "gc_443": [
         [
+            "difference\n\n",
+            "gc_524"
+        ],
+        [
             "(2K_{2},C_{5},triangle)-free\n\n",
             "gc_1301"
         ],
         [
             "bipartite chain\n\n",
             "gc_442"
-        ],
-        [
-            "difference\n\n",
-            "gc_524"
         ]
     ],
     "gc_444": [
@@ -5746,20 +5742,20 @@
     "gc_457": [],
     "gc_458": [
         [
-            "odd-cycle-free\n\n",
-            "gc_70"
+            "perfect \u2229 triangle-free\n\n",
+            "gc_71"
         ],
         [
-            "bipartite\n\n",
-            "gc_69"
+            "odd-cycle-free\n\n",
+            "gc_70"
         ],
         [
             "(0,2)-colorable\n\n",
             "gc_416"
         ],
         [
-            "perfect \u2229 triangle-free\n\n",
-            "gc_71"
+            "bipartite\n\n",
+            "gc_69"
         ]
     ],
     "gc_459": [
@@ -5770,12 +5766,12 @@
     ],
     "gc_46": [
         [
-            "modular \u2229 open-neighbourhood-Helly\n\n",
-            "gc_47"
-        ],
-        [
             "absolute bipartite retract\n\n",
             "gc_45"
+        ],
+        [
+            "modular \u2229 open-neighbourhood-Helly\n\n",
+            "gc_47"
         ]
     ],
     "gc_460": [
@@ -5786,12 +5782,12 @@
     ],
     "gc_461": [
         [
-            "extended P_{4}-reducible\n\n",
-            "gc_19"
-        ],
-        [
             "(P,P_{5},S_{3},co(P),co-fork,fork,house,net)-free\n\n",
             "gc_188"
+        ],
+        [
+            "extended P_{4}-reducible\n\n",
+            "gc_19"
         ]
     ],
     "gc_462": [],
@@ -5808,12 +5804,12 @@
     "gc_469": [],
     "gc_47": [
         [
-            "half-disk Helly\n\n",
-            "gc_46"
-        ],
-        [
             "absolute bipartite retract\n\n",
             "gc_45"
+        ],
+        [
+            "half-disk Helly\n\n",
+            "gc_46"
         ]
     ],
     "gc_470": [],
@@ -5833,12 +5829,12 @@
     "gc_480": [],
     "gc_481": [
         [
-            "cograph\n\n",
-            "gc_151"
-        ],
-        [
             "P_{4}-free\n\n",
             "gc_152"
+        ],
+        [
+            "cograph\n\n",
+            "gc_151"
         ],
         [
             "comparability graphs of series-parallel posets\n\n",
@@ -5855,22 +5851,22 @@
     ],
     "gc_485": [
         [
-            "co-bipartite\n\n",
-            "gc_486"
-        ],
-        [
             "odd anti-cycle-free\n\n",
             "AUTO_2070"
+        ],
+        [
+            "co-bipartite\n\n",
+            "gc_486"
         ]
     ],
     "gc_486": [
         [
-            "(2,0)-colorable\n\n",
-            "gc_485"
-        ],
-        [
             "odd anti-cycle-free\n\n",
             "AUTO_2070"
+        ],
+        [
+            "(2,0)-colorable\n\n",
+            "gc_485"
         ]
     ],
     "gc_487": [
@@ -5886,12 +5882,12 @@
     "gc_488": [],
     "gc_489": [
         [
-            "P_{4}-sparse\n\n",
-            "gc_18"
-        ],
-        [
             "(C_{5},P,P_{5},co(P),co-fork,fork,house)-free\n\n",
             "gc_24"
+        ],
+        [
+            "P_{4}-sparse\n\n",
+            "gc_18"
         ]
     ],
     "gc_49": [
@@ -5908,12 +5904,12 @@
     ],
     "gc_491": [
         [
-            "C_{5}-free \u2229 P_{4}-extendible\n\n",
-            "gc_499"
-        ],
-        [
             "(2K_{3} +\ne,A,C_{5},C_{6},E,H,K_{3,3}-e,P_{6},R,S_{3},X_{166},X_{167},X_{168},X_{169},X_{170},X_{171},X_{172},X_{18},X_{45},X_{5},X_{58},X_{84},X_{95},X_{96},X_{98},co(A),co(C_{6}),co(E),co(H),co(P_{6}),co(R),co(X_{166}),co(X_{167}),co(X_{168}),co(X_{169}),co(X_{170}),co(X_{171}),co(X_{172}),co(X_{18}),co(X_{45}),co(X_{5}),co(X_{58}),co(X_{84}),co(X_{95}),co(X_{96}),co(X_{98}),antenna,co-\nantenna,co-cross,co-domino,co-fish,co-twin-house,cross,domino,fish,net,twin-\nhouse)-free\n\n",
             "gc_839"
+        ],
+        [
+            "C_{5}-free \u2229 P_{4}-extendible\n\n",
+            "gc_499"
         ]
     ],
     "gc_492": [
@@ -5930,12 +5926,12 @@
     "gc_498": [],
     "gc_499": [
         [
-            "(6,2)\n\n",
-            "gc_491"
-        ],
-        [
             "(2K_{3} +\ne,A,C_{5},C_{6},E,H,K_{3,3}-e,P_{6},R,S_{3},X_{166},X_{167},X_{168},X_{169},X_{170},X_{171},X_{172},X_{18},X_{45},X_{5},X_{58},X_{84},X_{95},X_{96},X_{98},co(A),co(C_{6}),co(E),co(H),co(P_{6}),co(R),co(X_{166}),co(X_{167}),co(X_{168}),co(X_{169}),co(X_{170}),co(X_{171}),co(X_{172}),co(X_{18}),co(X_{45}),co(X_{5}),co(X_{58}),co(X_{84}),co(X_{95}),co(X_{96}),co(X_{98}),antenna,co-\nantenna,co-cross,co-domino,co-fish,co-twin-house,cross,domino,fish,net,twin-\nhouse)-free\n\n",
             "gc_839"
+        ],
+        [
+            "(6,2)\n\n",
+            "gc_491"
         ]
     ],
     "gc_5": [],
@@ -5949,12 +5945,12 @@
     "gc_501": [],
     "gc_502": [
         [
-            "matroidal\n\n",
-            "gc_257"
-        ],
-        [
             "C_{5}-free \u2229 matrogenic\n\n",
             "gc_258"
+        ],
+        [
+            "matroidal\n\n",
+            "gc_257"
         ]
     ],
     "gc_503": [
@@ -5987,12 +5983,12 @@
     "gc_519": [],
     "gc_52": [
         [
-            "Helly \u2229 reflexive\n\n",
-            "gc_582"
-        ],
-        [
             "clique-Helly \u2229 dismantlable \u2229 reflexive\n\n",
             "gc_583"
+        ],
+        [
+            "Helly \u2229 reflexive\n\n",
+            "gc_582"
         ],
         [
             "neighbourhood-Helly \u2229 pseudo-modular \u2229 reflexive\n\n",
@@ -6012,22 +6008,22 @@
     ],
     "gc_522": [
         [
-            "bipartite \u2229 co-trapezoid\n\n",
-            "gc_521"
-        ],
-        [
             "interval containment bigraph\n\n",
             "gc_891"
+        ],
+        [
+            "bipartite \u2229 co-trapezoid\n\n",
+            "gc_521"
         ]
     ],
     "gc_523": [
         [
-            "circular arc \u2229 co-bipartite\n\n",
-            "gc_487"
-        ],
-        [
             "co-interval containment bigraph\n\n",
             "gc_892"
+        ],
+        [
+            "circular arc \u2229 co-bipartite\n\n",
+            "gc_487"
         ]
     ],
     "gc_524": [
@@ -6061,12 +6057,12 @@
     ],
     "gc_53": [
         [
-            "disk-Helly\n\n",
-            "gc_794"
-        ],
-        [
             "Helly\n\n",
             "gc_105"
+        ],
+        [
+            "disk-Helly\n\n",
+            "gc_794"
         ]
     ],
     "gc_530": [
@@ -6077,36 +6073,36 @@
     ],
     "gc_531": [
         [
-            "bipartite \u2229 bounded tolerance\n\n",
-            "gc_1013"
+            "proper interval bigraph\n\n",
+            "gc_882"
         ],
         [
             "AT-free \u2229 bipartite\n\n",
             "gc_82"
         ],
         [
-            "bipartite \u2229 co-comparability\n\n",
-            "gc_893"
+            "unit interval bigraph\n\n",
+            "gc_883"
         ],
         [
             "bipartite permutation\n\n",
             "gc_81"
         ],
         [
-            "bipartite tolerance\n\n",
-            "gc_602"
+            "bipartite \u2229 bounded tolerance\n\n",
+            "gc_1013"
         ],
         [
-            "proper interval bigraph\n\n",
-            "gc_882"
-        ],
-        [
-            "unit interval bigraph\n\n",
-            "gc_883"
+            "bipartite \u2229 co-comparability\n\n",
+            "gc_893"
         ],
         [
             "bipartite \u2229 trapezoid\n\n",
             "gc_1014"
+        ],
+        [
+            "bipartite tolerance\n\n",
+            "gc_602"
         ]
     ],
     "gc_532": [],
@@ -6216,40 +6212,40 @@
     "gc_554": [],
     "gc_555": [
         [
-            "chordal \u2229 unit circular arc\n\n",
-            "gc_381"
+            "claw-free \u2229 interval\n\n",
+            "gc_301"
         ],
         [
             "(S_{3},claw,net)-free \u2229 chordal\n\n",
             "gc_300"
         ],
         [
-            "proper interval\n\n",
-            "gc_298"
-        ],
-        [
-            "unit interval\n\n",
-            "gc_299"
+            "chordal \u2229 unit circular arc\n\n",
+            "gc_381"
         ],
         [
             "linear interval\n\n",
             "gc_1356"
         ],
         [
-            "(C_{n+4},S_{3},claw,net)-free\n\n",
-            "AUTO_737"
-        ],
-        [
             "clique graphs of interval\n\n",
             "gc_1046"
         ],
         [
-            "claw-free \u2229 interval\n\n",
-            "gc_301"
+            "(C_{n+4},S_{3},claw,net)-free\n\n",
+            "AUTO_737"
+        ],
+        [
+            "proper interval\n\n",
+            "gc_298"
         ],
         [
             "astral triple-free\n\n",
             "gc_302"
+        ],
+        [
+            "unit interval\n\n",
+            "gc_299"
         ]
     ],
     "gc_556": [],
@@ -6270,8 +6266,8 @@
     ],
     "gc_559": [
         [
-            "comparability graphs of semiorders\n\n",
-            "gc_159"
+            "co-interval\n\n",
+            "gc_157"
         ],
         [
             "(co(C_{n+4}),co(T_{2}),co(X_{31}),co-XF_{2}\\^{n+1},co-XF_{3}\\^{n})-free\n\n",
@@ -6282,26 +6278,26 @@
             "gc_158"
         ],
         [
-            "co-interval\n\n",
-            "gc_157"
+            "comparability graphs of semiorders\n\n",
+            "gc_159"
         ]
     ],
     "gc_56": [
         [
-            "kernel solvable\n\n",
-            "gc_281"
+            "![cal C](images/calC.gif)(G)-perfect\n\n",
+            "gc_279"
         ],
         [
-            "perfectly 1-transversable\n\n",
-            "gc_280"
+            "kernel solvable\n\n",
+            "gc_281"
         ],
         [
             "(odd anti-hole,odd-hole)-free\n\n",
             "gc_597"
         ],
         [
-            "![cal C](images/calC.gif)(G)-perfect\n\n",
-            "gc_279"
+            "perfectly 1-transversable\n\n",
+            "gc_280"
         ],
         [
             "Berge\n\n",
@@ -6342,23 +6338,23 @@
     ],
     "gc_571": [
         [
-            "(P_{5},bull)-free \u2229 interval\n\n",
-            "gc_573"
-        ],
-        [
             "(C_{n+4},P_{5},bull)-free\n\n",
             "AUTO_755"
+        ],
+        [
+            "(P_{5},bull)-free \u2229 interval\n\n",
+            "gc_573"
         ]
     ],
     "gc_572": [],
     "gc_573": [
         [
-            "(C_{n+4},P_{5},bull)-free\n\n",
-            "AUTO_755"
-        ],
-        [
             "homogeneously representable\n\n",
             "gc_571"
+        ],
+        [
+            "(C_{n+4},P_{5},bull)-free\n\n",
+            "AUTO_755"
         ]
     ],
     "gc_574": [],
@@ -6377,22 +6373,22 @@
     ],
     "gc_578": [
         [
-            "Dilworth 2\n\n",
-            "gc_335"
-        ],
-        [
             "threshold signed\n\n",
             "gc_246"
+        ],
+        [
+            "Dilworth 2\n\n",
+            "gc_335"
         ]
     ],
     "gc_579": [
         [
-            "hereditary dismantlable\n\n",
-            "gc_100"
-        ],
-        [
             "bridged\n\n",
             "gc_99"
+        ],
+        [
+            "hereditary dismantlable\n\n",
+            "gc_100"
         ]
     ],
     "gc_58": [],
@@ -6402,12 +6398,12 @@
             "AUTO_754"
         ],
         [
-            "line graphs of acyclic multigraphs\n\n",
-            "gc_710"
-        ],
-        [
             "AC\n\n",
             "gc_384"
+        ],
+        [
+            "line graphs of acyclic multigraphs\n\n",
+            "gc_710"
         ]
     ],
     "gc_581": [],
@@ -6448,45 +6444,45 @@
     "gc_585": [],
     "gc_586": [
         [
-            "HHDG-free\n\n",
-            "gc_178"
-        ],
-        [
             "distance-hereditary\n\n",
             "gc_80"
         ],
         [
             "(5,2)-crossing-chordal\n\n",
             "gc_177"
+        ],
+        [
+            "HHDG-free\n\n",
+            "gc_178"
         ]
     ],
     "gc_587": [
         [
-            "(X_{79},X_{80})-free \u2229 modular\n\n",
-            "gc_589"
-        ],
-        [
             "hereditary absolute bipartite retract\n\n",
             "gc_213"
+        ],
+        [
+            "BW_{3}-free \u2229 modular\n\n",
+            "gc_591"
         ],
         [
             "hereditary modular\n\n",
             "gc_121"
         ],
         [
-            "BW_{3}-free \u2229 modular\n\n",
-            "gc_591"
+            "(X_{79},X_{80})-free \u2229 modular\n\n",
+            "gc_589"
         ]
     ],
     "gc_588": [],
     "gc_589": [
         [
-            "C_{6}-free \u2229 modular\n\n",
-            "gc_587"
-        ],
-        [
             "hereditary absolute bipartite retract\n\n",
             "gc_213"
+        ],
+        [
+            "C_{6}-free \u2229 modular\n\n",
+            "gc_587"
         ],
         [
             "hereditary modular\n\n",
@@ -6514,27 +6510,35 @@
     "gc_590": [],
     "gc_591": [
         [
-            "C_{6}-free \u2229 modular\n\n",
-            "gc_587"
-        ],
-        [
-            "(X_{79},X_{80})-free \u2229 modular\n\n",
-            "gc_589"
-        ],
-        [
             "hereditary absolute bipartite retract\n\n",
             "gc_213"
         ],
         [
+            "C_{6}-free \u2229 modular\n\n",
+            "gc_587"
+        ],
+        [
             "hereditary modular\n\n",
             "gc_121"
+        ],
+        [
+            "(X_{79},X_{80})-free \u2229 modular\n\n",
+            "gc_589"
         ]
     ],
     "gc_592": [],
     "gc_593": [
         [
+            "(6,2)-chordal \u2229 bipartite\n\n",
+            "gc_78"
+        ],
+        [
             "independent module-composed\n\n",
             "gc_835"
+        ],
+        [
+            "bipartite \u2229 distance-hereditary\n\n",
+            "gc_77"
         ],
         [
             "(domino,hole,odd-cycle)-free\n\n",
@@ -6543,34 +6547,26 @@
         [
             "bipartite \u2229 module-composed\n\n",
             "gc_836"
-        ],
-        [
-            "bipartite \u2229 distance-hereditary\n\n",
-            "gc_77"
-        ],
-        [
-            "(6,2)-chordal \u2229 bipartite\n\n",
-            "gc_78"
         ]
     ],
     "gc_594": [],
     "gc_595": [],
     "gc_597": [
         [
-            "kernel solvable\n\n",
-            "gc_281"
-        ],
-        [
-            "perfectly 1-transversable\n\n",
-            "gc_280"
-        ],
-        [
             "![cal C](images/calC.gif)(G)-perfect\n\n",
             "gc_279"
         ],
         [
+            "kernel solvable\n\n",
+            "gc_281"
+        ],
+        [
             "Berge\n\n",
             "gc_274"
+        ],
+        [
+            "perfectly 1-transversable\n\n",
+            "gc_280"
         ],
         [
             "perfect\n\n",
@@ -6594,36 +6590,36 @@
     "gc_601": [],
     "gc_602": [
         [
-            "bipartite \u2229 bounded tolerance\n\n",
-            "gc_1013"
+            "proper interval bigraph\n\n",
+            "gc_882"
         ],
         [
             "AT-free \u2229 bipartite\n\n",
             "gc_82"
         ],
         [
+            "unit interval bigraph\n\n",
+            "gc_883"
+        ],
+        [
             "bipartite permutation\n\n",
             "gc_81"
+        ],
+        [
+            "bipartite \u2229 bounded tolerance\n\n",
+            "gc_1013"
         ],
         [
             "bipartite \u2229 co-comparability\n\n",
             "gc_893"
         ],
         [
-            "proper interval bigraph\n\n",
-            "gc_882"
-        ],
-        [
-            "unit interval bigraph\n\n",
-            "gc_883"
+            "bipartite \u2229 trapezoid\n\n",
+            "gc_1014"
         ],
         [
             "(T_{2},X_{2},X_{3},hole,triangle)-free\n\n",
             "gc_531"
-        ],
-        [
-            "bipartite \u2229 trapezoid\n\n",
-            "gc_1014"
         ]
     ],
     "gc_603": [
@@ -6722,16 +6718,20 @@
     ],
     "gc_63": [
         [
-            "(bull,odd anti-hole,odd-hole)-free\n\n",
-            "AUTO_729"
-        ],
-        [
             "bull-free \u2229 perfect\n\n",
             "gc_64"
+        ],
+        [
+            "(bull,odd anti-hole,odd-hole)-free\n\n",
+            "AUTO_729"
         ]
     ],
     "gc_630": [],
     "gc_631": [
+        [
+            "tree\n\n",
+            "gc_342"
+        ],
         [
             "(0,2)-colorable \u2229 chordal\n\n",
             "gc_655"
@@ -6739,10 +6739,6 @@
         [
             "K_{3}-minor-free\n\n",
             "gc_896"
-        ],
-        [
-            "tree\n\n",
-            "gc_342"
         ],
         [
             "bipartite \u2229 bridged\n\n",
@@ -6764,12 +6760,12 @@
     "gc_639": [],
     "gc_64": [
         [
-            "(bull,odd anti-hole,odd-hole)-free\n\n",
-            "AUTO_729"
-        ],
-        [
             "Berge \u2229 bull-free\n\n",
             "gc_63"
+        ],
+        [
+            "(bull,odd anti-hole,odd-hole)-free\n\n",
+            "AUTO_729"
         ]
     ],
     "gc_640": [
@@ -6784,7 +6780,7 @@
     ],
     "gc_641": [
         [
-            "(X_{42},co(T_{2}),co(X_{205}),co(X_{206}),co(X_{207}),co(X_{208}),net)-free \u2229\nnormal circular arc \u2229 quasi-line\n\n",
+            "(X_{42},co(T_{2}),co(X_{205}),co(X_{206}),co(X_{207}),co(X_{208}),net)-free \u2229\nnormal circular arc\n\n",
             "gc_1331"
         ],
         [
@@ -6794,19 +6790,19 @@
     ],
     "gc_642": [
         [
-            "(S_{3},T_{2},X_{205},X_{206},X_{207},X_{208},co(C_{n+4} U K_{1}),co(S_{3} U\nK_{1}),co(X_{42}),even-hole,odd-cycle U K_{1})-free\n\n",
+            "(S_{3},T_{2},X_{205},X_{206},X_{207},X_{208},C_{n+4}\n\n",
             "AUTO_2582"
         ]
     ],
     "gc_644": [],
     "gc_645": [
         [
-            "(T_{2},X_{205},X_{206},X_{207},X_{208},even-hole,odd-cycle)-free\n\n",
-            "gc_1325"
-        ],
-        [
             "biconvex\n\n",
             "gc_66"
+        ],
+        [
+            "(T_{2},X_{205},X_{206},X_{207},X_{208},even-hole,odd-cycle)-free\n\n",
+            "gc_1325"
         ]
     ],
     "gc_646": [],
@@ -6823,12 +6819,12 @@
     ],
     "gc_652": [
         [
-            "cluster\n\n",
-            "gc_1237"
-        ],
-        [
             "P_{3}-free\n\n",
             "gc_406"
+        ],
+        [
+            "cluster\n\n",
+            "gc_1237"
         ]
     ],
     "gc_653": [
@@ -6839,16 +6835,16 @@
     ],
     "gc_655": [
         [
-            "cycle-free\n\n",
-            "gc_631"
-        ],
-        [
             "tree\n\n",
             "gc_342"
         ],
         [
             "K_{3}-minor-free\n\n",
             "gc_896"
+        ],
+        [
+            "cycle-free\n\n",
+            "gc_631"
         ],
         [
             "bipartite \u2229 bridged\n\n",
@@ -6881,12 +6877,12 @@
     ],
     "gc_66": [
         [
-            "(T_{2},X_{205},X_{206},X_{207},X_{208},even-hole,odd-cycle)-free\n\n",
-            "gc_1325"
-        ],
-        [
             "bipartite \u2229 convex-round\n\n",
             "gc_645"
+        ],
+        [
+            "(T_{2},X_{205},X_{206},X_{207},X_{208},even-hole,odd-cycle)-free\n\n",
+            "gc_1325"
         ]
     ],
     "gc_660": [
@@ -6966,16 +6962,6 @@
     "gc_675": [],
     "gc_676": [],
     "gc_678": [],
-    "gc_679": [
-        [
-            "P_{5}-free \u2229 weakly chordal\n\n",
-            "gc_844"
-        ],
-        [
-            "(P_{5},anti-hole)-free\n\n",
-            "AUTO_743"
-        ]
-    ],
     "gc_68": [],
     "gc_680": [
         [
@@ -7029,20 +7015,20 @@
     ],
     "gc_69": [
         [
-            "odd-cycle-free\n\n",
-            "gc_70"
+            "perfect \u2229 triangle-free\n\n",
+            "gc_71"
         ],
         [
             "bisplit \u2229 triangle-free\n\n",
             "gc_458"
         ],
         [
-            "(0,2)-colorable\n\n",
-            "gc_416"
+            "odd-cycle-free\n\n",
+            "gc_70"
         ],
         [
-            "perfect \u2229 triangle-free\n\n",
-            "gc_71"
+            "(0,2)-colorable\n\n",
+            "gc_416"
         ]
     ],
     "gc_690": [],
@@ -7058,20 +7044,20 @@
     "gc_7": [],
     "gc_70": [
         [
-            "bisplit \u2229 triangle-free\n\n",
-            "gc_458"
+            "perfect \u2229 triangle-free\n\n",
+            "gc_71"
         ],
         [
-            "bipartite\n\n",
-            "gc_69"
+            "bisplit \u2229 triangle-free\n\n",
+            "gc_458"
         ],
         [
             "(0,2)-colorable\n\n",
             "gc_416"
         ],
         [
-            "perfect \u2229 triangle-free\n\n",
-            "gc_71"
+            "bipartite\n\n",
+            "gc_69"
         ]
     ],
     "gc_700": [],
@@ -7083,22 +7069,22 @@
     "gc_706": [],
     "gc_707": [
         [
-            "domino\n\n",
-            "gc_179"
-        ],
-        [
             "(W_{4},claw,gem)-free\n\n",
             "gc_180"
+        ],
+        [
+            "domino\n\n",
+            "gc_179"
         ]
     ],
     "gc_708": [
         [
-            "linear domino\n\n",
-            "gc_719"
-        ],
-        [
             "(claw,diamond)-free\n\n",
             "gc_709"
+        ],
+        [
+            "linear domino\n\n",
+            "gc_719"
         ]
     ],
     "gc_709": [
@@ -7113,27 +7099,23 @@
     ],
     "gc_71": [
         [
-            "odd-cycle-free\n\n",
-            "gc_70"
+            "bisplit \u2229 triangle-free\n\n",
+            "gc_458"
         ],
         [
-            "bipartite\n\n",
-            "gc_69"
+            "odd-cycle-free\n\n",
+            "gc_70"
         ],
         [
             "(0,2)-colorable\n\n",
             "gc_416"
         ],
         [
-            "bisplit \u2229 triangle-free\n\n",
-            "gc_458"
+            "bipartite\n\n",
+            "gc_69"
         ]
     ],
     "gc_710": [
-        [
-            "chordal \u2229 domino\n\n",
-            "gc_580"
-        ],
         [
             "(C_{n+4},claw,gem)-free\n\n",
             "AUTO_754"
@@ -7141,6 +7123,10 @@
         [
             "AC\n\n",
             "gc_384"
+        ],
+        [
+            "chordal \u2229 domino\n\n",
+            "gc_580"
         ]
     ],
     "gc_711": [
@@ -7171,18 +7157,18 @@
             "gc_715"
         ],
         [
-            "(4-fan,K_{1,4},W_{4},W_{5},co(A U K_{1}),co(co-fork U K_{1}),co(gem U\nK_{1}),co(net U K_{1}))-free\n\n",
+            "(4-fan,K_{1,4},W_{4},W_{5},co(A U K_{1}),co-fork\n\n",
             "gc_713"
         ]
     ],
     "gc_715": [
         [
-            "line graphs of Helly hypergraphs of rank 3\n\n",
-            "gc_714"
+            "(4-fan,K_{1,4},W_{4},W_{5},co(A U K_{1}),co-fork\n\n",
+            "gc_713"
         ],
         [
-            "(4-fan,K_{1,4},W_{4},W_{5},co(A U K_{1}),co(co-fork U K_{1}),co(gem U\nK_{1}),co(net U K_{1}))-free\n\n",
-            "gc_713"
+            "line graphs of Helly hypergraphs of rank 3\n\n",
+            "gc_714"
         ]
     ],
     "gc_716": [
@@ -7200,22 +7186,22 @@
     ],
     "gc_719": [
         [
-            "line graphs of triangle-free graphs\n\n",
-            "gc_708"
-        ],
-        [
             "(claw,diamond)-free\n\n",
             "gc_709"
+        ],
+        [
+            "line graphs of triangle-free graphs\n\n",
+            "gc_708"
         ]
     ],
     "gc_72": [
         [
-            "(XF_{1}\\^{2n+3},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{35}),co(X_{36}),co-\nXF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},odd-hole)-free\n\n",
-            "gc_767"
-        ],
-        [
             "containment graphs\n\n",
             "gc_163"
+        ],
+        [
+            "(XF_{1}\\^{2n+3},XF_{5}\\^{2n+3},XF_{6}\\^{2n+2},co(C_{n+6}),co(T_{2}),co(X_{2}),co(X_{3}),co(X_{30}),co(X_{31}),co(X_{32}),co(X_{33}),co(X_{34}),co(X_{35}),co(X_{36}),co-\nXF_{2}\\^{n+1},co-XF_{3}\\^{n},co-XF_{4}\\^{n},odd-hole)-free\n\n",
+            "gc_767"
         ]
     ],
     "gc_720": [],
@@ -7255,72 +7241,72 @@
     ],
     "gc_73": [
         [
-            "(5,2)-odd-noncrossing-chordal\n\n",
-            "gc_192"
-        ],
-        [
             "i-triangulated\n\n",
             "gc_191"
+        ],
+        [
+            "(5,2)-odd-noncrossing-chordal\n\n",
+            "gc_192"
         ]
     ],
     "gc_730": [
-        [
-            "(K_{3,3},K_{5})-minor-free\n\n",
-            "gc_898"
-        ],
-        [
-            "triangle contact\n\n",
-            "gc_956"
-        ],
-        [
-            "genus 0\n\n",
-            "gc_291"
-        ],
         [
             "partial bar visibility\n\n",
             "gc_731"
         ],
         [
-            "coin\n\n",
-            "gc_955"
-        ],
-        [
             "disk contact\n\n",
             "gc_954"
         ],
         [
-            "planar\n\n",
-            "gc_43"
-        ]
-    ],
-    "gc_731": [
-        [
-            "weak bar visibility\n\n",
-            "gc_730"
-        ],
-        [
-            "(K_{3,3},K_{5})-minor-free\n\n",
-            "gc_898"
+            "coin\n\n",
+            "gc_955"
         ],
         [
             "triangle contact\n\n",
             "gc_956"
         ],
         [
+            "planar\n\n",
+            "gc_43"
+        ],
+        [
             "genus 0\n\n",
             "gc_291"
+        ],
+        [
+            "(K_{3,3},K_{5})-minor-free\n\n",
+            "gc_898"
+        ]
+    ],
+    "gc_731": [
+        [
+            "disk contact\n\n",
+            "gc_954"
+        ],
+        [
+            "triangle contact\n\n",
+            "gc_956"
         ],
         [
             "coin\n\n",
             "gc_955"
         ],
         [
-            "disk contact\n\n",
-            "gc_954"
-        ],
-        [
             "planar\n\n",
             "gc_43"
+        ],
+        [
+            "genus 0\n\n",
+            "gc_291"
+        ],
+        [
+            "(K_{3,3},K_{5})-minor-free\n\n",
+            "gc_898"
+        ],
+        [
+            "weak bar visibility\n\n",
+            "gc_730"
         ]
     ],
     "gc_732": [],
@@ -7334,32 +7320,28 @@
     "gc_735": [],
     "gc_736": [
         [
-            "line graphs of bipartite graphs\n\n",
-            "gc_251"
-        ],
-        [
             "(claw,diamond,odd-hole)-free\n\n",
             "gc_252"
+        ],
+        [
+            "line graphs of bipartite graphs\n\n",
+            "gc_251"
         ]
     ],
     "gc_737": [],
     "gc_738": [],
     "gc_739": [
         [
-            "B_{0}-VPG\n\n",
-            "gc_1065"
-        ],
-        [
             "2-DIR\n\n",
             "gc_864"
+        ],
+        [
+            "B_{0}-VPG\n\n",
+            "gc_1065"
         ]
     ],
     "gc_74": [],
     "gc_740": [
-        [
-            "B_{0}-VPG \u2229 bipartite\n\n",
-            "gc_1066"
-        ],
         [
             "PURE-2-DIR\n\n",
             "gc_867"
@@ -7367,6 +7349,10 @@
         [
             "bipartite \u2229 boxicity 2\n\n",
             "gc_743"
+        ],
+        [
+            "B_{0}-VPG \u2229 bipartite\n\n",
+            "gc_1066"
         ]
     ],
     "gc_741": [
@@ -7375,20 +7361,16 @@
             "gc_1060"
         ],
         [
-            "B_{k}-VPG\n\n",
-            "gc_1061"
-        ],
-        [
             "k-SEG\n\n",
             "gc_1203"
+        ],
+        [
+            "B_{k}-VPG\n\n",
+            "gc_1061"
         ]
     ],
     "gc_742": [],
     "gc_743": [
-        [
-            "B_{0}-VPG \u2229 bipartite\n\n",
-            "gc_1066"
-        ],
         [
             "bipartite \u2229 grid intersection\n\n",
             "gc_740"
@@ -7396,6 +7378,10 @@
         [
             "PURE-2-DIR\n\n",
             "gc_867"
+        ],
+        [
+            "B_{0}-VPG \u2229 bipartite\n\n",
+            "gc_1066"
         ]
     ],
     "gc_744": [
@@ -7406,7 +7392,7 @@
     ],
     "gc_745": [
         [
-            "(X_{12},X_{5},X_{95},X_{96},X_{97},co(X_{12}),co(X_{5}),co(X_{95}),co(X_{96}),co(X_{97}),co(claw\nU triangle),claw U triangle,co-cricket,co-twin-house,cricket,odd anti-\nhole,odd-hole,twin-house)-free\n\n",
+            "(X_{12},X_{5},X_{95},X_{96},X_{97},co(X_{12}),co(X_{5}),co(X_{95}),co(X_{96}),co(X_{97}),co(claw\nU triangle),claw U triangle,co-cricket,co-twin-house,cricket,odd\n\n",
             "gc_746"
         ]
     ],
@@ -7418,12 +7404,12 @@
     ],
     "gc_747": [
         [
-            "hereditary maximal clique irreducible\n\n",
-            "gc_750"
+            "(S_{3},co(3K_{2}),co(E),P_{2}\n\n",
+            "gc_748"
         ],
         [
-            "(S_{3},co(3K_{2}),co(E),co(P_{2} U P_{4}))-free\n\n",
-            "gc_748"
+            "hereditary maximal clique irreducible\n\n",
+            "gc_750"
         ]
     ],
     "gc_748": [
@@ -7445,12 +7431,12 @@
     ],
     "gc_750": [
         [
-            "hereditary clique-Helly\n\n",
-            "gc_747"
+            "(S_{3},co(3K_{2}),co(E),P_{2}\n\n",
+            "gc_748"
         ],
         [
-            "(S_{3},co(3K_{2}),co(E),co(P_{2} U P_{4}))-free\n\n",
-            "gc_748"
+            "hereditary clique-Helly\n\n",
+            "gc_747"
         ]
     ],
     "gc_751": [],
@@ -7487,7 +7473,7 @@
     "gc_763": [],
     "gc_764": [
         [
-            "(K_{2} U\nK_{3},X_{11},X_{127},X_{128},X_{129},X_{131},X_{133},X_{135},X_{136},X_{137},X_{138},X_{139},X_{140},X_{141},X_{142},X_{143},X_{144},X_{145},X_{146},X_{147},X_{148},X_{149},X_{150},X_{151},X_{30},X_{35},X_{46},XF_{1}\\^{2n+3},XF_{6}\\^{2n+3},co(2P_{3}),co(3K_{2}),co(C_{4}\nU\nP_{2}),co(C_{6}),co(P_{6}),co(X_{130}),co(X_{132}),co(X_{134}),co(X_{152}),co(X_{153}),co(X_{154}),co(X_{155}),co(X_{156}),co(X_{157}),co(X_{158}),co(X_{18}),co(X_{84}),antenna,co-\ndomino,co-fish,eiffeltower,longhorn,odd-hole)-free\n\n",
+            "(K_{2} U\nK_{3},X_{11},X_{127},X_{128},X_{129},X_{131},X_{133},X_{135},X_{136},X_{137},X_{138},X_{139},X_{140},X_{141},X_{142},X_{143},X_{144},X_{145},X_{146},X_{147},X_{148},X_{149},X_{150},X_{151},X_{30},X_{35},X_{46},XF_{1}\\^{2n+3},XF_{6}\\^{2n+3},co(2P_{3}),co(3K_{2}),C_{4}\n\n",
             "gc_796"
         ]
     ],
@@ -7497,20 +7483,20 @@
             "gc_235"
         ],
         [
-            "1-DIR\n\n",
-            "gc_865"
-        ],
-        [
-            "chordal \u2229 co-comparability\n\n",
-            "gc_238"
+            "boxicity 1\n\n",
+            "gc_236"
         ],
         [
             "interval\n\n",
             "gc_234"
         ],
         [
-            "boxicity 1\n\n",
-            "gc_236"
+            "chordal \u2229 co-comparability\n\n",
+            "gc_238"
+        ],
+        [
+            "1-DIR\n\n",
+            "gc_865"
         ],
         [
             "C_{4}-free \u2229 co-comparability\n\n",
@@ -7525,12 +7511,12 @@
     ],
     "gc_767": [
         [
-            "containment graphs\n\n",
-            "gc_163"
-        ],
-        [
             "comparability\n\n",
             "gc_72"
+        ],
+        [
+            "containment graphs\n\n",
+            "gc_163"
         ]
     ],
     "gc_768": [
@@ -7551,6 +7537,10 @@
             "gc_593"
         ],
         [
+            "(6,2)-chordal \u2229 bipartite\n\n",
+            "gc_78"
+        ],
+        [
             "independent module-composed\n\n",
             "gc_835"
         ],
@@ -7561,15 +7551,11 @@
         [
             "bipartite \u2229 module-composed\n\n",
             "gc_836"
-        ],
-        [
-            "(6,2)-chordal \u2229 bipartite\n\n",
-            "gc_78"
         ]
     ],
     "gc_770": [
         [
-            "2-connected \u2229 (4-fan,C_{n+4},K_{5} - e,S_{3},co(H),co(K_{3} U 2K_{1}))-free\n\n",
+            "2-connected \u2229 (4-fan,C_{n+4},K_{5} - e,S_{3},co(H),K_{3}\n\n",
             "gc_773"
         ]
     ],
@@ -7604,20 +7590,20 @@
     ],
     "gc_78": [
         [
-            "(domino,hole,odd-cycle)-free\n\n",
-            "AUTO_731"
-        ],
-        [
-            "bipartite \u2229 distance-hereditary\n\n",
-            "gc_77"
+            "independent module-composed\n\n",
+            "gc_835"
         ],
         [
             "domino-free \u2229 modular\n\n",
             "gc_593"
         ],
         [
-            "independent module-composed\n\n",
-            "gc_835"
+            "bipartite \u2229 distance-hereditary\n\n",
+            "gc_77"
+        ],
+        [
+            "(domino,hole,odd-cycle)-free\n\n",
+            "AUTO_731"
         ],
         [
             "bipartite \u2229 module-composed\n\n",
@@ -7632,20 +7618,8 @@
     ],
     "gc_781": [
         [
-            "chordal \u2229 cograph\n\n",
-            "gc_344"
-        ],
-        [
-            "comparability graphs of arborescence orders\n\n",
-            "gc_346"
-        ],
-        [
-            "intersection graph of nested intervals\n\n",
-            "gc_347"
-        ],
-        [
-            "trivially perfect\n\n",
-            "gc_327"
+            "NLCT-width 1\n\n",
+            "gc_1072"
         ],
         [
             "cograph \u2229 interval\n\n",
@@ -7656,8 +7630,20 @@
             "gc_343"
         ],
         [
-            "NLCT-width 1\n\n",
-            "gc_1072"
+            "trivially perfect\n\n",
+            "gc_327"
+        ],
+        [
+            "intersection graph of nested intervals\n\n",
+            "gc_347"
+        ],
+        [
+            "comparability graphs of arborescence orders\n\n",
+            "gc_346"
+        ],
+        [
+            "chordal \u2229 cograph\n\n",
+            "gc_344"
         ]
     ],
     "gc_782": [
@@ -7684,12 +7670,12 @@
             "gc_119"
         ],
         [
-            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
-            "gc_115"
-        ],
-        [
             "(hole,odd-cycle)-free\n\n",
             "AUTO_773"
+        ],
+        [
+            "X-conformal \u2229 bipartite \u2229 hereditary X-chordal\n\n",
+            "gc_115"
         ],
         [
             "(C_{n+6},odd-cycle)-free\n\n",
@@ -7723,37 +7709,49 @@
     ],
     "gc_793": [
         [
+            "hereditary disk-Helly\n\n",
+            "gc_795"
+        ],
+        [
             "S_{3}-free \u2229 chordal\n\n",
             "gc_29"
+        ],
+        [
+            "hereditary Helly\n\n",
+            "gc_31"
         ],
         [
             "C_{4}-free \u2229 induced-hereditary pseudo-modular\n\n",
             "gc_30"
         ],
         [
-            "hereditary disk-Helly\n\n",
-            "gc_795"
+            "(C_{n+4},S_{3})-free\n\n",
+            "AUTO_726"
+        ]
+    ],
+    "gc_794": [
+        [
+            "Helly\n\n",
+            "gc_105"
         ],
+        [
+            "clique-Helly \u2229 dismantlable\n\n",
+            "gc_53"
+        ]
+    ],
+    "gc_795": [
         [
             "(C_{n+4},S_{3})-free\n\n",
             "AUTO_726"
         ],
         [
-            "hereditary Helly\n\n",
-            "gc_31"
-        ]
-    ],
-    "gc_794": [
-        [
-            "clique-Helly \u2229 dismantlable\n\n",
-            "gc_53"
+            "S_{3}-free \u2229 chordal\n\n",
+            "gc_29"
         ],
         [
-            "Helly\n\n",
-            "gc_105"
-        ]
-    ],
-    "gc_795": [
+            "hereditary Helly\n\n",
+            "gc_31"
+        ],
         [
             "C_{4}-free \u2229 induced-hereditary pseudo-modular\n\n",
             "gc_30"
@@ -7761,18 +7759,6 @@
         [
             "chordal \u2229 hereditary clique-Helly\n\n",
             "gc_793"
-        ],
-        [
-            "S_{3}-free \u2229 chordal\n\n",
-            "gc_29"
-        ],
-        [
-            "(C_{n+4},S_{3})-free\n\n",
-            "AUTO_726"
-        ],
-        [
-            "hereditary Helly\n\n",
-            "gc_31"
         ]
     ],
     "gc_796": [
@@ -7785,16 +7771,16 @@
     "gc_798": [],
     "gc_799": [
         [
-            "2K_{2}-free \u2229 probe trivially perfect\n\n",
-            "gc_805"
+            "probe co-trivially perfect \u2229 probe trivially perfect\n\n",
+            "gc_802"
         ],
         [
             "(2K_{2},C_{5},S_{3},X_{159},X_{160},X_{161},X_{162},X_{46},X_{70},co(2P_{3}),co(3K_{2}),co(H),co(P_{2}\nU P_{4}),co(X_{1}),co-rising sun,house,net)-free\n\n",
             "gc_806"
         ],
         [
-            "probe co-trivially perfect \u2229 probe trivially perfect\n\n",
-            "gc_802"
+            "2K_{2}-free \u2229 probe trivially perfect\n\n",
+            "gc_805"
         ]
     ],
     "gc_8": [
@@ -7805,16 +7791,16 @@
     ],
     "gc_80": [
         [
-            "HHDG-free\n\n",
-            "gc_178"
-        ],
-        [
             "(domino,gem,house)-free \u2229 pseudo-modular\n\n",
             "gc_586"
         ],
         [
             "(5,2)-crossing-chordal\n\n",
             "gc_177"
+        ],
+        [
+            "HHDG-free\n\n",
+            "gc_178"
         ]
     ],
     "gc_800": [],
@@ -7826,16 +7812,16 @@
     ],
     "gc_802": [
         [
-            "2K_{2}-free \u2229 probe trivially perfect\n\n",
-            "gc_805"
+            "(2K_{2},C_{5},S_{3},X_{159},X_{160},X_{161},X_{162},X_{46},X_{70},co(2P_{3}),co(3K_{2}),co(H),co(P_{2}\nU P_{4}),co(X_{1}),co-rising sun,house,net)-free\n\n",
+            "gc_806"
         ],
         [
             "probe threshold\n\n",
             "gc_799"
         ],
         [
-            "(2K_{2},C_{5},S_{3},X_{159},X_{160},X_{161},X_{162},X_{46},X_{70},co(2P_{3}),co(3K_{2}),co(H),co(P_{2}\nU P_{4}),co(X_{1}),co-rising sun,house,net)-free\n\n",
-            "gc_806"
+            "2K_{2}-free \u2229 probe trivially perfect\n\n",
+            "gc_805"
         ]
     ],
     "gc_803": [
@@ -7852,35 +7838,35 @@
     ],
     "gc_805": [
         [
-            "probe threshold\n\n",
-            "gc_799"
+            "probe co-trivially perfect \u2229 probe trivially perfect\n\n",
+            "gc_802"
         ],
         [
             "(2K_{2},C_{5},S_{3},X_{159},X_{160},X_{161},X_{162},X_{46},X_{70},co(2P_{3}),co(3K_{2}),co(H),co(P_{2}\nU P_{4}),co(X_{1}),co-rising sun,house,net)-free\n\n",
             "gc_806"
         ],
         [
-            "probe co-trivially perfect \u2229 probe trivially perfect\n\n",
-            "gc_802"
+            "probe threshold\n\n",
+            "gc_799"
         ]
     ],
     "gc_806": [
         [
-            "2K_{2}-free \u2229 probe trivially perfect\n\n",
-            "gc_805"
+            "probe co-trivially perfect \u2229 probe trivially perfect\n\n",
+            "gc_802"
         ],
         [
             "probe threshold\n\n",
             "gc_799"
         ],
         [
-            "probe co-trivially perfect \u2229 probe trivially perfect\n\n",
-            "gc_802"
+            "2K_{2}-free \u2229 probe trivially perfect\n\n",
+            "gc_805"
         ]
     ],
     "gc_807": [
         [
-            "(2K_{2},C_{4},C_{5},S_{3},X_{159},X_{160},co(H),co-rising sun,net)-free\n\n",
+            "(2K_{2},C_{4},C_{5},S_{3},X_{159},X_{160},co(H),co-rising\n\n",
             "AUTO_744"
         ]
     ],
@@ -7888,36 +7874,36 @@
     "gc_809": [],
     "gc_81": [
         [
-            "bipartite \u2229 bounded tolerance\n\n",
-            "gc_1013"
+            "proper interval bigraph\n\n",
+            "gc_882"
         ],
         [
             "AT-free \u2229 bipartite\n\n",
             "gc_82"
         ],
         [
+            "unit interval bigraph\n\n",
+            "gc_883"
+        ],
+        [
+            "bipartite \u2229 bounded tolerance\n\n",
+            "gc_1013"
+        ],
+        [
             "bipartite \u2229 co-comparability\n\n",
             "gc_893"
+        ],
+        [
+            "bipartite \u2229 trapezoid\n\n",
+            "gc_1014"
         ],
         [
             "bipartite tolerance\n\n",
             "gc_602"
         ],
         [
-            "proper interval bigraph\n\n",
-            "gc_882"
-        ],
-        [
-            "unit interval bigraph\n\n",
-            "gc_883"
-        ],
-        [
             "(T_{2},X_{2},X_{3},hole,triangle)-free\n\n",
             "gc_531"
-        ],
-        [
-            "bipartite \u2229 trapezoid\n\n",
-            "gc_1014"
         ]
     ],
     "gc_810": [
@@ -7942,22 +7928,6 @@
     "gc_819": [],
     "gc_82": [
         [
-            "bipartite \u2229 bounded tolerance\n\n",
-            "gc_1013"
-        ],
-        [
-            "bipartite permutation\n\n",
-            "gc_81"
-        ],
-        [
-            "bipartite \u2229 co-comparability\n\n",
-            "gc_893"
-        ],
-        [
-            "bipartite tolerance\n\n",
-            "gc_602"
-        ],
-        [
             "proper interval bigraph\n\n",
             "gc_882"
         ],
@@ -7966,12 +7936,28 @@
             "gc_883"
         ],
         [
-            "(T_{2},X_{2},X_{3},hole,triangle)-free\n\n",
-            "gc_531"
+            "bipartite permutation\n\n",
+            "gc_81"
+        ],
+        [
+            "bipartite \u2229 bounded tolerance\n\n",
+            "gc_1013"
+        ],
+        [
+            "bipartite \u2229 co-comparability\n\n",
+            "gc_893"
         ],
         [
             "bipartite \u2229 trapezoid\n\n",
             "gc_1014"
+        ],
+        [
+            "bipartite tolerance\n\n",
+            "gc_602"
+        ],
+        [
+            "(T_{2},X_{2},X_{3},hole,triangle)-free\n\n",
+            "gc_531"
         ]
     ],
     "gc_820": [],
@@ -8004,20 +7990,20 @@
             "gc_593"
         ],
         [
-            "(domino,hole,odd-cycle)-free\n\n",
-            "AUTO_731"
-        ],
-        [
-            "bipartite \u2229 module-composed\n\n",
-            "gc_836"
+            "(6,2)-chordal \u2229 bipartite\n\n",
+            "gc_78"
         ],
         [
             "bipartite \u2229 distance-hereditary\n\n",
             "gc_77"
         ],
         [
-            "(6,2)-chordal \u2229 bipartite\n\n",
-            "gc_78"
+            "(domino,hole,odd-cycle)-free\n\n",
+            "AUTO_731"
+        ],
+        [
+            "bipartite \u2229 module-composed\n\n",
+            "gc_836"
         ]
     ],
     "gc_836": [
@@ -8026,20 +8012,20 @@
             "gc_593"
         ],
         [
-            "independent module-composed\n\n",
-            "gc_835"
+            "(6,2)-chordal \u2229 bipartite\n\n",
+            "gc_78"
         ],
         [
-            "(domino,hole,odd-cycle)-free\n\n",
-            "AUTO_731"
+            "independent module-composed\n\n",
+            "gc_835"
         ],
         [
             "bipartite \u2229 distance-hereditary\n\n",
             "gc_77"
         ],
         [
-            "(6,2)-chordal \u2229 bipartite\n\n",
-            "gc_78"
+            "(domino,hole,odd-cycle)-free\n\n",
+            "AUTO_731"
         ]
     ],
     "gc_837": [
@@ -8056,12 +8042,12 @@
     ],
     "gc_839": [
         [
-            "(6,2)\n\n",
-            "gc_491"
-        ],
-        [
             "C_{5}-free \u2229 P_{4}-extendible\n\n",
             "gc_499"
+        ],
+        [
+            "(6,2)\n\n",
+            "gc_491"
         ]
     ],
     "gc_84": [],
@@ -8079,10 +8065,6 @@
     ],
     "gc_843": [],
     "gc_844": [
-        [
-            "(P_{5},co(C_{6}))-free \u2229 weakly chordal\n\n",
-            "gc_679"
-        ],
         [
             "(P_{5},anti-hole)-free\n\n",
             "AUTO_743"
@@ -8155,7 +8137,7 @@
     ],
     "gc_859": [
         [
-            "(C_{n+4} U\nK_{1},K_{2,3},T_{2},co(C_{6}),co(X_{103}),co(X_{37}),co(X_{88}),co(X_{90}),diamond,domino,eiffeltower,net\nU K_{1},twin-C_{5})-free\n\n",
+            "(C_{n+4} U\nK_{1},K_{2,3},T_{2},co(C_{6}),co(X_{103}),co(X_{37}),co(X_{88}),co(X_{90}),diamond,domino,eiffeltower,net\n\n",
             "gc_860"
         ]
     ],
@@ -8180,36 +8162,32 @@
     ],
     "gc_865": [
         [
-            "chordal \u2229 co-comparability\n\n",
-            "gc_238"
-        ],
-        [
             "interval\n\n",
             "gc_234"
         ],
         [
-            "C_{4}-free \u2229 co-comparability\n\n",
-            "gc_237"
-        ],
-        [
-            "AT-free \u2229 chordal\n\n",
-            "gc_235"
+            "(C_{n+4},T_{2},X_{31},XF_{2}\\^{n+1},XF_{3}\\^{n})-free\n\n",
+            "gc_765"
         ],
         [
             "boxicity 1\n\n",
             "gc_236"
         ],
         [
-            "(C_{n+4},T_{2},X_{31},XF_{2}\\^{n+1},XF_{3}\\^{n})-free\n\n",
-            "gc_765"
+            "AT-free \u2229 chordal\n\n",
+            "gc_235"
+        ],
+        [
+            "chordal \u2229 co-comparability\n\n",
+            "gc_238"
+        ],
+        [
+            "C_{4}-free \u2229 co-comparability\n\n",
+            "gc_237"
         ]
     ],
     "gc_866": [],
     "gc_867": [
-        [
-            "B_{0}-VPG \u2229 bipartite\n\n",
-            "gc_1066"
-        ],
         [
             "bipartite \u2229 grid intersection\n\n",
             "gc_740"
@@ -8217,6 +8195,10 @@
         [
             "bipartite \u2229 boxicity 2\n\n",
             "gc_743"
+        ],
+        [
+            "B_{0}-VPG \u2229 bipartite\n\n",
+            "gc_1066"
         ]
     ],
     "gc_868": [],
@@ -8242,19 +8224,15 @@
     ],
     "gc_873": [
         [
-            "HH-free\n\n",
-            "gc_228"
-        ],
-        [
             "house-free \u2229 weakly chordal\n\n",
             "gc_229"
+        ],
+        [
+            "HH-free\n\n",
+            "gc_228"
         ]
     ],
     "gc_874": [
-        [
-            "Meyniel\n\n",
-            "gc_194"
-        ],
         [
             "very strongly perfect\n\n",
             "gc_265"
@@ -8262,6 +8240,10 @@
         [
             "(5,2)-odd-chordal\n\n",
             "gc_264"
+        ],
+        [
+            "Meyniel\n\n",
+            "gc_194"
         ]
     ],
     "gc_875": [],
@@ -8288,42 +8270,42 @@
     ],
     "gc_882": [
         [
-            "bipartite \u2229 bounded tolerance\n\n",
-            "gc_1013"
-        ],
-        [
             "AT-free \u2229 bipartite\n\n",
             "gc_82"
-        ],
-        [
-            "bipartite permutation\n\n",
-            "gc_81"
-        ],
-        [
-            "bipartite \u2229 co-comparability\n\n",
-            "gc_893"
-        ],
-        [
-            "bipartite tolerance\n\n",
-            "gc_602"
         ],
         [
             "unit interval bigraph\n\n",
             "gc_883"
         ],
         [
-            "(T_{2},X_{2},X_{3},hole,triangle)-free\n\n",
-            "gc_531"
+            "bipartite permutation\n\n",
+            "gc_81"
+        ],
+        [
+            "bipartite \u2229 bounded tolerance\n\n",
+            "gc_1013"
+        ],
+        [
+            "bipartite \u2229 co-comparability\n\n",
+            "gc_893"
         ],
         [
             "bipartite \u2229 trapezoid\n\n",
             "gc_1014"
+        ],
+        [
+            "bipartite tolerance\n\n",
+            "gc_602"
+        ],
+        [
+            "(T_{2},X_{2},X_{3},hole,triangle)-free\n\n",
+            "gc_531"
         ]
     ],
     "gc_883": [
         [
-            "bipartite \u2229 bounded tolerance\n\n",
-            "gc_1013"
+            "proper interval bigraph\n\n",
+            "gc_882"
         ],
         [
             "AT-free \u2229 bipartite\n\n",
@@ -8334,44 +8316,44 @@
             "gc_81"
         ],
         [
+            "bipartite \u2229 bounded tolerance\n\n",
+            "gc_1013"
+        ],
+        [
             "bipartite \u2229 co-comparability\n\n",
             "gc_893"
+        ],
+        [
+            "bipartite \u2229 trapezoid\n\n",
+            "gc_1014"
         ],
         [
             "bipartite tolerance\n\n",
             "gc_602"
         ],
         [
-            "proper interval bigraph\n\n",
-            "gc_882"
-        ],
-        [
             "(T_{2},X_{2},X_{3},hole,triangle)-free\n\n",
             "gc_531"
-        ],
-        [
-            "bipartite \u2229 trapezoid\n\n",
-            "gc_1014"
         ]
     ],
     "gc_884": [
         [
-            "(3K_{1},co(T_{2}),co(X_{2}),co(X_{3}),anti-hole)-free\n\n",
-            "AUTO_1492"
-        ],
-        [
             "co-bipartite \u2229 proper circular arc\n\n",
             "gc_885"
+        ],
+        [
+            "(3K_{1},co(T_{2}),co(X_{2}),co(X_{3}),anti-hole)-free\n\n",
+            "AUTO_1492"
         ]
     ],
     "gc_885": [
         [
-            "(3K_{1},co(T_{2}),co(X_{2}),co(X_{3}),anti-hole)-free\n\n",
-            "AUTO_1492"
-        ],
-        [
             "co-proper interval bigraph\n\n",
             "gc_884"
+        ],
+        [
+            "(3K_{1},co(T_{2}),co(X_{2}),co(X_{3}),anti-hole)-free\n\n",
+            "AUTO_1492"
         ]
     ],
     "gc_886": [
@@ -8398,35 +8380,35 @@
             "gc_1043"
         ],
         [
-            "claw-free \u2229 normal Helly circular arc\n\n",
-            "gc_1346"
+            "(C_{n+4} U K_{1},S_{3},W_{4},W_{5},co(C_{6}),claw,net)-free\n\n",
+            "gc_1236"
         ],
         [
-            "(C_{n+4} U K_{1},S_{3},W_{4},co(odd-cycle U K_{1}),even anti-hole,net)-free\n\n",
+            "(C_{n+4} U K_{1},S_{3},W_{4},co(odd-cycle U K_{1}),even\n\n",
             "gc_890"
         ],
         [
-            "(C_{n+4} U K_{1},S_{3},W_{4},W_{5},co(C_{6}),claw,net)-free\n\n",
-            "gc_1236"
+            "claw-free \u2229 normal Helly circular arc\n\n",
+            "gc_1346"
         ]
     ],
     "gc_89": [],
     "gc_890": [
         [
-            "clique graphs of normal Helly circular arc\n\n",
-            "gc_1043"
+            "(C_{n+4} U K_{1},S_{3},W_{4},W_{5},co(C_{6}),claw,net)-free\n\n",
+            "gc_1236"
         ],
         [
             "proper Helly circular arc\n\n",
             "gc_889"
         ],
         [
-            "claw-free \u2229 normal Helly circular arc\n\n",
-            "gc_1346"
+            "clique graphs of normal Helly circular arc\n\n",
+            "gc_1043"
         ],
         [
-            "(C_{n+4} U K_{1},S_{3},W_{4},W_{5},co(C_{6}),claw,net)-free\n\n",
-            "gc_1236"
+            "claw-free \u2229 normal Helly circular arc\n\n",
+            "gc_1346"
         ]
     ],
     "gc_891": [
@@ -8451,41 +8433,45 @@
     ],
     "gc_893": [
         [
-            "bipartite \u2229 bounded tolerance\n\n",
-            "gc_1013"
+            "proper interval bigraph\n\n",
+            "gc_882"
         ],
         [
             "AT-free \u2229 bipartite\n\n",
             "gc_82"
         ],
         [
+            "unit interval bigraph\n\n",
+            "gc_883"
+        ],
+        [
             "bipartite permutation\n\n",
             "gc_81"
+        ],
+        [
+            "bipartite \u2229 bounded tolerance\n\n",
+            "gc_1013"
+        ],
+        [
+            "bipartite \u2229 trapezoid\n\n",
+            "gc_1014"
         ],
         [
             "bipartite tolerance\n\n",
             "gc_602"
         ],
         [
-            "proper interval bigraph\n\n",
-            "gc_882"
-        ],
-        [
-            "unit interval bigraph\n\n",
-            "gc_883"
-        ],
-        [
             "(T_{2},X_{2},X_{3},hole,triangle)-free\n\n",
             "gc_531"
-        ],
-        [
-            "bipartite \u2229 trapezoid\n\n",
-            "gc_1014"
         ]
     ],
     "gc_894": [],
     "gc_895": [],
     "gc_896": [
+        [
+            "tree\n\n",
+            "gc_342"
+        ],
         [
             "(0,2)-colorable \u2229 chordal\n\n",
             "gc_655"
@@ -8493,10 +8479,6 @@
         [
             "cycle-free\n\n",
             "gc_631"
-        ],
-        [
-            "tree\n\n",
-            "gc_342"
         ],
         [
             "bipartite \u2229 bridged\n\n",
@@ -8515,6 +8497,18 @@
     ],
     "gc_898": [
         [
+            "partial bar visibility\n\n",
+            "gc_731"
+        ],
+        [
+            "disk contact\n\n",
+            "gc_954"
+        ],
+        [
+            "coin\n\n",
+            "gc_955"
+        ],
+        [
             "triangle contact\n\n",
             "gc_956"
         ],
@@ -8523,31 +8517,15 @@
             "gc_730"
         ],
         [
-            "genus 0\n\n",
-            "gc_291"
-        ],
-        [
-            "coin\n\n",
-            "gc_955"
-        ],
-        [
-            "disk contact\n\n",
-            "gc_954"
-        ],
-        [
             "planar\n\n",
             "gc_43"
         ],
         [
-            "partial bar visibility\n\n",
-            "gc_731"
+            "genus 0\n\n",
+            "gc_291"
         ]
     ],
     "gc_899": [
-        [
-            "K_{4}-minor-free\n\n",
-            "gc_309"
-        ],
         [
             "partial 2-tree\n\n",
             "gc_310"
@@ -8555,6 +8533,10 @@
         [
             "series-parallel\n\n",
             "gc_275"
+        ],
+        [
+            "K_{4}-minor-free\n\n",
+            "gc_309"
         ]
     ],
     "gc_9": [
@@ -8571,12 +8553,12 @@
     ],
     "gc_900": [
         [
-            "(K_{5},X_{126},X_{174},co(3K_{2}))-minor-free\n\n",
-            "gc_897"
-        ],
-        [
             "partial 3-tree\n\n",
             "gc_199"
+        ],
+        [
+            "(K_{5},X_{126},X_{174},co(3K_{2}))-minor-free\n\n",
+            "gc_897"
         ]
     ],
     "gc_901": [
@@ -8709,20 +8691,20 @@
     ],
     "gc_945": [
         [
-            "\u03b2-perfect \u2229 perfect\n\n",
-            "gc_988"
-        ],
-        [
             "chordal\n\n",
             "gc_32"
         ],
         [
-            "rigid circuit\n\n",
-            "gc_1178"
+            "\u03b2-perfect \u2229 perfect\n\n",
+            "gc_988"
         ],
         [
             "C_{n+4}-free\n\n",
             "gc_382"
+        ],
+        [
+            "rigid circuit\n\n",
+            "gc_1178"
         ]
     ],
     "gc_946": [],
@@ -8736,16 +8718,16 @@
     ],
     "gc_95": [
         [
-            "chordal \u2229 gem-free\n\n",
-            "gc_307"
-        ],
-        [
             "chordal \u2229 distance-hereditary\n\n",
             "gc_306"
         ],
         [
             "(C_{n+4},gem)-free\n\n",
             "AUTO_738"
+        ],
+        [
+            "chordal \u2229 gem-free\n\n",
+            "gc_307"
         ]
     ],
     "gc_950": [
@@ -8759,38 +8741,42 @@
     "gc_953": [],
     "gc_954": [
         [
-            "(K_{3,3},K_{5})-minor-free\n\n",
-            "gc_898"
+            "partial bar visibility\n\n",
+            "gc_731"
         ],
         [
             "triangle contact\n\n",
             "gc_956"
         ],
         [
-            "weak bar visibility\n\n",
-            "gc_730"
-        ],
-        [
-            "genus 0\n\n",
-            "gc_291"
-        ],
-        [
             "coin\n\n",
             "gc_955"
+        ],
+        [
+            "weak bar visibility\n\n",
+            "gc_730"
         ],
         [
             "planar\n\n",
             "gc_43"
         ],
         [
-            "partial bar visibility\n\n",
-            "gc_731"
+            "genus 0\n\n",
+            "gc_291"
+        ],
+        [
+            "(K_{3,3},K_{5})-minor-free\n\n",
+            "gc_898"
         ]
     ],
     "gc_955": [
         [
-            "(K_{3,3},K_{5})-minor-free\n\n",
-            "gc_898"
+            "partial bar visibility\n\n",
+            "gc_731"
+        ],
+        [
+            "disk contact\n\n",
+            "gc_954"
         ],
         [
             "triangle contact\n\n",
@@ -8801,54 +8787,58 @@
             "gc_730"
         ],
         [
-            "genus 0\n\n",
-            "gc_291"
-        ],
-        [
             "planar\n\n",
             "gc_43"
         ],
         [
-            "disk contact\n\n",
-            "gc_954"
+            "genus 0\n\n",
+            "gc_291"
         ],
         [
-            "partial bar visibility\n\n",
-            "gc_731"
+            "(K_{3,3},K_{5})-minor-free\n\n",
+            "gc_898"
         ]
     ],
     "gc_956": [
         [
-            "(K_{3,3},K_{5})-minor-free\n\n",
-            "gc_898"
-        ],
-        [
             "partial bar visibility\n\n",
             "gc_731"
         ],
         [
-            "weak bar visibility\n\n",
-            "gc_730"
-        ],
-        [
-            "genus 0\n\n",
-            "gc_291"
+            "disk contact\n\n",
+            "gc_954"
         ],
         [
             "coin\n\n",
             "gc_955"
         ],
         [
-            "disk contact\n\n",
-            "gc_954"
+            "weak bar visibility\n\n",
+            "gc_730"
         ],
         [
             "planar\n\n",
             "gc_43"
+        ],
+        [
+            "genus 0\n\n",
+            "gc_291"
+        ],
+        [
+            "(K_{3,3},K_{5})-minor-free\n\n",
+            "gc_898"
         ]
     ],
     "gc_957": [],
     "gc_958": [
+        [
+            "P_{4}-tidy \u2229 hereditary clique-Helly \u2229 perfect\n\n",
+            "gc_959"
+        ],
+        [
+            "(C_{5},S_{3},co(3K_{2}),co(P_{2} U P_{4}))-free\n\n",
+            "gc_961"
+        ],
         [
             "(C_{5},S_{3},XZ_{11},XZ_{12},XZ_{13},XZ_{14},XZ_{6},XZ_{7},XZ_{8},XZ_{9},co(3K_{2}),co(P_{2}\nU\nP_{4}),co(XZ_{11}),co(XZ_{12}),co(XZ_{13}),co(XZ_{14}),co(XZ_{6}),co(XZ_{7}),co(XZ_{8}),co(XZ_{9}))-free\n\n",
             "AUTO_3686"
@@ -8856,55 +8846,51 @@
         [
             "P_{4}-tidy \u2229 (S_{3},co(3K_{2}),co(E),co(P_{2} U P_{4}),odd anti-hole,odd-\nhole)-free\n\n",
             "AUTO_768"
-        ],
-        [
-            "(C_{5},S_{3},co(3K_{2}),co(P_{2} U P_{4}))-free \u2229 P_{4}-tidy\n\n",
-            "gc_961"
-        ],
-        [
-            "P_{4}-tidy \u2229 hereditary clique-Helly \u2229 perfect\n\n",
-            "gc_959"
         ]
     ],
     "gc_959": [
         [
-            "(C_{5},S_{3},XZ_{11},XZ_{12},XZ_{13},XZ_{14},XZ_{6},XZ_{7},XZ_{8},XZ_{9},co(3K_{2}),co(P_{2}\nU\nP_{4}),co(XZ_{11}),co(XZ_{12}),co(XZ_{13}),co(XZ_{14}),co(XZ_{6}),co(XZ_{7}),co(XZ_{8}),co(XZ_{9}))-free\n\n",
-            "AUTO_3686"
+            "(C_{5},S_{3},co(3K_{2}),co(P_{2} U P_{4}))-free\n\n",
+            "gc_961"
         ],
         [
             "P_{4}-tidy \u2229 balanced\n\n",
             "gc_958"
         ],
         [
-            "P_{4}-tidy \u2229 (S_{3},co(3K_{2}),co(E),co(P_{2} U P_{4}),odd anti-hole,odd-\nhole)-free\n\n",
-            "AUTO_768"
+            "(C_{5},S_{3},XZ_{11},XZ_{12},XZ_{13},XZ_{14},XZ_{6},XZ_{7},XZ_{8},XZ_{9},co(3K_{2}),co(P_{2}\nU\nP_{4}),co(XZ_{11}),co(XZ_{12}),co(XZ_{13}),co(XZ_{14}),co(XZ_{6}),co(XZ_{7}),co(XZ_{8}),co(XZ_{9}))-free\n\n",
+            "AUTO_3686"
         ],
         [
-            "(C_{5},S_{3},co(3K_{2}),co(P_{2} U P_{4}))-free \u2229 P_{4}-tidy\n\n",
-            "gc_961"
+            "P_{4}-tidy \u2229 (S_{3},co(3K_{2}),co(E),co(P_{2} U P_{4}),odd anti-hole,odd-\nhole)-free\n\n",
+            "AUTO_768"
         ]
     ],
     "gc_96": [],
     "gc_960": [],
     "gc_961": [
         [
-            "(C_{5},S_{3},XZ_{11},XZ_{12},XZ_{13},XZ_{14},XZ_{6},XZ_{7},XZ_{8},XZ_{9},co(3K_{2}),co(P_{2}\nU\nP_{4}),co(XZ_{11}),co(XZ_{12}),co(XZ_{13}),co(XZ_{14}),co(XZ_{6}),co(XZ_{7}),co(XZ_{8}),co(XZ_{9}))-free\n\n",
-            "AUTO_3686"
+            "P_{4}-tidy \u2229 hereditary clique-Helly \u2229 perfect\n\n",
+            "gc_959"
         ],
         [
             "P_{4}-tidy \u2229 balanced\n\n",
             "gc_958"
         ],
         [
-            "P_{4}-tidy \u2229 (S_{3},co(3K_{2}),co(E),co(P_{2} U P_{4}),odd anti-hole,odd-\nhole)-free\n\n",
-            "AUTO_768"
+            "(C_{5},S_{3},XZ_{11},XZ_{12},XZ_{13},XZ_{14},XZ_{6},XZ_{7},XZ_{8},XZ_{9},co(3K_{2}),co(P_{2}\nU\nP_{4}),co(XZ_{11}),co(XZ_{12}),co(XZ_{13}),co(XZ_{14}),co(XZ_{6}),co(XZ_{7}),co(XZ_{8}),co(XZ_{9}))-free\n\n",
+            "AUTO_3686"
         ],
         [
-            "P_{4}-tidy \u2229 hereditary clique-Helly \u2229 perfect\n\n",
-            "gc_959"
+            "P_{4}-tidy \u2229 (S_{3},co(3K_{2}),co(E),co(P_{2} U P_{4}),odd anti-hole,odd-\nhole)-free\n\n",
+            "AUTO_768"
         ]
     ],
     "gc_962": [
+        [
+            "P_{4}-lite\n\n",
+            "gc_12"
+        ],
         [
             "C_{5}-free \u2229 P_{4}-tidy\n\n",
             "gc_13"
@@ -8912,20 +8898,16 @@
         [
             "(C_{5},XZ_{11},XZ_{12},XZ_{13},XZ_{14},XZ_{6},XZ_{7},XZ_{8},XZ_{9},co(XZ_{11}),co(XZ_{12}),co(XZ_{13}),co(XZ_{14}),co(XZ_{6}),co(XZ_{7}),co(XZ_{8}),co(XZ_{9}))-free\n\n",
             "AUTO_3602"
-        ],
-        [
-            "P_{4}-lite\n\n",
-            "gc_12"
         ]
     ],
     "gc_963": [
         [
-            "(co(3K_{2}),odd-hole,paw)-free\n\n",
-            "gc_965"
-        ],
-        [
             "hereditary clique-Helly \u2229 paw-free \u2229 perfect\n\n",
             "gc_964"
+        ],
+        [
+            "(co(3K_{2}),odd-hole,paw)-free\n\n",
+            "gc_965"
         ]
     ],
     "gc_964": [
@@ -8940,12 +8922,12 @@
     ],
     "gc_965": [
         [
-            "balanced \u2229 paw-free\n\n",
-            "gc_963"
-        ],
-        [
             "hereditary clique-Helly \u2229 paw-free \u2229 perfect\n\n",
             "gc_964"
+        ],
+        [
+            "balanced \u2229 paw-free\n\n",
+            "gc_963"
         ]
     ],
     "gc_966": [
@@ -8954,7 +8936,7 @@
             "gc_969"
         ],
         [
-            "(K_{5} - e,S_{3},co(3K_{2}),co(A),co(C_{4} U 2K_{1}),co(E),co(P_{2} U\nP_{3}),co(R),claw,co-twin-house,odd-hole)-free\n\n",
+            "(K_{5} - e,S_{3},co(3K_{2}),co(A),C_{4}\n\n",
             "AUTO_764"
         ],
         [
@@ -8972,7 +8954,7 @@
             "gc_966"
         ],
         [
-            "(K_{5} - e,S_{3},co(3K_{2}),co(A),co(C_{4} U 2K_{1}),co(E),co(P_{2} U\nP_{3}),co(R),claw,co-twin-house,odd-hole)-free\n\n",
+            "(K_{5} - e,S_{3},co(3K_{2}),co(A),C_{4}\n\n",
             "AUTO_764"
         ]
     ],
@@ -8983,12 +8965,12 @@
             "gc_966"
         ],
         [
-            "hereditary clique-Helly \u2229 line \u2229 perfect\n\n",
-            "gc_967"
+            "(K_{5} - e,S_{3},co(3K_{2}),co(A),C_{4}\n\n",
+            "AUTO_764"
         ],
         [
-            "(K_{5} - e,S_{3},co(3K_{2}),co(A),co(C_{4} U 2K_{1}),co(E),co(P_{2} U\nP_{3}),co(R),claw,co-twin-house,odd-hole)-free\n\n",
-            "AUTO_764"
+            "hereditary clique-Helly \u2229 line \u2229 perfect\n\n",
+            "gc_967"
         ]
     ],
     "gc_97": [
@@ -9049,12 +9031,12 @@
     ],
     "gc_980": [
         [
-            "3-tree \u2229 planar\n\n",
-            "gc_984"
-        ],
-        [
             "chordal \u2229 maximal planar\n\n",
             "gc_982"
+        ],
+        [
+            "3-tree \u2229 planar\n\n",
+            "gc_984"
         ],
         [
             "SC 3-tree\n\n",
@@ -9064,31 +9046,31 @@
     "gc_981": [],
     "gc_982": [
         [
-            "SC 3-tree\n\n",
-            "gc_1029"
+            "Apollonian network\n\n",
+            "gc_980"
         ],
         [
             "3-tree \u2229 planar\n\n",
             "gc_984"
         ],
         [
-            "Apollonian network\n\n",
-            "gc_980"
+            "SC 3-tree\n\n",
+            "gc_1029"
         ]
     ],
     "gc_983": [],
     "gc_984": [
         [
-            "SC 3-tree\n\n",
-            "gc_1029"
+            "Apollonian network\n\n",
+            "gc_980"
         ],
         [
             "chordal \u2229 maximal planar\n\n",
             "gc_982"
         ],
         [
-            "Apollonian network\n\n",
-            "gc_980"
+            "SC 3-tree\n\n",
+            "gc_1029"
         ]
     ],
     "gc_985": [],
@@ -9100,27 +9082,27 @@
             "gc_32"
         ],
         [
-            "rigid circuit\n\n",
-            "gc_1178"
+            "triangulated\n\n",
+            "gc_945"
         ],
         [
             "C_{n+4}-free\n\n",
             "gc_382"
         ],
         [
-            "triangulated\n\n",
-            "gc_945"
+            "rigid circuit\n\n",
+            "gc_1178"
         ]
     ],
     "gc_989": [],
     "gc_99": [
         [
-            "(C_{4},C_{5})-free \u2229 cop-win\n\n",
-            "gc_579"
-        ],
-        [
             "hereditary dismantlable\n\n",
             "gc_100"
+        ],
+        [
+            "(C_{4},C_{5})-free \u2229 cop-win\n\n",
+            "gc_579"
         ]
     ],
     "gc_990": [

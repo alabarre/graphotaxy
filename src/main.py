@@ -270,7 +270,7 @@ def main() -> None:
 
     # single graph classification: output classification as a GML graph so that it can later be
     # read by tools like cytoscape
-    if analyzer.number_of_graphs() == 1:
+    if analyzer.num_graphs == 1:
         print()
         print(
             f"Writing GraphML file to {os.path.basename(args.input[0])}.graphml ... ",

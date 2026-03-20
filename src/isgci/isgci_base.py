@@ -4,11 +4,11 @@ Anthony Labarre © 2020-2026
 This module contains everything related to interacting with the ISGCI database from
 https://www.graphclasses.org/ . You can:
 
-    - download the full database as html files to your preferred TARGET_DIR:
+    - download the full database as HTML files to your preferred TARGET_DIR:
 
             python3 -m isgci --download-db TARGET_DIR
 
-    - obtain the inclusion graph of all classes in ISGCI as a json file (assuming a local copy of
+    - obtain the inclusion graph of all classes in ISGCI as a JSON file (assuming a local copy of
         the database is available at SOURCE_DIR):
 
             python3 -m isgci --rebuild-graph SOURCE_DIR
@@ -49,8 +49,15 @@ try:
     import htmlmin
 
 except ModuleNotFoundError:
-    # htmlmin is not a hard requirement, so we let the import fail silently for now
-    pass
+    if __name__ == "__main__":
+        print(
+            fill(
+                "Warning: htmlmin not found. I can work without it so you can safely "
+                "ignore this warning, but consider installing it to decrease the size "
+                "of the files I will download.",
+                width=80,
+            )
+        )
 
 # ----- My imports --------------------------------------------------------------------------------
 from isgci.vars import ISGCI_DIR, PATHS, OPEN, ROOT
@@ -123,17 +130,15 @@ def download_isgci(target_dir: str) -> None:
     # if target_dir exists, move it out of the way to avoid building a corrupted db by mixing old
     # and new files
     if isdir(target_dir):
+        new_name = "".join([target_dir, ".BAK.", datetime.today().strftime("%Y-%m-%d-at-%H:%M:%S")])
         print(
             fill(
-                f"Directory {target_dir} exists, removing it to avoid building a corrupted "
-                f"database.",
+                f"Directory {target_dir} exists, moving it to {new_name} to avoid building a "
+                f"corrupted database.",
                 width=80,
             )
         )
-        rename(
-            target_dir,
-            "".join([target_dir, ".BAK.", datetime.today().strftime("%Y-%m-%d-at-%H:%M:%S")])
-        )
+        rename(target_dir, new_name)
 
     Path(target_dir).mkdir(exist_ok=True)
 
@@ -222,15 +227,8 @@ def save_webpage_to_file(url: str, local_path: str) -> None:
                 try:
                     data = htmlmin.minify(str(soup), **HTMLMIN_SETTINGS)
                 except NameError:
-                    # htmlmin was not loaded because it was not found: retrieve data normally
-                    print(
-                        fill(
-                            "Warning: htmlmin not found. I can work without it so you can safely "
-                            "ignore this warning, but consider installing it to decrease the size "
-                            "of the files I will download.",
-                            width=80,
-                        )
-                    )
+                    # htmlmin was not loaded because it was not found: retrieve data normally and
+                    # fail silently (one warning when running this program is enough)
                     data = str(soup)
                 file.write(data)
 
@@ -344,7 +342,7 @@ def isgci_exclusion_graph() -> DiGraph:
     return DiGraph(read_dot(join(ROOT, "exclusion-graph.dot")))
 
 
-def compute_class_equivalences(metagraph: DiGraph) -> DefaultDict[str, set]:
+def compute_class_equivalences(isgci_graph: DiGraph) -> DefaultDict[str, set]:
     """
     Returns a dictionary indexed by class id's, whose values contain all corresponding equivalent
     classes as 2-tuples (name, id) sorted by name.
@@ -354,7 +352,7 @@ def compute_class_equivalences(metagraph: DiGraph) -> DefaultDict[str, set]:
     @param metagraph: an inclusion graph of graph classes.
     """
     equivalences = defaultdict(set)
-    for node in tqdm(metagraph.nodes(), desc="Building equivalence dictionary", unit=" nodes"):
+    for node in tqdm(isgci_graph.nodes(), desc="Building equivalence dictionary", unit=" nodes"):
         # store the classes that are equivalent to the current node
         equivalences[node].update(
             (html2text(GraphClass(class_id).class_name()), class_id)
@@ -503,6 +501,12 @@ def main() -> None:
 
     # options
     parser.add_argument(
+        "--update-all",
+        action="store_true",
+        help="downloads a fresh copy of the ISGCI database and rebuilds all necessary structures"
+    )
+
+    parser.add_argument(
         "--download-db",
         nargs="?",
         action="store",
@@ -546,7 +550,14 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    if args.download_db:
+    if args.update_all:
+        download_isgci(args.download_db)
+        isgci_ids_to_names(force_rebuild=True)
+        isgci_recognition_statuses(force_rebuild=True)
+        isgci_equivalences(force_rebuild=True)
+        reduced_isgci_inclusion_graph(args.rebuild_graph, force_rebuild=True)
+
+    elif args.download_db:
         download_isgci(args.download_db)
 
     elif args.rebuild_graph:

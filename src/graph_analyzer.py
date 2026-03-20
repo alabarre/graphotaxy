@@ -98,8 +98,8 @@ class GraphAnalyzer:
 
     def register_recognizer(self, class_id: str, recognizer: Callable) -> None:
         """
-        Adds a recognizer to the list of recognizers to use for the given class as well as all
-        equivalent classes.
+        Adds a recognizer to the dictionary of recognizers to use for the given class as well as
+        all equivalent classes.
 
         :param class_id:
         :param recognizer:
@@ -371,9 +371,10 @@ class GraphAnalyzer:
     # Other helpful methods -----------------------------------------------------------------------
     def _auto_refresh(self, interval: int = 1) -> None:
         """
-        Refreshes progress bars.
+        Refreshes progress bars. Synchronization is not perfect, but the point is to let user know
+        that the program is actually doing some work.
 
-        :param interval:
+        :param interval: the number of seconds to wait between two refreshes.
         :return:
         """
         while not self.stop_refresh:
@@ -399,14 +400,6 @@ class GraphAnalyzer:
                 return eq_id
 
         raise ValueError(class_id + " not found, nor any equivalent id")
-
-    def number_of_graphs(self) -> int:
-        """
-        Returns the number of stored graphs.
-
-        @return:
-        """
-        return self.num_graphs
 
     # Methods related to reporting results --------------------------------------------------------
     def print_summary_of_findings(
