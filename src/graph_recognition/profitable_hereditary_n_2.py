@@ -95,8 +95,8 @@ def is_threshold(graph: nx.Graph) -> bool:
     ds.reverse()
     while ds:
         # instead of popping leading zeroes separately, remove them all at once
-        length_of_longest_zero_prefix = sum(1 for _ in takewhile(lambda val: val == 0, ds))
-        if ds[length_of_longest_zero_prefix - 1] == 0:
+        length_of_longest_zero_prefix = sum(1 for _ in takewhile(lambda val: not val, ds))
+        if not ds[length_of_longest_zero_prefix - 1]:
             ds = ds[length_of_longest_zero_prefix:]
             continue
 
@@ -1001,6 +1001,10 @@ def is_quasi_line(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_co_comparability(graph: nx.Graph) -> bool:
     """
+    A graph is a co-comparability if it is the intersection graph of curves from a line to a parallel
+    line.
+
+    https://www.graphclasses.org/classes/gc_147.html
 
     @param graph:
     @return:
@@ -1053,7 +1057,7 @@ def is_c_n_plus_4_u_k_1_free(graph: nx.Graph) -> bool:
     if is_chordal(graph):
         return True
 
-    # very naive algo: graph is (C_{n+4} ∪ K1)-free if removing a vertex and its neighbourhood always
+    # very naive algo: graph is (C_{n+4} ∪ K1)-free if removing a vertex and its neighborhood always
     # yields a C_{n+4}-free (i.e., chordal) graph
     nodes = set(graph)
     return all(is_chordal(graph.subgraph(nodes - {v}.union(graph[v]))) for v in graph)

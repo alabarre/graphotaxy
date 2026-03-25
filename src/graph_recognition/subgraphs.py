@@ -191,15 +191,18 @@ class SubgraphMatcher:
                 return False
         # """
 
-        # 2b) try profitable hereditary recognizers but only O(n) ones
-        # NOTE: commenting this until I figure out why many unit tests fail when I activate it
-        #'''
+        # 2b) try profitable hereditary recognizers but only O(m+n) ones
+        # NOTE: the same trick could be applied to more profitable recognizers, but at some point
+        # we reach diminishing returns. Experimentally, so far, I've only been convinced by the
+        # improved running times we obtain with linear time algorithms, which is why I'm not going
+        # higher than that in complexity. Remember that the point of using ISGCI inclusion
+        # relationships is to avoid running expensive algorithms, and we will lose that benefit at
+        # some point if we lose sight of that.
         if any(
                 recognizer(self._graph) and not recognizer(pattern)
                 for recognizer in graph_recognition.profitable_hereditary_n.RECOGNIZERS.values()
         ):
             return False
-        #'''
 
         # *****************************************************************************************
         # * 3) if none of the above worked, call the solver                                       *

@@ -71,16 +71,6 @@ Generated with:
 
 I restricted myself to connected bipartite graphs because I use them to generate line graphs afterwards, and the fact that a line graph is co-claw or co-diamond-free is not always true for disconnected graphs.
 
-
-# TODO
-
-sort categories below according to ls output (done for sections above)
-
-
-## critical h-free'
-
-## cubic-and-hamiltonian=gc_1316
-
 ## block=gc_93
 
 ./block/BlockGraphs-*
@@ -91,9 +81,23 @@ Tried converting to s6, but g6 takes up less space.
 
 Removed graphs for size 18 and 19 because gitlab does not allow files with size > 100M
 
+# TODO
+
+sort categories below according to ls output (done for sections above)
+
+
+## critical h-free'
+
+## cubic-and-hamiltonian=gc_1316
+
+
 ## C4-free=gc_360
 
 `for ((i=1; i<11; i++)); do nauty-geng -cf $i C4-free-graphs-connected-$i.g6; done`
+
+## C5-free=gc_359
+
+`for ((i=1; i<11; i++)); do nauty-geng -cp $i C5-free-graphs-connected-$i.g6; done`
 
 ## chordal=gc_32
 
