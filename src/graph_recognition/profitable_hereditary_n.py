@@ -99,7 +99,7 @@ def is_tree(graph: nx.Graph) -> bool:
     """
     Returns True iff graph is a tree.
 
-    See https://www.graphclasses.org/classes/gc_406
+    See https://www.graphclasses.org/classes/gc_342
 
     Complexity: O(m+n).
 
@@ -347,6 +347,8 @@ def is_planar(graph: nx.Graph) -> bool:
     """
     Returns True iff graph is planar.
 
+    https://www.graphclasses.org/classes/gc_43
+
     :param graph:
     :return:
     """
@@ -373,6 +375,8 @@ def is_bipartite(graph: nx.Graph) -> bool:
     """
     Returns True iff graph is bipartite. This is a mere cached call to networkx's function, except
     for a preliminary check to see if the call is actually needed.
+
+    https://www.graphclasses.org/classes/gc_69
 
     @type graph: nx.Graph
     """
@@ -973,6 +977,8 @@ def is_cograph(graph: nx.Graph) -> bool:
 def is_p4_cycle_free(graph: nx.Graph) -> bool:
     """
 
+    https://www.graphclasses.org/classes/gc_1298
+
     @param graph:
     @return:
     """
@@ -1009,6 +1015,8 @@ def is_co_tree(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_chordal_and_planar(graph: nx.Graph) -> bool:
     """
+
+    https://www.graphclasses.org/classes/gc_985
 
     @param graph:
     @return:
@@ -1070,6 +1078,8 @@ def is_co_bipartite(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_binary_tree(graph: nx.Graph) -> bool:
     """
+
+    https://www.graphclasses.org/classes/gc_847
 
     @param graph:
     @return:
@@ -1513,6 +1523,8 @@ def is_binary_tree(graph: nx.Graph) -> bool:
 def is_cubic(graph: nx.Graph) -> bool:
     """
 
+    https://www.graphclasses.org/classes/gc_1100
+
     @param graph:
     @return:
     """
@@ -1771,6 +1783,8 @@ def is_cubic(graph: nx.Graph) -> bool:
 def is_4_regular(graph: nx.Graph) -> bool:
     """
 
+    https://www.graphclasses.org/classes/gc_1101
+
     @param graph:
     @return:
     """
@@ -1785,6 +1799,8 @@ def is_4_regular(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_4_regular_planar(graph: nx.Graph) -> bool:
     """
+
+    https://www.graphclasses.org/classes/gc_1103
 
     @param graph:
     @return:
@@ -1904,6 +1920,8 @@ def is_4_regular_planar(graph: nx.Graph) -> bool:
 def is_5_regular(graph: nx.Graph) -> bool:
     """
 
+    https://www.graphclasses.org/classes/gc_1104
+
     @param graph:
     @return:
     """
@@ -1919,6 +1937,8 @@ def is_5_regular(graph: nx.Graph) -> bool:
 def is_5_regular_planar(graph: nx.Graph) -> bool:
     """
 
+    https://www.graphclasses.org/classes/gc_1106
+
     @param graph:
     @return:
     """
@@ -1931,6 +1951,8 @@ def is_5_regular_planar(graph: nx.Graph) -> bool:
 def is_bipartite_and_planar(graph: nx.Graph) -> bool:
     """
 
+    https://www.graphclasses.org/classes/gc_1069
+
     @param graph:
     @return:
     """
@@ -1942,6 +1964,8 @@ def is_bipartite_and_planar(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_cubic_planar(graph: nx.Graph) -> bool:
     """
+
+    https://www.graphclasses.org/classes/gc_1102
 
     @param graph:
     @return:
@@ -1983,6 +2007,8 @@ def is_bipartite_and_maximum_degree_3(graph: nx.Graph) -> bool:
 def is_bipartite_and_maximum_degree_3_and_planar(graph: nx.Graph) -> bool:
     """
 
+    https://www.graphclasses.org/classes/gc_1055
+
     @param graph:
     @return:
     """
@@ -1994,6 +2020,8 @@ def is_bipartite_and_maximum_degree_3_and_planar(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_bipartite_and_maximum_degree_4_and_planar(graph: nx.Graph) -> bool:
     """
+
+    https://www.graphclasses.org/classes/gc_1153
 
     @param graph:
     @return:
@@ -2007,6 +2035,8 @@ def is_bipartite_and_maximum_degree_4_and_planar(graph: nx.Graph) -> bool:
 def is_bipartite_cubic_planar(graph: nx.Graph) -> bool:
     """
 
+    https://www.graphclasses.org/classes/gc_1334
+
     @param graph:
     @return:
     """
@@ -2019,6 +2049,8 @@ def is_bipartite_cubic_planar(graph: nx.Graph) -> bool:
 def is_planar_and_maximum_degree_3(graph: nx.Graph) -> bool:
     """
 
+    https://www.graphclasses.org/classes/gc_412
+
     @param graph:
     @return:
     """
@@ -2030,6 +2062,8 @@ def is_planar_and_maximum_degree_3(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_planar_and_maximum_degree_4(graph: nx.Graph) -> bool:
     """
+
+    https://www.graphclasses.org/classes/gc_909
 
     @param graph:
     @return:
@@ -2072,6 +2106,8 @@ def is_co_maximum_degree_3(graph: nx.Graph) -> bool:
 def is_bipartite_or_co_bipartite_or_split(graph: nx.Graph) -> bool:
     """
 
+    https://www.graphclasses.org/classes/gc_1361
+
     @param graph:
     @return:
     """
@@ -2084,6 +2120,8 @@ def is_bipartite_or_co_bipartite_or_split(graph: nx.Graph) -> bool:
 def is_co_binary_tree(graph: nx.Graph) -> bool:
     """
 
+    https://www.graphclasses.org/classes/AUTO_2145
+
     @param graph:
     @return:
     """
@@ -2095,6 +2133,8 @@ def is_co_binary_tree(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_co_bipartite_and_maximum_degree_3(graph: nx.Graph) -> bool:
     """
+
+    https://www.graphclasses.org/classes/AUTO_2158
 
     @param graph:
     @return:
@@ -2139,6 +2179,8 @@ def is_co_maximum_degree_4(graph: nx.Graph) -> bool:
 def is_co_xc11_odd_cycle_free(graph: nx.Graph) -> bool:
     """
 
+    https://www.graphclasses.org/classes/AUTO_3081
+
     @param graph:
     @return:
     """
@@ -2150,6 +2192,8 @@ def is_co_xc11_odd_cycle_free(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_xc11_odd_cycle_free(graph: nx.Graph) -> bool:
     """
+
+    https://www.graphclasses.org/classes/AUTO_823
 
     @param graph:
     @return:
@@ -2206,6 +2250,7 @@ def is_unicyclic(graph: nx.Graph) -> bool:
     cycle.
 
     https://www.graphclasses.org/classes/gc_1202.html
+
     """
     return is_connected(graph) and graph.size() == graph.number_of_nodes()
 
@@ -2412,8 +2457,6 @@ def is_mock_threshold(graph: nx.Graph) -> bool:
     if 2 <= mindegree <= maxdegree <= num_nodes - 3:
         return False
 
-    # TODO (minor) check complexity; this mimicks Kahn's algorithm, so probably linear instead of
-    #  quadratic; if so, move function to profitable_hereditary_n.py
     # copy degrees
     degrees = dict(graph.degree)
 
@@ -2432,7 +2475,9 @@ def is_mock_threshold(graph: nx.Graph) -> bool:
         # update number of nodes and record the new candidates; discard those that have already
         # been retrieved
         num_nodes -= len(candidates)
-        candidates = {v for v, d in degrees.items() if d in {0, 1, num_nodes - 1, num_nodes - 2}} - retrieved
+        candidates = {
+                         v for v, d in degrees.items() if d in {0, 1, num_nodes - 1, num_nodes - 2}
+                     } - retrieved
 
     # the graph is empty iff all vertices were retrieved
     return len(retrieved) == graph.number_of_nodes()

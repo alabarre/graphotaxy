@@ -81,15 +81,9 @@ Tried converting to s6, but g6 takes up less space.
 
 Removed graphs for size 18 and 19 because gitlab does not allow files with size > 100M
 
-# TODO
+## (C4,C5)-free=gc_367
 
-sort categories below according to ls output (done for sections above)
-
-
-## critical h-free'
-
-## cubic-and-hamiltonian=gc_1316
-
+`for ((i=1; i<11; i++)); do nauty-geng -cfp $i C4-C5-free-graphs-connected-$i.g6; done`
 
 ## C4-free=gc_360
 
@@ -135,7 +129,7 @@ Generated from the datasets in chordal with nauty.
 
 ## (co-claw,co-diamond)-free=AUTO_1467
 
-for file in $(ls *g6); do nauty-complg $file > ../\(co-claw\,co-diamond\)-free\=AUTO_1467/co-$file; done`
+`for file in $(ls *g6); do nauty-complg $file > ../\(co-claw\,co-diamond\)-free\=AUTO_1467/co-$file; done`
 
 ## co-claw-free=AUTO_79
 
@@ -162,9 +156,9 @@ generate from line graphs: for file in $(ls *g6); do nauty-complg $file > ../co-
 
 
 ## co-line graphs of bipartite graphs=gc_744
+
 from gc_251
 for file in $(ls *g6); do nauty-complg $file > ../co-line\ graphs\ of\ bipartite\ graphs\=gc_744/co-$file; done`
-
 
 ## coplanar=gc_953
 
@@ -183,6 +177,23 @@ Generated from the datasets in trees with nauty-complg
 ## co-triangle-free=gc_1378
 
 generated from triangle-free using nauty-complg
+
+## critical h-free'
+
+## cubic-and-hamiltonian=gc_1316
+
+
+# TODO
+
+sort categories below according to ls output (done for sections above)
+
+
+
+
+
+
+
+
 
 ## distance-regular=gc_1148
 
