@@ -23,8 +23,8 @@ Check https://www.graphclasses.org/classes/gc_1149 for more information.
 import os
 import sys
 import unittest
-import networkx.algorithms.regular
 import networkx
+import networkx.algorithms.regular
 from readwrite import process_graphs
 
 

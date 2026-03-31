@@ -124,6 +124,9 @@ def download_isgci(target_dir: str) -> None:
     :param target_dir: the directory in which the database must be stored.
     :returns: None
     """
+    if not target_dir:
+        target_dir = ISGCI_DIR
+
     if target_dir != ISGCI_DIR:
         target_dir = join(target_dir, basename(ISGCI_DIR))
 
@@ -168,7 +171,7 @@ def download_isgci(target_dir: str) -> None:
         "download date": datetime.today().strftime("%Y-%m-%d"),
         "number of classes": sum(1 for _ in scandir(join(target_dir, "classes")))
     }
-    dump_to_json(information, "isgci_version_info.json")
+    dump_to_json(information, join(ROOT, "isgci_version_info.json"))
 
 
 def dump_to_json(obj: object, filename: str) -> None:
@@ -191,7 +194,7 @@ def isgci_version_info() -> dict:
 
     :return:
     """
-    filename = "isgci_version_info.json"
+    filename = join(ROOT, "isgci_version_info.json")
     if not exists(filename):
         # required info was removed, try to rebuild it
         information = {
@@ -328,7 +331,7 @@ def reduced_isgci_inclusion_graph(
     information = isgci_version_info()
     information["number of nonequivalent classes"] = result.number_of_nodes()
     information["number of inclusion relationships"] = result.number_of_edges()
-    dump_to_json(information, "isgci_version_info.json")
+    dump_to_json(information, join(ROOT, "isgci_version_info.json"))
 
     return result
 

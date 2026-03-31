@@ -864,6 +864,9 @@ def is_co_cnplus4_co_claw_co_gem_free(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_weakly_bridged(graph: nx.Graph) -> bool:
     """
+    Equivalent to C_{4}-free ∩ weakly modular.
+
+    https://www.graphclasses.org/classes/gc_1386.html
 
     :param graph:
     :return:
