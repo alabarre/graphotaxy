@@ -62,6 +62,6 @@ class Test_AUTO_79_and_related(unittest.TestCase):
                 )
         print("done.")
 
-    # No recognizer was found for class AUTO_79 or any equivalent class, so no test could be generated
-    # for that specific class
-    # Generated tests for ancestors of base class AUTO_79:
+    # No test was generated for class AUTO_79_and_related: a recognizer was found, but it has already
+    # been covered by other tests.
+    # Generated tests for ancestors of base class AUTO_79 not yet covered by other tests:

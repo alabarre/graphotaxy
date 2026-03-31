@@ -92,7 +92,7 @@ class Test_gc_1185_and_related(unittest.TestCase):
 
         print("done.")
 
-    # Generated tests for ancestors of base class gc_1185:
+    # Generated tests for ancestors of base class gc_1185 not yet covered by other tests:
     def test_gc_1189(self) -> None:
         """Tests positive instances for class gc_1189. gc_1189 is an ancestor of gc_1185."""
         print(

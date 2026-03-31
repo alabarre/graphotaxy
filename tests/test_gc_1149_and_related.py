@@ -23,8 +23,8 @@ Check https://www.graphclasses.org/classes/gc_1149 for more information.
 import os
 import sys
 import unittest
-import networkx
 import networkx.algorithms.regular
+import networkx
 from readwrite import process_graphs
 
 
@@ -91,4 +91,4 @@ class Test_gc_1149_and_related(unittest.TestCase):
 
         print("done.")
 
-    # Generated tests for ancestors of base class gc_1149:
+    # Generated tests for ancestors of base class gc_1149 not yet covered by other tests:

@@ -63,9 +63,8 @@ class Test_gc_198_and_related(unittest.TestCase):
                 )
         print("done.")
 
-    # No recognizer was found for class gc_198 or any equivalent class, so no test could be generated
-    # for that specific class
-    # Generated tests for ancestors of base class gc_198:
+    # No test was generated for class gc_198_and_related: no recognizer was found.
+    # Generated tests for ancestors of base class gc_198 not yet covered by other tests:
     def test_gc_986(self) -> None:
         """Tests positive instances for class gc_986. gc_986 is an ancestor of gc_198."""
         print(

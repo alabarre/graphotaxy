@@ -93,4 +93,4 @@ class Test_gc_316_and_related(unittest.TestCase):
 
         print("done.")
 
-    # Generated tests for ancestors of base class gc_316:
+    # Generated tests for ancestors of base class gc_316 not yet covered by other tests:

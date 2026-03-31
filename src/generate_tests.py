@@ -384,15 +384,17 @@ def prepare_code_string(
         TEST_COVERAGE["positive"].add(class_id)
 
     else:
+        reason = "a recognizer was found, but it has already been covered by other tests." \
+            if class_id in recognizers else "no recognizer was found."
         code_string += textwrap.fill(
-            f"# No recognizer was found for class {class_id} or any equivalent class, so no test "
-            f"could be generated for that specific class",
+            f"# No test was generated for class {class_id}{NAMING_SCHEME[1]}: {reason}",
             width=WRAP_WIDTH,
             subsequent_indent="    # ",
         ) + "\n"
 
     # 2.2: write positive tests for ancestors of class_id
-    code_string += f"    # Generated tests for ancestors of base class {class_id}:"
+    code_string += (f"    # Generated tests for ancestors of base class {class_id} not yet covered "
+                    f"by other tests:")
     for anc_id in ancestors[class_id]:
         # generate test for ancestor class if it is recognizable and not done already
         if anc_id in recognizers and anc_id not in TEST_COVERAGE["positive"]:

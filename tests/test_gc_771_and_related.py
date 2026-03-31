@@ -92,7 +92,7 @@ class Test_gc_771_and_related(unittest.TestCase):
 
         print("done.")
 
-    # Generated tests for ancestors of base class gc_771:
+    # Generated tests for ancestors of base class gc_771 not yet covered by other tests:
     def test_gc_1299(self) -> None:
         """Tests negative instances for class gc_1299."""
         print(

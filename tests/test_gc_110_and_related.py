@@ -62,6 +62,6 @@ class Test_gc_110_and_related(unittest.TestCase):
                 )
         print("done.")
 
-    # No recognizer was found for class gc_110 or any equivalent class, so no test could be generated
-    # for that specific class
-    # Generated tests for ancestors of base class gc_110:
+    # No test was generated for class gc_110_and_related: a recognizer was found, but it has already
+    # been covered by other tests.
+    # Generated tests for ancestors of base class gc_110 not yet covered by other tests:
