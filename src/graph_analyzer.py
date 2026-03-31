@@ -524,7 +524,7 @@ class GraphAnalyzer:
         if self.scope:
             print(
                 f"    - only the following {len(self.scope)} classes were considered as "
-                f"instructed by the user; specifically: {sorted(self.scope)}"
+                f"instructed by the user: {sorted(self.scope)}"
             )
         if self.provided_negative:
             print(

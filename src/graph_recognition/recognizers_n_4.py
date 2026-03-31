@@ -26,6 +26,7 @@ from graph_recognition.misc_algo import (
     co_connected_components, number_of_common_neighbours,
 )
 from graph_recognition.domination import has_dominating_set_of_size_at_most_2
+from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
     is_bipartite,
@@ -229,18 +230,22 @@ def is_circular_arc_and_co_bipartite(graph: nx.Graph) -> bool:
     if not is_co_bipartite(graph):
         return False
 
-    # build graph G*
-    g_star = nx.Graph()
-    g_star.add_nodes_from(graph.edges())
+    # online version:
+    def edge_generator():
+        """
+        Yields the edges of the graph that must be checked for bipartiteness in the original
+        algorithm. This allows us to check bipartiteness as we go without building the whole graph.
 
-    # connect each pair of edges that induce a C_4 in the original graph
-    c4_degseq = array('b', [2, 2, 2, 2])
-    for e, f in combinations(g_star, 2):
-        endpoints = set(e + f)
-        if len(endpoints) == 4 and degree_sequence(graph.subgraph(endpoints)) == c4_degseq:
-            g_star.add_edge(e, f)
+        :return:
+        """
+        # connect each pair of edges that induce a C_4 in the original graph
+        c4_degseq = array('b', [2, 2, 2, 2])
+        for e, f in combinations(graph.edges(), 2):
+            endpoints = set(e + f)
+            if len(endpoints) == 4 and degree_sequence(graph.subgraph(endpoints)) == c4_degseq:
+                yield e, f
 
-    return is_bipartite(g_star)
+    return online_is_bipartite(edge_generator())
 
 
 @assign_class_id("gc_174")

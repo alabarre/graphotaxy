@@ -28,6 +28,7 @@ from graph_recognition.misc_algo import (
     is_h_u_k1_free,
     co_connected_components,
 )
+from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_constant import is_2k1_free
 from graph_recognition.profitable_hereditary_n import (
     is_chordal,
@@ -560,22 +561,26 @@ def is_comparability(graph: nx.Graph) -> bool:
     }
 
     # We build a graph h with one vertex per (vertex of g + equivalence class)
-    h = type(graph)()
-    h.add_nodes_from((v, i) for v in graph for i in range(len(equivalence_classes[v])))
+    # new version (online):
+    def edge_generator():
+        """
+        Yields the edges of the graph that must be checked for bipartiteness in the original
+        algorithm. This allows us to check bipartiteness as we go without building the whole graph.
 
-    # We add an edge between two vertices of h if they represent opposed equivalence classes
-    for u, v in graph.edges():
-        for i, s in enumerate(equivalence_classes[v]):
-            if u in s:
-                break
+        :return:
+        """
+        for u, v in graph.edges():
+            for i, s in enumerate(equivalence_classes[v]):
+                if u in s:
+                    break
 
-        for j, s in enumerate(equivalence_classes[u]):
-            if v in s:
-                break
+            for j, s in enumerate(equivalence_classes[u]):
+                if v in s:
+                    break
 
-        h.add_edge((v, i), (u, j))
+            yield (v, i), (u, j)
 
-    return is_bipartite(h)
+    return online_is_bipartite(edge_generator())
 
 
 # profitable because of constituent classes
