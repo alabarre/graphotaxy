@@ -57,6 +57,7 @@ from graph_recognition.profitable_hereditary_n_3 import (
     is_claw_diamond_free,
     is_co_p3_free,
 )
+from graph_recognition.recognizers_n_3 import is_weakly_modular
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
@@ -857,6 +858,17 @@ def is_co_cnplus4_co_claw_co_gem_free(graph: nx.Graph) -> bool:
     @return:
     """
     return is_co_chordal(graph) and is_co_gem_free(graph) and is_co_claw_free(graph)
+
+
+@assign_class_id("gc_1386")
+@lru_cache(maxsize=None)
+def is_weakly_bridged(graph: nx.Graph) -> bool:
+    """
+
+    :param graph:
+    :return:
+    """
+    return is_weakly_modular(graph) and is_c4_free(graph)
 
 
 # -------------------------------------------------------------------------------------------------
