@@ -6,9 +6,7 @@ O(n^3) algorithms.
 """
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
-import multiprocessing as mp
 import os
-from collections import defaultdict
 from functools import lru_cache
 from itertools import combinations, chain, product
 from typing import Any, Iterator
@@ -86,57 +84,22 @@ def explicit_independent_triplets(graph: nx.Graph) -> Iterator:
 
 
 @lru_cache(maxsize=None)
-def vertices_on_shortest_paths_between(graph: nx.Graph, u: Any, v: Any) -> set:
+def vertices_on_shortest_paths_between(graph: nx.Graph, pair: frozenset) -> set:
     """
     Returns the set of all vertices on all shortest paths between u and v in graph.
 
-    @param graph:
-    @param u:
-    @param v:
-    @return:
+    I use a pair of vertices as a frozenset so I can lru_cache the function and have the same
+    answer available for (u, v) and (v, u).
+
+    :param graph:
+    :param pair: the two vertices to query
     """
     try:
-        return set(chain(*(nx.all_shortest_paths(graph, u, v))))
+        return set(chain(*(nx.all_shortest_paths(graph, *pair))))
 
     except nx.exception.NetworkXNoPath:
         # this exception is raised when no path exists between u and v
         return set()
-
-
-@lru_cache(maxsize=None)
-def vertices_on_shortest_paths(graph: nx.Graph) -> dict:
-    """
-    Returns a dictionary where key = edge {u, v} and value = the set of all vertices that belong to
-    a shortest path between u and v. Those sets are often called "intervals" in the literature.
-
-    @param graph:
-    @return:
-    """
-    if is_connected(graph):
-        return {
-            frozenset([u, v]): set(chain(*(nx.all_shortest_paths(graph, u, v))))
-            for u, v in combinations(graph, 2)
-        }
-
-    # graph is disconnected: launch parallel searches on each connected component; using a
-    # defaultdict allows us to avoid checking whether the pair we will query exists
-    result = defaultdict(set)
-    for cc in nx.connected_components(graph):
-        all_pairs = set(combinations(cc, 2))
-        with mp.Pool() as p:
-            result.update(
-                dict(
-                    zip(
-                        map(frozenset, all_pairs),
-                        p.starmap(
-                            func=vertices_on_shortest_paths_between,
-                            iterable=((graph.subgraph(cc), u, v) for u, v in all_pairs),
-                        ),
-                    )
-                )
-            )
-
-    return result
 
 
 @lru_cache(maxsize=None)
@@ -367,7 +330,7 @@ def is_pseudo_median(graph: nx.Graph) -> bool:
             ),
     ):
         # skip if u not equidistant from v and w or not at distance >= 2
-        k = nx.shortest_path_length(graph, u, v)
+        k = int(nx.shortest_path_length(graph, u, v))
         if k < 2 or nx.shortest_path_length(graph, u, w) != k:
             continue
         if number_of_common_neighbors_at_distance(graph, u, v, w, k) != 1:
@@ -462,12 +425,12 @@ def is_interval_regular(graph: nx.Graph) -> bool:
     # NOTE: I used to precompute all intervals, but that was way too slow, so now I'm computing
     # them as I go in the hope that we'll stop early
     for u, v in combinations(graph.nodes, 2):
-        int_u_v = vertices_on_shortest_paths_between(graph, u, v)
+        int_u_v = vertices_on_shortest_paths_between(graph, frozenset([u, v]))
         # note: since combinations produces unique pairs, we must check the condition both ways
         # (i.e., for u and for v)
         if (
-                len(set(graph[u]) & int_u_v) != distance(graph, frozenset([u ,v])) or
-                len(set(graph[v]) & int_u_v) != distance(graph, frozenset([u ,v]))
+                len(set(graph[u]) & int_u_v) != distance(graph, frozenset([u, v])) or
+                len(set(graph[v]) & int_u_v) != distance(graph, frozenset([u, v]))
         ):
             return False
 
@@ -551,18 +514,16 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
     # Note: the second definition yields a faster algorithm, but currently fails on my test data
     # sets, so either my implementation is wrong or the paper is. Let us settle for definition 1)
     # for now
-    intervals = vertices_on_shortest_paths(graph)
     for cc in nx.connected_components(graph):
         for u, v, w in combinations(cc, 3):
             # do u, v, w form a metric triangle?
-            f_u_v, f_u_w, f_v_w = frozenset({u, v}), frozenset({u, w}), frozenset({v, w})
-            if (
-                    intervals[f_u_v] & intervals[f_u_w] == {u}
-                    and intervals[f_u_v] & intervals[f_v_w] == {v}
-                    and intervals[f_u_w] & intervals[f_v_w] == {w}
-            ):
+            int_u_v = vertices_on_shortest_paths_between(graph, frozenset([u, v]))
+            int_u_w = vertices_on_shortest_paths_between(graph, frozenset([u, w]))
+            int_v_w = vertices_on_shortest_paths_between(graph, frozenset([v, w]))
+
+            if int_u_v & int_u_w == {u} and int_u_v & int_v_w == {v} and int_u_w & int_v_w == {w}:
                 # do all vertices in I(v, w) have the same distance to u?
-                if len({distance(graph, frozenset([x, u])) for x in intervals[f_v_w]}) != 1:
+                if len({distance(graph, frozenset([x, u])) for x in int_v_w}) != 1:
                     return False
 
     return True

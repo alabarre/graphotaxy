@@ -103,7 +103,7 @@ def process_graphs(filename: str) -> Iterator:
             )
         yield UndirectedGraph(nx.nx_pydot.read_dot(filename))
 
-    elif extension == "edges":
+    elif extension in {"edges", "mtx"}:
         yield UndirectedGraph(edge_list_file_to_edge_set(filename))
 
     else:

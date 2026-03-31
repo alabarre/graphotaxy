@@ -130,7 +130,7 @@ def main() -> None:
     )
     parser.add_argument(
         "-i", "--input",
-        help="the graph file(s) to analyze; acceptable extensions are .g6, .s6, .dot, "
+        help="the graph file(s) to analyze; acceptable extensions are .dot, .edges, .g6, .mtx, .s6, "
              ".g6.[bz2,gz,xz], and .s6.[bz2,gz,xz]",
         nargs="+"
     )

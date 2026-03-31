@@ -784,24 +784,8 @@ def is_chordal(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # Lemma 5.5 in https://www.ii.uib.no/~pinar/chordal.pdf
-    # ("Treewidth, partial k-trees, and chordal graphs" by Pinar Heggernes)
-    # A chordal graph is either complete or has at least two nonadjacent simplicial vertices
-    # (a vertex is simplicial if its closed neighborhood induces a clique)
-    # so if graph is complete, it is chordal
-    if is_complete(graph):
-        return True
-
-    # and if we find a nonedge with at least one non-simplicial vertex among its endpoints, then
-    # we can quit early
-    if any(
-            not is_complete(graph.subgraph({u}.union(graph[u]))) or
-            not is_complete(graph.subgraph({v}.union(graph[v])))
-            for u, v in nx.non_edges(graph)
-    ):
-        return False
-
-    return nx.is_chordal(graph)
+    # if graph is complete, it is chordal
+    return is_complete(graph) or nx.is_chordal(graph)
 
 
 @assign_fisc(["triangle", "co(P_{3})"])
