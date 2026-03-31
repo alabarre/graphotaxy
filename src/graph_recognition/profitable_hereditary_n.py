@@ -792,9 +792,14 @@ def is_chordal(graph: nx.Graph) -> bool:
     if is_complete(graph):
         return True
 
-    # prevent nx.is_chordal from raising ValueError if there are no nodes
-    if not graph.nodes:
-        return True
+    # and if we find a nonedge with at least one non-simplicial vertex among its endpoints, then
+    # we can quit early
+    if any(
+            not is_complete(graph.subgraph({u}.union(graph[u]))) or
+            not is_complete(graph.subgraph({v}.union(graph[v])))
+            for u, v in nx.non_edges(graph)
+    ):
+        return False
 
     return nx.is_chordal(graph)
 

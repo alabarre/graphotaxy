@@ -186,12 +186,15 @@ class GraphClass:
         """
         Returns the status of the recognition problem for this class, or "[status not found]".
 
+        >>> GraphClass("gc_219").recognition_status()
+        'Polynomial'
+
         @rtype: str
         @return:
         """
         # look for the td right after "<td>Recognition"
         for elem in self.soup.find_all("td"):
             if elem.text.startswith("Recognition"):
-                return elem.next_sibling.text
+                return elem.next_sibling.next_sibling.text
 
         return "[status not found]"
