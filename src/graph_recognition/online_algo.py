@@ -18,13 +18,13 @@ def my_recognizer(G):
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 from collections import defaultdict
-from typing import List, Hashable
+from typing import List, Hashable, Iterable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 from networkx.utils.union_find import UnionFind
 
 
-def online_connected_components(edge_generator) -> List[set]:
+def online_connected_components(edge_generator: Iterable[tuple]) -> List[set]:
     """
     Returns the connected components of the graph described by the edge generator.
 
@@ -40,7 +40,7 @@ def online_connected_components(edge_generator) -> List[set]:
     return list(disjoint_sets.to_sets())
 
 
-def online_is_forest(edge_generator) -> bool:
+def online_is_forest(edge_generator: Iterable[tuple]) -> bool:
     """
     Returns True if the graph described by the edge generator has no cycle, False otherwise.
 
@@ -73,14 +73,10 @@ class ParityUnionFind:
     """
 
     def __init__(self) -> None:
-        """
-        Initializes the ParityUnionFind object. Same as for nx.UnionFind, except an additional
-        dictionary for parities is created.
-
-        """
+        """Initializes the ParityUnionFind object."""
+        self.parity = defaultdict(bool)
         self.parents = IdentityDict()
         self.weights = defaultdict(lambda: 1)
-        self.parity = defaultdict(bool)
 
     def find(self, x: Hashable) -> Hashable:
         """
@@ -122,7 +118,7 @@ class ParityUnionFind:
         return True
 
 
-def online_is_bipartite(edge_generator) -> bool:
+def online_is_bipartite(edge_generator: Iterable[tuple]) -> bool:
     """
     Returns True if the graph described by the edge generator is bipartite, False otherwise.
 

@@ -183,18 +183,6 @@ generated from triangle-free using nauty-complg
 ## cubic-and-hamiltonian=gc_1316
 
 
-# TODO
-
-sort categories below according to ls output (done for sections above)
-
-
-
-
-
-
-
-
-
 ## distance-regular=gc_1148
 
 All data taken from https://www.distanceregular.org/graphdata/
@@ -203,9 +191,34 @@ All data taken from https://www.distanceregular.org/graphdata/
 
 halin graphs: from https://cheddarmonk.org/maths/halin_graphs/
 
+
+
+
+
+
+
+
+
+
+
+## K4-free-and-planar=gc_1367$ 
+
+In planar=gc_43:
+
+`for file in $(ls *g6); do nauty-pickg -k3 $file > ../K4-free-and-planar\=gc_1367/k4-free-$file; done`
+
 ## K4-free=gc_455
 
 `for ((i=1; i<11; i++)); do nauty-geng -ck $i K4-free-connected-$i.g6; done`
+
+
+
+
+
+# TODO
+
+sort categories below according to ls output (done for sections above)
+
 
 ## line=gc_249
 

@@ -16,12 +16,11 @@ from typing import Any, Iterator
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
-from graph_recognition.domination import dominates
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.domination import dominates
 from graph_recognition.misc_algo import (
     complement,
     empty_graph_by_removing_vertices,
-    all_pairs_shortest_path_length,
     is_connected,
     degree_sequence, co_connected_components,
 )
@@ -49,7 +48,6 @@ from graph_recognition.recognizers_utils import (
 
 # Cache imported functions that are not already cached -------------------------------------------
 __functions_to_cache = [
-    # nx.all_pairs_shortest_path_length,  # DON'T: this is a generator
     # nx.all_shortest_paths, # DON'T: this calls a generator
     # nx.common_neighbors, # DON'T: this returns a generator expression
     # nx.connected_components,  # DON'T: this is a generator
@@ -463,14 +461,13 @@ def is_interval_regular(graph: nx.Graph) -> bool:
 
     # NOTE: I used to precompute all intervals, but that was way too slow, so now I'm computing
     # them as I go in the hope that we'll stop early
-    distances = all_pairs_shortest_path_length(graph)
     for u, v in combinations(graph.nodes, 2):
         int_u_v = vertices_on_shortest_paths_between(graph, u, v)
         # note: since combinations produces unique pairs, we must check the condition both ways
         # (i.e., for u and for v)
         if (
-                len(set(graph[u]) & int_u_v) != distances[u][v] or
-                len(set(graph[v]) & int_u_v) != distances[u][v]
+                len(set(graph[u]) & int_u_v) != distance(graph, frozenset([u ,v])) or
+                len(set(graph[v]) & int_u_v) != distance(graph, frozenset([u ,v]))
         ):
             return False
 
@@ -554,7 +551,6 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
     # Note: the second definition yields a faster algorithm, but currently fails on my test data
     # sets, so either my implementation is wrong or the paper is. Let us settle for definition 1)
     # for now
-    # distances = all_pairs_shortest_path_length(graph)
     intervals = vertices_on_shortest_paths(graph)
     for cc in nx.connected_components(graph):
         for u, v, w in combinations(cc, 3):
@@ -673,8 +669,7 @@ def is_co_interval(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_interval(complement(graph.subgraph(cc)))
-        for cc in co_connected_components(graph)
+        is_interval(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 
