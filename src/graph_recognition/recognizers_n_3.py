@@ -185,7 +185,7 @@ def is_dilworth_3(graph: nx.Graph) -> bool:
     return is_dilworth_k(graph, 3)
 
 
-# @assign_class_id("gc_49")
+@assign_class_id("gc_49")
 @lru_cache(maxsize=None)
 def is_dismantlable(graph: nx.Graph) -> bool:
     """
@@ -211,6 +211,7 @@ def is_dismantlable(graph: nx.Graph) -> bool:
     if n >= 2 and is_connected(graph) and is_chordal(graph):
         return True
 
+    '''
     nodes = set(graph.nodes)
     for z in graph:
         if any(
@@ -218,8 +219,18 @@ def is_dismantlable(graph: nx.Graph) -> bool:
                 for y in nodes - {z}
         ):
             return True
+    '''
+    # nonrecursive version:
+    nodes = set(graph.nodes)
+    while graph.number_of_nodes() > 1:
+        for u, v in combinations(graph, 2):
+            if dominates(graph, u, v):
+                graph = graph.subgraph(nodes - {v})
+                break
+        else:
+            return False
 
-    return False
+    return True
 
 
 @assign_class_id("gc_50")
