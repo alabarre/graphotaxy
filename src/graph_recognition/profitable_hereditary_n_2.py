@@ -537,13 +537,22 @@ def is_comparability(graph: nx.Graph) -> bool:
 
     https://github.com/sagemath/sage/blob/develop/src/sage/graphs/comparability.pyx
     """
-    # Each vertex can partition its neighbors into equivalence classes
-    equivalence_classes = {
-        v: list(co_connected_components(graph.subgraph(graph[v]))) for v in graph
-    }
+    # this is an lazy online implementation of sage's algorithm; the original implementation
+    # consists of 3 steps:
+    # 1) build equivalence classes;
+    # 2) use equivalence classes to build a graph H
+    # 3) return True if H is bipartite, False otherwise.
+    #
+    # on large graphs, we don't even get past step 1; so we improve the algorithm as follows:
+    # - check H's bipartiteness online (i.e., as we examine its edge set), instead of actually
+    #       building it and waiting for it to be complete to only then start checking whether it is
+    #       bipartite
+    # - only build the required equivalence classes as we go, i.e., only for the vertices for which
+    #       this information is needed to obtain H's next edge
+    @lru_cache(maxsize=None)
+    def equiv_class_gen(v):
+        return list(co_connected_components(graph.subgraph(graph[v])))
 
-    # We build a graph h with one vertex per (vertex of g + equivalence class)
-    # new version (online):
     def edge_generator():
         """
         Yields the edges of the graph that must be checked for bipartiteness in the original
@@ -552,11 +561,13 @@ def is_comparability(graph: nx.Graph) -> bool:
         :return:
         """
         for u, v in graph.edges():
-            for i, s in enumerate(equivalence_classes[v]):
+            #for i, s in enumerate(equivalence_classes[v]):
+            for i, s in enumerate(equiv_class_gen(v)):
                 if u in s:
                     break
 
-            for j, s in enumerate(equivalence_classes[u]):
+            #for j, s in enumerate(equivalence_classes[u]):
+            for j, s in enumerate(equiv_class_gen(u)):
                 if v in s:
                     break
 
