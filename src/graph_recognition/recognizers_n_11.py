@@ -1,5 +1,5 @@
 """
-Anthony Labarre © 2025
+Anthony Labarre © 2025-2026
 
 O(n^11) algorithms.
 
@@ -81,7 +81,7 @@ def is_maximal_clique_irreducible(graph: nx.Graph) -> bool:
     """
     if not graph.edges:
         return True
-    
+
     # TODO: move this function to the appropriate file, I haven't computed the complexity yet
     # naïve algorithm: first, compute all maximal cliques. If there are more than the number of
     # edges, then at least one edge appears in more than one clique, so we can return False

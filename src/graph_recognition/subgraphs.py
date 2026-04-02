@@ -45,7 +45,6 @@ import networkx as nx
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.graph_formats import nx_graph_to_lad_file, lad_file_to_nx_graph
 from graph_recognition.misc_algo import degree_sequence
-import graph_recognition.profitable_hereditary_n
 from graph_recognition.recognizers_utils import cached_function
 from graph_recognition.smallgraphs import (
     all_smallgraphs_by_order,
@@ -198,12 +197,17 @@ class SubgraphMatcher:
         # higher than that in complexity. Remember that the point of using ISGCI inclusion
         # relationships is to avoid running expensive algorithms, and we will lose that benefit at
         # some point if we lose sight of that.
+
+        # I've been turning this on and off for a while and cannot decide whether to include it;
+        # I'm giving up on it for now because for large graphs we spend ages in this part of the
+        # code
+        '''
         if any(
                 recognizer(self._graph) and not recognizer(pattern)
                 for recognizer in graph_recognition.profitable_hereditary_n.RECOGNIZERS.values()
         ):
             return False
-
+        '''
         # *****************************************************************************************
         # * 3) if none of the above worked, call the solver                                       *
         # *****************************************************************************************

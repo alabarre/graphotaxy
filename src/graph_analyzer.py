@@ -353,7 +353,12 @@ class GraphAnalyzer:
         # prototype classification, because we want to tell user why a recognizer has not been
         # run; in order to do that, we keep the corresponding nodes, and skip them in
         # self.run_classification
+
+        # blacklist given ids
         self.blacklisted.update(skip_ids)
+        # and blacklist all equivalent ids as well
+        for class_id in skip_ids:
+            self.blacklisted.update(cid for _, cid in self.equivalences[class_id])
 
     def restrict_to(self, only_ids: Iterable[str]) -> None:
         """
@@ -437,6 +442,7 @@ class GraphAnalyzer:
                         self.num_graphs == 1],
                     f"[{ids_to_names[class_id]}]({urllib.parse.urljoin(BASE_CLASS_URL, class_id)})"
                 ]))
+
             # print unidentified maximal subclasses, so I know what to implement next
             if print_unknown_descendants:
                 unknown_children = self.unknown_nodes.intersection(
@@ -445,26 +451,23 @@ class GraphAnalyzer:
                 print(f"    - class has {len(unknown_children)} unidentified maximal subclasses")
                 for child in unknown_children:
                     print(
-                        " " * 8,
-                        ids_to_names[child],
-                        "---",
-                        urllib.parse.urljoin(BASE_CLASS_URL, child),
-                        recog_status[child],
+                        " " * 8 + f"  - [{ids_to_names[child]}]"
+                                  f"({urllib.parse.urljoin(BASE_CLASS_URL, child)}) "
+                                  f"{recog_status[child]}"
                     )
 
                 if unknown_children:
                     print()
 
-                unknown_descendants = (
-                    set(nx.descendants(self.prototype_classification_digraph, class_id))
-                    .intersection(self.unknown_nodes)
-                    .difference(unknown_children)
-                )
+                unknown_descendants = self.unknown_nodes.intersection(
+                    nx.descendants(self.prototype_classification_digraph, class_id)
+                ) - unknown_children
+
                 print(f"    - class has {len(unknown_descendants)} further unidentified descendants")
                 for child in unknown_descendants:
                     print(
-                        " " * 8 + f"[{ids_to_names[class_id]}]"
-                                  f"({urllib.parse.urljoin(BASE_CLASS_URL, class_id)}) "
+                        " " * 8 + f"  - [{ids_to_names[child]}]"
+                                  f"({urllib.parse.urljoin(BASE_CLASS_URL, child)}) "
                                   f"{recog_status[child]}"
                     )
 

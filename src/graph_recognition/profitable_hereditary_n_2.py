@@ -38,7 +38,6 @@ from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_planar,
     is_cubic,
-    is_co_tree,
     is_2k2_free, is_mock_threshold,
 )
 from graph_recognition.recognizers_utils import (
@@ -47,23 +46,6 @@ from graph_recognition.recognizers_utils import (
     assign_fisc,
 )
 from graph_recognition.subgraphs import is_h_free
-
-
-# Auxiliary functions -----------------------------------------------------------------------------
-@lru_cache(maxsize=None)
-def is_co_forest(graph: nx.Graph) -> bool:
-    """
-    Returns True iff the complement of the graph is a forest.
-
-    :type graph: nx.Graph
-    :param graph:
-    :return:
-    """
-    if len(graph) == 0:
-        return False
-
-    # check that each component of the complement is a co_tree
-    return all(is_co_tree(graph.subgraph(cc)) for cc in co_connected_components(graph))
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -786,16 +768,8 @@ def is_strict_2_threshold(graph: nx.Graph) -> bool:
     return is_threshold(t1_subgraph) and is_threshold(t2_subgraph) and is_empty(c_subgraph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
-@assign_class_id("AUTO_2511")
-@lru_cache(maxsize=None)
-def is_p4_co_cycle_free(graph: nx.Graph) -> bool:
-    """
-
-    @param graph:
-    @return:
-    """
-    return is_cograph(graph) and is_co_forest(graph)
+# I'll specify a partial fisc here because is_co_forest is not a recognizer so its attached fisc
+# is not taken advantage of.
 
 
 # -------------------------------------------------------------------------------------------------
@@ -1014,6 +988,7 @@ def is_co_comparability(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
+    '''
     if not is_h_free(graph, [
         "C_{6}",  # complement of "co(C_{6})",
         "C_{7}",  # complement of "co(C_{7})",
@@ -1031,6 +1006,9 @@ def is_co_comparability(graph: nx.Graph) -> bool:
         "co(C_{5})",  # complement of "C_{5}",
         "co(C_{7})",  # complement of "C_{7}",
     ]):
+        return False
+    '''
+    if not is_h_free(graph, ["C_{5}"]): # TODO works fast in practice but it's no longer O(n^2)
         return False
 
     # iterate over co-connected components instead of complementing the whole graph, in the hope

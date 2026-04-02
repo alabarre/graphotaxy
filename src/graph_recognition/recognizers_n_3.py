@@ -22,6 +22,7 @@ from graph_recognition.misc_algo import (
     is_connected,
     degree_sequence, co_connected_components,
 )
+from graph_recognition.online_algo import online_degree_sequence
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
     is_bipartite,
@@ -29,7 +30,7 @@ from graph_recognition.profitable_hereditary_n import (
     is_split,
     is_co_bipartite,
     is_tree,
-    is_chordal,
+    is_chordal, is_split_degree_sequence,
 )
 from graph_recognition.profitable_hereditary_n_2 import is_dilworth_k
 from graph_recognition.profitable_hereditary_n_3 import is_girth_at_least_9, is_3k1_free
@@ -43,6 +44,7 @@ from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     cached_function,
 )
+from undirected_graph import UndirectedGraph
 
 # Cache imported functions that are not already cached -------------------------------------------
 __functions_to_cache = [
@@ -270,6 +272,7 @@ def is_median_and_planar(graph: nx.Graph) -> bool:
     return is_planar(graph) and is_median(graph)
 
 
+@lru_cache(maxsize=None)
 def number_of_common_neighbors_at_distance(graph: nx.Graph, u: Any, v: Any, w: Any, k: int) -> int:
     """
     Returns the number of common neighbors of v and w at distance k - 1 from u.
@@ -413,11 +416,10 @@ def is_interval_regular(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # note: this function is very slow on Cayley graphs of permutation groups,
-    # so I'm hunting for anything that could make it faster.
+    # note: this function is very slow on Cayley graphs of permutation groups, so I'm looking for
+    # anything that could make it faster.
     # From the paper introducing them:
     # https://www.sciencedirect.com/science/article/pii/0012365X82900218
-
     # """
     if not is_connected(graph):
         return False
@@ -567,7 +569,7 @@ def is_probe_co_bipartite(graph: nx.Graph) -> bool:
 
     # construct T(co(G)), the spanning subgraph of co(G) (or G) whose edge set contains precisely
     # the edges that are contained in some co-triangle of G
-    t_co_g = nx.empty_graph(graph)
+    t_co_g = UndirectedGraph()
     for co_triangle in explicit_independent_triplets(graph):
         t_co_g.add_edges_from(combinations(co_triangle, 2))
 

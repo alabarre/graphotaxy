@@ -25,7 +25,7 @@ from graph_recognition.misc_algo import (
     is_complete,
     degree_sequence,
     is_connected,
-    is_h_u_k2_free,
+    is_h_u_k2_free, co_connected_components,
 )
 from graph_recognition.profitable_hereditary_constant import is_k2_free
 from graph_recognition.recognizers_utils import (
@@ -36,6 +36,25 @@ from graph_recognition.recognizers_utils import (
 
 
 # Auxiliary functions -----------------------------------------------------------------------------
+@assign_fisc(["co(C_{4})", "co(C_{6})", "co(C_{7})", "co(C_{8})", "co(C_{5})", "3K_{1}"])
+@lru_cache(maxsize=None)
+def is_co_forest(graph: nx.Graph) -> bool:
+    """
+    Returns True iff the complement of the graph is a forest.
+
+    Complexity: O(m+n).
+
+    :type graph: nx.Graph
+    :param graph:
+    :return:
+    """
+    if len(graph) == 0:
+        return False
+
+    # check that each component of the complement is a co_tree
+    return all(is_co_tree(graph.subgraph(cc)) for cc in co_connected_components(graph))
+
+
 @lru_cache(maxsize=None)
 def is_k_bounded_bipartite(graph: nx.Graph, k: int) -> bool:
     """
@@ -87,6 +106,31 @@ def is_disjoint_union_of_edgeless_graph_and_single_other(
                 return False
 
     return True
+
+
+# @lru_cache(maxsize=None) # don't: arrays are not hashable
+def is_split_degree_sequence(degseq: array) -> bool:
+    """
+    Returns True iff the given degree sequence is that of a split graph, False otherwise. The
+    degree sequence must be sorted decreasingly.
+
+    See https://www.graphclasses.org/classes/gc_313
+
+    Complexity: O(n).
+
+    """
+    # I'm using http://dx.doi.org/10.1007/BF02579333, Theorem 6
+    # careful: all indices in the paper start at 1 but ours start at 0, which impacts points (1)
+    # and (2) below
+    # compute m = largest index k such that D[k] >= k-1
+    m = 0
+    for m, value in enumerate(degseq):
+        if value < m + 1:  # and not m (1)
+            break
+
+    m -= 1  # decrease m's value (we stopped one step too far)
+
+    return sum(degseq[: m + 1]) == (m + 1) * m + sum(degseq[m + 1:])  # and not m * (m-1) (2)
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -243,19 +287,7 @@ def is_split(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # I'm using http://dx.doi.org/10.1007/BF02579333, Theorem 6
-    # careful: all indices in the paper start at 1 but ours start at 0, which impacts points (1)
-    # and (2) below
-    deg_seq = degree_sequence(graph)
-    # compute m = largest index k such that D[k] >= k-1
-    m = 0
-    for m, value in enumerate(deg_seq):
-        if value < m + 1:  # and not m (1)
-            break
-
-    m -= 1  # decrease m's value (we stopped one step too far)
-
-    return sum(deg_seq[: m + 1]) == (m + 1) * m + sum(deg_seq[m + 1:])  # and not m * (m-1) (2)
+    return is_split_degree_sequence(degree_sequence(graph))
 
 
 @assign_fisc(["P_{3}", "2K_{2}"])
@@ -2473,6 +2505,21 @@ def is_mock_threshold(graph: nx.Graph) -> bool:
 
     # NOTE: the following one-liner also works, but is slower as the graph's size increases
     # return empty_graph_by_removing_vertices(graph, vertex_has_degree_or_codegree_at_most_1)
+
+
+@assign_fisc(["co(C_{4})", "co(C_{6})", "co(C_{7})", "co(C_{8})", "co(C_{5})", "3K_{1}"])
+@assign_class_id("AUTO_2511")
+@lru_cache(maxsize=None)
+def is_p4_co_cycle_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is a co-cycle-free cograph.
+
+    Complexity: O(m+n).
+
+    @param graph:
+    @return:
+    """
+    return is_cograph(graph) and is_co_forest(graph)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

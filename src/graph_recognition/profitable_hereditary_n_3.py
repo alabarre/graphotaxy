@@ -283,6 +283,29 @@ def my_is_at_free(graph: nx.Graph) -> bool:
         # An asteroidal triple cannot exist in a graph with less than 6 vertices.
         return True
 
+    def my_component_structure():
+        """
+        An attempt at writing a more efficient component_structure computation function than what
+        networkx has to offer.
+
+        :return:
+        """
+        all_nodes = set(graph.nodes)
+        result = {}
+        for w in all_nodes:
+            closed_neighborhood = {w}.union(graph[w])
+            row_dict = dict.fromkeys(closed_neighborhood, 0)
+            graph_reduced = graph.subgraph(all_nodes - closed_neighborhood)
+            # note: this is probably doable online, but I'm not sure whether singletons should be
+            # included, and at the moment online_connected_components doesn't provide that.
+            for label, cc in enumerate(nx.connected_components(graph_reduced), 1):
+                for x in cc:
+                    row_dict[x] = label
+
+            result[w] = row_dict
+
+        return result
+
     component_structure = nx.asteroidal.create_component_structure(graph)
 
     for u, v in nx.non_edges(graph):

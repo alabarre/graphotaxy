@@ -32,7 +32,7 @@ for i, function in enumerate(__functions_to_cache):
     __functions_to_cache[i] = cached_function(function)
 
 # Global variables --------------------------------------------------------------------------------
-_NUMERIC_TYPECODES = typecodes.replace("uw", "")
+NUMERIC_TYPECODES = typecodes.replace("uw", "")
 
 
 # Functions ---------------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ def degree_sequence(graph: nx.Graph) -> array:
     degseq = sorted((d for _, d in graph.degree), reverse=True)
 
     # return array with smallest typecode
-    for tc in _NUMERIC_TYPECODES:
+    for tc in NUMERIC_TYPECODES:
         try:
             return array(tc, degseq)
         except OverflowError:

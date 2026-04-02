@@ -137,9 +137,7 @@ def is_xc_13_free(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    return all(
-        number_of_common_neighbours(graph, u, v) <= 2 for u, v in combinations(graph, 2)
-    )
+    return all(number_of_common_neighbours(graph, u, v) <= 2 for u, v in combinations(graph, 2))
 
 
 @assign_fisc(["co-claw"])
@@ -260,11 +258,7 @@ def is_hole_free(graph: nx.Graph) -> bool:
     for u in graph.nodes:
         in_path[u] = True
         for v, w in graph.edges:
-            if (
-                    graph.has_edge(u, v)
-                    and not graph.has_edge(u, w)
-                    and not not_in_hole[(u, v, w)]
-            ):
+            if graph.has_edge(u, v) and not graph.has_edge(u, w) and not not_in_hole[(u, v, w)]:
                 in_path[v] = True
                 if process(u, v, w):
                     return False
@@ -530,7 +524,6 @@ def is_c4_free(graph: nx.Graph) -> bool:
     return is_h_free(graph, ["C_{4}"])
 
 
-
 @assign_class_id("AUTO_1500")
 @lru_cache(maxsize=None)
 def is_auto_1500(graph: nx.Graph) -> bool:
@@ -684,9 +677,9 @@ def is_auto_1501(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return (
-            is_co_diamond_free(graph)
+            is_2k2_free(graph)
+            and is_co_diamond_free(graph)
             and is_co_claw_free(graph)
-            and is_2k2_free(graph)
             and is_4k1_free(graph)
     )
 

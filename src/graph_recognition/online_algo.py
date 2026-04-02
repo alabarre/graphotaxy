@@ -1,12 +1,15 @@
 """
 Anthony Labarre © 2026
 
-Online recognition algorithms. Typical use case: a recognizer for a graph G needs to build another
-graph H based on G only to verify that H satisfies some property. In that case, running an online
-algorithm on an edge generator for H is much faster and memory-efficient than building H then
-running a recognizer.
+This file contains online algorithms, mostly online recognizers; i.e., algorithms that can
+recognize a graph using an "edge generator" without the need to actually build the whole graph.
 
-Algorithms in this file are intended to be used as follows:
+Usually, you will rely on "offline" recognizers, which take as input a graph. Online recognizers
+are worth using when we only build graphs to verify some property (e.g., G is a member of class X
+iff some complicated construction that yields a graph H based on X is, say, bipartite), or when we
+don't expect G to fit in memory.
+
+Recognition algorithms in this file are intended to be used as follows:
 
 def my_recognizer(G):
     def edge_generator(...):
@@ -15,6 +18,7 @@ def my_recognizer(G):
     return online_is_...(edge_generator(...))
 
 """
+from array import array
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 from collections import defaultdict
@@ -22,6 +26,8 @@ from typing import List, Hashable, Iterable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 from networkx.utils.union_find import UnionFind
+
+from graph_recognition.misc_algo import NUMERIC_TYPECODES
 
 
 def online_connected_components(edge_generator: Iterable[tuple]) -> List[set]:
@@ -58,9 +64,40 @@ def online_is_forest(edge_generator: Iterable[tuple]) -> bool:
     return True
 
 
+# Basic statistitics or parameters ----------------------------------------------------------------
+def online_degree_sequence(edge_generator: Iterable[tuple]) -> array:
+    """
+    Returns the degree sequence of a graph, i.e. the list of all degrees sorted decreasingly. Note
+    that the degree sequence will not contain zeroes, since we are only given an edge_generator.
+
+    This function implicitly assumes that no parallel edges are provided.
+
+    :param edge_generator:
+    :return:
+    """
+    degrees = defaultdict(int)
+
+    # increase the degree of both endpoints of each edge by 1; we'll divide everything by 2 later
+    for u, v in edge_generator:
+        degrees[u] += 1
+        degrees[v] += 1
+
+    degrees = sorted((d // 2 for d in degrees), reverse=True)
+
+    # return array with smallest typecode
+    for tc in NUMERIC_TYPECODES:
+        try:
+            return array(tc, degrees)
+        except OverflowError:
+            pass
+
+    raise OverflowError  # no type was big enough for the elements of the degree sequence
+
+
 # Online bipartite graph recognition --------------------------------------------------------------
 class IdentityDict(dict):
     """Behaves as a defaultdict that stores and returns the key itself when the key is missing."""
+
     def __missing__(self, key: Hashable) -> Hashable:
         self[key] = key
         return key

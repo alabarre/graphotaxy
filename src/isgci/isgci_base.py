@@ -558,7 +558,7 @@ def main() -> None:
         isgci_ids_to_names(force_rebuild=True)
         isgci_recognition_statuses(force_rebuild=True)
         isgci_equivalences(force_rebuild=True)
-        reduced_isgci_inclusion_graph(args.rebuild_graph, force_rebuild=True)
+        reduced_isgci_inclusion_graph(ISGCI_DIR, force_rebuild=True)
 
     elif args.download_db:
         download_isgci(args.download_db)
