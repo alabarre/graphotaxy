@@ -29,6 +29,7 @@ whenever possible; namely:
             avoid future searches
 
 """
+import inspect
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import logging
@@ -52,6 +53,21 @@ from graph_recognition.smallgraphs import (
 )
 
 logger = logging.getLogger(__name__)
+# logging.basicConfig(filename="myapp.log")
+
+# from https://stackoverflow.com/questions/3220284/how-to-customize-the-time-format-for-python-logging
+# create console handler and set level to debug
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+# create formatter
+formatter = logging.Formatter("%(asctime)s;%(levelname)s;%(message)s")
+
+# add formatter to ch
+ch.setFormatter(formatter)
+
+# add ch to logger
+logger.addHandler(ch)
 
 # Cache selected imported functions ---------------------------------------------------------------
 functions_to_cache = [
@@ -124,6 +140,10 @@ class SubgraphMatcher:
         :param smallgraph_name:
         :return:
         """
+        # trivial cases that don't even require loading the pattern graph
+        if smallgraph_name == "K_{2}":
+            return not self._graph.number_of_edges()
+
         path_to_pattern_lad = os.path.join(
             os.path.dirname(__file__), "smallgraphs", smallgraph_name
         )
@@ -238,7 +258,10 @@ class SubgraphMatcher:
             ]
 
         solver_name = ['GSS', 'GCS'][use_clique_solver]
-        logger.info(f"Starting {solver_name} to find {smallgraph_name}")
+        logger.info(
+            f"Starting {solver_name} to find {smallgraph_name} (caller: "
+            f"{inspect.getmodule(inspect.stack()[1][0]).__name__})"
+        )
         output = subprocess.check_output(glasgow_command).decode()
         if use_clique_solver:
             SubgraphMatcher.number_of_calls_to_gcs += 1
