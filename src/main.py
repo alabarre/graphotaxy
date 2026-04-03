@@ -16,6 +16,7 @@ from typing import Iterable
 
 # ----- Non-standard imports ----------------------------------------------------------------------
 import networkx as nx
+nx.config.cache_converted_graphs = False
 from tqdm import tqdm
 
 # ----- My imports --------------------------------------------------------------------------------

@@ -19,6 +19,7 @@ from itertools import combinations, takewhile
 import networkx as nx
 from networkx import is_empty
 
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     degree_sequence,
@@ -26,7 +27,7 @@ from graph_recognition.misc_algo import (
     number_of_common_neighbours,
     is_connected,
     is_h_u_k1_free,
-    co_connected_components,
+    co_connected_components, complement_as_adj_mat,
 )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_constant import is_2k1_free
@@ -43,8 +44,7 @@ from graph_recognition.profitable_hereditary_n import (
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
-    assign_fisc,
-)
+    assign_fisc, )
 from graph_recognition.subgraphs import is_h_free
 
 
@@ -524,7 +524,7 @@ def is_mock_threshold_and_split(graph: nx.Graph) -> bool:
 )  # partial fisc based on the equivalence with https://www.graphclasses.org/classes/gc_767.html
 @assign_class_id("gc_72")
 @lru_cache(maxsize=None)
-def is_comparability(graph: nx.Graph) -> bool:
+def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     The following definitions are equivalent:
 
@@ -537,20 +537,25 @@ def is_comparability(graph: nx.Graph) -> bool:
 
     https://github.com/sagemath/sage/blob/develop/src/sage/graphs/comparability.pyx
     """
-    # this is an lazy online implementation of sage's algorithm; the original implementation
+    # this is a lazy online implementation of sage's algorithm; the original implementation
     # consists of 3 steps:
-    # 1) build equivalence classes;
-    # 2) use equivalence classes to build a graph H
-    # 3) return True if H is bipartite, False otherwise.
+    #
+    #   1) build equivalence classes;
+    #   2) use equivalence classes to build a graph H
+    #   3) return True if H is bipartite, False otherwise.
     #
     # on large graphs, we don't even get past step 1; so we improve the algorithm as follows:
+    #
     # - check H's bipartiteness online (i.e., as we examine its edge set), instead of actually
     #       building it and waiting for it to be complete to only then start checking whether it is
     #       bipartite
     # - only build the required equivalence classes as we go, i.e., only for the vertices for which
-    #       this information is needed to obtain H's next edge
+    #       this information is needed to obtain H's next edge, instead of waiting for the whole
+    #       dictionary to be available
     @lru_cache(maxsize=None)
     def equiv_class_gen(v):
+        # print(f"[debug] in equiv_class_gen (len(graph([{v}]) = {sum(1 for _ in graph[v])}")
+        # TODO investigate the option of precomputing twins
         return list(co_connected_components(graph.subgraph(graph[v])))
 
     def edge_generator():
@@ -561,19 +566,19 @@ def is_comparability(graph: nx.Graph) -> bool:
         :return:
         """
         for u, v in graph.edges():
-            #for i, s in enumerate(equivalence_classes[v]):
             for i, s in enumerate(equiv_class_gen(v)):
                 if u in s:
                     break
 
-            #for j, s in enumerate(equivalence_classes[u]):
             for j, s in enumerate(equiv_class_gen(u)):
                 if v in s:
                     break
 
             yield (v, i), (u, j)
 
-    return online_is_bipartite(edge_generator())
+    retval = online_is_bipartite(edge_generator())
+    equiv_class_gen.cache_clear()
+    return retval
 
 
 # profitable because of constituent classes
@@ -1025,7 +1030,8 @@ def is_co_comparability(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_comparability(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
+        is_comparability(complement_as_adj_mat(graph.subgraph(cc)))
+        for cc in co_connected_components(graph)
     )
 
 

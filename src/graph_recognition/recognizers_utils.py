@@ -191,3 +191,16 @@ def cached_function(function: Callable) -> Callable:
 
     # otherwise, simply return the original function
     return function
+
+
+def undecorated_function(function: Callable) -> Callable:
+    """
+    Returns the original function from a function that has been decorated (possibly multiple times).
+
+    :param function:
+    :return:
+    """
+    func = function
+    while hasattr(func, "__wrapped__"):
+        func = func.__wrapped__
+    return func

@@ -7,6 +7,7 @@ Miscellaneous useful algorithms.
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 from array import array, typecodes
+from collections import defaultdict
 from collections.abc import Hashable
 from functools import lru_cache
 from itertools import combinations
@@ -15,8 +16,10 @@ from typing import Any, Callable, Iterator, Generator, Dict
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 from networkx.utils import arbitrary_element
+from typing_extensions import DefaultDict
 
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.recognizers_utils import cached_function
 
 # Cache imported functions that are not already cached --------------------------------------------
@@ -171,6 +174,20 @@ def complement(graph: nx.Graph) -> nx.Graph:
     compl.add_edges_from(nx.non_edges(graph))
     return compl
 
+@lru_cache(maxsize=None)
+def complement_as_adj_mat(graph: nx.Graph) -> HalfAdjacencyMatrix:
+    """
+    Returns the complement of the graph as an adjacency matrix.
+
+    :param graph:
+    :type graph: networkx.Graph
+    :return:
+    """
+    print(f"[debug] complement: expecting {(graph.number_of_nodes() * graph.number_of_nodes() - 1)//2 - graph.number_of_edges()} edges ...")
+    compl = HalfAdjacencyMatrix()
+    compl.add_nodes_from(graph)
+    compl.add_edges_from(nx.non_edges(graph))
+    return compl
 
 @lru_cache(maxsize=None)
 def number_of_common_neighbours(graph: nx.Graph, u: Any, v: Any) -> int:
@@ -272,17 +289,30 @@ def plain_co_bfs(graph: nx.Graph, n: int, source: Hashable) -> set:
     # other changes:
     # - replaced lists with sets since we only care about accessibility, not order
     # - comprehension for building the next level, so we can use updates instead of many adds
+    # - slight modification to make it compatible with my HalfAdjacencyMatrix class
     seen = {source}
     nextlevel = {source}
+
+    # we need a specialized version for HalfAdjacencyMatrix because nx.non_neighbors expects
+    # attributes that HalfAdjacencyMatrix doesn't have; it is much less tedious to write a
+    # non_neighbors method for HalfAdjacencyMatrix than trying to artificially add fake attributes
+    # to the class that are not needed anywhere else
+    # to avoid code duplications, we introduce the following function so that both calls use the
+    # same syntax
+    def non_neighbors_provider(x: Hashable):
+        return nx.non_neighbors(graph, x)
+
+    non_neighbors = graph.non_neighbors if isinstance(graph, HalfAdjacencyMatrix) else non_neighbors_provider
     while nextlevel:
         thislevel = nextlevel
         nextlevel = set()
         for v in thislevel:
-            new_non_neighbors = {w for w in nx.non_neighbors(graph, v) if w not in seen}
+            new_non_neighbors = {w for w in non_neighbors(v) if w not in seen}
             seen.update(new_non_neighbors)
             nextlevel.update(new_non_neighbors)
             if len(seen) == n:
                 return seen
+
     return seen
 
 
@@ -606,3 +636,29 @@ def enumerate_all_p4s(graph: nx.Graph) -> Generator:
         # P_{4} is equivalent to checking that the subgraph has exactly 3 edges
         if len(p4_candidates) == 4 and graph.subgraph(p4_candidates).size() == 3:
             yield p4_candidates
+
+
+def twins(graph: nx.Graph) -> DefaultDict[Any, set]:
+    """
+    Returns a partition of the vertices into twins. Twins are vertices whose neighborhoods
+    coincide.
+
+    >>> import networkx as nx  # noqa
+    >>> G = nx.cycle_graph(4)
+    >>> sorted(((v, sorted(equivs)) for v, equivs in twins(G).items()))  # noqa
+    [(0, [2]), (1, [3]), (2, [0]), (3, [1])]
+
+    :param graph:
+    :return:
+    """
+    neighborhoods = defaultdict(set)
+    twin_partition = defaultdict(set)
+    for v in graph:
+        if v not in neighborhoods:
+            neighborhoods[v] = set(graph[v])
+        for w in set(neighborhoods) - {v}:
+            if neighborhoods[v] == neighborhoods[w]:
+                twin_partition[v].add(w)
+                twin_partition[w].add(v)
+
+    return twin_partition
