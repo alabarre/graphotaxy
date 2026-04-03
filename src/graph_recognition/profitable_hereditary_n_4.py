@@ -22,14 +22,13 @@ from networkx import connected_components
 from networkx.algorithms.matching import is_perfect_matching
 
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     number_of_common_neighbours,
     degree_sequence,
-    complement,
     is_even_clique_free,
-    is_even_co_clique_free,
     explicit_triangles,
-    co_connected_components, is_connected, )
+    co_connected_components, is_connected, complement_as_adj_mat, )
 from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_cograph,
@@ -213,7 +212,7 @@ def is_claw_free(graph: nx.Graph) -> bool:
 )  # partial since holes include all cycles of length >= 5
 @assign_class_id("gc_437")
 @lru_cache(maxsize=None)
-def is_hole_free(graph: nx.Graph) -> bool:
+def is_hole_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     Returns true if G is hole-free, false otherwise.
 
@@ -255,9 +254,9 @@ def is_hole_free(graph: nx.Graph) -> bool:
 
     in_path = defaultdict(lambda: False)
     not_in_hole = defaultdict(lambda: False)
-    for u in graph.nodes:
+    for u in graph:
         in_path[u] = True
-        for v, w in graph.edges:
+        for v, w in graph.edges():
             if graph.has_edge(u, v) and not graph.has_edge(u, w) and not not_in_hole[(u, v, w)]:
                 in_path[v] = True
                 if process(u, v, w):
@@ -623,6 +622,7 @@ def is_gc_1232(graph: nx.Graph) -> bool:
     return is_claw_diamond_free(graph) and is_c4_free(graph)
 
 
+# note: cannot move to fisc_based_recognizers because of circular import issues
 @assign_class_id("gc_674")
 @lru_cache(maxsize=None)
 def is_4k1_free(graph: nx.Graph) -> bool:
@@ -634,7 +634,7 @@ def is_4k1_free(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^4)
     :type graph: networkx.Graph
     """
-    return is_even_co_clique_free(graph, 4)
+    return is_h_free(graph, ["4K_{1}"])#is_even_co_clique_free(graph, 4)
 
 
 @assign_class_id("AUTO_1479")
@@ -888,7 +888,7 @@ def is_anti_hole_free(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_hole_free(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
+        is_hole_free(complement_as_adj_mat(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 

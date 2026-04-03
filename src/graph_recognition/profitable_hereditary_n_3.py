@@ -18,10 +18,9 @@ from typing import Hashable
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
-from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
-    complement,
     is_connected,
     is_h_u_k2_free,
     co_connected_components, complement_as_adj_mat,
@@ -320,8 +319,10 @@ def my_is_at_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 #                and component_structure[w][u] == component_structure[w][v]
                 for w in nodes - set(graph[u]).union(graph[v], [u, v])
         ):
+            my_component_structure.cache_clear()
             return False
 
+    my_component_structure.cache_clear()
     return True
 
 
@@ -393,7 +394,7 @@ def is_girth_at_least_9(graph: nx.Graph) -> bool:
 )  # partial fisc, since we cannot account for infinite configurations
 @assign_class_id("gc_1262")
 @lru_cache(maxsize=None)
-def is_locally_bipartite(graph: nx.Graph) -> bool:
+def is_locally_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     A graph is locally bipartite if the open neighborhood of each vertex induces a bipartite graph.
 
