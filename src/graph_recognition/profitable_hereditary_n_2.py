@@ -931,7 +931,7 @@ def is_co_line(graph: nx.Graph) -> bool:
     # that we can thereby stop early
     for cc in co_connected_components(graph):
         try:
-            nx.inverse_line_graph(complement(graph.subgraph(cc)))
+            nx.inverse_line_graph(complement_as_adj_mat(graph.subgraph(cc)))
         except nx.NetworkXError:
             return False
 
