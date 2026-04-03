@@ -174,6 +174,7 @@ def complement(graph: nx.Graph) -> nx.Graph:
     compl.add_edges_from(nx.non_edges(graph))
     return compl
 
+
 @lru_cache(maxsize=None)
 def complement_as_adj_mat(graph: nx.Graph) -> HalfAdjacencyMatrix:
     """
@@ -183,11 +184,13 @@ def complement_as_adj_mat(graph: nx.Graph) -> HalfAdjacencyMatrix:
     :type graph: networkx.Graph
     :return:
     """
-    print(f"[debug] complement: expecting {(graph.number_of_nodes() * graph.number_of_nodes() - 1)//2 - graph.number_of_edges()} edges ...")
+    print(
+        f"[debug] complement: expecting {(graph.number_of_nodes() * graph.number_of_nodes() - 1) // 2 - graph.number_of_edges()} edges ...")
     compl = HalfAdjacencyMatrix()
     compl.add_nodes_from(graph)
     compl.add_edges_from(nx.non_edges(graph))
     return compl
+
 
 @lru_cache(maxsize=None)
 def number_of_common_neighbours(graph: nx.Graph, u: Any, v: Any) -> int:
@@ -662,3 +665,17 @@ def twins(graph: nx.Graph) -> DefaultDict[Any, set]:
                 twin_partition[w].add(v)
 
     return twin_partition
+
+
+def find_twin(graph: nx.Graph, v: Hashable) -> Hashable | None:
+    """
+    Returns a twin of v in graph, i.e., a vertex w != v with the same neighborhood as v, or None if
+    none exists.
+
+    :param graph:
+    :param v:
+    :return:
+    """
+    for w in graph:  # noqa
+        if v != w and graph[w] == graph[v]:
+            return w

@@ -446,7 +446,7 @@ def is_line_graph_of_planar_cubic_bipartite_graph(graph: nx.Graph) -> bool:
 )  # class is equivalent to W_{n+4}-free graphs
 @assign_class_id("gc_1251")
 @lru_cache(maxsize=None)
-def is_locally_chordal(graph: nx.Graph) -> bool:
+def is_locally_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     A graph is locally chordal if the open neighborhood of each vertex induces a chordal graph.
 
@@ -891,7 +891,7 @@ def is_co_locally_chordal(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_locally_chordal(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
+        is_locally_chordal(complement_as_adj_mat(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 
