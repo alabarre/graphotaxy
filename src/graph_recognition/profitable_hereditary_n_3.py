@@ -23,7 +23,7 @@ from graph_recognition.misc_algo import (
     complement,
     is_connected,
     is_h_u_k2_free,
-    co_connected_components,
+    co_connected_components, complement_as_adj_mat,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_gc_1312,
@@ -278,7 +278,7 @@ def my_is_at_free(graph: nx.Graph) -> bool:
     # adapted copy paste of nx.asteroidal.find_asteroidal_triple; besides improvements as described
     # in the pull request, we return True instead of None if no asteroidal triple was found, and
     # False instead of an asteroidal triple otherwise.
-    nodes = set(graph.nodes)
+    nodes = set(graph)
 
     if len(nodes) < 6:
         # An asteroidal triple cannot exist in a graph with less than 6 vertices.
@@ -672,7 +672,7 @@ def is_co_at_free(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        my_is_at_free(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
+        my_is_at_free(complement_as_adj_mat(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 
