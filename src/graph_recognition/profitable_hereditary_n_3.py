@@ -18,6 +18,7 @@ from typing import Hashable
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     complement,
@@ -263,7 +264,7 @@ def is_interval(graph: nx.Graph) -> bool:
 )
 @assign_class_id("gc_61")
 @lru_cache(maxsize=None)
-def my_is_at_free(graph: nx.Graph) -> bool:
+def my_is_at_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     Improved version of nx.is_at_free, see https://github.com/networkx/networkx/pull/7736 for
     details.
@@ -692,7 +693,7 @@ def is_co_locally_bipartite(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_locally_bipartite(complement(graph.subgraph(cc)))
+        is_locally_bipartite(complement_as_adj_mat(graph.subgraph(cc)))
         for cc in co_connected_components(graph)
     )
 
