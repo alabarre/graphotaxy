@@ -21,6 +21,7 @@ import networkx as nx
 from networkx.generators import line
 from tralda.cograph import to_cotree
 
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     is_complete,
@@ -441,7 +442,7 @@ def is_planar(graph: nx.Graph) -> bool:
 @assign_fisc(["K_{3}", "C_{5}", "C_{7}"])
 @assign_class_id("gc_69")
 @lru_cache(maxsize=None)
-def is_bipartite(graph: nx.Graph) -> bool:
+def is_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     Returns True iff graph is bipartite. This is a mere cached call to networkx's function, except
     for a preliminary check to see if the call is actually needed.

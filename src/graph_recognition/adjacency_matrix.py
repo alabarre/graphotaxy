@@ -138,8 +138,7 @@ class HalfAdjacencyMatrix:
         :param v:
         :return:
         """
-        for w in self.neighbors(v):
-            yield w
+        return {x for x in self.neighbors(v)}
 
     def __len__(self):
         """
@@ -237,3 +236,11 @@ class HalfAdjacencyMatrix:
             u_id, v_id = v_id, u_id
 
         return self.adj_mat[u_id][v_id]
+
+    def size(self) -> int:
+        """
+        Returns the number of edges in the graph.
+
+        :return:
+        """
+        return self.number_of_edges()

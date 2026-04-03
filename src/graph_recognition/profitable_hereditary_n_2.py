@@ -485,7 +485,15 @@ def is_nearly_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     :param graph:
     :return:
     """
-    return is_bipartite(graph) or all(
+    if is_bipartite(graph):
+        return True
+
+    if isinstance(graph, HalfAdjacencyMatrix):
+        return all(
+            is_bipartite(graph.subgraph(graph.non_neighbors(v))) for v in graph
+        )
+
+    return all(
         is_bipartite(graph.subgraph(nx.non_neighbors(graph, v))) for v in graph
     )  # note: why does replacing all(...) with is_h_u_k1_free(graph, is_bipartite) fail?
 

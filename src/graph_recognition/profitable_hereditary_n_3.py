@@ -13,6 +13,7 @@ Recognizers in this file have running time O(n^3).
 import os
 from functools import lru_cache
 from itertools import combinations
+from typing import Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -283,38 +284,39 @@ def my_is_at_free(graph: nx.Graph) -> bool:
         # An asteroidal triple cannot exist in a graph with less than 6 vertices.
         return True
 
-    def my_component_structure():
+    @lru_cache(maxsize=None)
+    def my_component_structure(w: Hashable):
         """
         An attempt at writing a more efficient component_structure computation function than what
-        networkx has to offer.
+        networkx has to offer. Instead of computing the whole component structure, we just compute
+        the values for each node as we go.
 
         :return:
         """
-        all_nodes = set(graph.nodes)
-        result = {}
-        for w in all_nodes:
-            closed_neighborhood = {w}.union(graph[w])
-            row_dict = dict.fromkeys(closed_neighborhood, 0)
-            graph_reduced = graph.subgraph(all_nodes - closed_neighborhood)
-            # note: this is probably doable online, but I'm not sure whether singletons should be
-            # included, and at the moment online_connected_components doesn't provide that.
-            for label, cc in enumerate(nx.connected_components(graph_reduced), 1):
-                for x in cc:
-                    row_dict[x] = label
+        closed_neighborhood = {w}.union(graph[w])
+        row_dict = dict.fromkeys(closed_neighborhood, 0)
+        graph_reduced = graph.subgraph(set(graph) - closed_neighborhood)
+        # note: this is probably doable online, but I'm not sure whether singletons should be
+        # included, and at the moment online_connected_components doesn't provide that.
+        for label, cc in enumerate(nx.connected_components(graph_reduced), 1):
+            for x in cc:
+                row_dict[x] = label
 
-            result[w] = row_dict
+        return row_dict
 
-        return result
 
-    component_structure = nx.asteroidal.create_component_structure(graph)
+    # component_structure = nx.asteroidal.create_component_structure(graph)
 
     for u, v in nx.non_edges(graph):
         # Check for each pair of vertices whether they belong to the same connected component when
         # the closed neighborhood of the third is removed.
         if any(
-                component_structure[u][v] == component_structure[u][w]
-                and component_structure[v][u] == component_structure[v][w]
-                and component_structure[w][u] == component_structure[w][v]
+                my_component_structure(u)[v] == my_component_structure(u)[w]
+                and my_component_structure(v)[u] == my_component_structure(v)[w]
+                and my_component_structure(w)[u] == my_component_structure(w)[v]
+#                component_structure[u][v] == component_structure[u][w]
+#                and component_structure[v][u] == component_structure[v][w]
+#                and component_structure[w][u] == component_structure[w][v]
                 for w in nodes - set(graph[u]).union(graph[v], [u, v])
         ):
             return False
