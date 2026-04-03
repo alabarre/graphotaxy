@@ -473,7 +473,7 @@ def is_locally_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 )  # partial fisc based on equivalence with odd-cycle ∪ K1-free
 @assign_class_id("gc_640")
 @lru_cache(maxsize=None)
-def is_nearly_bipartite(graph: nx.Graph) -> bool:
+def is_nearly_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     A graph G is nearly bipartite if for every node v, G-N[v] is bipartite.
 
@@ -967,7 +967,7 @@ def is_quasi_line(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_nearly_bipartite(complement(graph.subgraph(cc)))
+        is_nearly_bipartite(complement_as_adj_mat(graph.subgraph(cc)))
         for cc in co_connected_components(graph)
     )
 
