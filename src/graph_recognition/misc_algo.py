@@ -11,7 +11,7 @@ from collections import defaultdict
 from collections.abc import Hashable
 from functools import lru_cache
 from itertools import combinations
-from typing import Any, Callable, Iterator, Generator, Dict
+from typing import Any, Callable, Iterator, Generator, Dict, Iterable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -633,7 +633,7 @@ def enumerate_all_p4s(graph: nx.Graph) -> Generator:
     """
     # in order to go through fewer subsets, don't examine every 4-subset of vertices; instead,
     # examine all pairs of edges
-    for e, f in combinations(graph.edges, 2):
+    for e, f in combinations(graph.edges(), 2):
         p4_candidates = set(e + f)
         # if set has 4 elements, then e and f are independent, so checking whether they induce a
         # P_{4} is equivalent to checking that the subgraph has exactly 3 edges
@@ -667,15 +667,16 @@ def twins(graph: nx.Graph) -> DefaultDict[Any, set]:
     return twin_partition
 
 
-def find_twin(graph: nx.Graph, v: Hashable) -> Hashable | None:
+def find_twin_in(nbunch: Iterable, graph: nx.Graph, v: Hashable) -> Hashable | None:
     """
     Returns a twin of v in graph, i.e., a vertex w != v with the same neighborhood as v, or None if
     none exists.
 
+    :param nbunch:
     :param graph:
     :param v:
     :return:
     """
-    for w in graph:  # noqa
+    for w in nbunch:  # noqa
         if v != w and graph[w] == graph[v]:
             return w

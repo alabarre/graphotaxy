@@ -27,7 +27,7 @@ from graph_recognition.misc_algo import (
     number_of_common_neighbours,
     is_connected,
     is_h_u_k1_free,
-    co_connected_components, complement_as_adj_mat,
+    co_connected_components, complement_as_adj_mat, find_twin_in,
 )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_constant import is_2k1_free
@@ -560,11 +560,18 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     # - only build the required equivalence classes as we go, i.e., only for the vertices for which
     #       this information is needed to obtain H's next edge, instead of waiting for the whole
     #       dictionary to be available
-    @lru_cache(maxsize=None)
+    classes = dict()
+
     def equiv_class_gen(v):
-        # print(f"[debug] in equiv_class_gen (len(graph([{v}]) = {sum(1 for _ in graph[v])}")
-        # TODO investigate the option of precomputing twins
-        return list(co_connected_components(graph.subgraph(graph[v])))
+        """
+
+        :param v:
+        :return:
+        """
+        if (u := find_twin_in(classes, graph, v)) is not None:
+            return classes[u]
+        classes[v] = list(co_connected_components(graph.subgraph(graph[v])))
+        return classes[v]
 
     def edge_generator():
         """
@@ -584,9 +591,7 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
             yield (v, i), (u, j)
 
-    retval = online_is_bipartite(edge_generator())
-    equiv_class_gen.cache_clear()
-    return retval
+    return online_is_bipartite(edge_generator())
 
 
 # profitable because of constituent classes
@@ -841,7 +846,7 @@ def is_co_chordal(graph: nx.Graph) -> bool:
     # split graphs are both chordal and co-chordal, so let's try that first if it allows us to
     # avoid examining co-connected components
     return is_split(graph) or all(
-        is_chordal(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
+        is_chordal(complement_as_adj_mat(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 
@@ -929,9 +934,10 @@ def is_co_line(graph: nx.Graph) -> bool:
     """
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
+    # note: complement_as_adj_mat not usable here yet
     for cc in co_connected_components(graph):
         try:
-            nx.inverse_line_graph(complement_as_adj_mat(graph.subgraph(cc)))
+            nx.inverse_line_graph(complement(graph.subgraph(cc)))
         except nx.NetworkXError:
             return False
 
@@ -951,6 +957,7 @@ def is_co_line_graph_of_bipartite_graph(graph: nx.Graph) -> bool:
     """
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
+    # note: complement_as_adj_mat not yet usable here
     return all(
         is_line_graph_of_bipartite_graph(complement(graph.subgraph(cc)))
         for cc in co_connected_components(graph)

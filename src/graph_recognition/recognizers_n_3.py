@@ -20,9 +20,8 @@ from graph_recognition.misc_algo import (
     complement,
     empty_graph_by_removing_vertices,
     is_connected,
-    degree_sequence, co_connected_components,
+    degree_sequence, co_connected_components, complement_as_adj_mat,
 )
-from graph_recognition.online_algo import online_degree_sequence
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
     is_bipartite,
@@ -30,8 +29,7 @@ from graph_recognition.profitable_hereditary_n import (
     is_split,
     is_co_bipartite,
     is_tree,
-    is_chordal, is_split_degree_sequence,
-)
+    is_chordal, )
 from graph_recognition.profitable_hereditary_n_2 import is_dilworth_k
 from graph_recognition.profitable_hereditary_n_3 import is_girth_at_least_9, is_3k1_free
 from graph_recognition.profitable_hereditary_n_3 import (
@@ -623,6 +621,7 @@ def is_co_paw_odd_anti_hole_free(graph: nx.Graph) -> bool:
     """
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
+    # note: complement_as_adj_mat not usable yet because nx._plain_bfs wants an _adj attribute
     return all(
         is_paw_free_and_perfect(complement(graph.subgraph(cc)))
         for cc in co_connected_components(graph)
@@ -643,7 +642,7 @@ def is_co_interval(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_interval(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
+        is_interval(complement_as_adj_mat(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 

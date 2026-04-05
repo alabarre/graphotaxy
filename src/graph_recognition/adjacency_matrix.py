@@ -33,6 +33,7 @@ class HalfAdjacencyMatrix:
         self.node_mapping = bidict()
         self.num_nodes = 0
         self.adj_mat = []
+        self.nodes = self.node_mapping.keys()  # for nx algorithms that need to access this field
 
     # Node-related methods ------------------------------------------------------------------------
     def add_nodes_from(self, nbunch: Iterable) -> None:
@@ -138,6 +139,8 @@ class HalfAdjacencyMatrix:
         :param v:
         :return:
         """
+        # note: I would yield, but some networkx algorithms have lines like "if len(G[n] == 0", so
+        # we need to return something that can support len()
         return {x for x in self.neighbors(v)}
 
     def __len__(self):
@@ -175,7 +178,7 @@ class HalfAdjacencyMatrix:
         :param ebunch:
         :return:
         """
-        for u, v in tqdm(ebunch, desc=f"{self.__class__.__name__}.add_edges_from"):
+        for u, v in ebunch: #tqdm(ebunch, desc=f"{self.__class__.__name__}.add_edges_from"):
             self.add_edge(u, v)
 
     def edges(self):
@@ -188,40 +191,6 @@ class HalfAdjacencyMatrix:
             for v, val in enumerate(self.adj_mat[u]):
                 if val:
                     yield self.node_mapping.inverse[u], self.node_mapping.inverse[v]
-
-    def number_of_edges(self) -> int:
-        """
-        Returns the number of edges in the graph.
-
-        :return:
-        """
-        # TODO maintain variable so we don't need to compute that
-        return sum(map(sum, self.adj_mat))
-
-    # the following are needed by networkx.is_bipartite:
-    @staticmethod
-    def is_directed() -> bool:
-        """
-        Returns False since we don't allow directed graphs.
-
-        :return:
-        """
-        return False
-
-    # Miscellaneous -------------------------------------------------------------------------------
-    def subgraph(self, nbunch: Iterable[Hashable]) -> Self:
-        """
-        Returns the subgraph induced by nbunch.
-
-        :param nbunch:
-        :return:
-        """
-        result = self.__class__()
-        result.add_nodes_from(nbunch)
-        result.add_edges_from(
-            (u, v) for u, v in combinations(result.node_mapping.keys(), 2) if self.has_edge(u, v)
-        )
-        return result
 
     def has_edge(self, u: Hashable, v: Hashable) -> bool:
         """
@@ -237,6 +206,33 @@ class HalfAdjacencyMatrix:
 
         return self.adj_mat[u_id][v_id]
 
+    def number_of_edges(self) -> int:
+        """
+        Returns the number of edges in the graph.
+
+        :return:
+        """
+        # TODO maintain variable so we don't need to compute that
+        return sum(map(sum, self.adj_mat))
+
+    def number_of_selfloops(self) -> int:
+        """
+        Returns the number of edges of the form (u, u) in the graph.
+
+        :return:
+        """
+        return sum(1 for i in range(self.num_nodes) if self.adj_mat[i][i])
+
+    # the following are needed by networkx.is_bipartite:
+    @staticmethod
+    def is_directed() -> bool:
+        """
+        Returns False since we don't allow directed graphs.
+
+        :return:
+        """
+        return False
+
     def size(self) -> int:
         """
         Returns the number of edges in the graph.
@@ -244,3 +240,27 @@ class HalfAdjacencyMatrix:
         :return:
         """
         return self.number_of_edges()
+
+    # Miscellaneous -------------------------------------------------------------------------------
+
+    def subgraph(self, nbunch: Iterable[Hashable]) -> Self:
+        """
+        Returns the subgraph induced by nbunch.
+
+        :param nbunch:
+        :return:
+        """
+        result = self.__class__()
+        result.add_nodes_from(nbunch)
+        result.add_edges_from(
+            (u, v) for u, v in combinations(result.node_mapping.keys(), 2) if self.has_edge(u, v)
+        )
+        return result
+
+    @staticmethod
+    def is_multigraph() -> bool:
+        """
+
+        :return:
+        """
+        return False

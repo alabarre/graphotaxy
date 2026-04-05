@@ -23,7 +23,7 @@ from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     is_connected,
     is_h_u_k2_free,
-    co_connected_components, complement_as_adj_mat,
+    co_connected_components, complement_as_adj_mat, complement,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_gc_1312,
@@ -213,7 +213,7 @@ def is_3k1_free(graph: nx.Graph) -> bool:
 
 @assign_class_id("gc_234")
 @lru_cache(maxsize=None)
-def is_interval(graph: nx.Graph) -> bool:
+def is_interval(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     Complexity is O(n^3), since:
 
@@ -673,8 +673,9 @@ def is_co_at_free(graph: nx.Graph) -> bool:
     """
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
+    # note: complement_as_adj_mat not usable here yet (no _adj attribute)
     return all(
-        my_is_at_free(complement_as_adj_mat(graph.subgraph(cc))) for cc in co_connected_components(graph)
+        my_is_at_free(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 

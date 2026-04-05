@@ -14,11 +14,13 @@ from array import array
 from collections import defaultdict
 from collections.abc import Callable
 from functools import lru_cache
+from sys import maxsize
 from typing import Any
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 from networkx.generators import line
+from networkx.utils import arbitrary_element
 from tralda.cograph import to_cotree
 
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
@@ -855,8 +857,71 @@ def is_chordal(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # if graph is complete, it is chordal
-    return is_complete(graph) or nx.is_chordal(graph)
+    # the following is basically a copy / paste of networkx.is_chordal, with a few minor changes so
+    # it can be run on a HalfAdjacencyMatrix
+    if len(graph) <= 3 or is_complete(graph):
+        return True
+
+    def _find_chordality_breaker(s=None, treewidth_bound=maxsize):
+        """Given a graph G, starts a max cardinality search
+        (starting from s if s is given and from an arbitrary node otherwise)
+        trying to find a non-chordal cycle.
+
+        If it does find one, it returns (u,v,w) where u,v,w are the three
+        nodes that together with s are involved in the cycle.
+
+        It ignores any self loops.
+        """
+        if len(graph) == 0:
+            raise nx.NetworkXPointlessConcept("Graph has no nodes.")
+        unnumbered = set(graph)
+        if s is None:
+            s = arbitrary_element(graph)
+        unnumbered.remove(s)
+        numbered = {s}
+        current_treewidth = -1
+        while unnumbered:  # and current_treewidth <= treewidth_bound:
+            v = _max_cardinality_node(unnumbered, numbered)
+            unnumbered.remove(v)
+            numbered.add(v)
+            clique_wanna_be = set(graph[v]) & numbered
+            sg = graph.subgraph(clique_wanna_be)
+            if is_complete(sg):
+                # The graph seems to be chordal by now. We update the treewidth
+                current_treewidth = max(current_treewidth, len(clique_wanna_be))
+                if current_treewidth > treewidth_bound:
+                    raise nx.NetworkXTreewidthBoundExceeded(
+                        f"treewidth_bound exceeded: {current_treewidth}"
+                    )
+            else:
+                # sg is not a clique,
+                # look for an edge that is not included in sg
+                (u, w) = _find_missing_edge(sg)
+                return u, v, w
+        return ()
+
+    def _max_cardinality_node(choices, wanna_connect):
+        """
+        Returns a node in choices with the most connections in graph to nodes in wanna_connect.
+        """
+        max_number = -1
+        max_cardinality_node = None
+        for x in choices:
+            number = sum(1 for y in graph[x] if y in wanna_connect)
+            if number > max_number:
+                max_number = number
+                max_cardinality_node = x
+        return max_cardinality_node
+
+    def _find_missing_edge(G):
+        """Given a non-complete graph G, returns a missing edge."""
+        nodes = set(G)
+        for u in G: # noqa
+            missing = nodes - set(list(G[u]) + [u])
+            if missing:
+                return u, missing.pop()
+
+    return len(_find_chordality_breaker()) == 0
 
 
 @assign_fisc(["triangle", "co(P_{3})"])

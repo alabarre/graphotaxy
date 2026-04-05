@@ -16,6 +16,7 @@ from itertools import combinations
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     degree_sequence,
@@ -23,7 +24,7 @@ from graph_recognition.misc_algo import (
     empty_graph_by_removing_vertices,
     is_connected,
     enumerate_all_p4s,
-    co_connected_components, number_of_common_neighbours,
+    co_connected_components, number_of_common_neighbours, complement_as_adj_mat,
 )
 from graph_recognition.domination import has_dominating_set_of_size_at_most_2
 from graph_recognition.online_algo import online_is_bipartite
@@ -261,7 +262,7 @@ def is_dilworth_4(graph: nx.Graph) -> bool:
 
 @assign_class_id("gc_3")
 @lru_cache(maxsize=None)
-def is_p4_brittle(graph: nx.Graph) -> bool:
+def is_p4_brittle(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     A graph is P4-brittle if it contains an independent set S such that either every P4 has a
     midpoint in S or every P4 has an endpoint in S.
@@ -276,11 +277,11 @@ def is_p4_brittle(graph: nx.Graph) -> bool:
     # for each P_{4} (abcd) we have a clause (a or d) equivalent to (not a => d)
     for p4 in enumerate_all_p4s(graph):
         # we have a P_{4}, extract a and d and build clause
-        a, d = {v for v, deg in graph.subgraph(p4).degree if deg == 1}
+        a, d = {v for v, deg in graph.subgraph(p4).degree() if deg == 1}
         implication_graph[Not(a)].append(d)
 
     # for each edge (ab) we have a clause (not a or not b) equivalent to (a => not b)
-    for a, b in graph.edges:
+    for a, b in graph.edges():
         implication_graph[a].append(Not(b))
 
     return satisfiable(implication_graph)
@@ -306,7 +307,7 @@ def is_co_p4_brittle(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_p4_brittle(complement(graph.subgraph(cc))) for cc in co_connected_components(graph)
+        is_p4_brittle(complement_as_adj_mat(graph.subgraph(cc))) for cc in co_connected_components(graph)
     )
 
 

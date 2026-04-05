@@ -12,6 +12,7 @@ from functools import lru_cache
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.fisc_based_recognizers import is_p5_free
 from graph_recognition.profitable_hereditary_n import (
@@ -57,7 +58,7 @@ def is_co_t3_co_x_81_co_cycle_free(graph: nx.Graph) -> bool:
 
 @assign_class_id("gc_1004")
 @lru_cache(maxsize=None)
-def is_b_perfect_and_chordal(graph: nx.Graph) -> bool:
+def is_b_perfect_and_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
 
     https://www.graphclasses.org/classes/gc_1004
