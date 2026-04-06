@@ -44,7 +44,7 @@ from graph_recognition.profitable_hereditary_n import (
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
-    assign_fisc, )
+    assign_fisc, undecorated_function, )
 from graph_recognition.subgraphs import is_h_free
 
 
@@ -213,7 +213,7 @@ def is_co_diamond_free(graph: nx.Graph) -> bool:
     # every edge {u, v}
     nodes = set(graph)
     return all(
-        is_2k1_free(graph.subgraph(nodes - set.union({u, v}, graph[u], graph[v])))
+        undecorated_function(is_2k1_free)(graph.subgraph(nodes - set.union({u, v}, graph[u], graph[v])))
         for u, v in graph.edges
     )
 
