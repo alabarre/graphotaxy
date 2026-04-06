@@ -74,7 +74,7 @@ def is_k2_u_k3_free(graph: nx.Graph) -> bool:
 
     See https://www.graphclasses.org/classes/gc_456
 
-    Complexity: O(m^2n) <= O(n^5) (naïve)
+    Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
     return is_h_free(graph, ["K_{2} U K_{3}"])

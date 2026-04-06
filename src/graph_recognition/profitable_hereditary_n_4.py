@@ -27,7 +27,6 @@ from graph_recognition.misc_algo import (
     number_of_common_neighbours,
     degree_sequence,
     is_even_clique_free,
-    explicit_triangles,
     co_connected_components, is_connected, complement_as_adj_mat, )
 from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
@@ -156,16 +155,7 @@ def is_co_claw_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # much faster than return is_h_free(graph, ["co-claw"]) when measured with timeit: return True
-    # iff graph contains no "triangle + independent vertex"
-    return all(
-        not set.intersection(
-            set(nx.non_neighbors(graph, u)),
-            nx.non_neighbors(graph, v),
-            nx.non_neighbors(graph, w),
-        )
-        for u, v, w in explicit_triangles(graph)
-    )
+    return is_h_free(graph, ["co-claw"])
 
 
 @assign_fisc(["claw"])

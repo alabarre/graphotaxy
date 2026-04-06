@@ -11,37 +11,15 @@ Recognizers in this file have running time O(n^6).
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import os
-from functools import lru_cache
-
-# ----- Third-party imports -----------------------------------------------------------------------
-import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
-    assign_class_id,
-    assign_fisc,
 )
-from graph_recognition.subgraphs import is_h_free
 
+# ----- Third-party imports -----------------------------------------------------------------------
 
 # Recognizers -------------------------------------------------------------------------------------
-@assign_fisc(["K_{2} U claw"])
-@assign_class_id("gc_735")
-@lru_cache(maxsize=None)
-def is_gc_735(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is K_{2} U claw-free.
-
-    See https://www.graphclasses.org/classes/gc_735
-
-    Complexity: O(mn^4) <= O(n^6) (naïve)
-
-    :type graph: networkx.Graph
-    """
-    return is_h_free(graph, ["K_{2} U claw"])
-    # faster than:
-    # return is_h_u_k2_free(graph, is_claw_free)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

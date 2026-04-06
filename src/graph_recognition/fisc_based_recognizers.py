@@ -63,7 +63,6 @@ from graph_recognition.profitable_hereditary_n_4 import (
     is_hole_free,
 )
 from graph_recognition.profitable_hereditary_n_5 import is_2p3_free, is_k2_u_k3_free
-from graph_recognition.profitable_hereditary_n_6 import is_gc_735
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
@@ -2009,6 +2008,24 @@ def is_6k1_free(graph: nx.Graph) -> bool:
         return False
 
     return is_h_free(graph, ["6K_{1}"])
+
+
+@assign_fisc(["K_{2} U claw"])
+@assign_class_id("gc_735")
+@lru_cache(maxsize=None)
+def is_gc_735(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is K_{2} U claw-free.
+
+    See https://www.graphclasses.org/classes/gc_735
+
+    Complexity of naïve matching: O(n^6)
+
+    :type graph: networkx.Graph
+    """
+    return is_h_free(graph, ["K_{2} U claw"])
+    # faster than:
+    # return is_h_u_k2_free(graph, is_claw_free)
 
 
 @assign_fisc(["C_{6}"])
