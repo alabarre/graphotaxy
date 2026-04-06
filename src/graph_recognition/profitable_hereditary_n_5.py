@@ -17,14 +17,10 @@ from functools import lru_cache
 import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.misc_algo import (
-    is_h_u_k2_free,
-)
 from graph_recognition.profitable_hereditary_n import (
     is_p3_free,
 )
 from graph_recognition.profitable_hereditary_n_2 import is_co_diamond_free
-from graph_recognition.profitable_hereditary_n_3 import is_triangle_free
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
@@ -82,7 +78,8 @@ def is_k2_u_k3_free(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return is_h_free(graph, ["K_{2} U K_{3}"])
-    return is_h_u_k2_free(graph, is_triangle_free)
+    # faster than:
+    # return is_h_u_k2_free(graph, is_triangle_free)
 
 
 @assign_class_id("AUTO_1482")

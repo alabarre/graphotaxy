@@ -17,13 +17,12 @@ from functools import lru_cache
 import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.misc_algo import is_h_u_k2_free
-from graph_recognition.profitable_hereditary_n_4 import is_claw_free
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
     assign_fisc,
 )
+from graph_recognition.subgraphs import is_h_free
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -40,7 +39,9 @@ def is_gc_735(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_h_u_k2_free(graph, is_claw_free)
+    return is_h_free(graph, ["K_{2} U claw"])
+    # faster than:
+    # return is_h_u_k2_free(graph, is_claw_free)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------
