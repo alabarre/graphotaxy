@@ -906,7 +906,7 @@ def is_house_p2_u_p3_free(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_h_u_k2_free(graph, is_p3_free) and is_house_free(graph)
+    return is_h_free(graph, ["P_{2} U P_{3}"]) and is_house_free(graph)
 
 
 @assign_class_id("gc_700")

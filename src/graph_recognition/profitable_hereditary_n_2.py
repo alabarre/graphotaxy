@@ -30,7 +30,6 @@ from graph_recognition.misc_algo import (
     co_connected_components, complement_as_adj_mat, find_twin_in,
 )
 from graph_recognition.online_algo import online_is_bipartite
-from graph_recognition.profitable_hereditary_constant import is_2k1_free
 from graph_recognition.profitable_hereditary_n import (
     is_chordal,
     is_split,
@@ -44,7 +43,7 @@ from graph_recognition.profitable_hereditary_n import (
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
-    assign_fisc, undecorated_function, )
+    assign_fisc, )
 from graph_recognition.subgraphs import is_h_free
 
 
@@ -209,13 +208,16 @@ def is_co_diamond_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    # note: cannot move yet to fisc_based_recognizers because of circular import issues
+    return is_h_free(graph, ["co-diamond"])
+    # note: tried this, but it's much slower:
     # improved algorithm: G is co-diamond-free iff G - ({u, v} U N(u) U N(v)) is 2K_{1}-free for
     # every edge {u, v}
-    nodes = set(graph)
-    return all(
-        undecorated_function(is_2k1_free)(graph.subgraph(nodes - set.union({u, v}, graph[u], graph[v])))
-        for u, v in graph.edges
-    )
+    # nodes = set(graph)
+    # return all(
+    #     undecorated_function(is_2k1_free)(graph.subgraph(nodes - set.union({u, v}, graph[u], graph[v])))
+    #     for u, v in graph.edges
+    # )
 
 
 @assign_fisc(["co-gem"])
