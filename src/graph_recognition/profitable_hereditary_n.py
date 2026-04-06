@@ -35,7 +35,7 @@ from graph_recognition.profitable_hereditary_constant import is_k2_free
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
-    assign_fisc,
+    assign_fisc, undecorated_function,
 )
 
 
@@ -164,12 +164,12 @@ def my_inverse_line_graph(graph: nx.Graph) -> None:
 
     starting_cell = line._select_starting_cell(graph)
     # count how many times each vertex appears in the partition set
-    P_count = defaultdict(int)
+    p_count = defaultdict(int)
     for p in line._find_partition(graph, starting_cell):
         for u in p:
-            P_count[u] += 1
+            p_count[u] += 1
 
-    if max(P_count.values()) > 2:
+    if max(p_count.values()) > 2:
         msg = "G is not a line graph (vertex found in more than two partition cells)"
         raise nx.NetworkXError(msg)
 
@@ -884,7 +884,7 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
             v = _max_cardinality_node(unnumbered, numbered)
             unnumbered.remove(v)
             numbered.add(v)
-            clique_wanna_be = set(graph[v]) & numbered
+            clique_wanna_be = numbered.intersection(graph[v])
             sg = graph.subgraph(clique_wanna_be)
             if is_complete(sg):
                 # The graph seems to be chordal by now. We update the treewidth
@@ -896,7 +896,8 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
             else:
                 # sg is not a clique,
                 # look for an edge that is not included in sg
-                (u, w) = _find_missing_edge(sg)
+                # (u, w) = arbitrary_element(nx.non_edges(sg))
+                (u, w) = next(iter(nx.non_edges(sg)))
                 return u, v, w
         return ()
 
@@ -912,14 +913,6 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
                 max_number = number
                 max_cardinality_node = x
         return max_cardinality_node
-
-    def _find_missing_edge(G):
-        """Given a non-complete graph G, returns a missing edge."""
-        nodes = set(G)
-        for u in G: # noqa
-            missing = nodes - set(list(G[u]) + [u])
-            if missing:
-                return u, missing.pop()
 
     return len(_find_chordality_breaker()) == 0
 
@@ -2350,7 +2343,7 @@ def is_2k2_free(graph: nx.Graph) -> bool:
     # otherwise, go through every edge and remove it with its neighbors; if the resulting graph is
     # empty, then it is K_{2}-free, and so our graph is 2K_{2}-free
     # O(m)
-    return is_h_u_k2_free(graph, is_k2_free)
+    return is_h_u_k2_free(graph, undecorated_function(is_k2_free))
 
 
 @assign_fisc(
@@ -2428,9 +2421,7 @@ def is_maximal_planar(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    return graph.number_of_edges() == 3 * graph.number_of_nodes() - 6 and is_planar(
-        graph
-    )
+    return graph.number_of_edges() == 3 * graph.number_of_nodes() - 6 and is_planar(graph)
 
 
 @assign_class_id("gc_982")
