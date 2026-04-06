@@ -15,7 +15,6 @@ from typing import Iterable, Hashable, Self
 # ----- Third-party imports -----------------------------------------------------------------------
 from bidict import bidict
 from bitarray import bitarray
-from tqdm import tqdm
 
 
 class HalfAdjacencyMatrix:
@@ -31,6 +30,7 @@ class HalfAdjacencyMatrix:
         Initializes the relevant data structures.
         """
         self.node_mapping = bidict()
+        self.num_edges = 0
         self.num_nodes = 0
         self.adj_mat = []
         self.nodes = self.node_mapping.keys()  # for nx algorithms that need to access this field
@@ -44,9 +44,10 @@ class HalfAdjacencyMatrix:
         :return:
         """
         for node in nbunch:
-            self.node_mapping[node] = self.num_nodes  # map node to identifier
-            self.num_nodes += 1
-            self.adj_mat.append(bitarray(self.num_nodes))  # add row to adjacency matrix
+            if node not in self.node_mapping:
+                self.node_mapping[node] = self.num_nodes  # map node to identifier
+                self.num_nodes += 1
+                self.adj_mat.append(bitarray(self.num_nodes))  # add row to adjacency matrix
 
     def degree(self):
         """
@@ -169,7 +170,9 @@ class HalfAdjacencyMatrix:
         if u_id < v_id:
             u_id, v_id = v_id, u_id
 
-        self.adj_mat[u_id][v_id] = 1
+        if not self.adj_mat[u_id][v_id]:
+            self.num_edges += 1
+            self.adj_mat[u_id][v_id] = 1
 
     def add_edges_from(self, ebunch: Iterable[Hashable]) -> None:
         """
@@ -178,12 +181,12 @@ class HalfAdjacencyMatrix:
         :param ebunch:
         :return:
         """
-        for u, v in ebunch: #tqdm(ebunch, desc=f"{self.__class__.__name__}.add_edges_from"):
+        for u, v in ebunch:
             self.add_edge(u, v)
 
     def edges(self):
         """
-        Returns all edges in the graph.
+        Generates all edges in the graph.
 
         :return:
         """
@@ -212,8 +215,7 @@ class HalfAdjacencyMatrix:
 
         :return:
         """
-        # TODO maintain variable so we don't need to compute that
-        return sum(map(sum, self.adj_mat))
+        return self.num_edges
 
     def number_of_selfloops(self) -> int:
         """

@@ -111,7 +111,7 @@ def condensation(graph: dict) -> dict:
 TwoSatisfiability.py
 
 Algorithms for solving 2-satisfiability problems. For theory and references, see 
-http://en.wikipedia.org/wiki/2-satisfiability
+https://en.wikipedia.org/wiki/2-satisfiability
 
 All instances should be represented as a directed implication graph in which the vertices represent
 variables and (via Not.py) their negations. A variable may be represented by any hashable Python 
