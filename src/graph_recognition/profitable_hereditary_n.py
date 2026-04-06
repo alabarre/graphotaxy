@@ -29,14 +29,13 @@ from graph_recognition.misc_algo import (
     is_complete,
     degree_sequence,
     is_connected,
-    is_h_u_k2_free, co_connected_components,
+    co_connected_components,
 )
-from graph_recognition.profitable_hereditary_constant import is_k2_free
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
-    assign_fisc, undecorated_function,
-)
+    assign_fisc, )
+from graph_recognition.subgraphs import is_h_free
 
 
 # Auxiliary functions -----------------------------------------------------------------------------
@@ -2343,7 +2342,9 @@ def is_2k2_free(graph: nx.Graph) -> bool:
     # otherwise, go through every edge and remove it with its neighbors; if the resulting graph is
     # empty, then it is K_{2}-free, and so our graph is 2K_{2}-free
     # O(m)
-    return is_h_u_k2_free(graph, undecorated_function(is_k2_free))
+    return is_h_free(graph, ["2K_{2}"])
+    # faster than:
+    # return is_h_u_k2_free(graph, undecorated_function(is_k2_free))
 
 
 @assign_fisc(
