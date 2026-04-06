@@ -30,6 +30,7 @@ from graph_recognition.recognizers_utils import (
     assign_class_id,
     assign_fisc,
 )
+from graph_recognition.subgraphs import is_h_free
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -80,6 +81,7 @@ def is_k2_u_k3_free(graph: nx.Graph) -> bool:
     Complexity: O(m^2n) <= O(n^5) (naïve)
     :type graph: networkx.Graph
     """
+    return is_h_free(graph, ["K_{2} U K_{3}"])
     return is_h_u_k2_free(graph, is_triangle_free)
 
 
