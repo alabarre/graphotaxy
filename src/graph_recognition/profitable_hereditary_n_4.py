@@ -186,6 +186,7 @@ def is_claw_free(graph: nx.Graph) -> bool:
         return False
 
     # no way around it: check membership
+    return is_h_free(graph, ["claw"])
     # for each vertex u, check whether u and any 3 of its neighbors induce a claw
     claw_deg_seq = array("b", [3, 1, 1, 1])
     return all(
