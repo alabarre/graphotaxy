@@ -848,7 +848,7 @@ def is_outerplanar(graph: nx.Graph) -> bool:
 @assign_fisc(["C_{8}", "co(C_{5})", "C_{5}", "C_{7}", "C_{4}", "C_{6}"])
 @assign_class_id("gc_32")
 @lru_cache(maxsize=None)
-def is_chordal(graph: nx.Graph) -> bool:
+def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     A graph is chordal if every cycle of length at least 4 it contains has a chord.
 

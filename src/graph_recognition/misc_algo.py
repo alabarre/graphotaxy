@@ -184,8 +184,6 @@ def complement_as_adj_mat(graph: nx.Graph) -> HalfAdjacencyMatrix:
     :type graph: networkx.Graph
     :return:
     """
-    print(
-        f"[debug] complement: expecting {(graph.number_of_nodes() * graph.number_of_nodes() - 1) // 2 - graph.number_of_edges()} edges ...")
     compl = HalfAdjacencyMatrix()
     compl.add_nodes_from(graph)
     compl.add_edges_from(nx.non_edges(graph))

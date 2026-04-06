@@ -564,12 +564,16 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
     def equiv_class_gen(v):
         """
+        Returns the equivalence class of vertex v, which are the co-connected components of the
+        subgraph induced by its neighbors.
 
         :param v:
         :return:
         """
+        # find out if we know the answer for another vertex with the same neighbors
         if (u := find_twin_in(classes, graph, v)) is not None:
             return classes[u]
+
         classes[v] = list(co_connected_components(graph.subgraph(graph[v])))
         return classes[v]
 
@@ -580,16 +584,21 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
         :return:
         """
-        for u, v in graph.edges():
-            for i, s in enumerate(equiv_class_gen(v)):
-                if u in s:
-                    break
+        # instead of examining all edges once, we go through all vertices and examine all their
+        # neighbors; in the worst case we examine each edge twice, but we hope to stop processing
+        # the graph earlier that way and compute fewer classes
+        # for u, v in graph.edges():
+        for u in graph:
+            for v in graph.neighbors(u):
+                for i, s in enumerate(equiv_class_gen(v)):
+                    if u in s:
+                        break
 
-            for j, s in enumerate(equiv_class_gen(u)):
-                if v in s:
-                    break
+                for j, s in enumerate(equiv_class_gen(u)):
+                    if v in s:
+                        break
 
-            yield (v, i), (u, j)
+                yield (v, i), (u, j)
 
     return online_is_bipartite(edge_generator())
 
@@ -846,7 +855,8 @@ def is_co_chordal(graph: nx.Graph) -> bool:
     # split graphs are both chordal and co-chordal, so let's try that first if it allows us to
     # avoid examining co-connected components
     return is_split(graph) or all(
-        is_chordal(complement_as_adj_mat(graph.subgraph(cc))) for cc in co_connected_components(graph)
+        is_chordal(complement_as_adj_mat(graph.subgraph(cc)))
+        for cc in co_connected_components(graph)
     )
 
 
