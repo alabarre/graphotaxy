@@ -22,7 +22,6 @@ import networkx as nx
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     is_connected,
-    is_h_u_k2_free,
     co_connected_components, complement_as_adj_mat, complement,
 )
 from graph_recognition.profitable_hereditary_n import (
@@ -45,6 +44,7 @@ from graph_recognition.recognizers_utils import (
     assign_class_id,
     assign_fisc,
 )
+from graph_recognition.subgraphs import is_h_free
 
 # check whether function has already been lru_cached
 if not hasattr(nx.asteroidal.create_component_structure, "cache_info"):
@@ -339,8 +339,7 @@ def is_p2up4_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # let's first check whether there is a P_{4}: if not, there won't be a P_{2} U P_{4} either
-    return is_cograph(graph) or is_h_u_k2_free(graph, is_cograph)
+    return is_cograph(graph) or is_h_free(graph, ["P_{2} U P_{4}"]) # faster than is_h_u_k2_free(graph, is_cograph) on large graphs
 
 
 @assign_fisc(["triangle", "P_{4}"])
