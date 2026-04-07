@@ -354,6 +354,8 @@ def co_connected_components(graph: nx.Graph) -> Generator:
         if v not in seen:
             c = plain_co_bfs(graph, n - len(seen), v)
             seen.update(c)
+            # return result as frozenset so functions that rely on co-connected components can
+            # cache what they compute
             yield frozenset(c)
 
 
@@ -643,7 +645,7 @@ def enumerate_all_p4s(graph: nx.Graph) -> Generator:
         # P_{4} is equivalent to checking that the subgraph has exactly 3 edges
         if (
                 len(p4_candidates) == 4 and
-                sum(1 for x, y in combinations(p4_candidates, 2) if graph.has_edge(x, y)) == 3
+                sum(graph.has_edge(x, y) for x, y in combinations(p4_candidates, 2)) == 3
         ):
             yield p4_candidates
 

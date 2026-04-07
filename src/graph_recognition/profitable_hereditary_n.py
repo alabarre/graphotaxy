@@ -14,8 +14,9 @@ from array import array
 from collections import defaultdict
 from collections.abc import Callable
 from functools import lru_cache
+from itertools import combinations
 from sys import maxsize
-from typing import Any
+from typing import Any, Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -861,13 +862,24 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     if len(graph) <= 3 or is_complete(graph):
         return True
 
-    def _find_chordality_breaker(s=None, treewidth_bound=maxsize):
-        """Given a graph G, starts a max cardinality search
-        (starting from s if s is given and from an arbitrary node otherwise)
-        trying to find a non-chordal cycle.
+    @lru_cache(maxsize=None)
+    def _neighbors(v: Hashable):
+        """
+        Returns the neighbors of v. Mainly exists to avoid recomputing neighborhoods when graph is
+        a HalfAdjacencyMatrix.
 
-        If it does find one, it returns (u,v,w) where u,v,w are the three
-        nodes that together with s are involved in the cycle.
+        :param v:
+        :return:
+        """
+        return set(graph[v])
+
+    def _find_chordality_breaker(s=None, treewidth_bound=maxsize):
+        """
+        Given a graph G, starts a max cardinality search (starting from s if s is given and from an
+        arbitrary node otherwise) trying to find a non-chordal cycle.
+
+        If it does find one, it returns (u,v,w) where u,v,w are the three nodes that together with
+        s are involved in the cycle.
 
         It ignores any self loops.
         """
@@ -883,37 +895,32 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
             v = _max_cardinality_node(unnumbered, numbered)
             unnumbered.remove(v)
             numbered.add(v)
-            clique_wanna_be = numbered.intersection(graph[v])
-            sg = graph.subgraph(clique_wanna_be)
-            if is_complete(sg):
-                # The graph seems to be chordal by now. We update the treewidth
-                current_treewidth = max(current_treewidth, len(clique_wanna_be))
-                if current_treewidth > treewidth_bound:
-                    raise nx.NetworkXTreewidthBoundExceeded(
-                        f"treewidth_bound exceeded: {current_treewidth}"
-                    )
-            else:
-                # sg is not a clique,
-                # look for an edge that is not included in sg
-                # (u, w) = arbitrary_element(nx.non_edges(sg))
-                (u, w) = next(iter(nx.non_edges(sg)))
-                return u, v, w
+            # clique_wanna_be = numbered.intersection(graph[v])
+            clique_wanna_be = numbered & _neighbors(v)
+
+            # if graph is not complete, then we'll find a missing edge here
+            for u, w in combinations(clique_wanna_be, 2):
+                if not graph.has_edge(u, w):
+                    return u, v, w
+
+            # The graph seems to be chordal by now. We update the treewidth
+            current_treewidth = max(current_treewidth, len(clique_wanna_be))
+            if current_treewidth > treewidth_bound:
+                raise nx.NetworkXTreewidthBoundExceeded(
+                    f"treewidth_bound exceeded: {current_treewidth}"
+                )
+
         return ()
 
     def _max_cardinality_node(choices, wanna_connect):
         """
         Returns a node in choices with the most connections in graph to nodes in wanna_connect.
         """
-        max_number = -1
-        max_cardinality_node = None
-        for x in choices:
-            number = sum(1 for y in graph[x] if y in wanna_connect)
-            if number > max_number:
-                max_number = number
-                max_cardinality_node = x
-        return max_cardinality_node
+        return max(choices, key=lambda x: len(_neighbors(x) & wanna_connect))
 
-    return len(_find_chordality_breaker()) == 0
+    result = len(_find_chordality_breaker()) == 0
+    _neighbors.cache_clear()
+    return result
 
 
 @assign_fisc(["triangle", "co(P_{3})"])

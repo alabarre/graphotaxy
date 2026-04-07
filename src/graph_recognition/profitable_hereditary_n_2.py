@@ -573,6 +573,9 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         :return:
         """
         # find out if we know the answer for another vertex with the same neighbors
+        # TODO maybe we should store known non twins so we avoid expensive checks for answers that
+        #   are already known to be negative ... then find_twin_in's code should be here and we
+        #   remove the function call
         if (u := find_twin_in(classes, graph, v)) is not None:
             return classes[u]
 
@@ -856,6 +859,9 @@ def is_co_chordal(graph: nx.Graph) -> bool:
 
     # split graphs are both chordal and co-chordal, so let's try that first if it allows us to
     # avoid examining co-connected components
+    # TODO since I've extracted nx's code for is_chordal, it should be easy to adapt it to run on
+    #   non-edges for co-chordal
+
     return is_split(graph) or all(
         is_chordal(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)
     )

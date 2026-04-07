@@ -21,11 +21,10 @@ from functools import lru_cache
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
-from graph_recognition.domination import has_dominating_set_of_size_at_most_2, has_dominating_triangle_or_p3
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.domination import has_dominating_set_of_size_at_most_2, has_dominating_triangle_or_p3
 from graph_recognition.misc_algo import (
     is_h_u_k1_free,
-    is_h_u_k2_free,
     is_h_u_2k1_free,
     is_odd_clique_free,
     is_odd_co_clique_free,
@@ -3487,10 +3486,10 @@ def is_gc_1037(graph: nx.Graph) -> bool:
             is_p6_free(graph)
             and is_k2_u_k3_free(graph)
             and is_k23_free(graph)
-            and is_h_u_k2_free(graph, is_c4_free)
             and is_h_free(
         graph,
         [
+            "C_{4} U P_{2}",
             "W_{4}",
             "co(W_{4})",
             "C_{5}",
@@ -4830,10 +4829,10 @@ def is_auto_1474(graph: nx.Graph) -> bool:
             is_p6_free(graph)
             and is_p2up4_free(graph)
             and is_k2_u_k3_free(graph)
-            and is_h_u_k2_free(graph, is_c4_free)
             and is_h_free(
         graph,
         [
+            "C_{4} U P_{2}",
             "C_{5}",
             "C_{6}",
             "antenna",
@@ -5991,10 +5990,10 @@ def is_gc_1035(graph: nx.Graph) -> bool:
             is_k23_free(graph)
             and is_p2up4_free(graph)
             and is_k2_u_k3_free(graph)
-            and is_h_u_k2_free(graph, is_c4_free)
             and is_h_free(
         graph,
         [
+            "C_{4} U P_{2}",
             "C_{5}",
             "X_{169}",
             "co-fish",
