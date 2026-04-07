@@ -317,9 +317,9 @@ def is_2_strongly_regular_and_planar(graph: nx.Graph) -> bool:
 @assign_class_id("gc_1189")
 @lru_cache(maxsize=None)
 def is_deza(graph: nx.Graph) -> bool:
-    """A Deza graph with parameters (𝜆,𝜇) is a graph such that any two adjacent
-    vertices have exactly 𝜆 common neighbors and any two nonadjacent vertices
-    have exactly 𝜇 common neighbors.
+    """
+    A Deza graph with parameters (𝜆,𝜇) is a graph such that any two adjacent vertices have exactly
+    𝜆 common neighbors and any two nonadjacent vertices have exactly 𝜇 common neighbors.
 
     https://www.graphclasses.org/classes/gc_1189.html
 
@@ -857,8 +857,7 @@ def is_co_chordal(graph: nx.Graph) -> bool:
     # split graphs are both chordal and co-chordal, so let's try that first if it allows us to
     # avoid examining co-connected components
     return is_split(graph) or all(
-        is_chordal(complement_as_adj_mat(graph.subgraph(cc)))
-        for cc in co_connected_components(graph)
+        is_chordal(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)
     )
 
 
@@ -916,7 +915,7 @@ def is_co_locally_chordal(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_locally_chordal(complement_as_adj_mat(graph.subgraph(cc))) for cc in co_connected_components(graph)
+        is_locally_chordal(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)
     )
 
 
@@ -994,7 +993,7 @@ def is_quasi_line(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_nearly_bipartite(complement_as_adj_mat(graph.subgraph(cc)))
+        is_nearly_bipartite(complement_as_adj_mat(graph, cc))
         for cc in co_connected_components(graph)
     )
 
@@ -1057,8 +1056,7 @@ def is_co_comparability(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_comparability(complement_as_adj_mat(graph.subgraph(cc)))
-        for cc in co_connected_components(graph)
+        is_comparability(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)
     )
 
 

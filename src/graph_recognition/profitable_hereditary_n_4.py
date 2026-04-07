@@ -870,7 +870,7 @@ def is_anti_hole_free(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_hole_free(complement_as_adj_mat(graph.subgraph(cc)))
+        is_hole_free(complement_as_adj_mat(graph, cc))
         for cc in co_connected_components(graph)
     )
 

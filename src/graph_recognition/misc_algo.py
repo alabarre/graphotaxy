@@ -176,17 +176,23 @@ def complement(graph: nx.Graph) -> nx.Graph:
 
 
 @lru_cache(maxsize=None)
-def complement_as_adj_mat(graph: nx.Graph) -> HalfAdjacencyMatrix:
+def complement_as_adj_mat(graph: nx.Graph, nodes=None) -> HalfAdjacencyMatrix:
     """
-    Returns the complement of the graph as an adjacency matrix.
+    Returns the complement of the graph as an adjacency matrix. If nodes is not None, then
+    complementation is restricted to the subgraph induced by nodes.
 
+    :param nodes:
     :param graph:
     :type graph: networkx.Graph
     :return:
     """
     compl = HalfAdjacencyMatrix()
-    compl.add_nodes_from(graph)
-    compl.add_edges_from(nx.non_edges(graph))
+    if nodes is None:
+        compl.add_nodes_from(graph)
+        compl.add_edges_from(nx.non_edges(graph))
+    else:
+        compl.add_nodes_from(nodes)
+        compl.add_edges_from((u, v) for u, v in combinations(nodes, 2) if not graph.has_edge(u, v))
     return compl
 
 
@@ -348,7 +354,7 @@ def co_connected_components(graph: nx.Graph) -> Generator:
         if v not in seen:
             c = plain_co_bfs(graph, n - len(seen), v)
             seen.update(c)
-            yield c
+            yield frozenset(c)
 
 
 @lru_cache(maxsize=None)
