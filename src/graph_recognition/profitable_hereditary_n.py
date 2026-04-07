@@ -16,21 +16,22 @@ from collections.abc import Callable
 from functools import lru_cache
 from itertools import combinations
 from sys import maxsize
-from typing import Any, Hashable
+from typing import Any, Hashable, Iterable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from networkx.algorithms.planarity import LRPlanarity  # noqa (not declared in __all__)
 from networkx.generators import line
 from networkx.utils import arbitrary_element
 from tralda.cograph import to_cotree
 
-from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     is_complete,
     degree_sequence,
     is_connected,
-    co_connected_components,
+    co_connected_components, NUMERIC_TYPECODES,
 )
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
@@ -410,6 +411,126 @@ def is_complete_bipartite(graph: nx.Graph) -> bool:
     return sum(graph.degree[v] for v in left) == len(left) * len(right)
 
 
+# Planarity testing -------------------------------------------------------------------------------
+# I think there's room for improvement in what networkx has to offer, so I'm reimplementing a few
+# things in a derived class.
+class MyLRPlanarity(LRPlanarity):
+    def __init__(self, G: nx.Graph) -> None:  # noqa (intentionally no calling super().__init__)
+        """
+        Initializes the relevant data structures.
+
+        :type G: nx.Graph
+        :param G:
+        """
+        # this is essentially a copy / paste of LRPlanarity.__init__, except that I copy all edges
+        # of G and then remove loops instead of checking whether each edge is a loop
+        # note: after reading the rest of the code I want to use, there's no real access to self.G
+        # anymore. So let's not copy it at all, and when we copy the relevant information in the
+        # self.adjs list needed by dfs_orientation, let's discard loops at that moment.
+        '''
+        self.G = UndirectedGraph()
+        # self.G = HalfAdjacencyMatrix() # for some reason memory usage is huge with this
+        self.G.add_nodes_from(G.nodes)
+        self.G.add_edges_from(G.edges)
+        self.G.remove_edges_from(nx.selfloop_edges(G))
+        '''
+        # the rest of the code is exactly what's in super().__init__
+        self.roots = []
+
+        # distance from tree root
+        self.height = defaultdict(lambda: None)
+
+        self.lowpt = {}  # height of lowest return point of an edge
+        self.lowpt2 = {}  # height of second lowest return point
+        self.nesting_depth = {}  # for nesting order
+
+        # None -> missing edge
+        self.parent_edge = defaultdict(lambda: None)
+
+        # oriented DFS graph
+        self.DG = nx.DiGraph()
+        self.DG.add_nodes_from(G.nodes)
+
+        self.adjs = {}
+        self.ordered_adjs = {}
+
+        self.ref = defaultdict(lambda: None)
+        self.side = defaultdict(lambda: 1)
+
+        # stack of conflict pairs
+        self.S = []
+        self.stack_bottom = {}
+        self.lowpt_edge = {}
+
+        self.left_ref = {}
+        self.right_ref = {}
+
+        # I'm not interested in computing an embedding
+        # self.embedding = PlanarEmbedding()
+
+    def lr_planarity(self, G: nx.Graph):  # noqa (intentionally adding parameter graph here)
+        """Execute the LR planarity test.
+
+        Returns
+        -------
+        embedding : dict
+            If the graph is planar an embedding is returned. Otherwise None.
+        """
+        # if self.G.order() > 2 and self.G.size() > 3 * self.G.order() - 6:
+        if G.order() > 2 and G.size() > 3 * G.order() - 6:
+            # graph is not planar
+            return None
+
+        # make adjacency lists for dfs (without loops); sliceable sequences are required by
+        # dfs_orientation, but we'll use arrays if possible in order to reduce memory usage
+        if all(isinstance(v, int) for v in G):
+            for v in G:
+                # return array with smallest typecode
+                for tc in NUMERIC_TYPECODES:
+                    try:
+                        self.adjs[v] = array(tc, set(G[v]) - {v})
+                    except OverflowError:
+                        pass
+                if v not in self.adjs:
+                    raise OverflowError
+        else:
+            for v in G:
+                self.adjs[v] = list(set(G[v]) - {v})
+
+        # orientation of the graph by depth first search traversal
+        for v in G:
+            if self.height[v] is None:
+                self.height[v] = 0
+                self.roots.append(v)
+                self.dfs_orientation(v)
+
+        # Free no longer used variables
+        # self.G = None
+        self.lowpt2 = None
+        self.adjs = None
+
+        # testing
+        for v in self.DG:  # sort the adjacency lists by nesting depth
+            # note: this sorting leads to non linear time
+            self.ordered_adjs[v] = sorted(
+                self.DG[v], key=lambda x: self.nesting_depth[(v, x)]
+            )
+        for v in self.roots:
+            if not self.dfs_testing(v):
+                return None
+
+        # Free no longer used variables
+        self.height = None
+        self.lowpt = None
+        self.S = None
+        self.stack_bottom = None
+        self.lowpt_edge = None
+
+        # if we've made it this far, the graph is planar; simply return True and don't bother with
+        # the embedding
+        return True
+
+
 # note: the FISC below was found by minor_expander.py; it is incomplete, since planar graphs are
 # characterized by forbidden induced **minors**; but this is as far as we can go since the other
 # subgraphs produced by minor_expander.py are unknown to ISGCI
@@ -437,7 +558,10 @@ def is_planar(graph: nx.Graph) -> bool:
         return False
 
     # the first element of check_planarity's return value is the answer
-    return nx.check_planarity(graph)[0]
+    # TODO:
+    #   1) algo is not linear-time, they call sorted at some point
+    #   2) improvements are likely possible
+    return MyLRPlanarity(graph).lr_planarity(graph) is not None  # nx.check_planarity(graph)[0]
 
 
 # note: the FISC is incomplete, but these are the only odd cycles that are stored as smallgraphs
@@ -476,10 +600,7 @@ def is_block(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return all(
-        bc.size() == (bc.order() * (bc.order() - 1)) // 2
-        for bc in map(graph.subgraph, nx.biconnected_components(graph))
-    )
+    return all(is_complete(bc) for bc in map(graph.subgraph, nx.biconnected_components(graph)))
 
 
 @assign_fisc(
@@ -912,7 +1033,7 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
         return ()
 
-    def _max_cardinality_node(choices, wanna_connect):
+    def _max_cardinality_node(choices: Iterable, wanna_connect: set) -> Hashable:
         """
         Returns a node in choices with the most connections in graph to nodes in wanna_connect.
         """
