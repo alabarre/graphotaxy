@@ -187,15 +187,6 @@ def is_claw_free(graph: nx.Graph) -> bool:
 
     # no way around it: check membership
     return is_h_free(graph, ["claw"])
-    # for each vertex u, check whether u and any 3 of its neighbors induce a claw
-    claw_deg_seq = array("b", [3, 1, 1, 1])
-    return all(
-        degree_sequence(graph.subgraph({u, v, w, x})) != claw_deg_seq
-        for u in graph
-        for v, w, x in combinations(graph[u], 3)
-        # discarding vertices whose neighborhood is not independent seems to speed things up
-        if not graph.has_edge(v, w) and not graph.has_edge(w, x) and not graph.has_edge(v, x)
-    )
 
 
 @assign_fisc(
@@ -205,7 +196,7 @@ def is_claw_free(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_hole_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
-    Returns true if G is hole-free, false otherwise.
+    Returns True if G is hole-free, False otherwise.
 
     https://www.graphclasses.org/classes/gc_437.html
 
@@ -220,8 +211,8 @@ def is_hole_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     @lru_cache(maxsize=None)
     def process(a: int, b: int, c: int) -> bool:
         """
-        The auxiliary process procedure from https://www.cs.uoi.gr/~palios/pubs/D5.pdf
-        used in the algorithm that test hole-freeness.
+        The auxiliary process procedure from https://www.cs.uoi.gr/~palios/pubs/D5.pdf used in the
+        algorithm that test hole-freeness.
 
         :param a:
         :param b:
@@ -625,7 +616,7 @@ def is_4k1_free(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^4)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["4K_{1}"])#is_even_co_clique_free(graph, 4)
+    return is_h_free(graph, ["4K_{1}"])  # is_even_co_clique_free(graph, 4)
 
 
 @assign_class_id("AUTO_1479")
@@ -879,7 +870,8 @@ def is_anti_hole_free(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_hole_free(complement_as_adj_mat(graph.subgraph(cc))) for cc in co_connected_components(graph)
+        is_hole_free(complement_as_adj_mat(graph.subgraph(cc)))
+        for cc in co_connected_components(graph)
     )
 
 

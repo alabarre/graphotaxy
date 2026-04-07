@@ -153,7 +153,7 @@ def is_clique_helly(graph: nx.Graph) -> bool:
         for v in triangle:
             for x in graph[v]:
                 # add x to the extended triangle if it has at least TWO neighbors in the triangle
-                if len(set(graph[x]).intersection(triangle)) >= 2:
+                if len(triangle.intersection(graph[x])) >= 2:
                     extended_triangle.add(x)
 
         # look for a universal vertex in the subgraph induced by the extended triangle; i.e., a

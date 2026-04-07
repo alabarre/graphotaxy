@@ -307,7 +307,8 @@ def is_co_p4_brittle(graph: nx.Graph) -> bool:
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
-        is_p4_brittle(complement_as_adj_mat(graph.subgraph(cc))) for cc in co_connected_components(graph)
+        is_p4_brittle(complement_as_adj_mat(graph.subgraph(cc)))
+        for cc in co_connected_components(graph)
     )
 
 

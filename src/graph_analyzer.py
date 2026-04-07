@@ -76,6 +76,8 @@ class GraphAnalyzer:
         self.gss_crashed = False
         self.hits_and_misses = {"hits": 0, "misses": 0}
         self.recognizers_that_were_run = set()
+        self.num_nodes = 0
+        self.num_edges = 0
 
         # other useful data -----------------------------------------------------------------------
         self.equivalences = isgci_equivalences()
@@ -169,6 +171,10 @@ class GraphAnalyzer:
         # set up a thread to refresh progress bars when nothing seems to be happening
         threading.Thread(target=self._auto_refresh, daemon=True).start()
         for graph in main_pbar:
+            # update graph stats
+            self.num_nodes += graph.number_of_nodes()
+            self.num_edges += graph.number_of_edges()
+
             # create classification for current graph
             self.classification = deepcopy(self.prototype_classification_digraph)
             # set up the progress bar for the classification of the current graph
@@ -430,8 +436,15 @@ class GraphAnalyzer:
             ((val, key) for key, val in self.enumeration_of_positive_classes.items()), reverse=True
         )
 
-        if self.num_graphs == 1:
-            print("The graph is:\n")
+        print(
+            f"Analyzed {self.num_graphs} graphs on {self.num_nodes // self.num_graphs} nodes "
+            f"and {self.num_edges // self.num_graphs} edges", end=""
+        )
+
+        if self.num_graphs > 1:
+            print(" (average numbers)", end="")
+
+        print(".\n\nIdentified classes:\n")
 
         ids_to_names = isgci_ids_to_names()
         recog_status = isgci_recognition_statuses()
@@ -476,7 +489,8 @@ class GraphAnalyzer:
         lo, hi = self.min_unknown_classes, self.max_unknown_classes
 
         print()
-        print("We have", [f"between {lo} and {hi}", lo][lo == hi], "unidentified classes.")
+        if not self.scope:
+            print("We have", [f"between {lo} and {hi}", lo][lo == hi], "unidentified classes.")
 
         if print_todo:
             # print all classes that can be recognized in polynomial time, but for which we have no

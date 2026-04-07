@@ -624,7 +624,7 @@ def explicit_triangles(graph: nx.Graph) -> Iterator[set]:
 
 def enumerate_all_p4s(graph: nx.Graph) -> Generator:
     """
-    Generates all paths of length 4 in a graph as sets of 4 vertices.
+    Generates all induced paths of length 4 in a graph as sets of 4 vertices.
 
     :param graph:
     :return:
@@ -635,7 +635,10 @@ def enumerate_all_p4s(graph: nx.Graph) -> Generator:
         p4_candidates = set(e + f)
         # if set has 4 elements, then e and f are independent, so checking whether they induce a
         # P_{4} is equivalent to checking that the subgraph has exactly 3 edges
-        if len(p4_candidates) == 4 and graph.subgraph(p4_candidates).size() == 3:
+        if (
+                len(p4_candidates) == 4 and
+                sum(1 for x, y in combinations(p4_candidates, 2) if graph.has_edge(x, y)) == 3
+        ):
             yield p4_candidates
 
 
