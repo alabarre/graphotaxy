@@ -31,7 +31,7 @@ from graph_recognition.misc_algo import (
     is_complete,
     degree_sequence,
     is_connected,
-    co_connected_components, NUMERIC_TYPECODES,
+    co_connected_components, NUMERIC_TYPECODES, all_vertices_are_int,
 )
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
@@ -193,7 +193,9 @@ def is_tree(graph: nx.Graph) -> bool:
     """
     # artificially deciding that a graph without any node is a tree in order to avoid crashes when
     # function is called on empty subgraphs
-    return not graph.number_of_nodes() or nx.is_tree(graph)
+    return not graph.number_of_nodes() or (
+            len(graph) - 1 == graph.number_of_edges() and is_connected(graph)
+    )
 
 
 @assign_fisc(["P_{3}"])
@@ -483,7 +485,7 @@ class MyLRPlanarity(LRPlanarity):
 
         # make adjacency lists for dfs (without loops); sliceable sequences are required by
         # dfs_orientation, but we'll use arrays if possible in order to reduce memory usage
-        if all(isinstance(v, int) for v in G):
+        if all_vertices_are_int(G):
             for v in G:
                 # return array with smallest typecode
                 for tc in NUMERIC_TYPECODES:
@@ -512,9 +514,7 @@ class MyLRPlanarity(LRPlanarity):
         # testing
         for v in self.DG:  # sort the adjacency lists by nesting depth
             # note: this sorting leads to non linear time
-            self.ordered_adjs[v] = sorted(
-                self.DG[v], key=lambda x: self.nesting_depth[(v, x)]
-            )
+            self.ordered_adjs[v] = sorted(self.DG[v], key=lambda x: self.nesting_depth[(v, x)])
         for v in self.roots:
             if not self.dfs_testing(v):
                 return None
@@ -960,9 +960,16 @@ def is_outerplanar(graph: nx.Graph) -> bool:
 
     # add a new vertex and connect it to all other vertices; G is outerplanar
     # iff G2 is planar (see https://link.springer.com/content/pdf/10.1007%2F3-540-17218-1_57.pdf)
-    new_graph = graph.copy()
-    new_graph.add_edges_from(("$", v) for v in graph)
-    return is_planar(new_graph)
+    if all_vertices_are_int(graph):
+        new_node = max(graph) + 1
+    else:
+        new_node = "$"  # TODO random string not in graph, check
+
+    # note: don't remove { }, since otherwise we're modifying the graph as we iterate over it
+    graph.add_edges_from({(new_node, v) for v in graph})
+    result = is_planar(graph)
+    graph.remove_node(new_node)
+    return result
 
 
 # note: incomplete FISC; this is the basis of all non-chordal smallgraphs in ISGCI
@@ -1016,7 +1023,6 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
             v = _max_cardinality_node(unnumbered, numbered)
             unnumbered.remove(v)
             numbered.add(v)
-            # clique_wanna_be = numbered.intersection(graph[v])
             clique_wanna_be = numbered & _neighbors(v)
 
             # if graph is not complete, then we'll find a missing edge here

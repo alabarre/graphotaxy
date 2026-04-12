@@ -20,7 +20,7 @@ from graph_recognition.misc_algo import (
     complement,
     empty_graph_by_removing_vertices,
     is_connected,
-    degree_sequence, co_connected_components, complement_as_adj_mat,
+    degree_sequence, co_connected_components, complement_as_adj_mat, number_of_common_neighbors, common_neighbors,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
@@ -166,7 +166,7 @@ def is_interval_regular_of_diameter_2(graph: nx.Graph) -> bool:
         return False
 
     return all(
-        sum(1 for _ in nx.common_neighbors(graph, u, v)) == 2 for u, v in nx.non_edges(graph)
+        number_of_common_neighbors(graph, u, v) == 2 for u, v in nx.non_edges(graph)
     )
 
 
@@ -297,7 +297,7 @@ def number_of_common_neighbors_at_distance(graph: nx.Graph, u: Any, v: Any, w: A
         1
         for _ in (
             x
-            for x in nx.common_neighbors(graph, v, w)
+            for x in common_neighbors(graph, v, w)
             if nx.shortest_path_length(graph, u, x) == k - 1
         )
     )
@@ -385,7 +385,7 @@ def is_pseudo_modular(graph: nx.Graph) -> bool:
             # is there a common neighbor of v and w at distance k-1 from u?
             if all(
                     nx.shortest_path_length(graph, u, x) != k - 1
-                    for x in nx.common_neighbors(graph, v, w)
+                    for x in common_neighbors(graph, v, w)
             ):
                 return False
 
@@ -405,7 +405,7 @@ def is_pseudo_modular(graph: nx.Graph) -> bool:
                 # is there a common neighbor of v and w at distance k-1 from u?
                 if all(
                         nx.shortest_path_length(graph, u, x) != k - 1
-                        for x in nx.common_neighbors(graph, v, w)
+                        for x in common_neighbors(graph, v, w)
                 ):
                     return False
 

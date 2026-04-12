@@ -83,6 +83,9 @@ def degree_sequence(graph: nx.Graph) -> array:
     raise OverflowError  # no type was big enough for the elements of the degree sequence
 
 
+# ----- Helpers for recognizers -------------------------------------------------------------------
+# The following functions behave exactly as recognizers, except they do not correspond to classes
+# in ISGCI (hence the lack of @assign_class_id or @assign_fisc).
 @lru_cache(maxsize=None)
 def is_complete(graph: nx.Graph) -> bool:
     """
@@ -197,7 +200,21 @@ def complement_as_adj_mat(graph: nx.Graph, nodes=None) -> HalfAdjacencyMatrix:
 
 
 @lru_cache(maxsize=None)
-def number_of_common_neighbours(graph: nx.Graph, u: Any, v: Any) -> int:
+def common_neighbors(graph: nx.Graph | HalfAdjacencyMatrix, u: Any, v: Any):
+    """
+    Returns the common neighbors of u and v in graph.
+
+    :param graph:
+    :param u:
+    :param v:
+    :return:
+    """
+    return nx.common_neighbors(graph, u, v)
+
+
+
+@lru_cache(maxsize=None)
+def number_of_common_neighbors(graph: nx.Graph, u: Any, v: Any) -> int:
     """
     Returns the number of common neighbors of u and v in graph.
 
@@ -206,7 +223,7 @@ def number_of_common_neighbours(graph: nx.Graph, u: Any, v: Any) -> int:
     :param v:
     :return:
     """
-    return sum(1 for _ in nx.common_neighbors(graph, u, v))
+    return sum(1 for _ in common_neighbors(graph, u, v))
 
 
 # Functions for recognizing a graph by repeatedly removing edges ----------------------------------
@@ -689,3 +706,14 @@ def find_twin_in(nbunch: Iterable, graph: nx.Graph, v: Hashable) -> Hashable | N
     for w in nbunch:  # noqa
         if v != w and graph[w] == graph[v]:
             return w
+
+
+@lru_cache(maxsize=None)
+def all_vertices_are_int(graph: nx.Graph) -> bool:
+    """
+    Returns True if all vertices are integer, False otherwise.
+
+    :param graph:
+    :return:
+    """
+    return all(isinstance(v, int) for v in graph)

@@ -4,6 +4,7 @@ Anthony Labarre © 2024-2026
 A minimal implementation of an undirected graph that subclasses the Graph structure from networkx.
 
 """
+from time import perf_counter
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 from typing import Hashable
@@ -19,9 +20,14 @@ class UndirectedGraph(Graph):
 
     Additionally, number_of_edges() and size() run in time O(1) instead of O(m+n).
     """
+    def __init__(self, incoming_graph_data=None, **attr):
+        self._num_edges = 0
+        super().__init__(incoming_graph_data, **attr)
+
     # we don't need edge attributes, so we remove them as in the example at
     # https://networkx.org/documentation/stable/reference/classes/graph.html
     all_edge_dict = dict()
+
 
     def single_edge_dict(self) -> dict:
         """
@@ -46,6 +52,9 @@ class UndirectedGraph(Graph):
 
     # Graph.number_of_edges and Graph.size take time O(m+n); we reimplement them to have them call
     # len on the iterable of edges instead, which takes time O(1)
+    # TODO: these are not, in fact, O(1), but O(m+n): len(self.edges) triggers EdgeView.__len__,
+    #  which is reads all edges, so we need to redefine a field ourselves and keep it updated
+    #  what to do about subgraphs???
     def number_of_edges(self, u: Hashable = None, v: Hashable = None) -> int:
         """
         Returns the number of edges in the graph. If neither u nor v are None, returns the number
@@ -55,6 +64,13 @@ class UndirectedGraph(Graph):
         :param v:
         :return:
         """
+        #print(f"self._num_edges = {self._num_edges}, len(self.edges) = {len(self.edges)}")
+        '''
+        start = perf_counter()
+        x = len(self.edges)
+        end = perf_counter()
+        print(f"computing len(self.edges) took {end-start} seconds")
+        '''
         return len(self.edges) if u is None else int(self.has_edge(u, v))
 
     def size(self, weight: str = None) -> int:
@@ -64,7 +80,13 @@ class UndirectedGraph(Graph):
         :param weight:
         :return:
         """
+        # note: it would have been nice to just do:
         return len(self.edges)
+        # unfortunately, while this returns the correct result, it entails iterating over an
+        # EdgeView because of the way EdgeView.__len__ is implemented. So we keep track of the
+        # number of edges in a variable instead, and return its value immediately
+        # TODO implement that; this means that we have to reimplement all functions that add
+        #   or remove edges from graph
 
     def to_undirected_class(self):
         """
@@ -76,62 +98,13 @@ class UndirectedGraph(Graph):
         return UndirectedGraph
 
 
-    # TODO trying to reimplement add_edges_from in the hope that it becomes faster
     def add_edges_from(self, ebunch_to_add, **attr):
         """
         Add all the edges in ebunch_to_add.
 
-        Parameters
-        ----------
-        ebunch_to_add : container of edges
-            Each edge given in the container will be added to the
-            graph. The edges must be given as 2-tuples (u, v) or
-            3-tuples (u, v, d) where d is a dictionary containing edge data.
-        attr : keyword arguments, optional
-            Edge data (or labels or objects) can be assigned using
-            keyword arguments.
-
-        See Also
-        --------
-        add_edge : add a single edge
-        add_weighted_edges_from : convenient way to add weighted edges
-
-        Notes
-        -----
-        Adding the same edge twice has no effect but any edge data
-        will be updated when each duplicate edge is added.
-
-        Edge attributes specified in an ebunch take precedence over
-        attributes specified via keyword arguments.
-
-        When adding edges from an iterator over the graph you are changing,
-        a `RuntimeError` can be raised with message:
-        `RuntimeError: dictionary changed size during iteration`. This
-        happens when the graph's underlying dictionary is modified during
-        iteration. To avoid this error, evaluate the iterator into a separate
-        object, e.g. by using `list(iterator_of_edges)`, and pass this
-        object to `G.add_edges_from`.
-
-        Examples
-        --------
-        >>> G = UndirectedGraph()  # or DiGraph, MultiGraph, MultiDiGraph, etc
-        >>> G.add_edges_from([(0, 1), (1, 2)])  # using a list of edge tuples
-        >>> e = zip(range(0, 3), range(1, 4))
-        >>> G.add_edges_from(e)  # Add the path graph 0-1-2-3
-
-        Associate data to edges
-
-        >>> G.add_edges_from([(1, 2), (2, 3)], weight=3)
-        >>> G.add_edges_from([(3, 4), (1, 4)], label="WN2898")
-
-        Evaluate an iterator over a graph if using it to modify the same graph
-
-        >>> G = UndirectedGraph([(1, 2), (2, 3), (3, 4)])
-        >>> # Grow graph by one new node, adding edges to all existing nodes.
-        >>> # wrong way - will raise RuntimeError
-        >>> # G.add_edges_from(((5, n) for n in G.nodes))
-        >>> # correct way - note that there will be no self-edge for node 5
-        >>> G.add_edges_from(list((5, n) for n in G.nodes))
+        :param ebunch_to_add:
+        :param attr:
+        :return:
         """
         for u, v, *_ in ebunch_to_add:
             for x in (u, v):
@@ -141,8 +114,10 @@ class UndirectedGraph(Graph):
                     self._adj[x] = self.adjlist_inner_dict_factory()
                     self._node[x] = self.node_attr_dict_factory()
 
-            datadict = self._adj[u].get(v, self.edge_attr_dict_factory())
-            self._adj[u][v] = datadict
-            self._adj[v][u] = datadict
+            if v not in self._adj[u]:
+                datadict = self._adj[u].get(v, self.edge_attr_dict_factory())
+                self._adj[u][v] = datadict
+                self._adj[v][u] = datadict
+                self._num_edges += 1
 
         _clear_cache(self)

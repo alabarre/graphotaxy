@@ -24,7 +24,7 @@ from networkx.algorithms.matching import is_perfect_matching
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
-    number_of_common_neighbours,
+    number_of_common_neighbors,
     degree_sequence,
     is_even_clique_free,
     co_connected_components, is_connected, complement_as_adj_mat, )
@@ -110,7 +110,7 @@ def is_c4_diamond_free(graph: nx.Graph) -> bool:
     # iterate over the extremities of all non-edges; either they are at distance 2, and therefore
     # must have exactly one common neighbor, or they are at distance > 2, in which case they have
     # no common neighbor
-    return all(number_of_common_neighbours(graph, u, v) <= 1 for u, v in nx.non_edges(graph))
+    return all(number_of_common_neighbors(graph, u, v) <= 1 for u, v in nx.non_edges(graph))
 
 
 @assign_fisc(
@@ -135,7 +135,7 @@ def is_xc_13_free(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    return all(number_of_common_neighbours(graph, u, v) <= 2 for u, v in combinations(graph, 2))
+    return all(number_of_common_neighbors(graph, u, v) <= 2 for u, v in combinations(graph, 2))
 
 
 @assign_fisc(["co-claw"])

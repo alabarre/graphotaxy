@@ -24,7 +24,7 @@ from graph_recognition.misc_algo import (
     empty_graph_by_removing_vertices,
     is_connected,
     enumerate_all_p4s,
-    co_connected_components, number_of_common_neighbours, complement_as_adj_mat,
+    co_connected_components, number_of_common_neighbors, complement_as_adj_mat,
 )
 from graph_recognition.domination import has_dominating_set_of_size_at_most_2
 from graph_recognition.online_algo import online_is_bipartite
@@ -115,7 +115,7 @@ def is_02_graph(graph: nx.Graph) -> bool:
         return False
 
     return all(
-        number_of_common_neighbours(graph, u, v) in {0, 2} for u, v in combinations(graph.nodes, 2)
+        number_of_common_neighbors(graph, u, v) in {0, 2} for u, v in combinations(graph.nodes, 2)
     )
 
 

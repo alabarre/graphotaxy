@@ -12,19 +12,21 @@ Recognizers in this file have running time O(n^2).
 # ----- Standard imports --------------------------------------------------------------------------
 import os
 from array import array
+from collections import defaultdict
 from functools import lru_cache
 from itertools import combinations, takewhile
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 from networkx import is_empty
+from pyroaring import BitMap
 
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     degree_sequence,
     complement,
-    number_of_common_neighbours,
+    number_of_common_neighbors,
     is_connected,
     is_h_u_k1_free,
     co_connected_components, complement_as_adj_mat, find_twin_in,
@@ -340,7 +342,7 @@ def is_deza(graph: nx.Graph) -> bool:
     if not graph.size():
         return True
 
-    k = number_of_common_neighbours(graph, *next(iter(graph.edges)))
+    k = number_of_common_neighbors(graph, *next(iter(graph.edges)))
 
     # check that each pair of adjacent vertices has exactly k common neighbors
     # we cache the neighborhoods because we need sets and want to avoid a
@@ -355,7 +357,7 @@ def is_deza(graph: nx.Graph) -> bool:
         if len(neighbourhoods[u] & neighbourhoods[v]) != k:
             return False
 
-    p = number_of_common_neighbours(graph, *next(iter(nx.non_edges(graph))))
+    p = number_of_common_neighbors(graph, *next(iter(nx.non_edges(graph))))
 
     # check that each pair of nonadjacent vertices has exactly p common
     # neighbors
@@ -563,6 +565,7 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     #       this information is needed to obtain H's next edge, instead of waiting for the whole
     #       dictionary to be available
     classes = dict()
+    non_twins = defaultdict(BitMap)
 
     def equiv_class_gen(v):
         """
@@ -572,12 +575,17 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         :param v:
         :return:
         """
-        # find out if we know the answer for another vertex with the same neighbors
-        # TODO maybe we should store known non twins so we avoid expensive checks for answers that
-        #   are already known to be negative ... then find_twin_in's code should be here and we
-        #   remove the function call
-        if (u := find_twin_in(classes, graph, v)) is not None:
-            return classes[u]
+        if v in classes:
+            return classes[v]
+
+        # computing classes[v] is expensive, so let's first check if v has a twin u for which we
+        # have the answer already
+        for u in set(classes).difference(non_twins[v]):
+            if graph[v] == graph[u]:
+                return classes[u]
+            else:
+                non_twins[v].add(u)
+                non_twins[u].add(v)
 
         classes[v] = list(co_connected_components(graph.subgraph(graph[v])))
         return classes[v]

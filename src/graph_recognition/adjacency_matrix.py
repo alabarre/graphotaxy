@@ -1,16 +1,18 @@
 """
 Anthony Labarre © 2026
 
-Bitarray-based half-adjacency matrix representation of an undirected, unweighted graph.
+Implementation of an undirected, unweighted graph as a half-adjacency matrix: only the lower
+triangle (including the diagonal to allow loops) is stored as a list of bitarrays.
 
-This is the bare minimum for being compatible with the algorithms I need to run (mine or
-networkx's).
+Nodes can be of any hashable type. Loops are supported, parallel edges are ignored. The class
+features the bare minimum for being compatible with the algorithms I need to run (mine or
+networkx's), so don't hope for full compatibility yet.
 
 """
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
-from itertools import combinations
-from typing import Iterable, Hashable, Self
+from array import array
+from typing import Iterable, Self, Any, Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 from bidict import bidict
@@ -23,19 +25,47 @@ class HalfAdjacencyMatrix:
     triangle (including the diagonal to allow loops) is stored as a list of bitarrays.
 
     Nodes can be of any hashable type. Loops are supported, parallel edges are ignored.
+
     """
 
-    def __init__(self) -> None:
+    def __init__(self, edge_data=None) -> None:
         """
         Initializes the relevant data structures.
         """
+        # we map nodes to integer ids so vertices can be of any hashable type, and we can extract
+        # subgraphs more easily
         self.node_mapping = bidict()
-        self.num_edges = 0
-        self.num_nodes = 0
-        self.adj_mat = []
         self.nodes = self.node_mapping.keys()  # for nx algorithms that need to access this field
 
+        # store the number of nodes and edges so we can return them in constant time
+        self.num_edges = 0
+        self.num_nodes = 0
+
+        # the half-adjacency matrix is a list of bitarrays of variable sizes; to avoid calling len
+        # each time we need to know their lengths, we store them in an array and update them as we
+        # go
+        self.adj_mat = []
+        self.row_lengths = array('Q', [])
+        if edge_data is not None:
+            self.add_edges_from(edge_data)
+
     # Node-related methods ------------------------------------------------------------------------
+    def add_node(self, node: Any):
+        """
+        Adds a node to the graph.
+
+        :param node:
+        :return:
+        """
+        # hash_node = hash(node)
+        if node not in self.node_mapping:
+            self.node_mapping[node] = self.num_nodes  # map node to identifier
+            self.num_nodes += 1
+            # add row to adjacency matrix
+            # self.adj_mat.append(bitarray(self.num_nodes))
+            self.adj_mat.append(bitarray())
+            self.row_lengths.append(0)
+
     def add_nodes_from(self, nbunch: Iterable) -> None:
         """
         Adds all nodes from nbunch to the graph.
@@ -44,10 +74,7 @@ class HalfAdjacencyMatrix:
         :return:
         """
         for node in nbunch:
-            if node not in self.node_mapping:
-                self.node_mapping[node] = self.num_nodes  # map node to identifier
-                self.num_nodes += 1
-                self.adj_mat.append(bitarray(self.num_nodes))  # add row to adjacency matrix
+            self.add_node(node)
 
     def degree(self):
         """
@@ -60,6 +87,7 @@ class HalfAdjacencyMatrix:
             # plus the number of rows after node's row that have a 1 in its column
             yield node, sum(self.adj_mat[node_id]) + sum(
                 self.adj_mat[row_idx][node_id] for row_idx in range(node_id + 1, self.num_nodes)
+                if node_id < self.row_lengths[row_idx]
             )
 
     def neighbors(self, v: Hashable):
@@ -70,6 +98,10 @@ class HalfAdjacencyMatrix:
         >>> G.add_edge("bla", "blou")
         >>> set(G.neighbors("bla"))
         {'blou'}
+        >>> G = HalfAdjacencyMatrix()
+        >>> G.add_edges_from([(0, 1), (1, 2), (2, 3), (3, 4)])
+        >>> sorted(G.neighbors(2))
+        [1, 3]
 
         :param v:
         :return:
@@ -86,30 +118,25 @@ class HalfAdjacencyMatrix:
 
         # gather neighbors of type 2)
         for row_idx in range(v_id + 1, self.num_nodes):
-            if self.adj_mat[row_idx][v_id]:
+            if v_id < self.row_lengths[row_idx] and self.adj_mat[row_idx][v_id]:
                 yield self.node_mapping.inverse[row_idx]
 
     def non_neighbors(self, v: Hashable):
         """
         Returns the non-neighbors of vertex v (except v itself).
 
+        >>> G = HalfAdjacencyMatrix()
+        >>> G.add_edges_from([('0', '1'), ('1', '2'), ('2', '3'), ('3', '4')])
+        >>> sorted(G.non_neighbors('2'))
+        ['0', '4']
+
         :param v:
         :return:
         """
-        # since we only store the lower triangle of the adjacency matrix, the non-neighbors of a
-        # vertex v are 1) the column indices with a False value in v's row, and 2) the row
-        # indices with a False value in v's column for rows located after v's row
-
-        # gather neighbors of type 1)
-        v_id = self.node_mapping[v]
-        for pos, val in enumerate(self.adj_mat[v_id][:-1]):
-            if not val:
-                yield self.node_mapping.inverse[pos]
-
-        # gather neighbors of type 2)
-        for row_idx in range(v_id + 1, self.num_nodes):
-            if not self.adj_mat[row_idx][v_id]:
-                yield self.node_mapping.inverse[row_idx]
+        #assert v in self.node_mapping, f"error: node {v} not in {self.node_mapping}" # BUG ICI
+        # print(f"[debug] v = {v}, nodes = {set(self.node_mapping)}")
+        for non_n in set(self.node_mapping).difference(self.neighbors(v)).difference({v}):
+            yield non_n
 
     def number_of_nodes(self) -> int:
         """
@@ -166,10 +193,18 @@ class HalfAdjacencyMatrix:
             if node not in self.node_mapping:
                 self.add_nodes_from([node])
 
+        # since we only store the lower triangle of the adjacency matrix, we only store
+        # (u_id, v_id) if v_id <= u_id
         u_id, v_id = self.node_mapping[u], self.node_mapping[v]
         if u_id < v_id:
             u_id, v_id = v_id, u_id
 
+        # if row too short: extend up to v_id and update length
+        if v_id >= self.row_lengths[u_id]:
+            self.adj_mat[u_id].extend([0] * (v_id - self.row_lengths[u_id] + 1))
+            self.row_lengths[u_id] = v_id + 1
+
+        # mandatory check so we don't increase self.num_edges by mistake
         if not self.adj_mat[u_id][v_id]:
             self.num_edges += 1
             self.adj_mat[u_id][v_id] = 1
@@ -187,6 +222,11 @@ class HalfAdjacencyMatrix:
     def edges(self):
         """
         Generates all edges in the graph.
+
+        >>> G = HalfAdjacencyMatrix()
+        >>> G.add_edges_from([(0, 1), (1, 2), (2, 3), (3, 4)])
+        >>> sorted(map(sorted, G.edges()))
+        [[0, 1], [1, 2], [2, 3], [3, 4]]
 
         :return:
         """
@@ -207,7 +247,7 @@ class HalfAdjacencyMatrix:
         if u_id < v_id:
             u_id, v_id = v_id, u_id
 
-        return self.adj_mat[u_id][v_id]
+        return v_id < self.row_lengths[u_id] and self.adj_mat[u_id][v_id]
 
     def number_of_edges(self) -> int:
         """
@@ -223,7 +263,7 @@ class HalfAdjacencyMatrix:
 
         :return:
         """
-        return sum(1 for i in range(self.num_nodes) if self.adj_mat[i][i])
+        return sum(self.adj_mat[i][i] for i in range(self.num_nodes) if i < self.row_lengths[i])
 
     # the following are needed by networkx.is_bipartite:
     @staticmethod
@@ -244,7 +284,6 @@ class HalfAdjacencyMatrix:
         return self.number_of_edges()
 
     # Miscellaneous -------------------------------------------------------------------------------
-
     def subgraph(self, nbunch: Iterable[Hashable]) -> Self:
         """
         Returns the subgraph induced by nbunch.
@@ -252,10 +291,13 @@ class HalfAdjacencyMatrix:
         :param nbunch:
         :return:
         """
+        nodes = set(nbunch)
         result = self.__class__()
-        result.add_nodes_from(nbunch)
+        result.add_nodes_from(nodes)
+        # add edges from the original graph whose endpoints are in nodes
         result.add_edges_from(
-            (u, v) for u, v in combinations(result.node_mapping.keys(), 2) if self.has_edge(u, v)
+            (u, v) for u in nodes for v in nodes.intersection(self.neighbors(u))
+            if self.has_edge(u, v)
         )
         return result
 

@@ -18,7 +18,7 @@ from networkx.utils.misc import arbitrary_element
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     complement,
-    number_of_common_neighbours,
+    number_of_common_neighbors,
     degree_sequence,
     is_connected, is_co_connected, co_connected_components,
 )
@@ -181,7 +181,7 @@ def is_edge_regular(graph: nx.Graph) -> bool:
     if not nx.is_regular(graph):
         return False
 
-    k = number_of_common_neighbours(graph, *arbitrary_element(graph.edges))
+    k = number_of_common_neighbors(graph, *arbitrary_element(graph.edges))
 
     # check that each pair of adjacent vertices has exactly k common neighbors
     neighbourhoods = dict()

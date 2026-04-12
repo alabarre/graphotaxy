@@ -16,6 +16,7 @@ from functools import lru_cache
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+from graph_recognition.misc_algo import common_neighbors
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.profitable_hereditary_n import (
     is_p3_free,
@@ -50,7 +51,7 @@ def is_2p3_free(graph: nx.Graph) -> bool:
     # common neighbors of those non-edges
     all_nodes = set(graph.nodes)
     for u, v in nx.non_edges(graph):
-        for w in nx.common_neighbors(graph, u, v):
+        for w in common_neighbors(graph, u, v):
             #  now check whether removing u, v, w and their neighbors yields a P_{3}-free graph
             if not is_p3_free(
                     graph.subgraph(
