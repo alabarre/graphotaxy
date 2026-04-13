@@ -21,6 +21,7 @@ from graph_recognition.misc_algo import (
     empty_graph_by_removing_vertices,
     is_connected,
     degree_sequence, co_connected_components, complement_as_adj_mat, number_of_common_neighbors, common_neighbors,
+    connected_components,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
@@ -525,7 +526,7 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
     # Note: the second definition yields a faster algorithm, but currently fails on my test data
     # sets, so either my implementation is wrong or the paper is. Let us settle for definition 1)
     # for now
-    for cc in nx.connected_components(graph):
+    for cc in connected_components(graph):
         for u, v, w in combinations(cc, 3):
             # do u, v, w form a metric triangle?
             int_u_v = vertices_on_shortest_paths_between(graph, frozenset([u, v]))

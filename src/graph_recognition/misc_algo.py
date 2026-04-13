@@ -72,6 +72,7 @@ def degree_sequence(graph: nx.Graph) -> array:
         return array('b', [0] * graph.number_of_nodes())
 
     degseq = sorted((d for _, d in graph.degree), reverse=True)
+    # print(f"[debug] degree sequence = {degseq}, nodes = {graph.nodes}, edges = {graph.edges}")
 
     # return array with smallest typecode
     for tc in NUMERIC_TYPECODES:
@@ -210,7 +211,6 @@ def common_neighbors(graph: nx.Graph | HalfAdjacencyMatrix, u: Any, v: Any):
     :return:
     """
     return nx.common_neighbors(graph, u, v)
-
 
 
 @lru_cache(maxsize=None)
@@ -717,3 +717,58 @@ def all_vertices_are_int(graph: nx.Graph) -> bool:
     :return:
     """
     return all(isinstance(v, int) for v in graph)
+
+
+# Algorithms that needed to be reimplemented in order to be compatible with HalfAdjacencyMatrix ---
+
+@lru_cache(maxsize=None)
+def plain_bfs(graph: nx.Graph | HalfAdjacencyMatrix, n: int, source: Hashable) -> set:
+    """
+    A fast BFS node generator. Simple adaptation of networkx's _plain_bfs function that avoids
+    graph._adj, on non-edges rather than edges.
+    """
+    # other changes:
+    # - replaced lists with sets since we only care about accessibility, not order
+    # - comprehension for building the next level, so we can use updates instead of many adds
+    # - slight modification to make it compatible with my HalfAdjacencyMatrix class
+    seen = {source}
+    nextlevel = {source}
+
+    # we need a specialized version for HalfAdjacencyMatrix because nx.non_neighbors expects
+    # attributes that HalfAdjacencyMatrix doesn't have; it is much less tedious to write a
+    # neighbors method for HalfAdjacencyMatrix than trying to artificially add fake attributes
+    # to the class that are not needed anywhere else
+    # to avoid code duplications, we introduce the following function so that both calls use the
+    # same syntax
+    def neighbors_provider(x: Hashable):
+        return nx.neighbors(graph, x)
+
+    neighbors = graph.neighbors if isinstance(graph, HalfAdjacencyMatrix) else neighbors_provider
+    while nextlevel:
+        thislevel = nextlevel
+        nextlevel = set()
+        for v in thislevel:
+            new_neighbors = {w for w in neighbors(v) if w not in seen}
+            seen.update(new_neighbors)
+            nextlevel.update(new_neighbors)
+            if len(seen) == n:
+                return seen
+
+    return seen
+
+
+def connected_components(graph: nx.Graph | HalfAdjacencyMatrix):
+    """
+    Reimplementation of nx.connected_components to ensure compatibility with HalfAdjacencyMatrix.
+
+    :param graph:
+    :return:
+    """
+    # simple adaptation of nx.connected_components
+    seen = set()
+    n = len(graph)
+    for v in graph:
+        if v not in seen:
+            c = plain_bfs(graph, n - len(seen), v)
+            seen.update(c)
+            yield c

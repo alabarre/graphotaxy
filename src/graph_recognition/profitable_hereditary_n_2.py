@@ -29,7 +29,7 @@ from graph_recognition.misc_algo import (
     number_of_common_neighbors,
     is_connected,
     is_h_u_k1_free,
-    co_connected_components, complement_as_adj_mat, find_twin_in,
+    co_connected_components, complement_as_adj_mat, find_twin_in, connected_components,
 )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
@@ -45,7 +45,7 @@ from graph_recognition.profitable_hereditary_n import (
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
-    assign_fisc, )
+    assign_fisc, undecorated_function, )
 from graph_recognition.subgraphs import is_h_free
 
 
@@ -416,7 +416,7 @@ def is_line_graph_of_bipartite_graph(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    for cc in nx.connected_components(graph):
+    for cc in connected_components(graph):
         try:
             inverse = nx.inverse_line_graph(graph.subgraph(cc))
             if not is_bipartite(inverse):
@@ -435,7 +435,7 @@ def is_line_graph_of_planar_cubic_bipartite_graph(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    for cc in nx.connected_components(graph):
+    for cc in connected_components(graph):
         try:
             inverse = nx.inverse_line_graph(graph.subgraph(cc))
             if not (is_cubic(inverse) and is_bipartite(inverse) and is_planar(inverse)):
@@ -545,6 +545,8 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         2. The comparability graph of a partial order (V,<=) has node set V and edge xy whenever
             x<=y or y<=x. G is a comparability if it is the comparability graph of some poset.
 
+    https://www.graphclasses.org/classes/gc_72.html
+
     Note: adapted from SageMath's greedy_is_comparability ; (version from 2024-07-13)
 
     https://github.com/sagemath/sage/blob/develop/src/sage/graphs/comparability.pyx
@@ -587,7 +589,9 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
                 non_twins[v].add(u)
                 non_twins[u].add(v)
 
-        classes[v] = list(co_connected_components(graph.subgraph(graph[v])))
+        # using the non-cached co_connected_components function since we will likely have many
+        # subgraphs and the answers will not be reused
+        classes[v] = list(undecorated_function(co_connected_components)(graph.subgraph(graph[v])))
         return classes[v]
 
     def edge_generator():

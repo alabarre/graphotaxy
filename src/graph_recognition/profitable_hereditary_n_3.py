@@ -22,7 +22,7 @@ import networkx as nx
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     is_connected,
-    co_connected_components, complement_as_adj_mat, complement,
+    co_connected_components, complement_as_adj_mat, complement, connected_components,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_gc_1312,
@@ -73,7 +73,7 @@ def is_paw_free(graph: nx.Graph) -> bool:
     # (=co(P_3)-free)
     return all(
         is_triangle_free(cc) or is_co_p3_free(cc)
-        for cc in map(graph.subgraph, nx.connected_components(graph))
+        for cc in map(graph.subgraph, connected_components(graph))
     )
 
 
@@ -127,7 +127,7 @@ def is_claw_diamond_free(graph: nx.Graph) -> bool:
     # equivalent to line graphs of triangle-free graphs
     # https://www.graphclasses.org/classes/gc_708.html
     # inverting disconnected graphs does not work, we have to examine each component separately
-    for cc in nx.connected_components(graph):
+    for cc in connected_components(graph):
         try:
             is_triangle_free(nx.inverse_line_graph(graph.subgraph(cc)))
 
@@ -298,25 +298,25 @@ def my_is_at_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         graph_reduced = graph.subgraph(set(graph) - closed_neighborhood)
         # note: this is probably doable online, but I'm not sure whether singletons should be
         # included, and at the moment online_connected_components doesn't provide that.
-        for label, cc in enumerate(nx.connected_components(graph_reduced), 1):
+        for label, cc in enumerate(connected_components(graph_reduced), 1):
             for x in cc:
                 row_dict[x] = label
 
         return row_dict
 
 
-    # component_structure = nx.asteroidal.create_component_structure(graph)
+    component_structure = nx.asteroidal.create_component_structure(graph)
 
     for u, v in nx.non_edges(graph):
         # Check for each pair of vertices whether they belong to the same connected component when
         # the closed neighborhood of the third is removed.
         if any(
-                my_component_structure(u)[v] == my_component_structure(u)[w]
-                and my_component_structure(v)[u] == my_component_structure(v)[w]
-                and my_component_structure(w)[u] == my_component_structure(w)[v]
-#                component_structure[u][v] == component_structure[u][w]
-#                and component_structure[v][u] == component_structure[v][w]
-#                and component_structure[w][u] == component_structure[w][v]
+#                my_component_structure(u)[v] == my_component_structure(u)[w]
+#                and my_component_structure(v)[u] == my_component_structure(v)[w]
+#                and my_component_structure(w)[u] == my_component_structure(w)[v]
+                component_structure[u][v] == component_structure[u][w]
+                and component_structure[v][u] == component_structure[v][w]
+                and component_structure[w][u] == component_structure[w][v]
                 for w in nodes - set(graph[u]).union(graph[v], [u, v])
         ):
             my_component_structure.cache_clear()
@@ -503,7 +503,7 @@ def is_paw_free_and_perfect(graph: nx.Graph) -> bool:
     """
     return all(
         is_bipartite(cc) or is_co_p3_free(cc)
-        for cc in map(graph.subgraph, nx.connected_components(graph))
+        for cc in map(graph.subgraph, connected_components(graph))
     )
 
 
