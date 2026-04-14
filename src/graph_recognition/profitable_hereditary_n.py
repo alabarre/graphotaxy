@@ -10,6 +10,8 @@ Recognizers in this file have running time O(m+n).
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import os
+import random
+import string
 from array import array
 from collections import defaultdict
 from collections.abc import Callable
@@ -181,7 +183,7 @@ def my_inverse_line_graph(graph: nx.Graph) -> None:
             if e[1] not in G[e[0]]:
                 msg = f"starting_edge ({e[0]}, {e[1]}) is not in the Graph"
                 raise nx.NetworkXError(msg)
-        e_triangles = line._triangles(G, e) # noqa
+        e_triangles = line._triangles(G, e)  # noqa
         r = len(e_triangles)
         if r == 0:
             # there are no triangles containing e, so the starting cell is just e
@@ -192,8 +194,8 @@ def my_inverse_line_graph(graph: nx.Graph) -> None:
             T = e_triangles[0]
             a, b, c = T
             # ab was original edge so check the other 2 edges
-            ac_edges = len(line._triangles(G, (a, c))) # noqa
-            bc_edges = len(line._triangles(G, (b, c))) # noqa
+            ac_edges = len(line._triangles(G, (a, c)))  # noqa
+            bc_edges = len(line._triangles(G, (b, c)))  # noqa
             if ac_edges == 1:
                 if bc_edges == 1:
                     result = T
@@ -222,11 +224,10 @@ def my_inverse_line_graph(graph: nx.Graph) -> None:
                 for u in triangle_nodes:
                     for v in triangle_nodes:
                         if u != v and (v not in G[u]):
-                            msg = (
-                                "G is not a line graph (odd triangles "
-                                "do not form complete subgraph)"
+                            raise nx.NetworkXError(
+                                "G is not a line graph (odd triangles do not form complete "
+                                "subgraph)"
                             )
-                            raise nx.NetworkXError(msg)
 
                 # otherwise then we can use this as the starting cell
                 result = tuple(triangle_nodes)
@@ -644,39 +645,6 @@ class MyLRPlanarity(LRPlanarity):
         return True
 
 
-# note: the FISC below was found by minor_expander.py; it is incomplete, since planar graphs are
-# characterized by forbidden induced **minors**; but this is as far as we can go since the other
-# subgraphs produced by minor_expander.py are unknown to ISGCI
-@assign_fisc(["K_{3,3}", "co(X_{86})", "K_{5}", "X_{46}", "co(K_{2} U claw)", "co(X_{120})"])
-@assign_class_id("gc_43")
-@lru_cache(maxsize=None)
-def is_planar(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is planar.
-
-    https://www.graphclasses.org/classes/gc_43
-
-    :param graph:
-    :return:
-    """
-    # this is merely a call to networkx's algorithm, except we avoid it if graph has too many edges
-    # to be planar
-    n = graph.number_of_nodes()
-    m = graph.size()
-
-    if not n or not m:
-        return True
-
-    if n >= 3 and m > 3 * n - 6 or degree_sequence(graph)[-1] > 5:
-        return False
-
-    # the first element of check_planarity's return value is the answer
-    # TODO:
-    #   1) algo is not linear-time, they call sorted at some point
-    #   2) improvements are likely possible
-    return MyLRPlanarity(graph).lr_planarity(graph) is not None  # nx.check_planarity(graph)[0]
-
-
 # note: the FISC is incomplete, but these are the only odd cycles that are stored as smallgraphs
 @assign_fisc(["K_{3}", "C_{5}", "C_{7}"])
 @assign_class_id("gc_69")
@@ -772,10 +740,6 @@ def is_cactus(graph: nx.Graph) -> bool:
     # Special cases
     if graph.order() < 4:
         return True
-
-    # Every cactus graph is outerplanar
-    # if not self.is_circular_planar():
-    #     return False
 
     if not is_connected(graph):
         return False
@@ -1055,57 +1019,6 @@ def is_maximum_degree_7(graph: nx.Graph) -> bool:
     @return:
     """
     return degree_sequence(graph)[0] <= 7
-
-
-# note: the FISC below was found by minor_expander.py; it is incomplete, since outerplanar graphs
-# are characterized by forbidden induced **minors**; but this is as far as we can go since the
-# other subgraphs produced by minor_expander.py are unknown to ISGCI
-@assign_fisc(
-    [
-        "K_{2,3}",
-        "co(X_{90})",
-        "twin-C_{5}",
-        "BW_{3}",
-        "K_{3,3}-e",
-        "K_{4}",
-        "X_{203}",
-        "X_{39}",
-        "co(P_{2} U P_{3})",
-        "co(X_{37})",
-        "co(X_{88})",
-        "co(X_{89})",
-        "co-twin-C_{5}",
-    ]
-)
-@assign_class_id("gc_110")
-@lru_cache(maxsize=None)
-def is_outerplanar(graph: nx.Graph) -> bool:
-    """
-    A graph is outerplanar if it has a crossing-free embedding in the plane such that all vertices
-    are on the same face.
-
-    https://www.graphclasses.org/classes/gc_110.html
-
-    :type graph: nx.Graph
-    :param graph:
-    :return:
-    """
-    # avoid work if graph has too many edges
-    if graph.size() > 2 * graph.number_of_nodes() - 3:
-        return False
-
-    # add a new vertex and connect it to all other vertices; G is outerplanar
-    # iff G2 is planar (see https://link.springer.com/content/pdf/10.1007%2F3-540-17218-1_57.pdf)
-    if all_vertices_are_int(graph):
-        new_node = max(graph) + 1
-    else:
-        new_node = "$"  # TODO random string not in graph, check
-
-    # note: don't remove { }, since otherwise we're modifying the graph as we iterate over it
-    graph.add_edges_from({(new_node, v) for v in graph})
-    result = is_planar(graph)
-    graph.remove_node(new_node)
-    return result
 
 
 # note: incomplete FISC; this is the basis of all non-chordal smallgraphs in ISGCI
@@ -1396,20 +1309,6 @@ def is_co_tree(graph: nx.Graph) -> bool:
 
     # since the complement has n-1 edges, it is a tree iff it has no isolated vertices
     return all(sum(1 for _ in nx.non_neighbors(graph, v)) for v in graph)
-
-
-# the fisc will be obtained through calls to constituent class recognizers
-@assign_class_id("gc_985")
-@lru_cache(maxsize=None)
-def is_chordal_and_planar(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_985
-
-    @param graph:
-    @return:
-    """
-    return is_chordal(graph) and is_planar(graph)
 
 
 # note: the FISC is incomplete, but these are the only odd co-cycles that are stored as smallgraphs
@@ -2182,20 +2081,6 @@ def is_4_regular(graph: nx.Graph) -> bool:
     return degseq[0] == degseq[-1] == 4
 
 
-# the fisc will be obtained through calls to constituent class recognizers
-@assign_class_id("gc_1103")
-@lru_cache(maxsize=None)
-def is_4_regular_planar(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_1103
-
-    @param graph:
-    @return:
-    """
-    return is_4_regular(graph) and is_planar(graph)
-
-
 # this very long partial fisc is the list of all subgraphs with a vertex of degree > 5
 @assign_fisc(
     [
@@ -2320,62 +2205,6 @@ def is_5_regular(graph: nx.Graph) -> bool:
 
 
 # the fisc will be obtained through calls to constituent class recognizers
-@assign_class_id("gc_1106")
-@lru_cache(maxsize=None)
-def is_5_regular_planar(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_1106
-
-    @param graph:
-    @return:
-    """
-    return is_5_regular(graph) and is_planar(graph)
-
-
-# the fisc will be obtained through calls to constituent class recognizers
-@assign_class_id("gc_1069")
-@lru_cache(maxsize=None)
-def is_bipartite_and_planar(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_1069
-
-    @param graph:
-    @return:
-    """
-    return is_bipartite(graph) and is_planar(graph)
-
-
-# the fisc will be obtained through calls to constituent class recognizers
-@assign_class_id("gc_1102")
-@lru_cache(maxsize=None)
-def is_cubic_planar(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_1102
-
-    @param graph:
-    @return:
-    """
-    return is_cubic(graph) and is_planar(graph)
-
-
-# the fisc will be obtained through calls to constituent class recognizers
-@assign_class_id("gc_1183")
-@lru_cache(maxsize=None)
-def is_2_connected_cubic_planar(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_1183
-
-    @param graph:
-    @return:
-    """
-    return nx.is_biconnected(graph) and is_cubic_planar(graph)
-
-
-# the fisc will be obtained through calls to constituent class recognizers
 @assign_class_id("gc_941")
 @lru_cache(maxsize=None)
 def is_bipartite_and_maximum_degree_3(graph: nx.Graph) -> bool:
@@ -2387,76 +2216,6 @@ def is_bipartite_and_maximum_degree_3(graph: nx.Graph) -> bool:
     @return:
     """
     return is_maximum_degree_3(graph) and is_bipartite(graph)
-
-
-# the fisc will be obtained through calls to constituent class recognizers
-@assign_class_id("gc_1055")
-@lru_cache(maxsize=None)
-def is_bipartite_and_maximum_degree_3_and_planar(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_1055
-
-    @param graph:
-    @return:
-    """
-    return is_maximum_degree_3(graph) and is_bipartite_and_planar(graph)
-
-
-# the fisc will be obtained through calls to constituent class recognizers
-@assign_class_id("gc_1153")
-@lru_cache(maxsize=None)
-def is_bipartite_and_maximum_degree_4_and_planar(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_1153
-
-    @param graph:
-    @return:
-    """
-    return is_maximum_degree_4(graph) and is_bipartite_and_planar(graph)
-
-
-# the fisc will be obtained through calls to constituent class recognizers
-@assign_class_id("gc_1334")
-@lru_cache(maxsize=None)
-def is_bipartite_cubic_planar(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_1334
-
-    @param graph:
-    @return:
-    """
-    return is_bipartite(graph) and is_cubic_planar(graph)
-
-
-# the fisc will be obtained through calls to constituent class recognizers
-@assign_class_id("gc_412")
-@lru_cache(maxsize=None)
-def is_planar_and_maximum_degree_3(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_412
-
-    @param graph:
-    @return:
-    """
-    return is_maximum_degree_3(graph) and is_planar(graph)
-
-
-# the fisc will be obtained through calls to constituent class recognizers
-@assign_class_id("gc_909")
-@lru_cache(maxsize=None)
-def is_planar_and_maximum_degree_4(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_909
-
-    @param graph:
-    @return:
-    """
-    return is_maximum_degree_4(graph) and is_planar(graph)
 
 
 @assign_fisc(
@@ -2678,58 +2437,6 @@ def is_gc_1301(graph: nx.Graph) -> bool:
     return is_bipartite(graph) and is_2k2_free(graph)
 
 
-@assign_class_id("gc_981")
-@lru_cache(maxsize=None)
-def is_maximal_planar(graph: nx.Graph) -> bool:
-    """
-    A planar graph is maximal planar if it is not possible to add an edge such that the graph is
-    still planar.
-
-    https://www.graphclasses.org/classes/gc_981
-
-    Complexity: O(m+n); the algorithm simply checks that the graph is planar and that it contains
-    the largest possible number of edges.
-
-    :param graph:
-    :return:
-    """
-    return graph.number_of_edges() == 3 * graph.number_of_nodes() - 6 and is_planar(graph)
-
-
-@assign_class_id("gc_982")
-@lru_cache(maxsize=None)
-def is_chordal_and_maximal_planar(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_982
-
-    @param graph:
-    @return:
-    """
-    return is_chordal(graph) and is_maximal_planar(graph)
-
-
-@assign_class_id("gc_723")
-@lru_cache(maxsize=None)
-def is_maximal_outerplanar(graph: nx.Graph) -> bool:
-    """
-    An outerplanar graph is maximal outerplanar if it is not possible to add an edge such that the
-    resulting graph is still outerplanar.
-
-    https://www.graphclasses.org/classes/gc_723
-
-    Complexity: O(m+n); check that the graph is outerplanar and that it has the maximum number of
-    edges.
-
-    :param graph:
-    :return:
-    """
-    return (
-            graph.number_of_edges() == 2 * graph.number_of_nodes() - 3
-            and is_outerplanar(graph)
-    )
-
-
 # the following fisc is partial for now: it comes from https://doi.org/10.1016/j.disc.2018.04.023
 # in which Theorem 18 lists all cycles and co-cycles of length >= 5 ... as well as 318 other
 # graphs, which may or may not be in ISGCI
@@ -2887,6 +2594,300 @@ def is_p4_co_cycle_free(graph: nx.Graph) -> bool:
     @return:
     """
     return is_cograph(graph) and is_co_forest(graph)
+
+
+# -------------------------------------------------------------------------------------------------
+# All recognizers below are based directly or not on is_planar, for which a linear time recognition
+# algorithm exists. However, the implementation provided by networkx does not run in linear time
+# because it calls sorted. Rather than creating an intermediate category between O(n) and O(n^2),
+# I'm placing them at the bottom of this file.
+# -------------------------------------------------------------------------------------------------
+
+# note: the FISC below was found by minor_expander.py; it is incomplete, since planar graphs are
+# characterized by forbidden induced **minors**; but this is as far as we can go since the other
+# subgraphs produced by minor_expander.py are unknown to ISGCI
+@assign_fisc(["K_{3,3}", "co(X_{86})", "K_{5}", "X_{46}", "co(K_{2} U claw)", "co(X_{120})"])
+@assign_class_id("gc_43")
+@lru_cache(maxsize=None)
+def is_planar(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is planar.
+
+    https://www.graphclasses.org/classes/gc_43
+
+    :param graph:
+    :return:
+    """
+    # this is merely a call to networkx's algorithm, except we avoid it if graph has too many edges
+    # to be planar
+    n = graph.number_of_nodes()
+    m = graph.size()
+
+    if not n or not m:
+        return True
+
+    if n >= 3 and m > 3 * n - 6 or degree_sequence(graph)[-1] > 5:
+        return False
+
+    # the first element of check_planarity's return value is the answer
+    return MyLRPlanarity(graph).lr_planarity(graph) is not None  # nx.check_planarity(graph)[0]
+
+
+# note: the FISC below was found by minor_expander.py; it is incomplete, since outerplanar graphs
+# are characterized by forbidden induced **minors**; but this is as far as we can go since the
+# other subgraphs produced by minor_expander.py are unknown to ISGCI
+@assign_fisc(
+    [
+        "K_{2,3}",
+        "co(X_{90})",
+        "twin-C_{5}",
+        "BW_{3}",
+        "K_{3,3}-e",
+        "K_{4}",
+        "X_{203}",
+        "X_{39}",
+        "co(P_{2} U P_{3})",
+        "co(X_{37})",
+        "co(X_{88})",
+        "co(X_{89})",
+        "co-twin-C_{5}",
+    ]
+)
+@assign_class_id("gc_110")
+@lru_cache(maxsize=None)
+def is_outerplanar(graph: nx.Graph) -> bool:
+    """
+    A graph is outerplanar if it has a crossing-free embedding in the plane such that all vertices
+    are on the same face.
+
+    https://www.graphclasses.org/classes/gc_110.html
+
+    :type graph: nx.Graph
+    :param graph:
+    :return:
+    """
+    # avoid work if graph has too many edges
+    if graph.size() > 2 * graph.number_of_nodes() - 3:
+        return False
+
+    # add a new vertex and connect it to all other vertices; G is outerplanar
+    # iff G2 is planar (see https://link.springer.com/content/pdf/10.1007%2F3-540-17218-1_57.pdf)
+    if all_vertices_are_int(graph):
+        new_node = max(graph) + 1
+    else:
+        new_node = ''.join(random.choices(string.printable, 16))
+
+    # note: don't remove { }, since otherwise we're modifying the graph as we iterate over it
+    graph.add_edges_from({(new_node, v) for v in graph})
+    result = is_planar(graph)
+    graph.remove_node(new_node)
+    return result
+
+
+# the fisc will be obtained through calls to constituent class recognizers
+@assign_class_id("gc_985")
+@lru_cache(maxsize=None)
+def is_chordal_and_planar(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_985
+
+    @param graph:
+    @return:
+    """
+    return is_chordal(graph) and is_planar(graph)
+
+
+# the fisc will be obtained through calls to constituent class recognizers
+@assign_class_id("gc_1103")
+@lru_cache(maxsize=None)
+def is_4_regular_planar(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_1103
+
+    @param graph:
+    @return:
+    """
+    return is_4_regular(graph) and is_planar(graph)
+
+
+# the fisc will be obtained through calls to constituent class recognizers
+@assign_class_id("gc_1106")
+@lru_cache(maxsize=None)
+def is_5_regular_planar(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_1106
+
+    @param graph:
+    @return:
+    """
+    return is_5_regular(graph) and is_planar(graph)
+
+
+# the fisc will be obtained through calls to constituent class recognizers
+@assign_class_id("gc_1069")
+@lru_cache(maxsize=None)
+def is_bipartite_and_planar(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_1069
+
+    @param graph:
+    @return:
+    """
+    return is_bipartite(graph) and is_planar(graph)
+
+
+# the fisc will be obtained through calls to constituent class recognizers
+@assign_class_id("gc_1102")
+@lru_cache(maxsize=None)
+def is_cubic_planar(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_1102
+
+    @param graph:
+    @return:
+    """
+    return is_cubic(graph) and is_planar(graph)
+
+
+# the fisc will be obtained through calls to constituent class recognizers
+@assign_class_id("gc_1183")
+@lru_cache(maxsize=None)
+def is_2_connected_cubic_planar(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_1183
+
+    @param graph:
+    @return:
+    """
+    return nx.is_biconnected(graph) and is_cubic_planar(graph)
+
+
+# the fisc will be obtained through calls to constituent class recognizers
+@assign_class_id("gc_412")
+@lru_cache(maxsize=None)
+def is_planar_and_maximum_degree_3(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_412
+
+    @param graph:
+    @return:
+    """
+    return is_maximum_degree_3(graph) and is_planar(graph)
+
+
+# the fisc will be obtained through calls to constituent class recognizers
+@assign_class_id("gc_909")
+@lru_cache(maxsize=None)
+def is_planar_and_maximum_degree_4(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_909
+
+    @param graph:
+    @return:
+    """
+    return is_maximum_degree_4(graph) and is_planar(graph)
+
+
+@assign_class_id("gc_981")
+@lru_cache(maxsize=None)
+def is_maximal_planar(graph: nx.Graph) -> bool:
+    """
+    A planar graph is maximal planar if it is not possible to add an edge such that the graph is
+    still planar.
+
+    https://www.graphclasses.org/classes/gc_981
+
+    Complexity: O(m+n); the algorithm simply checks that the graph is planar and that it contains
+    the largest possible number of edges.
+
+    :param graph:
+    :return:
+    """
+    return graph.number_of_edges() == 3 * graph.number_of_nodes() - 6 and is_planar(graph)
+
+
+@assign_class_id("gc_982")
+@lru_cache(maxsize=None)
+def is_chordal_and_maximal_planar(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_982
+
+    @param graph:
+    @return:
+    """
+    return is_chordal(graph) and is_maximal_planar(graph)
+
+
+@assign_class_id("gc_723")
+@lru_cache(maxsize=None)
+def is_maximal_outerplanar(graph: nx.Graph) -> bool:
+    """
+    An outerplanar graph is maximal outerplanar if it is not possible to add an edge such that the
+    resulting graph is still outerplanar.
+
+    https://www.graphclasses.org/classes/gc_723
+
+    Complexity: O(m+n); check that the graph is outerplanar and that it has the maximum number of
+    edges.
+
+    :param graph:
+    :return:
+    """
+    return (
+            graph.number_of_edges() == 2 * graph.number_of_nodes() - 3
+            and is_outerplanar(graph)
+    )
+
+
+# the fisc will be obtained through calls to constituent class recognizers
+@assign_class_id("gc_1055")
+@lru_cache(maxsize=None)
+def is_bipartite_and_maximum_degree_3_and_planar(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_1055
+
+    @param graph:
+    @return:
+    """
+    return is_maximum_degree_3(graph) and is_bipartite_and_planar(graph)
+
+
+# the fisc will be obtained through calls to constituent class recognizers
+@assign_class_id("gc_1153")
+@lru_cache(maxsize=None)
+def is_bipartite_and_maximum_degree_4_and_planar(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_1153
+
+    @param graph:
+    @return:
+    """
+    return is_maximum_degree_4(graph) and is_bipartite_and_planar(graph)
+
+
+# the fisc will be obtained through calls to constituent class recognizers
+@assign_class_id("gc_1334")
+@lru_cache(maxsize=None)
+def is_bipartite_cubic_planar(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_1334
+
+    @param graph:
+    @return:
+    """
+    return is_bipartite(graph) and is_cubic_planar(graph)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

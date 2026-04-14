@@ -17,8 +17,8 @@ from typing import Iterator
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
-from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from undirected_graph import UndirectedGraph
 
 
@@ -27,27 +27,19 @@ def edge_list_file_to_edge_set(filename: str) -> Iterator:
     """
     Returns a set of edge sets from a given file. Loops and weights are discarded.
 
-    >>> from time import perf_counter; start = perf_counter()
-    >>> x = set(edge_list_file_to_edge_set("/home/anthony/Downloads/bio-mouse-gene/bio-mouse-gene.edges"))
-    >>> end = perf_counter()
-    >>> print(end - start)
-
-    # current version takes about 12 seconds on my machine
-    # TODO: nx.Graph can actually process pandas' dataframes, check resulting running time ...
-
     :param filename: the path to the file to read
     :return: set of edge sets
     """
-    # I tried pandas but it was twice as slow, so I'm sticking with this version for now
+    # I tried pandas, but it was twice as slow, so I'm sticking with this version for now
     with open(filename) as data:
         for line in data:
-            if line[0] != "%": # skip comments
-                u, v = map(int, line.split()[:2]) # skip weight if present
-                if u != v: # skip loops
+            if line[0] != "%":  # skip comments
+                u, v = map(int, line.split()[:2])  # skip weight if present
+                if u != v:  # skip loops
                     yield u, v
 
 
-def process_graphs(filename: str) -> Iterator:
+def process_graphs(filename: str, output_type=UndirectedGraph) -> Iterator:
     """
     Yields all graphs from a file. Supported file formats are graph6 (.g6), sparse6 (.s6), and
     graphviz (.dot), with the caveat that only the first graph from a .dot file can be loaded even
@@ -68,7 +60,7 @@ def process_graphs(filename: str) -> Iterator:
         # required by g6 / s6
         with open(filename, "rb") as file:
             for line in file:
-                yield UndirectedGraph(nauty_readers[extension](line.strip()))
+                yield output_type(nauty_readers[extension](line.strip()))
 
     elif extension in supported_compressed_formats:
         # compute "original" extension (i.e., the EXT in foo.EXT.GZ)
@@ -77,11 +69,8 @@ def process_graphs(filename: str) -> Iterator:
             decompressor = supported_compressed_formats[extension]
             with decompressor(filename, 'rb') as archive:
                 for line in archive:
-                    yield UndirectedGraph(nauty_readers[original_extension](line.strip()))
+                    yield output_type(nauty_readers[original_extension](line.strip()))
 
-        # TODO support for compressed .edges; treatment is a bit different from nauty_readers since
-        #   the former transforms lines to graphs while we deal here with a complete file for one
-        #   graph
         else:
             raise ValueError(
                 f"Unknown original file extension for '{filename}' ({extension} is fine, but I "
@@ -102,12 +91,10 @@ def process_graphs(filename: str) -> Iterator:
                     subsequent_indent=" " * 9,
                 )
             )
-        yield UndirectedGraph(nx.nx_pydot.read_dot(filename))
+        yield output_type(nx.nx_pydot.read_dot(filename))
 
     elif extension in {"edges", "mtx"}:
-        yield UndirectedGraph(edge_list_file_to_edge_set(filename))
-        # TODO just trying something
-        #yield HalfAdjacencyMatrix(edge_list_file_to_edge_set(filename))
+        yield output_type(edge_list_file_to_edge_set(filename))
 
     else:
         raise ValueError(f"Unknown file extension for '{filename}'")

@@ -21,15 +21,15 @@ import networkx as nx
 from networkx import is_empty
 from pyroaring import BitMap
 
-from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     degree_sequence,
     complement,
     number_of_common_neighbors,
     is_connected,
     is_h_u_k1_free,
-    co_connected_components, complement_as_adj_mat, find_twin_in, connected_components,
+    co_connected_components, complement_as_adj_mat, connected_components,
 )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
@@ -493,9 +493,7 @@ def is_nearly_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         return True
 
     if isinstance(graph, HalfAdjacencyMatrix):
-        return all(
-            is_bipartite(graph.subgraph(graph.non_neighbors(v))) for v in graph
-        )
+        return all(is_bipartite(graph.subgraph(graph.non_neighbors(v))) for v in graph)
 
     return all(
         is_bipartite(graph.subgraph(nx.non_neighbors(graph, v))) for v in graph
@@ -630,44 +628,6 @@ def is_chordal_and_comparability(graph: nx.Graph) -> bool:
     @return:
     """
     return is_chordal(graph) and is_comparability(graph)
-
-
-# profitable because of constituent classes
-@assign_class_id("gc_23")
-@lru_cache(maxsize=None)
-def is_permutation(graph: nx.Graph) -> bool:
-    """
-
-    @param graph:
-    @return:
-    """
-    return is_comparability(graph) and is_co_comparability(graph)
-
-
-# profitable because of constituent classes
-@assign_class_id("gc_81")
-@lru_cache(maxsize=None)
-def is_bipartite_permutation(graph: nx.Graph) -> bool:
-    """
-
-    @param graph:
-    @return:
-    """
-    return is_bipartite(graph) and is_permutation(graph)
-
-
-# profitable because of constituent classes
-@assign_class_id("gc_148")
-@lru_cache(maxsize=None)
-def is_comparability_or_co_comparability(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_148
-
-    @param graph:
-    @return:
-    """
-    return is_comparability(graph) or is_co_comparability(graph)
 
 
 @assign_class_id("AUTO_2774")
@@ -871,9 +831,6 @@ def is_co_chordal(graph: nx.Graph) -> bool:
 
     # split graphs are both chordal and co-chordal, so let's try that first if it allows us to
     # avoid examining co-connected components
-    # TODO since I've extracted nx's code for is_chordal, it should be easy to adapt it to run on
-    #   non-edges for co-chordal
-
     return is_split(graph) or all(
         is_chordal(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)
     )
@@ -1017,65 +974,6 @@ def is_quasi_line(graph: nx.Graph) -> bool:
 
 
 # partial fisc derived from the complement:
-@assign_fisc(
-    [
-        "C_{6}",  # complement of "co(C_{6})",
-        "C_{7}",  # complement of "co(C_{7})",
-        "C_{8}",  # complement of "co(C_{8})",
-        "T_{2}",  # complement of "co(T_{2})",
-        "X_{2}",  # complement of "co(X_{2})",
-        "X_{3}",  # complement of "co(X_{3})",
-        "X_{30}",  # complement of "co(X_{30})",
-        "X_{31}",  # complement of "co(X_{31})",
-        "X_{32}",  # complement of "co(X_{32})",
-        "X_{33}",  # complement of "co(X_{33})",
-        "X_{34}",  # complement of "co(X_{34})",
-        "X_{35}",  # complement of "co(X_{35})",
-        "X_{36}",  # complement of "co(X_{36})",
-        "co(C_{5})",  # complement of "C_{5}",
-        "co(C_{7})",  # complement of "C_{7}",
-    ]
-)
-@assign_class_id("gc_147")
-@lru_cache(maxsize=None)
-def is_co_comparability(graph: nx.Graph) -> bool:
-    """
-    A graph is a co-comparability if it is the intersection graph of curves from a line to a parallel
-    line.
-
-    https://www.graphclasses.org/classes/gc_147.html
-
-    @param graph:
-    @return:
-    """
-    '''
-    if not is_h_free(graph, [
-        "C_{6}",  # complement of "co(C_{6})",
-        "C_{7}",  # complement of "co(C_{7})",
-        "C_{8}",  # complement of "co(C_{8})",
-        "T_{2}",  # complement of "co(T_{2})",
-        "X_{2}",  # complement of "co(X_{2})",
-        "X_{3}",  # complement of "co(X_{3})",
-        "X_{30}",  # complement of "co(X_{30})",
-        "X_{31}",  # complement of "co(X_{31})",
-        "X_{32}",  # complement of "co(X_{32})",
-        "X_{33}",  # complement of "co(X_{33})",
-        "X_{34}",  # complement of "co(X_{34})",
-        "X_{35}",  # complement of "co(X_{35})",
-        "X_{36}",  # complement of "co(X_{36})",
-        "co(C_{5})",  # complement of "C_{5}",
-        "co(C_{7})",  # complement of "C_{7}",
-    ]):
-        return False
-    '''
-    if not is_h_free(graph, ["C_{5}"]): # TODO works fast in practice but it's no longer O(n^2)
-        return False
-
-    # iterate over co-connected components instead of complementing the whole graph, in the hope
-    # that we can thereby stop early
-    return all(
-        is_comparability(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)
-    )
 
 
 @assign_fisc(

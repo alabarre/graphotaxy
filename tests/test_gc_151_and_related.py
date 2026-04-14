@@ -32,6 +32,7 @@ import graph_recognition.recognizers_n_4
 import graph_recognition.profitable_hereditary_n_3
 import graph_recognition.recognizers_n_5
 import graph_recognition.profitable_hereditary_n
+from graph_recognition import profitable_hereditary_n_5
 from readwrite import process_graphs
 
 
@@ -821,7 +822,7 @@ class Test_gc_151_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.profitable_hereditary_n_2.is_permutation(graph),
+                profitable_hereditary_n_5.is_permutation(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "
@@ -1282,7 +1283,7 @@ class Test_gc_151_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.profitable_hereditary_n_2.is_co_comparability(graph),
+                profitable_hereditary_n_5.is_co_comparability(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "

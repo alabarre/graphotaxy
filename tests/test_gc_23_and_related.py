@@ -25,6 +25,7 @@ import sys
 import unittest
 import networkx
 import graph_recognition.profitable_hereditary_n_2
+from graph_recognition import profitable_hereditary_n_5
 from readwrite import process_graphs
 
 
@@ -78,7 +79,7 @@ class Test_gc_23_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.profitable_hereditary_n_2.is_permutation(graph),
+                profitable_hereditary_n_5.is_permutation(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "
