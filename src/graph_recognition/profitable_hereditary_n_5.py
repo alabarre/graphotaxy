@@ -16,8 +16,8 @@ from functools import lru_cache
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
-from graph_recognition.misc_algo import common_neighbors
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.misc_algo import common_neighbors
 from graph_recognition.profitable_hereditary_n import (
     is_p3_free,
 )
@@ -78,6 +78,7 @@ def is_k2_u_k3_free(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
+    # note: cannot move to fisc_based_recognizers due to circular import issues
     return is_h_free(graph, ["K_{2} U K_{3}"])
     # faster than:
     # return is_h_u_k2_free(graph, is_triangle_free)

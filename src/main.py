@@ -281,7 +281,7 @@ def main() -> None:
             analyzer.classification,
             os.path.basename(args.input[0]) + ".graphml",
         )
-        print("done.")
+        print("done.\n")
 
     logger.info("Finished")
 
