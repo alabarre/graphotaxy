@@ -273,16 +273,16 @@ def is_p4_brittle(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     @return:
     """
     # algorithm from https://doi.org/10.1016/S0012-365X(99)00300-3, p 204
-    implication_graph = defaultdict(list)
+    implication_graph = defaultdict(set)
     # for each P_{4} (abcd) we have a clause (a or d) equivalent to (not a => d)
     for p4 in enumerate_all_p4s(graph):
         # we have a P_{4}, extract a and d and build clause
         a, d = {v for v, deg in graph.subgraph(p4).degree() if deg == 1}
-        implication_graph[Not(a)].append(d)
+        implication_graph[Not(a)].add(d)
 
     # for each edge (ab) we have a clause (not a or not b) equivalent to (a => not b)
     for a, b in graph.edges():
-        implication_graph[a].append(Not(b))
+        implication_graph[a].add(Not(b))
 
     return satisfiable(implication_graph)
 

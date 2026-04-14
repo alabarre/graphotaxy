@@ -287,7 +287,7 @@ def empty_graph_by_removing_vertices(graph: nx.Graph, criterion: Callable) -> bo
 # The following recognizers were moved here solely to avoid circular import issues.
 # --------------------------------------------------------------------------------------------- end
 @lru_cache(maxsize=None)
-def is_connected(graph: nx.Graph) -> bool:
+def is_connected(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     Returns True iff graph is connected. I need my own version, because it will be called on
     subgraphs that might be null (no vertices and no edges) and networkx's version crashes on
@@ -297,11 +297,8 @@ def is_connected(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    try:
-        return nx.is_connected(graph)
-
-    except nx.exception.NetworkXPointlessConcept:  # null graph
-        return False
+    n = len(graph)
+    return n and len(next(connected_components(graph))) == n
 
 
 @lru_cache(maxsize=None)

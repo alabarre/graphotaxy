@@ -107,7 +107,7 @@ def process_graphs(filename: str) -> Iterator:
     elif extension in {"edges", "mtx"}:
         yield UndirectedGraph(edge_list_file_to_edge_set(filename))
         # TODO just trying something
-        # yield HalfAdjacencyMatrix(edge_list_file_to_edge_set(filename))
+        #yield HalfAdjacencyMatrix(edge_list_file_to_edge_set(filename))
 
     else:
         raise ValueError(f"Unknown file extension for '{filename}'")

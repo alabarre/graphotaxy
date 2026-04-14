@@ -100,11 +100,8 @@ def is_disjoint_union_of_edgeless_graph_and_single_other(
     :param recognizer_for_other:
     :type graph: networkx.Graph
     """
-    print("hello")
     already_found_other = False
     for cc in connected_components(graph):
-
-        print(f"now dealing with cc {cc}")
         if len(cc) != 1:  # skip isolated vertices
             if recognizer_for_other(graph.subgraph(cc)):
                 if already_found_other:
@@ -147,36 +144,148 @@ def my_inverse_line_graph(graph: nx.Graph) -> None:
     NetworkXError otherwise.
 
     This is essentially network's inverse_line_graph function without the part responsible for
-    building the inverse line graph, since we only care about membership.
+    building the inverse line graph, since we only care about membership, as well as a few
+    modifications to make it work with the HalfAdjacencyMatrix type.
     """
+
+    def _select_starting_cell(G, starting_edge=None):
+        """Select a cell to initiate _find_partition
+
+        Parameters
+        ----------
+        G : NetworkX Graph
+        starting_edge: an edge to build the starting cell from
+
+        Returns
+        -------
+        Tuple of vertices in G
+
+        Raises
+        ------
+        NetworkXError
+            If it is determined that G is not a line graph
+
+        Notes
+        -----
+        If starting edge not specified then pick an arbitrary edge - doesn't
+        matter which. However, this function may call itself requiring a
+        specific starting edge. Note that the r, s notation for counting
+        triangles is the same as in the Roussopoulos paper cited above.
+        """
+        if starting_edge is None:
+            e = arbitrary_element(G.edges())
+        else:
+            e = starting_edge
+            if e[0] not in G:
+                raise nx.NetworkXError(f"Vertex {e[0]} not in graph")
+            if e[1] not in G[e[0]]:
+                msg = f"starting_edge ({e[0]}, {e[1]}) is not in the Graph"
+                raise nx.NetworkXError(msg)
+        e_triangles = line._triangles(G, e) # noqa
+        r = len(e_triangles)
+        if r == 0:
+            # there are no triangles containing e, so the starting cell is just e
+            result = e
+        elif r == 1:
+            # there is exactly one triangle, T, containing e. If other 2 edges
+            # of T belong only to this triangle then T is starting cell
+            T = e_triangles[0]
+            a, b, c = T
+            # ab was original edge so check the other 2 edges
+            ac_edges = len(line._triangles(G, (a, c))) # noqa
+            bc_edges = len(line._triangles(G, (b, c))) # noqa
+            if ac_edges == 1:
+                if bc_edges == 1:
+                    result = T
+                else:
+                    return _select_starting_cell(G, starting_edge=(b, c))
+            else:
+                return _select_starting_cell(G, starting_edge=(a, c))
+        else:
+            # r >= 2 so we need to count the number of odd triangles, s
+            s = 0
+            odd_triangles = []
+            for T in e_triangles:
+                if _odd_triangle(T):
+                    s += 1
+                    odd_triangles.append(T)
+            if r == 2 and s == 0:
+                # in this case either triangle works, so just use T
+                result = T
+            elif r - 1 <= s <= r:
+                # check if odd triangles containing e form complete subgraph
+                triangle_nodes = set()
+                for T in odd_triangles:
+                    for x in T:
+                        triangle_nodes.add(x)
+
+                for u in triangle_nodes:
+                    for v in triangle_nodes:
+                        if u != v and (v not in G[u]):
+                            msg = (
+                                "G is not a line graph (odd triangles "
+                                "do not form complete subgraph)"
+                            )
+                            raise nx.NetworkXError(msg)
+
+                # otherwise then we can use this as the starting cell
+                result = tuple(triangle_nodes)
+
+            else:
+                raise nx.NetworkXError(
+                    "G is not a line graph (incorrect number of odd triangles around starting "
+                    "edge)"
+                )
+        return result
+
+    def _odd_triangle(triplet: tuple) -> bool:
+        """
+        Tests whether triplet is an odd triangle in G. An odd triangle is one in which there exists
+        another vertex in G which is adjacent to either exactly one or exactly all three of the
+        vertices in the triangle.
+        """
+        for v in triplet:
+            if v not in graph.nodes:
+                raise nx.NetworkXError(f"Vertex {v} not in graph")
+
+        for x, y in combinations(triplet, 2):
+            if x not in graph[y]:
+                raise nx.NetworkXError(f"Edge ({x}, {y}) not in graph")
+
+        t_nbrs = defaultdict(int)
+        for t in triplet:
+            for v in graph[t]:
+                t_nbrs[v] += v not in triplet
+
+        return any(t_nbrs[v] in {1, 3} for v in t_nbrs)
+
     if graph.number_of_nodes() < 2:
         return
 
     elif graph.number_of_edges() == 0:
-        msg = (
-            "inverse_line_graph() doesn't work on an edgeless graph. "
-            "Please use this function on each component separately."
+        raise nx.NetworkXError(
+            "inverse_line_graph() doesn't work on an edgeless graph. Please use this function on "
+            "each component separately."
         )
-        raise nx.NetworkXError(msg)
 
     if (isinstance(graph, nx.Graph) and nx.number_of_selfloops(graph)) or (
             isinstance(graph, HalfAdjacencyMatrix) and graph.number_of_selfloops()):
-        msg = (
-            "A line graph as generated by NetworkX has no selfloops, so G has no "
-            "inverse line graph. Please remove the selfloops from G and try again."
+        raise nx.NetworkXError(
+            "A line graph as generated by NetworkX has no selfloops, so G has no inverse line "
+            "graph. Please remove the selfloops from G and try again."
         )
-        raise nx.NetworkXError(msg)
 
-    starting_cell = line._select_starting_cell(graph)
+    starting_cell = _select_starting_cell(graph)
     # count how many times each vertex appears in the partition set
     p_count = defaultdict(int)
-    for p in line._find_partition(graph, starting_cell):
+    for p in line._find_partition(graph, starting_cell):  # noqa
         for u in p:
             p_count[u] += 1
 
     if max(p_count.values()) > 2:
-        msg = "G is not a line graph (vertex found in more than two partition cells)"
-        raise nx.NetworkXError(msg)
+        raise nx.NetworkXError(
+            "G is not a line graph (vertex found in more than two partition cells)"
+        )
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -1244,6 +1353,7 @@ def is_cograph(graph: nx.Graph) -> bool:
     """
     # an empty graph is necessarily P_{4}-free: catch case to prevent to_cotree from raising an
     # exception
+    # note: currently to_cotree does not accept other types than nx.Graph
     return not graph or to_cotree(graph) is not False
 
 

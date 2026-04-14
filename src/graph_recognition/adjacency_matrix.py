@@ -13,10 +13,6 @@ eventually able to use only this class, but in the meantime it comes particularl
 context of recognizers that need to sift through many subgraphs of an input graph, or deal with its
 complement.
 
-The following algorithms do not currently work with HalfAdjacencyMatrix:
-
-- nx.connected_components, because of a call to _plain_bfs which expects to find an attribute _adj;
-
 
 """
 # Imports -----------------------------------------------------------------------------------------
@@ -60,7 +56,7 @@ class HalfAdjacencyMatrix:
             self.add_edges_from(edge_data)
 
     # Node-related methods ------------------------------------------------------------------------
-    def add_node(self, node: Any):
+    def add_node(self, node: Any) -> None:
         """
         Adds a node to the graph.
 
@@ -86,8 +82,6 @@ class HalfAdjacencyMatrix:
         for node in nbunch:
             self.add_node(node)
 
-    # TODO: maybe don't provide this at all: we have errors from nx algos with or without @property
-    #   and whether we generate nodes or return a dictionary
     @property  # so we can use both graph.degree and graph.degree()
     def degree(self):
         """
@@ -95,17 +89,6 @@ class HalfAdjacencyMatrix:
 
         :return:
         """
-        # note: some networkx algorithms prevent me from making this a generator, so I'll return a
-        # dictionary instead
-        return {
-            node: sum(self.adj_mat[node_id]) + sum(
-                self.adj_mat[row_idx][node_id] for row_idx in range(node_id + 1, self.num_nodes)
-                if node_id < self.row_lengths[row_idx]
-            )
-            for node, node_id in self.node_mapping.items()
-        }
-        # instead of:
-        '''
         for node, node_id in self.node_mapping.items():
             # as in the neighbors function, the degree of a vertex is the sum of 1's in its row
             # plus the number of rows after node's row that have a 1 in its column
@@ -113,7 +96,6 @@ class HalfAdjacencyMatrix:
                 self.adj_mat[row_idx][node_id] for row_idx in range(node_id + 1, self.num_nodes)
                 if node_id < self.row_lengths[row_idx]
             )
-        '''
 
     def neighbors(self, v: Hashable):
         """
@@ -173,14 +155,14 @@ class HalfAdjacencyMatrix:
 
     def __iter__(self):
         """
-        Allows iterating over the graph's nodes (i.e.: "for node in graph")
+        Allows iterating over the graph's nodes (i.e.: "for node in graph").
 
         :return:
         """
         for node in self.node_mapping:
             yield node
 
-    def __getitem__(self, v: Hashable):
+    def __getitem__(self, v: Hashable) -> set:
         """
         Allows access to v's neighbors with brackets (i.e.: graph[v]).
 
@@ -192,11 +174,11 @@ class HalfAdjacencyMatrix:
         :param v:
         :return:
         """
-        # note: I would yield, but some networkx algorithms have lines like "if len(G[n] == 0", so
+        # note: I would yield, but some networkx algorithms have lines like "if len(G[n]) == 0", so
         # we need to return something that can support len()
         return {x for x in self.neighbors(v)}
 
-    def __len__(self):
+    def __len__(self) -> int:
         """
         Returns the number of nodes in the graph.
 
@@ -330,3 +312,12 @@ class HalfAdjacencyMatrix:
         :return:
         """
         return False
+
+    def __contains__(self, v: Hashable) -> bool:
+        """
+        Returns True if the vertex v exists in the graph.
+
+        :param v:
+        :return:
+        """
+        return v in self.node_mapping
