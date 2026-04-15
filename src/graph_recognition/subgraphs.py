@@ -53,7 +53,7 @@ from graph_recognition.smallgraphs import (
 )
 
 logger = logging.getLogger(__name__)
-# logging.basicConfig(filename="myapp.log")
+logging.basicConfig(filename="myapp.log")
 
 # from https://stackoverflow.com/questions/3220284/how-to-customize-the-time-format-for-python-logging
 # create console handler and set level to debug

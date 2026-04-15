@@ -132,12 +132,12 @@ def is_split_degree_sequence(degseq: array) -> bool:
     # compute m = largest index k such that D[k] >= k-1
     m = 0
     for m, value in enumerate(degseq):
-        if value < m + 1:  # and not m (1)
+        if value < m + 1:  # instead of just m (1)
             break
 
     m -= 1  # decrease m's value (we stopped one step too far)
 
-    return sum(degseq[: m + 1]) == (m + 1) * m + sum(degseq[m + 1:])  # and not m * (m-1) (2)
+    return sum(degseq[: m + 1]) == (m + 1) * m + sum(degseq[m + 1:])  # instead of m * (m-1) (2)
 
 
 def my_inverse_line_graph(graph: nx.Graph) -> None:
@@ -221,9 +221,9 @@ def my_inverse_line_graph(graph: nx.Graph) -> None:
                     for x in T:
                         triangle_nodes.add(x)
 
-                for u in triangle_nodes:
-                    for v in triangle_nodes:
-                        if u != v and (v not in G[u]):
+                for a in triangle_nodes:
+                    for b in triangle_nodes - {a}:
+                        if b not in G[a]:
                             raise nx.NetworkXError(
                                 "G is not a line graph (odd triangles do not form complete "
                                 "subgraph)"

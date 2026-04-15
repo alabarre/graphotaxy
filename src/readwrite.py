@@ -12,7 +12,7 @@ import lzma
 import os
 import re
 import textwrap
-from typing import Iterator
+from typing import Iterator, Any, Callable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -20,6 +20,10 @@ import networkx as nx
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from undirected_graph import UndirectedGraph
+
+# Global variables --------------------------------------------------------------------------------
+NAUTY_READERS = {"g6": nx.from_graph6_bytes, "s6": nx.from_sparse6_bytes}
+SUPPORTED_COMPRESSED_FORMATS = {"bz2": bz2.open, "gz": gzip.open, "xz": lzma.open}
 
 
 # Functions ---------------------------------------------------------------------------------------
@@ -39,7 +43,7 @@ def edge_list_file_to_edge_set(filename: str) -> Iterator:
                     yield u, v
 
 
-def process_graphs(filename: str, output_type=UndirectedGraph) -> Iterator:
+def process_graphs(filename: str, output_type: Callable = UndirectedGraph) -> Iterator:
     """
     Yields all graphs from a file. Supported file formats are graph6 (.g6), sparse6 (.s6), and
     graphviz (.dot), with the caveat that only the first graph from a .dot file can be loaded even
@@ -48,28 +52,27 @@ def process_graphs(filename: str, output_type=UndirectedGraph) -> Iterator:
     Additionally, compressed g6 and s6 files are also supported if compressed using bzip2, gzip, or
     xz. The naming scheme must reflect this (e.g., foo.g6.bz2 or bar.s6.gz).
 
+    :param output_type:
     :param filename: the path to the file to open
     :return: undirected graphs from that file
     """
-    nauty_readers = {"g6": nx.from_graph6_bytes, "s6": nx.from_sparse6_bytes}
-    supported_compressed_formats = {"bz2": bz2.open, "gz": gzip.open, "xz": lzma.open}
     # retrieve extension in lower case without the .
     extension = os.path.splitext(filename)[-1][1:].lower()
-    if extension in nauty_readers:
+    if extension in NAUTY_READERS:
         # read graphs as the readers would, but yield them instead of storing them; binary mode is
         # required by g6 / s6
         with open(filename, "rb") as file:
             for line in file:
-                yield output_type(nauty_readers[extension](line.strip()))
+                yield output_type(NAUTY_READERS[extension](line.strip()))
 
-    elif extension in supported_compressed_formats:
+    elif extension in SUPPORTED_COMPRESSED_FORMATS:
         # compute "original" extension (i.e., the EXT in foo.EXT.GZ)
         original_extension = os.path.splitext(os.path.splitext(filename)[0])[-1][1:].lower()
-        if original_extension in nauty_readers:
-            decompressor = supported_compressed_formats[extension]
+        if original_extension in NAUTY_READERS:
+            decompressor = SUPPORTED_COMPRESSED_FORMATS[extension]
             with decompressor(filename, 'rb') as archive:
                 for line in archive:
-                    yield output_type(nauty_readers[original_extension](line.strip()))
+                    yield output_type(NAUTY_READERS[original_extension](line.strip()))
 
         else:
             raise ValueError(
@@ -100,6 +103,17 @@ def process_graphs(filename: str, output_type=UndirectedGraph) -> Iterator:
         raise ValueError(f"Unknown file extension for '{filename}'")
 
 
+def null_output(*args: Any, **kwargs: Any) -> None:  # noqa
+    """
+    Accepts anything, returns nothing.
+
+    :param args:
+    :param kwargs:
+    :return:
+    """
+    return
+
+
 def number_of_graphs_in_file(filename: str) -> int:
     """
     Returns the actual number of graphs in the given file.
@@ -107,20 +121,13 @@ def number_of_graphs_in_file(filename: str) -> int:
     :param filename: the path to the file to open
     :return: the number of graphs in that file
     """
-    extension = os.path.splitext(filename)[-1]
-    if extension in {".g6", ".s6"}:
-        # every line except the optional header is a graph in a g6 or s6 file
-        count = 0
-        with open(filename) as file:
-            for line in file:
-                count += not line.startswith(">>>")
-            return count
-
-    elif extension == ".dot":
+    # retrieve extension in lower case without the .
+    extension = os.path.splitext(filename)[-1][1:].lower()
+    if extension == "dot":
         # regex for matching "graph { ...", excluding subgraphs
         pattern = re.compile(r"^\s*(?:graph)\b[^{]*\{", re.MULTILINE)
         with open(filename) as file:
             return len(pattern.findall(file.read()))
 
     # otherwise result depends on the format, so process graphs and count them
-    return sum(1 for _ in process_graphs(filename))
+    return sum(1 for _ in process_graphs(filename, output_type=null_output))

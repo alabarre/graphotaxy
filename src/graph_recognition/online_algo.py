@@ -18,15 +18,16 @@ def my_recognizer(G):
     return online_is_...(edge_generator(...))
 
 """
-from array import array
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
+from array import array
 from collections import defaultdict
 from typing import List, Hashable, Iterable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 from networkx.utils.union_find import UnionFind
 
+# ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import NUMERIC_TYPECODES
 
 
