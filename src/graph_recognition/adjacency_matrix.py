@@ -51,7 +51,9 @@ class HalfAdjacencyMatrix:
         # each time we need to know their lengths, we store them in an array and update them as we
         # go
         self.adj_mat = []
-        self.row_lengths = array('Q', [])
+        # choosing type 'I' allows to have a graph with at least 1,000,000,000 nodes; that should
+        # be enough (otherwise, switch to a larger type)
+        self.row_lengths = array('I', [])
         if edge_data is not None:
             self.add_edges_from(edge_data)
 
@@ -63,12 +65,10 @@ class HalfAdjacencyMatrix:
         :param node:
         :return:
         """
-        # hash_node = hash(node)
         if node not in self.node_mapping:
             self.node_mapping[node] = self.num_nodes  # map node to identifier
             self.num_nodes += 1
             # add row to adjacency matrix
-            # self.adj_mat.append(bitarray(self.num_nodes))
             self.adj_mat.append(bitarray())
             self.row_lengths.append(0)
 
@@ -197,8 +197,7 @@ class HalfAdjacencyMatrix:
         :return:
         """
         for node in (u, v):
-            if node not in self.node_mapping:
-                self.add_nodes_from([node])
+            self.add_node(node)
 
         # since we only store the lower triangle of the adjacency matrix, we only store
         # (u_id, v_id) if v_id <= u_id
@@ -208,7 +207,7 @@ class HalfAdjacencyMatrix:
 
         # if row too short: extend up to v_id and update length
         if v_id >= self.row_lengths[u_id]:
-            self.adj_mat[u_id].extend([0] * (v_id - self.row_lengths[u_id] + 1))
+            self.adj_mat[u_id].extend(bitarray(v_id - self.row_lengths[u_id] + 1))
             self.row_lengths[u_id] = v_id + 1
 
         # mandatory check so we don't increase self.num_edges by mistake

@@ -304,19 +304,18 @@ def my_is_at_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
         return row_dict
 
-
-    component_structure = nx.asteroidal.create_component_structure(graph)
+    # component_structure = nx.asteroidal.create_component_structure(graph)
 
     for u, v in nx.non_edges(graph):
         # Check for each pair of vertices whether they belong to the same connected component when
         # the closed neighborhood of the third is removed.
         if any(
-#                my_component_structure(u)[v] == my_component_structure(u)[w]
-#                and my_component_structure(v)[u] == my_component_structure(v)[w]
-#                and my_component_structure(w)[u] == my_component_structure(w)[v]
-                component_structure[u][v] == component_structure[u][w]
-                and component_structure[v][u] == component_structure[v][w]
-                and component_structure[w][u] == component_structure[w][v]
+                my_component_structure(u)[v] == my_component_structure(u)[w]
+                and my_component_structure(v)[u] == my_component_structure(v)[w]
+                and my_component_structure(w)[u] == my_component_structure(w)[v]
+                #                component_structure[u][v] == component_structure[u][w]
+                #                and component_structure[v][u] == component_structure[v][w]
+                #                and component_structure[w][u] == component_structure[w][v]
                 for w in nodes - set(graph[u]).union(graph[v], [u, v])
         ):
             my_component_structure.cache_clear()
@@ -339,7 +338,10 @@ def is_p2up4_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_cograph(graph) or is_h_free(graph, ["P_{2} U P_{4}"]) # faster than is_h_u_k2_free(graph, is_cograph) on large graphs
+    return is_cograph(graph) or is_h_free(
+        graph,
+        ["P_{2} U P_{4}"]
+    )  # faster than is_h_u_k2_free(graph, is_cograph) on large graphs
 
 
 @assign_fisc(["triangle", "P_{4}"])
