@@ -21,7 +21,6 @@ from array import array
 from typing import Iterable, Self, Any, Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
-from bidict import bidict
 from bitarray import bitarray
 
 
@@ -40,8 +39,12 @@ class HalfAdjacencyMatrix:
         """
         # we map nodes to integer ids so vertices can be of any hashable type, and we can extract
         # subgraphs more easily
-        self.node_mapping = bidict()
-        self.nodes = self.node_mapping.keys()  # for nx algorithms that need to access this field
+        #self.node_mapping = bidict()
+        #self.nodes = self.node_mapping.keys()  # for nx algorithms that need to access this field
+        # switching to two structures instead of bidict
+        self.node_to_id = dict()
+        self.id_to_node = list()
+        self.nodes = self.node_to_id.keys()  # for nx algorithms that need to access this field
 
         # store the number of nodes and edges so we can return them in constant time
         self.num_edges = 0
@@ -65,8 +68,9 @@ class HalfAdjacencyMatrix:
         :param node:
         :return:
         """
-        if node not in self.node_mapping:
-            self.node_mapping[node] = self.num_nodes  # map node to identifier
+        if node not in self.node_to_id:
+            self.node_to_id[node] = self.num_nodes  # map node to identifier
+            self.id_to_node.append(node)  # map id to node
             self.num_nodes += 1
             # add row to adjacency matrix
             self.adj_mat.append(bitarray())
@@ -89,7 +93,7 @@ class HalfAdjacencyMatrix:
 
         :return:
         """
-        for node, node_id in self.node_mapping.items():
+        for node, node_id in self.node_to_id.items():
             # as in the neighbors function, the degree of a vertex is the sum of 1's in its row
             # plus the number of rows after node's row that have a 1 in its column
             yield node, sum(self.adj_mat[node_id]) + sum(
@@ -118,15 +122,15 @@ class HalfAdjacencyMatrix:
         # indices with a True value in v's column for rows located after v's row
 
         # gather neighbors of type 1)
-        v_id = self.node_mapping[v]
+        v_id = self.node_to_id[v]
         for pos, val in enumerate(self.adj_mat[v_id]):
             if val:
-                yield self.node_mapping.inverse[pos]
+                yield self.id_to_node[pos]
 
         # gather neighbors of type 2)
         for row_idx in range(v_id + 1, self.num_nodes):
             if v_id < self.row_lengths[row_idx] and self.adj_mat[row_idx][v_id]:
-                yield self.node_mapping.inverse[row_idx]
+                yield self.id_to_node[row_idx]
 
     def non_neighbors(self, v: Hashable):
         """
@@ -142,7 +146,7 @@ class HalfAdjacencyMatrix:
         """
         # assert v in self.node_mapping, f"error: node {v} not in {self.node_mapping}" # BUG ICI
         # print(f"[debug] v = {v}, nodes = {set(self.node_mapping)}")
-        for non_n in set(self.node_mapping).difference(self.neighbors(v)).difference({v}):
+        for non_n in set(self.node_to_id).difference(self.neighbors(v)).difference({v}):
             yield non_n
 
     def number_of_nodes(self) -> int:
@@ -159,7 +163,7 @@ class HalfAdjacencyMatrix:
 
         :return:
         """
-        for node in self.node_mapping:
+        for node in self.node_to_id:
             yield node
 
     def __getitem__(self, v: Hashable) -> set:
@@ -201,7 +205,7 @@ class HalfAdjacencyMatrix:
 
         # since we only store the lower triangle of the adjacency matrix, we only store
         # (u_id, v_id) if v_id <= u_id
-        u_id, v_id = self.node_mapping[u], self.node_mapping[v]
+        u_id, v_id = self.node_to_id[u], self.node_to_id[v]
         if u_id < v_id:
             u_id, v_id = v_id, u_id
 
@@ -239,7 +243,7 @@ class HalfAdjacencyMatrix:
         for u in range(len(self.adj_mat)):
             for v, val in enumerate(self.adj_mat[u]):
                 if val:
-                    yield self.node_mapping.inverse[u], self.node_mapping.inverse[v]
+                    yield self.id_to_node[u], self.id_to_node[v]
 
     def has_edge(self, u: Hashable, v: Hashable) -> bool:
         """
@@ -249,7 +253,7 @@ class HalfAdjacencyMatrix:
         :param v:
         :return:
         """
-        u_id, v_id = self.node_mapping[u], self.node_mapping[v]
+        u_id, v_id = self.node_to_id[u], self.node_to_id[v]
         if u_id < v_id:
             u_id, v_id = v_id, u_id
 
@@ -319,4 +323,4 @@ class HalfAdjacencyMatrix:
         :param v:
         :return:
         """
-        return v in self.node_mapping
+        return v in self.node_to_id

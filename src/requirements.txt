@@ -1,5 +1,4 @@
 beautifulsoup4==4.13.4
-bidict==0.23.1
 bitarray==3.8.0
 bs4==0.0.2
 certifi==2025.6.15
@@ -27,6 +26,7 @@ pydot==4.0.1
 Pygments==2.19.2
 pyparsing==3.3.2
 pypocketmap==0.0.1rc1
+pyroaring==1.0.4
 python-dateutil==2.9.0.post0
 rapids-logger==0.2.3
 requests==2.32.4
