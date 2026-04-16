@@ -53,7 +53,7 @@ def all_pairs_shortest_path_length(graph: nx.Graph, cutoff: int | None = None) -
 
 
 @lru_cache(maxsize=None)
-def degree_sequence(graph: nx.Graph) -> array:
+def degree_sequence(graph: nx.Graph | HalfAdjacencyMatrix) -> array:
     """
     Returns the degree sequence of a graph, i.e. the list of all degrees sorted decreasingly.
 

@@ -435,7 +435,7 @@ def is_gc_1313(graph: nx.Graph) -> bool:
 @assign_fisc(["2K_{2}", "C_{4}", "C_{5}"])
 @assign_class_id("gc_313")
 @lru_cache(maxsize=None)
-def is_split(graph: nx.Graph) -> bool:
+def is_split(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     Returns True iff graph is (2K_{2}, C_{4}, C_{5})-free.
 

@@ -15,6 +15,7 @@ from typing import Any, Iterator
 import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.domination import dominates
 from graph_recognition.misc_algo import (
     complement,
@@ -43,7 +44,6 @@ from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     cached_function,
 )
-from undirected_graph import UndirectedGraph
 
 # Cache imported functions that are not already cached -------------------------------------------
 __functions_to_cache = [
@@ -579,7 +579,7 @@ def is_probe_co_bipartite(graph: nx.Graph) -> bool:
 
     # construct T(co(G)), the spanning subgraph of co(G) (or G) whose edge set contains precisely
     # the edges that are contained in some co-triangle of G
-    t_co_g = UndirectedGraph()
+    t_co_g = HalfAdjacencyMatrix()
     for co_triangle in explicit_independent_triplets(graph):
         t_co_g.add_edges_from(combinations(co_triangle, 2))
 
@@ -588,7 +588,7 @@ def is_probe_co_bipartite(graph: nx.Graph) -> bool:
         return False
 
     # otherwise, find each maximal complete subgraph C of T(co(G))
-    for maximal_clique in nx.find_cliques(t_co_g):
+    for maximal_clique in nx.find_cliques(t_co_g):  # noqa (unexpected type HalfAdjacencyMatrix)
         # cliques in co(G) are independent sets in G; let's build the corresponding edge set
         edge_set = list(combinations(maximal_clique, 2))
         # verify if co(G) − E(C) is bipartite [if so, return True according to their Lemma 2 page
