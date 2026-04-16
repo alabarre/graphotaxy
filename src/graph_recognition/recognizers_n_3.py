@@ -210,21 +210,13 @@ def is_dismantlable(graph: nx.Graph) -> bool:
     if n >= 2 and is_connected(graph) and is_chordal(graph):
         return True
 
-    '''
-    nodes = set(graph.nodes)
-    for z in graph:
-        if any(
-                dominates(graph, y, z) and is_dismantlable(graph.subgraph(nodes - {z}))
-                for y in nodes - {z}
-        ):
-            return True
-    '''
-    # nonrecursive version:
-    nodes = set(graph.nodes)
-    while graph.number_of_nodes() > 1:
-        for u, v in combinations(graph, 2):
-            if dominates(graph, u, v):
-                graph = graph.subgraph(nodes - {v})
+    # nonrecursive version; to avoid creating a lot of new subgraphs, copy graph into a disposable
+    # version
+    new_graph = graph.copy()
+    while new_graph.number_of_nodes() > 1:
+        for u, v in combinations(new_graph, 2):
+            if dominates(new_graph, u, v):
+                new_graph.remove_node(v)
                 break
         else:
             return False
@@ -299,7 +291,7 @@ def number_of_common_neighbors_at_distance(graph: nx.Graph, u: Any, v: Any, w: A
         for _ in (
             x
             for x in common_neighbors(graph, v, w)
-            if nx.shortest_path_length(graph, u, x) == k - 1
+            if distance(graph, frozenset([u, x])) == k - 1
         )
     )
 
@@ -326,12 +318,14 @@ def is_pseudo_median(graph: nx.Graph) -> bool:
     # let's do this in two steps, should be faster than examining all triplets
     # 1) all v, w at distance 1 (= all edges)
     for u, (v, w) in product(graph, graph.edges):
-        # skip if u not equidistant from v and w or not at distance >= 2
-        k = int(nx.shortest_path_length(graph, u, v))
-        if k < 2 or nx.shortest_path_length(graph, u, w) != k:
-            continue
-        if number_of_common_neighbors_at_distance(graph, u, v, w, k) != 1:
-            return False
+        # skip if u not equidistant from v and w or not at distance >= 2; if u is either v or w,
+        # then we skip it since v != w implies that u cannot be equidistant from v and w
+        if u not in (v, w):
+            k = distance(graph, frozenset([u, v]))
+            if k < 2 or distance(graph, frozenset([u, w])) != k:
+                continue
+            if number_of_common_neighbors_at_distance(graph, u, v, w, k) != 1:
+                return False
 
     # 2) all v, w at distance 2
     for u, (v, w) in product(
@@ -339,15 +333,17 @@ def is_pseudo_median(graph: nx.Graph) -> bool:
             (
                     (x, y)
                     for x, y in nx.non_edges(graph)
-                    if nx.shortest_path_length(graph, x, y) == 2
+                    if distance(graph, frozenset([x, y])) == 2
             ),
     ):
-        # skip if u not equidistant from v and w or not at distance >= 2
-        k = int(nx.shortest_path_length(graph, u, v))
-        if k < 2 or nx.shortest_path_length(graph, u, w) != k:
-            continue
-        if number_of_common_neighbors_at_distance(graph, u, v, w, k) != 1:
-            return False
+        # skip if u not equidistant from v and w or not at distance >= 2; if u is either v or w,
+        # then we skip it since v != w implies that u cannot be equidistant from v and w
+        if u not in (v, w):
+            k = distance(graph, frozenset([u, v]))
+            if k < 2 or distance(graph, frozenset([u, w])) != k:
+                continue
+            if number_of_common_neighbors_at_distance(graph, u, v, w, k) != 1:
+                return False
 
     return True
 
@@ -380,32 +376,32 @@ def is_pseudo_modular(graph: nx.Graph) -> bool:
         # of them
         for u in set(nx.non_neighbors(graph, v)) & set(nx.non_neighbors(graph, w)):
             # skip if u not equidistant from v and w or not at distance >= 2
-            k = nx.shortest_path_length(graph, u, v)
-            if k < 2 or nx.shortest_path_length(graph, u, w) != k:
+            k = distance(graph, frozenset([u, v]))
+            if k < 2 or distance(graph, frozenset([u, w])) != k:
                 continue
             # is there a common neighbor of v and w at distance k-1 from u?
             if all(
-                    nx.shortest_path_length(graph, u, x) != k - 1
+                    distance(graph, frozenset([u, x])) != k - 1
                     for x in common_neighbors(graph, v, w)
             ):
                 return False
 
     # 2) all v, w at distance 2
     for v, w in nx.non_edges(graph):
-        if nx.shortest_path_length(graph, v, w) == 2:
+        if distance(graph, frozenset([v, w])) == 2:
             # for u in graph:
             # for u in set(graph) - {v, w}:
             # u is at distance >= 2 of both v and w iff it's not adjacent to either
             # of them
             for u in set(nx.non_neighbors(graph, v)) & set(nx.non_neighbors(graph, w)):
                 # skip if u not equidistant from v and w or not at distance >= 2
-                k = nx.shortest_path_length(graph, u, v)
-                if k < 2 or nx.shortest_path_length(graph, u, w) != k:
+                k = distance(graph, frozenset([u, v]))
+                if k < 2 or distance(graph, frozenset([u, w])) != k:
                     continue
 
                 # is there a common neighbor of v and w at distance k-1 from u?
                 if all(
-                        nx.shortest_path_length(graph, u, x) != k - 1
+                        distance(graph, frozenset([u, x])) != k - 1
                         for x in common_neighbors(graph, v, w)
                 ):
                     return False
@@ -489,7 +485,7 @@ def distance(graph: nx.Graph, pair: frozenset) -> int:
     :param graph:
     :return:
     """
-    return int(nx.shortest_path_length(graph, *pair))
+    return nx.shortest_path_length(graph, *pair)
 
 
 @assign_class_id("gc_222")
@@ -666,8 +662,8 @@ def is_geodetic(graph: nx.Graph) -> bool:
 
     # naïve algorithm
     for u, v in combinations(graph, 2):
-        for i, _ in enumerate(nx.all_shortest_paths(graph, u, v), 1):
-            if i > 1:
+        for k, _ in enumerate(nx.all_shortest_paths(graph, u, v), 1):
+            if k > 1:
                 return False
 
     return True
