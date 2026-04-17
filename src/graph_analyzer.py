@@ -33,7 +33,7 @@ from tqdm import tqdm
 # ----- My imports --------------------------------------------------------------------------------
 from cache_utils import clear_function_caches, get_cached_non_recognizers
 from classification_digraph import ClassificationDigraph
-from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings, clear_subgraph_cache
+from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings, clear_subgraph_cache, query_status
 from isgci.isgci_base import (
     isgci_equivalences,
     BASE_CLASS_URL,
@@ -238,7 +238,14 @@ class GraphAnalyzer:
         """
         try:
             # recognize graph and store information for analysis and cache clearing
-            result = recognizer(graph)
+            # we don't need to run the recognizer at all if one of its forbidden subgraphs is known
+            # to appear in the graph
+            fisc = getattr(recognizer, "fisc", None)
+            if fisc is not None and any(query_status(graph, subgraph) is True for subgraph in fisc):
+                result = False
+            else:
+                result = recognizer(graph)
+
             self.recognizers_that_were_run.add(recognizer.__name__)
             called_recognizers.add(recognizer)
             # use membership information to propagate the results to superclasses or subclasses
@@ -253,7 +260,7 @@ class GraphAnalyzer:
             if result:
                 # if graph is a member of class and the recognizer has a FISC, then no subgraph in
                 # its FISC appears in graph: propagate those findings
-                if fisc := getattr(recognizer, "fisc", None):
+                if fisc is not None:
                     _dispatch_findings(graph, fisc, False)
 
                 # propagate findings using exclusion relationships if possible; class_id might be

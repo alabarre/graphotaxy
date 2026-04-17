@@ -427,6 +427,15 @@ class SubgraphMatcher:
         """
         return set(filterfalse(self._checked_subgraphs.get, self._checked_subgraphs))
 
+    def get_status(self, subgraph: str) -> int:
+        """
+        Returns the status of the subgraph with respect to the target graph.
+
+        :param subgraph:
+        :return:
+        """
+        return self._checked_subgraphs[subgraph]
+
 
 # Functions ---------------------------------------------------------------------------------------
 def _dispatch_findings(graph: nx.Graph, subgraphs: Iterable[str], value: bool) -> None:
@@ -470,3 +479,18 @@ def clear_subgraph_cache(graph: nx.Graph) -> None:
     # it will remain here
     if graph in __MATCHERS:  # mandatory check: we may not have called is_h_free at all
         del __MATCHERS[graph]
+
+
+def query_status(graph: nx.Graph, subgraph: str) -> int:
+    """
+    Returns the status of subgraph in graph: unknown, known to appear, or known not to appear.
+    Does not perform any search.
+
+    :param graph:
+    :param subgraphs:
+    :return:
+    """
+    if graph not in __MATCHERS:
+        return SubgraphMatcher._unknown_status
+
+    return __MATCHERS[graph].get_status(subgraph)
