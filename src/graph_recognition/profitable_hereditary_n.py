@@ -25,6 +25,7 @@ import networkx as nx
 from networkx.algorithms.planarity import LRPlanarity  # noqa (not declared in __all__)
 from networkx.generators import line
 from networkx.utils import arbitrary_element
+from pyroaring import BitMap
 from tralda.cograph import to_cotree
 
 # ----- My imports --------------------------------------------------------------------------------
@@ -1048,7 +1049,7 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         :param v:
         :return:
         """
-        return set(graph[v])
+        return BitMap(graph[v])
 
     def _find_chordality_breaker(s=None, treewidth_bound=maxsize):
         """
@@ -1062,11 +1063,11 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         """
         if len(graph) == 0:
             raise nx.NetworkXPointlessConcept("Graph has no nodes.")
-        unnumbered = set(graph)
+        unnumbered = BitMap(graph)
         if s is None:
             s = arbitrary_element(graph)
         unnumbered.remove(s)
-        numbered = {s}
+        numbered = BitMap({s})
         current_treewidth = -1
         while unnumbered:  # and current_treewidth <= treewidth_bound:
             v = _max_cardinality_node(unnumbered, numbered)
@@ -1088,7 +1089,7 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
         return ()
 
-    def _max_cardinality_node(choices: Iterable, wanna_connect: set) -> Hashable:
+    def _max_cardinality_node(choices: Iterable, wanna_connect: BitMap) -> Hashable:
         """
         Returns a node in choices with the most connections in graph to nodes in wanna_connect.
         """

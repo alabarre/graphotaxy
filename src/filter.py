@@ -14,7 +14,7 @@ from os.path import basename
 from typing import Iterator, Iterable, Callable
 
 # ----- My imports --------------------------------------------------------------------------------
-from undirected_graph import UndirectedGraph
+from graph_recognition.undirected_graph import UndirectedGraph
 from graph_recognition.smallgraphs import all_smallgraphs_by_order
 from tools.compute_fisc_basis import basis
 

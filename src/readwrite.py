@@ -18,8 +18,7 @@ from typing import Iterator, Any, Callable
 import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
-from undirected_graph import UndirectedGraph
+from graph_recognition.undirected_graph import UndirectedGraph
 
 # Global variables --------------------------------------------------------------------------------
 NAUTY_READERS = {"g6": nx.from_graph6_bytes, "s6": nx.from_sparse6_bytes}

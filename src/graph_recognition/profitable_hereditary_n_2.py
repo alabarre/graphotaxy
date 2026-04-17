@@ -418,8 +418,7 @@ def is_line_graph_of_bipartite_graph(graph: nx.Graph) -> bool:
     """
     for cc in connected_components(graph):
         try:
-            inverse = nx.inverse_line_graph(graph.subgraph(cc))
-            if not is_bipartite(inverse):
+            if not is_bipartite(nx.inverse_line_graph(graph.subgraph(cc))):
                 return False
         except nx.NetworkXError:
             return False
@@ -781,10 +780,6 @@ def is_strict_2_threshold(graph: nx.Graph) -> bool:
     # subgraphs succeed
     c_subgraph, t2_subgraph = c_and_t2_subgraphs(t1_subgraph)
     return is_threshold(t1_subgraph) and is_threshold(t2_subgraph) and is_empty(c_subgraph)
-
-
-# I'll specify a partial fisc here because is_co_forest is not a recognizer so its attached fisc
-# is not taken advantage of.
 
 
 # -------------------------------------------------------------------------------------------------

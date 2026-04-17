@@ -4,7 +4,6 @@ Anthony Labarre © 2024-2026
 A minimal implementation of an undirected graph that subclasses the Graph structure from networkx.
 
 """
-from time import perf_counter
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 from typing import Hashable
@@ -17,9 +16,8 @@ class UndirectedGraph(Graph):
     """
     Implementation of an undirected graph. This is simply a stripped down version of networkx's
     Graph class, obtained by getting rid of node and edge properties, which will never be needed.
-
-    Additionally, number_of_edges() and size() run in time O(1) instead of O(m+n).
     """
+
     def __init__(self, incoming_graph_data=None, **attr):
         self._num_edges = 0
         super().__init__(incoming_graph_data, **attr)
@@ -27,7 +25,6 @@ class UndirectedGraph(Graph):
     # we don't need edge attributes, so we remove them as in the example at
     # https://networkx.org/documentation/stable/reference/classes/graph.html
     all_edge_dict = dict()
-
 
     def single_edge_dict(self) -> dict:
         """
@@ -64,7 +61,7 @@ class UndirectedGraph(Graph):
         :param v:
         :return:
         """
-        #print(f"self._num_edges = {self._num_edges}, len(self.edges) = {len(self.edges)}")
+        # print(f"self._num_edges = {self._num_edges}, len(self.edges) = {len(self.edges)}")
         '''
         start = perf_counter()
         x = len(self.edges)
@@ -96,7 +93,6 @@ class UndirectedGraph(Graph):
         `to_directed()` copies.
         """
         return UndirectedGraph
-
 
     def add_edges_from(self, ebunch_to_add, **attr):
         """

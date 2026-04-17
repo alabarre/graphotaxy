@@ -485,7 +485,7 @@ def distance(graph: nx.Graph, pair: frozenset) -> int:
     :param graph:
     :return:
     """
-    return nx.shortest_path_length(graph, *pair)
+    return int(nx.shortest_path_length(graph, *pair))
 
 
 @assign_class_id("gc_222")
