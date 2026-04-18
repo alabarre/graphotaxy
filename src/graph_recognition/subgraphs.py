@@ -429,7 +429,8 @@ class SubgraphMatcher:
 
     def get_status(self, subgraph: str) -> int:
         """
-        Returns the status of the subgraph with respect to the target graph.
+        Returns the status of the subgraph with respect to the target graph: unknown (-1), known to
+        appear (True), or known not to appear (False). Does not perform any search.
 
         :param subgraph:
         :return:
@@ -483,11 +484,11 @@ def clear_subgraph_cache(graph: nx.Graph) -> None:
 
 def query_status(graph: nx.Graph, subgraph: str) -> int:
     """
-    Returns the status of subgraph in graph: unknown, known to appear, or known not to appear.
-    Does not perform any search.
+    Returns the status of subgraph in graph: unknown (-1), known to appear (True), or known not to
+    appear (False). Does not perform any search.
 
     :param graph:
-    :param subgraphs:
+    :param subgraph:
     :return:
     """
     if graph not in __MATCHERS:

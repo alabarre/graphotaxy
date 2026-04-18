@@ -1810,70 +1810,6 @@ def is_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     return True
 
 
-# note: the FISC is incomplete, but these are the only C_{n+4} that are stored as smallgraphs
-@assign_fisc(["diamond", "C_{4}", "C_{5}", "C_{6}", "C_{7}", "C_{8}"])
-@assign_class_id("gc_93")
-@lru_cache(maxsize=None)
-def is_block(graph: nx.Graph) -> bool:
-    """
-    A graph is a block graph if every block (maximal 2-connected component) is a clique.
-
-    https://www.graphclasses.org/classes/gc_93
-
-    Equivalent to (C_{n+4}, diamond)-free graphs: https://www.graphclasses.org/classes/AUTO_746
-
-    @type graph: nx.Graph
-    @param graph:
-    @return:
-    """
-    return all(is_complete(bc) for bc in map(graph.subgraph, nx.biconnected_components(graph)))
-
-
-@assign_fisc(
-    {
-        'co(C_{4})',
-        'house',
-        'co-paw',
-        'K_{2,3}',
-        '4K_{1}',
-        'co-claw',
-        'co-diamond',
-        '2K_{2}',
-        'diamond',
-        'K_{4}'
-    }
-)  # basis of a partial fisc computed by filter.py
-@assign_class_id("gc_108")
-@lru_cache(maxsize=None)
-def is_cactus(graph: nx.Graph) -> bool:
-    """
-    A graph is a cactus if every edge is part of at most one cycle.
-
-    This is not the same as being diamond-free: the graph might contain larger cycles that share an
-    edge. The partial FISC of this graph class is obtained by listing those smallgraphs that can be
-    viewed as "glued cycles".
-
-    https://www.graphclasses.org/classes/gc_108.html
-
-    @param graph:
-    @return:
-    """
-    # adapted from sagemath
-    # Special cases
-    if graph.order() < 4:
-        return True
-
-    if not is_connected(graph):
-        return False
-
-    # every biconnected component must be a cycle or a single edge
-    return all(
-        degree_sequence(graph.subgraph(bc))
-        in (array("b", [1, 1]), array("b", [2] * len(bc)))
-        for bc in nx.biconnected_components(graph)
-    )
-
-
 @assign_fisc(["C_{5}", "co-butterfly", "co-diamond", "triangle"])
 @assign_class_id("gc_685")
 @lru_cache(maxsize=None)
@@ -2582,6 +2518,77 @@ def is_p4_co_cycle_free(graph: nx.Graph) -> bool:
     @return:
     """
     return is_cograph(graph) and online_is_forest(nx.non_edges(graph))
+
+
+# -------------------------------------------------------------------------------------------------
+# All recognizers below are based on biconnected components. The implementation provided by
+# networkx can be memory hungry for large graphs, which is why we'd rather run other algorithms
+# before.
+# -------------------------------------------------------------------------------------------------
+
+
+# note: the FISC is incomplete, but these are the only C_{n+4} that are stored as smallgraphs
+@assign_fisc(["diamond", "C_{4}", "C_{5}", "C_{6}", "C_{7}", "C_{8}"])
+@assign_class_id("gc_93")
+@lru_cache(maxsize=None)
+def is_block(graph: nx.Graph) -> bool:
+    """
+    A graph is a block graph if every block (maximal 2-connected component) is a clique.
+
+    https://www.graphclasses.org/classes/gc_93
+
+    Equivalent to (C_{n+4}, diamond)-free graphs: https://www.graphclasses.org/classes/AUTO_746
+
+    @type graph: nx.Graph
+    @param graph:
+    @return:
+    """
+    return all(is_complete(bc) for bc in map(graph.subgraph, nx.biconnected_components(graph)))
+
+
+@assign_fisc(
+    {
+        'co(C_{4})',
+        'house',
+        'co-paw',
+        'K_{2,3}',
+        '4K_{1}',
+        'co-claw',
+        'co-diamond',
+        '2K_{2}',
+        'diamond',
+        'K_{4}'
+    }
+)  # basis of a partial fisc computed by filter.py
+@assign_class_id("gc_108")
+@lru_cache(maxsize=None)
+def is_cactus(graph: nx.Graph) -> bool:
+    """
+    A graph is a cactus if every edge is part of at most one cycle.
+
+    This is not the same as being diamond-free: the graph might contain larger cycles that share an
+    edge. The partial FISC of this graph class is obtained by listing those smallgraphs that can be
+    viewed as "glued cycles".
+
+    https://www.graphclasses.org/classes/gc_108.html
+
+    @param graph:
+    @return:
+    """
+    # adapted from sagemath
+    # Special cases
+    if graph.order() < 4:
+        return True
+
+    if not is_connected(graph):
+        return False
+
+    # every biconnected component must be a cycle or a single edge
+    return all(
+        degree_sequence(graph.subgraph(bc))
+        in (array("b", [1, 1]), array("b", [2] * len(bc)))
+        for bc in nx.biconnected_components(graph)
+    )
 
 
 # -------------------------------------------------------------------------------------------------

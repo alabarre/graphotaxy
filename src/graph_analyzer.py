@@ -243,18 +243,17 @@ class GraphAnalyzer:
             fisc = getattr(recognizer, "fisc", None)
             if fisc is not None and any(query_status(graph, subgraph) is True for subgraph in fisc):
                 result = False
+                reason = (f"{recognizer.__name__} not run: result known to be False because of the "
+                          f"presence of a forbidden subgraph")
             else:
                 result = recognizer(graph)
+                self.recognizers_that_were_run.add(recognizer.__name__)
+                called_recognizers.add(recognizer)
+                reason = f"{recognizer.__name__} returns {result}"
 
-            self.recognizers_that_were_run.add(recognizer.__name__)
-            called_recognizers.add(recognizer)
             # use membership information to propagate the results to superclasses or subclasses
             self.discarded_due_to_propagation += len(
-                classification.label_and_propagate(
-                    class_id,
-                    result,
-                    f"{recognizer.__name__} returns {result}",
-                )
+                classification.label_and_propagate(class_id, result, reason)
             )
             # additional propagations can be achieved if graph is a member of the given class
             if result:
