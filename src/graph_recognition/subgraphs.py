@@ -162,31 +162,6 @@ class SubgraphMatcher:
         if pattern.degree and degree_sequence(pattern)[0] > self._graph_max_degree:
             return False
 
-        # O(m+n) verifications --------------------------------------------------------------------
-        # looking for an independent set takes a long time; if we find a large
-        # enough one, then we don't need to explicitly look for it
-        if smallgraph_name[1:] == "K_{1}":
-            mis_size = len(nx.maximal_independent_set(self._graph))
-            if mis_size >= int(smallgraph_name[0]):
-                # also update all larger sets; largest is 7
-                for i in range(2, min(8, mis_size)):
-                    self._checked_subgraphs[str(i) + "K_{1}"] = True
-                return True
-
-        if smallgraph_name == "triangle":
-            smallgraph_name = "K_{3}"
-
-        # looking for a clique takes a long time; if we find a large enough one, then we don't need
-        # to explicitly look for it
-        '''
-        if smallgraph_name[:3] == "K_{" and smallgraph_name[4:] == "}":
-            max_clique_size = nx.approximation.large_clique_size(self._graph)
-            if max_clique_size >= int(smallgraph_name[3]):
-                # also update all larger sets; largest is 7
-                for i in range(2, min(8, max_clique_size)):
-                    self._checked_subgraphs["K_{" + str(i) + "}"] = True
-                return True
-        '''
         # *****************************************************************************************
         # * 2) recurse on smaller patterns in the hope that they will provide                     *
         # *    answers without relying on the solver for current pattern                          *
