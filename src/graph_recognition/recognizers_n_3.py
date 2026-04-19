@@ -13,6 +13,7 @@ from typing import Any, Iterator
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from pyroaring import BitMap
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
@@ -79,7 +80,7 @@ def explicit_independent_triplets(graph: nx.Graph) -> Iterator:
     for u, v in nx.non_edges(graph):
         # careful: we may have w == v, since they are both non-neighbors of u, so we need to
         # explicitly exclude v
-        for w in set(nx.non_neighbors(graph, u)) - {v}:
+        for w in BitMap(nx.non_neighbors(graph, u)) - BitMap({v}):
             if not graph.has_edge(v, w):
                 yield {u, v, w}
 
@@ -96,11 +97,11 @@ def vertices_on_shortest_paths_between(graph: nx.Graph, pair: frozenset) -> set:
     :param pair: the two vertices to query
     """
     try:
-        return set(chain(*(nx.all_shortest_paths(graph, *pair))))
+        return BitMap(chain(*(nx.all_shortest_paths(graph, *pair))))
 
     except nx.exception.NetworkXNoPath:
         # this exception is raised when no path exists between u and v
-        return set()
+        return BitMap()
 
 
 @lru_cache(maxsize=None)

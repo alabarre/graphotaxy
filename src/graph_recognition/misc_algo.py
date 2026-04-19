@@ -11,6 +11,7 @@ from collections import defaultdict
 from collections.abc import Hashable
 from functools import lru_cache
 from itertools import combinations
+from math import inf
 from typing import Any, Callable, Iterator, Generator, Dict, Iterable
 
 # ----- Third-party imports -----------------------------------------------------------------------
@@ -714,6 +715,30 @@ def all_vertices_are_int(graph: nx.Graph) -> bool:
     :return:
     """
     return all(isinstance(v, int) for v in graph)
+
+@lru_cache(maxsize=None)
+def maximal_independent_set(graph: nx.Graph, cutoff: int=inf) -> set:
+    """
+    Returns a maximal (not maximum) independent set for the given graph. If cutoff if specified,
+    stops as soon as the size of the set reaches it.
+
+    Networkx has its own function for doing that, but I didn't want randomness. Moreover, for my
+    purposes, a cutoff around 10 will usually be enough, and their function doesn't provide that.
+
+    :param graph:
+    :param cutoff:
+    :return:
+    """
+    retval = set()
+    graph_copy = graph.copy()
+    while graph_copy and len(retval) < cutoff:
+        # select a vertex with minimum degree
+        v = min(graph_copy, key=graph_copy.degree)
+        retval.add(v)
+        # remove the closed neighborhood of v from the graph
+        graph_copy.remove_nodes_from({v}.union(graph_copy[v]))
+
+    return retval
 
 
 # Algorithms that needed to be reimplemented in order to be compatible with HalfAdjacencyMatrix ---
