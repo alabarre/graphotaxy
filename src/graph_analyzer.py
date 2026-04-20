@@ -73,6 +73,7 @@ class GraphAnalyzer:
         # data related to analysis statistics -----------------------------------------------------
         self.discarded_due_to_exclusion = 0
         self.discarded_due_to_propagation = 0
+        self.discarded_thanks_to_fisc_info = 0
         self.gss_crashed = False
         self.hits_and_misses = {"hits": 0, "misses": 0}
         self.recognizers_that_were_run = set()
@@ -245,6 +246,7 @@ class GraphAnalyzer:
                 result = False
                 reason = (f"{recognizer.__name__} not run: result known to be False because of the "
                           f"presence of a forbidden subgraph")
+                self.discarded_thanks_to_fisc_info += 1
             else:
                 result = recognizer(graph)
                 self.recognizers_that_were_run.add(recognizer.__name__)
@@ -536,6 +538,12 @@ class GraphAnalyzer:
         print(
             f"    - {self.discarded_due_to_exclusion // self.num_graphs} classes were "
             f"skipped thanks to exclusion relationships",
+            end="",
+        )
+        print([".", f" (average over {self.num_graphs} graphs)."][self.num_graphs > 1])
+        print(
+            f"    - {self.discarded_thanks_to_fisc_info // self.num_graphs} classes were "
+            f"skipped thanks to acquired knowledge about FISCs",
             end="",
         )
         print([".", f" (average over {self.num_graphs} graphs)."][self.num_graphs > 1])

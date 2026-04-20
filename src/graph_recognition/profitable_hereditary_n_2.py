@@ -29,7 +29,7 @@ from graph_recognition.misc_algo import (
     number_of_common_neighbors,
     is_connected,
     is_h_u_k1_free,
-    co_connected_components, complement_as_adj_mat, connected_components,
+    co_connected_components, complement_as_adj_mat, connected_components, is_regular,
 )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
@@ -383,7 +383,7 @@ def is_strongly_regular(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return nx.is_regular(graph) and is_deza(graph)
+    return is_regular(graph) and is_deza(graph)
 
 
 # not profitable, but needed by a profitable class so included here to avoid circular import issues

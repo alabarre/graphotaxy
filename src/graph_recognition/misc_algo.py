@@ -227,6 +227,27 @@ def number_of_common_neighbors(graph: nx.Graph, u: Any, v: Any) -> int:
     return sum(1 for _ in common_neighbors(graph, u, v))
 
 
+@lru_cache(maxsize=None)
+def is_regular(graph: nx.Graph) -> bool:
+    """
+    Returns True if graph is regular.
+
+    Networkx have their own function, but this one is cached and expected to be faster. Since we
+    most likely need to compute the degree sequence of our graph, chances are we can often answer
+    the question in O(1) time.
+
+    :param graph:
+    :return:
+    """
+    # we follow networkx's convention to be consistent
+    if len(graph) == 0:
+        raise nx.NetworkXPointlessConcept("Graph has no nodes.")
+
+    ds = degree_sequence(graph)
+    return ds[0] == ds[-1]
+
+
+
 # Functions for recognizing a graph by repeatedly removing edges ----------------------------------
 @lru_cache(maxsize=None)
 def empty_graph_by_removing_edges_and_incident_edges(graph: nx.Graph, criterion: Callable) -> bool:

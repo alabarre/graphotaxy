@@ -20,7 +20,7 @@ from graph_recognition.misc_algo import (
     complement,
     number_of_common_neighbors,
     degree_sequence,
-    is_connected, is_co_connected, co_connected_components,
+    is_connected, is_co_connected, co_connected_components, is_regular,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
@@ -178,7 +178,7 @@ def is_edge_regular(graph: nx.Graph) -> bool:
     if not graph.size():
         return True
 
-    if not nx.is_regular(graph):
+    if not is_regular(graph):
         return False
 
     k = number_of_common_neighbors(graph, *arbitrary_element(graph.edges))
