@@ -9,7 +9,6 @@ O(n^5) algorithms.
 # ----- Standard imports --------------------------------------------------------------------------
 import os
 from array import array
-from collections import defaultdict
 from functools import lru_cache
 from itertools import combinations
 from typing import Iterable, Hashable
@@ -18,6 +17,7 @@ from typing import Iterable, Hashable
 import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.directed_graph import DirectedGraph
 from graph_recognition.fisc_based_recognizers import (
     is_p5_bull_free,
     is_gc_917,
@@ -44,7 +44,6 @@ from graph_recognition.misc_algo import (
     empty_graph_by_removing_vertices,
     enumerate_all_p4s,
 )
-
 from graph_recognition.profitable_hereditary_n import (
     is_complete_bipartite,
     is_bipartite,
@@ -525,10 +524,10 @@ def is_cograph_contraction(graph: nx.Graph) -> bool:
         return degree_sequence(subgraph) == house_degseq and not is_bipartite(subgraph)
 
     # algorithm from https://onlinelibrary.wiley.com/doi/abs/10.1002/(SICI)1097-0118(199904)30:4%3C309::AID-JGT5%3E3.0.CO;2-5 p 312
-    implication_graph = defaultdict(set)
+    implication_graph = DirectedGraph()
     # for all non-edges (a, b), build a clause (not a or not b) equivalent to (a => not b)
     for a, b in nx.non_edges(graph):
-        implication_graph[a].add(Not(b))
+        implication_graph.add_edge(a, Not(b))
 
     # for each P_4 (a, b, c, d), add clause (b or c)  equivalent to (not b => c)
     # in order to go through fewer subsets, don't examine every 4-subset of vertices; instead,
@@ -542,7 +541,7 @@ def is_cograph_contraction(graph: nx.Graph) -> bool:
         ):
             # we have a P_{4}, extract b and c and build clause
             b, c = {v for v, deg in graph.subgraph(p4_candidates).degree if deg == 1}
-            implication_graph[Not(b)].add(c)
+            implication_graph.add_edge(Not(b), c)
 
     # co-P5 condition
     for co_p5_candidates in combinations(graph, 5):
@@ -550,8 +549,8 @@ def is_cograph_contraction(graph: nx.Graph) -> bool:
             # we have a co(P_5), extract its midpoints and build clauses (b or b) equivalent to
             # (not b => b) and (d or d) equivalent to (not d => d)
             b, d = {v for v, deg in graph.subgraph(co_p5_candidates).degree if deg == 3}
-            implication_graph[Not(b)].add(b)
-            implication_graph[Not(d)].add(d)
+            implication_graph.add_edge(Not(b), b)
+            implication_graph.add_edge(Not(d), d)
 
     return satisfiable(implication_graph)
 

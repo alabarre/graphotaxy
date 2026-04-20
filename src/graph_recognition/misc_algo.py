@@ -716,14 +716,16 @@ def all_vertices_are_int(graph: nx.Graph) -> bool:
     """
     return all(isinstance(v, int) for v in graph)
 
+
 @lru_cache(maxsize=None)
-def maximal_independent_set(graph: nx.Graph, cutoff: int=inf) -> set:
+def maximal_independent_set(graph: nx.Graph, cutoff: int = inf) -> set:
     """
-    Returns a maximal (not maximum) independent set for the given graph. If cutoff if specified,
+    Returns a maximal (not maximum) independent set for the given graph. If cutoff is specified,
     stops as soon as the size of the set reaches it.
 
     Networkx has its own function for doing that, but I didn't want randomness. Moreover, for my
-    purposes, a cutoff around 10 will usually be enough, and their function doesn't provide that.
+    purposes, a cutoff at 7 will usually be enough, and their function doesn't provide that
+    capability.
 
     :param graph:
     :param cutoff:

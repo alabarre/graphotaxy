@@ -8,7 +8,6 @@ O(n^4) algorithms.
 # ----- Standard imports --------------------------------------------------------------------------
 import os
 from array import array
-from collections import defaultdict
 from collections.abc import Hashable
 from functools import lru_cache
 from itertools import combinations
@@ -16,8 +15,10 @@ from itertools import combinations
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
-from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
+from graph_recognition.directed_graph import DirectedGraph
+from graph_recognition.domination import has_dominating_set_of_size_at_most_2
 from graph_recognition.misc_algo import (
     degree_sequence,
     complement,
@@ -26,7 +27,6 @@ from graph_recognition.misc_algo import (
     enumerate_all_p4s,
     co_connected_components, number_of_common_neighbors, complement_as_adj_mat,
 )
-from graph_recognition.domination import has_dominating_set_of_size_at_most_2
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
@@ -273,16 +273,15 @@ def is_p4_brittle(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     @return:
     """
     # algorithm from https://doi.org/10.1016/S0012-365X(99)00300-3, p 204
-    implication_graph = defaultdict(set)
+    implication_graph = DirectedGraph()
     # for each P_{4} (abcd) we have a clause (a or d) equivalent to (not a => d)
     for p4 in enumerate_all_p4s(graph):
         # we have a P_{4}, extract a and d and build clause
         a, d = {v for v, deg in graph.subgraph(p4).degree if deg == 1}
-        implication_graph[Not(a)].add(d)
+        implication_graph.add_edge(Not(a), d)
 
     # for each edge (ab) we have a clause (not a or not b) equivalent to (a => not b)
-    for a, b in graph.edges():
-        implication_graph[a].add(Not(b))
+    implication_graph.add_edges_from((a, Not(b)) for a, b in graph.edges())
 
     return satisfiable(implication_graph)
 

@@ -86,7 +86,7 @@ def explicit_independent_triplets(graph: nx.Graph) -> Iterator:
 
 
 @lru_cache(maxsize=None)
-def vertices_on_shortest_paths_between(graph: nx.Graph, pair: frozenset) -> set:
+def vertices_on_shortest_paths_between(graph: nx.Graph, pair: frozenset) -> BitMap:
     """
     Returns the set of all vertices on all shortest paths between u and v in graph.
 
@@ -431,6 +431,10 @@ def is_interval_regular(graph: nx.Graph) -> bool:
     if not is_connected(graph):
         return False
 
+    @lru_cache(maxsize=None)
+    def _neighbors(x: Any) -> BitMap:
+        return BitMap(graph[x])
+
     # NOTE: I used to precompute all intervals, but that was way too slow, so now I'm computing
     # them as I go in the hope that we'll stop early
     for u, v in combinations(graph.nodes, 2):
@@ -438,11 +442,13 @@ def is_interval_regular(graph: nx.Graph) -> bool:
         # note: since combinations produces unique pairs, we must check the condition both ways
         # (i.e., for u and for v)
         if (
-                len(set(graph[u]) & int_u_v) != distance(graph, frozenset([u, v])) or
-                len(set(graph[v]) & int_u_v) != distance(graph, frozenset([u, v]))
+                len(_neighbors(u) & int_u_v) != distance(graph, frozenset([u, v])) or
+                len(_neighbors(v) & int_u_v) != distance(graph, frozenset([u, v]))
         ):
+            _neighbors.cache_clear()
             return False
 
+    _neighbors.cache_clear()
     return True
 
 
@@ -532,7 +538,8 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
 
             if int_u_v & int_u_w == {u} and int_u_v & int_v_w == {v} and int_u_w & int_v_w == {w}:
                 # do all vertices in I(v, w) have the same distance to u?
-                if len({distance(graph, frozenset([x, u])) for x in int_v_w}) != 1:
+                k = distance(graph, frozenset([next(iter(int_u_v)), u]))
+                if any(distance(graph, frozenset([x, u])) != k for x in int_v_w):
                     return False
 
     return True

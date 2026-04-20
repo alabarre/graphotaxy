@@ -29,9 +29,9 @@ whenever possible; namely:
             avoid future searches
 
 """
-import inspect
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
+import inspect
 import logging
 import os.path
 import re
@@ -166,7 +166,6 @@ class SubgraphMatcher:
         # looking for an independent set takes a long time; if we find a large
         # enough one, then we don't need to explicitly look for it
         if smallgraph_name[1:] == "K_{1}":
-            # mis_size = len(nx.maximal_independent_set(self._graph))
             mis_size = len(maximal_independent_set(self._graph, cutoff=7))
             if mis_size >= int(smallgraph_name[0]):
                 # also update all larger sets; largest is 7

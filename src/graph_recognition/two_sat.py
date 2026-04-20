@@ -17,7 +17,7 @@ networkx.
         see  https://doi.org/10.1016/S0012-365X(99)00300-3 p 204
 
 """
-from typing import Callable, Hashable
+from typing import Hashable
 
 """
 Not.py
@@ -68,23 +68,8 @@ class SymbolicNegation:
         return -hash(self.negation)
 
 
-def Not(x: SymbolicNegation) -> SymbolicNegation:
+def Not(x: SymbolicNegation) -> SymbolicNegation:  # noqa (name should be lowercase)
     return x.negate() if isinstance(x, SymbolicNegation) else SymbolicNegation(x)
-
-
-def copy_graph(graph: dict, adjacency_list_type: Callable = set) -> dict:
-    """
-    Make a copy of a graph G and return the copy. Any information stored in edges G[v][w] is
-    discarded.
-
-    Most of the time, copy.deepcopy will be preferable to this function; however, unlike deepcopy,
-    this function can change the data type of the adjacency list of the given graph.
-
-    The second argument should be a callable that turns a sequence of neighbors into an appropriate
-    representation of the adjacency list. Note that, while Set, list, and tuple are appropriate
-    values for adjacency_list_type, dict is not -- use Util.map_to_constant instead.
-    """
-    return {v: adjacency_list_type(iter(graph[v])) for v in graph}
 
 
 def condensation(graph: DiGraph) -> dict:
@@ -139,30 +124,9 @@ D. Eppstein, April 2009.
 """
 
 
-def symmetrize(graph: dict) -> DiGraph:
-    """Expand implication graph to a larger symmetric form.
-
-    If the 2SAT instance includes an implication A=>B, then it is also valid to conclude that
-    ~B => ~A, and our 2SAT solver needs to have that second implication made explicit. But we do
-    not want to force users to supply the contrapositives for each of the implications they
-    include, so we use this routine to fill in any missing implications.
+def symmetrize_in_place(graph: DiGraph) -> None:
     """
-    new_graph = copy_graph(graph)
-    for v in graph:
-        new_graph.setdefault(Not(v), set())  # make sure all negations are included
-        for w in graph[v]:
-            new_graph.setdefault(w, set())  # as well as all implicants
-            new_graph.setdefault(Not(w), set())  # and negated implicants
-
-    for v in graph:
-        for w in graph[v]:
-            new_graph[Not(w)].add(Not(v))
-
-    return DiGraph(new_graph)
-
-
-def symmetrize_in_place(graph: dict) -> DiGraph:
-    """Expand implication graph to a larger symmetric form.
+    Expand implication graph to a larger symmetric form.
 
     If the 2SAT instance includes an implication A=>B, then it is also valid to conclude that
     ~B => ~A, and our 2SAT solver needs to have that second implication made explicit. But we do
@@ -172,24 +136,16 @@ def symmetrize_in_place(graph: dict) -> DiGraph:
     This does the same thing as David Eppstein's original symmetrize function, but in place instead
     of returning a new copy.
     """
-    for v in set(graph):
-        graph.setdefault(Not(v), set())  # make sure all negations are included
-        for w in set(graph[v]):
-            graph.setdefault(w, set())  # as well as all implicants
-            graph.setdefault(Not(w), set())  # and negated implicants
-
-    for v in set(graph):
-        for w in set(graph[v]):
-            graph[Not(w)].add(Not(v))
-
-    return DiGraph(graph)
+    # note: using set is mandatory, otherwise we're modifying while iterating
+    graph.add_edges_from((Not(w), Not(v)) for v, w in set(graph.edges))
 
 
-def satisfiable(graph: dict) -> bool:
+def satisfiable(graph: DiGraph) -> bool:
     """
     Does this 2SAT instance have a satisfying assignment?
     """
-    if any(Not(v) in scc for scc in condensation(symmetrize_in_place(graph)) for v in scc):
+    symmetrize_in_place(graph)
+    if any(Not(v) in scc for scc in condensation(graph) for v in scc):
         return False
 
     return True
