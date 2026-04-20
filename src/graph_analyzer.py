@@ -528,25 +528,20 @@ class GraphAnalyzer:
             f"of all calls to recognizers were simple lookups)."
         )
         # information on skipped classes
+        right_suffix = [".", f" (average over {self.num_graphs} graphs)."][self.num_graphs > 1]
         print("- skipped classes:")
         print(
             f"    - {self.discarded_due_to_propagation // self.num_graphs} classes were skipped "
-            f"thanks to inclusion relationships",
-            end="",
+            f"thanks to inclusion relationships{right_suffix}"
         )
-        print([".", f" (average over {self.num_graphs} graphs)."][self.num_graphs > 1])
         print(
             f"    - {self.discarded_due_to_exclusion // self.num_graphs} classes were "
-            f"skipped thanks to exclusion relationships",
-            end="",
+            f"skipped thanks to exclusion relationships{right_suffix}"
         )
-        print([".", f" (average over {self.num_graphs} graphs)."][self.num_graphs > 1])
         print(
             f"    - {self.discarded_thanks_to_fisc_info // self.num_graphs} classes were "
-            f"skipped thanks to acquired knowledge about FISCs",
-            end="",
+            f"skipped thanks to acquired knowledge about FISCs{right_suffix}"
         )
-        print([".", f" (average over {self.num_graphs} graphs)."][self.num_graphs > 1])
         if self.blacklisted:
             print(
                 f"    - {len(self.blacklisted)} classes were skipped as instructed by the "

@@ -42,7 +42,7 @@ from graph_recognition.profitable_hereditary_n_2 import is_co_paw_free
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
-    assign_fisc,
+    assign_fisc, assign_inherited_fisc,
 )
 from graph_recognition.subgraphs import is_h_free
 
@@ -203,6 +203,7 @@ def is_3k1_free(graph: nx.Graph) -> bool:
     return not has_3k_1
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_234")
 @lru_cache(maxsize=None)
 def is_interval(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
@@ -399,7 +400,7 @@ def is_locally_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     return all(is_bipartite(graph.subgraph(graph[v])) for v in graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("AUTO_741")
 @lru_cache(maxsize=None)
 def is_xc11_claw_diamond_free(graph: nx.Graph) -> bool:
@@ -413,7 +414,7 @@ def is_xc11_claw_diamond_free(graph: nx.Graph) -> bool:
     return is_maximum_degree_4(graph) and is_claw_diamond_free(graph)
 
 
-# profitable from constituent classes
+@assign_inherited_fisc()
 @assign_class_id("AUTO_849")
 @lru_cache(maxsize=None)
 def is_xc_12_triangle_free(graph: nx.Graph) -> bool:
@@ -427,7 +428,7 @@ def is_xc_12_triangle_free(graph: nx.Graph) -> bool:
     return is_maximum_degree_3(graph) and is_triangle_free(graph)
 
 
-# profitable from constituent classes
+@assign_inherited_fisc()
 @assign_class_id("AUTO_3254")
 @lru_cache(maxsize=None)
 def is_3k_1_co_xc_12_free(graph: nx.Graph) -> bool:
@@ -441,7 +442,7 @@ def is_3k_1_co_xc_12_free(graph: nx.Graph) -> bool:
     return is_co_maximum_degree_3(graph) and is_3k1_free(graph)
 
 
-# profitable from constituent classes
+@assign_inherited_fisc()
 @assign_class_id("gc_1274")
 @lru_cache(maxsize=None)
 def is_maximum_degree_3_and_planar_and_triangle_free(graph: nx.Graph) -> bool:
@@ -455,7 +456,7 @@ def is_maximum_degree_3_and_planar_and_triangle_free(graph: nx.Graph) -> bool:
     return is_planar_and_maximum_degree_3(graph) and is_triangle_free(graph)
 
 
-# profitable from constituent classes
+@assign_inherited_fisc()
 @assign_class_id("gc_869")
 @lru_cache(maxsize=None)
 def is_planar_and_triangle_free(graph: nx.Graph) -> bool:
@@ -469,7 +470,7 @@ def is_planar_and_triangle_free(graph: nx.Graph) -> bool:
     return is_planar(graph) and is_triangle_free(graph)
 
 
-# profitable from constituent classes
+@assign_inherited_fisc()
 @assign_class_id("gc_885")
 @lru_cache(maxsize=None)
 def is_co_bipartite_and_proper_circular_arc(graph: nx.Graph) -> bool:
@@ -517,6 +518,7 @@ def is_gc_514(graph: nx.Graph) -> bool:
     return is_co_paw_free(graph) and is_paw_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_852")
 @lru_cache(maxsize=None)
 def is_gc_852(graph: nx.Graph) -> bool:
@@ -532,6 +534,7 @@ def is_gc_852(graph: nx.Graph) -> bool:
     return is_cograph(graph) and is_3k1_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1444")
 @lru_cache(maxsize=None)
 def is_auto_1444(graph: nx.Graph) -> bool:
@@ -571,6 +574,7 @@ def is_locally_connected(graph: nx.Graph) -> bool:
     return all(is_connected(graph.subgraph(graph[v])) for v in graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1094")
 @lru_cache(maxsize=None)
 def is_locally_connected_and_maximum_degree_4(graph: nx.Graph) -> bool:
@@ -584,6 +588,7 @@ def is_locally_connected_and_maximum_degree_4(graph: nx.Graph) -> bool:
     return is_maximum_degree_4(graph) and is_locally_connected(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1091")
 @lru_cache(maxsize=None)
 def is_locally_connected_and_maximum_degree_7(graph: nx.Graph) -> bool:
@@ -597,6 +602,7 @@ def is_locally_connected_and_maximum_degree_7(graph: nx.Graph) -> bool:
     return is_maximum_degree_7(graph) and is_locally_connected(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_926")
 @lru_cache(maxsize=None)
 def is_gc_926(graph: nx.Graph) -> bool:
@@ -612,6 +618,7 @@ def is_gc_926(graph: nx.Graph) -> bool:
     return is_co_paw_free(graph) and is_triangle_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1305")
 @lru_cache(maxsize=None)
 def is_gc_1305(graph: nx.Graph) -> bool:

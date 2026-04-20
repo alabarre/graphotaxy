@@ -59,7 +59,7 @@ from graph_recognition.recognizers_n_3 import is_weakly_modular
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
-    assign_fisc,
+    assign_fisc, assign_inherited_fisc,
 )
 from graph_recognition.subgraphs import is_h_free
 
@@ -250,7 +250,7 @@ def is_hole_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     return True
 
 
-# fisc built through calls to constituent recognizers
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2758")
 @lru_cache(maxsize=None)
 def is_anti_hole_odd_anti_cycle_free(graph: nx.Graph) -> bool:
@@ -262,7 +262,7 @@ def is_anti_hole_odd_anti_cycle_free(graph: nx.Graph) -> bool:
     return is_co_bipartite(graph) and is_anti_hole_free(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_126")
 @lru_cache(maxsize=None)
 def is_comparability_and_weakly_chordal(graph: nx.Graph) -> bool:
@@ -276,7 +276,7 @@ def is_comparability_and_weakly_chordal(graph: nx.Graph) -> bool:
     return is_comparability(graph) and is_weakly_chordal(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("AUTO_773")
 @lru_cache(maxsize=None)
 def is_hole_odd_cycle_free(graph: nx.Graph) -> bool:
@@ -288,7 +288,7 @@ def is_hole_odd_cycle_free(graph: nx.Graph) -> bool:
     return is_bipartite(graph) and is_hole_free(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_1277")
 @lru_cache(maxsize=None)
 def is_hole_free_and_planar(graph: nx.Graph) -> bool:
@@ -300,7 +300,7 @@ def is_hole_free_and_planar(graph: nx.Graph) -> bool:
     return is_planar(graph) and is_hole_free(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_14")
 @lru_cache(maxsize=None)
 def is_weakly_chordal(graph: nx.Graph) -> bool:
@@ -312,7 +312,7 @@ def is_weakly_chordal(graph: nx.Graph) -> bool:
     return is_hole_free(graph) and is_anti_hole_free(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2760")
 @lru_cache(maxsize=None)
 def is_co_chordal_and_co_claw_free(graph: nx.Graph) -> bool:
@@ -324,7 +324,7 @@ def is_co_chordal_and_co_claw_free(graph: nx.Graph) -> bool:
     return is_co_claw_free(graph) and is_co_chordal(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2129")
 @lru_cache(maxsize=None)
 def is_co_at_free_and_co_claw_free(graph: nx.Graph) -> bool:
@@ -336,7 +336,7 @@ def is_co_at_free_and_co_claw_free(graph: nx.Graph) -> bool:
     return is_co_claw_free(graph) and is_co_at_free(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2764")
 @lru_cache(maxsize=None)
 def is_co_bipartite_and_co_claw_free(graph: nx.Graph) -> bool:
@@ -348,7 +348,7 @@ def is_co_bipartite_and_co_claw_free(graph: nx.Graph) -> bool:
     return is_co_claw_free(graph) and is_co_bipartite(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_60")
 @lru_cache(maxsize=None)
 def is_at_free_and_claw_free(graph: nx.Graph) -> bool:
@@ -360,7 +360,7 @@ def is_at_free_and_claw_free(graph: nx.Graph) -> bool:
     return is_claw_free(graph) and my_is_at_free(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_525")
 @lru_cache(maxsize=None)
 def is_bipartite_and_claw_free(graph: nx.Graph) -> bool:
@@ -372,7 +372,7 @@ def is_bipartite_and_claw_free(graph: nx.Graph) -> bool:
     return is_claw_free(graph) and is_bipartite(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_303")
 @lru_cache(maxsize=None)
 def is_chordal_and_claw_free(graph: nx.Graph) -> bool:
@@ -384,7 +384,7 @@ def is_chordal_and_claw_free(graph: nx.Graph) -> bool:
     return is_claw_free(graph) and is_chordal(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_1292")
 @lru_cache(maxsize=None)
 def is_claw_free_and_mock_threshold(graph: nx.Graph) -> bool:
@@ -396,7 +396,7 @@ def is_claw_free_and_mock_threshold(graph: nx.Graph) -> bool:
     return is_claw_free(graph) and is_mock_threshold(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1452")
 @lru_cache(maxsize=None)
 def is_auto_1452(graph: nx.Graph) -> bool:
@@ -412,7 +412,7 @@ def is_auto_1452(graph: nx.Graph) -> bool:
     return is_3k1_free(graph) and is_2k2_free(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_509")
 @lru_cache(maxsize=None)
 def is_gc_509(graph: nx.Graph) -> bool:
@@ -427,7 +427,7 @@ def is_gc_509(graph: nx.Graph) -> bool:
     return is_paw_free(graph) and is_claw_free(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1761")
 @lru_cache(maxsize=None)
 def is_auto_1761(graph: nx.Graph) -> bool:
@@ -442,7 +442,7 @@ def is_auto_1761(graph: nx.Graph) -> bool:
     return is_co_diamond_free(graph) and is_co_claw_free(graph) and is_2k2_free(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_1144")
 @lru_cache(maxsize=None)
 def is_claw_free_and_locally_connected(graph: nx.Graph) -> bool:
@@ -456,7 +456,7 @@ def is_claw_free_and_locally_connected(graph: nx.Graph) -> bool:
     return is_locally_connected(graph) and is_claw_free(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1506")
 @lru_cache(maxsize=None)
 def is_auto_1506(graph: nx.Graph) -> bool:
@@ -471,7 +471,7 @@ def is_auto_1506(graph: nx.Graph) -> bool:
     return is_co_diamond_free(graph) and is_2k2_free(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_508")
 @lru_cache(maxsize=None)
 def is_gc_508(graph: nx.Graph) -> bool:
@@ -505,6 +505,7 @@ def is_c4_free(graph: nx.Graph) -> bool:
     return is_h_free(graph, ["C_{4}"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1500")
 @lru_cache(maxsize=None)
 def is_auto_1500(graph: nx.Graph) -> bool:
@@ -519,6 +520,7 @@ def is_auto_1500(graph: nx.Graph) -> bool:
     return is_co_claw_free(graph) and is_c4_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_911")
 @lru_cache(maxsize=None)
 def is_gc_911(graph: nx.Graph) -> bool:
@@ -533,6 +535,7 @@ def is_gc_911(graph: nx.Graph) -> bool:
     return is_triangle_free(graph) and is_c4_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1467")
 @lru_cache(maxsize=None)
 def is_auto_1467(graph: nx.Graph) -> bool:
@@ -547,6 +550,7 @@ def is_auto_1467(graph: nx.Graph) -> bool:
     return is_co_claw_free(graph) and is_co_diamond_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1499")
 @lru_cache(maxsize=None)
 def is_auto_1499(graph: nx.Graph) -> bool:
@@ -561,6 +565,7 @@ def is_auto_1499(graph: nx.Graph) -> bool:
     return is_co_paw_free(graph) and is_co_claw_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_426")
 @lru_cache(maxsize=None)
 def is_gc_426(graph: nx.Graph) -> bool:
@@ -575,6 +580,7 @@ def is_gc_426(graph: nx.Graph) -> bool:
     return is_claw_free(graph) and is_co_claw_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1")
 @lru_cache(maxsize=None)
 def is_gc_1(graph: nx.Graph) -> bool:
@@ -589,6 +595,7 @@ def is_gc_1(graph: nx.Graph) -> bool:
     return is_c4_free(graph) and is_2k2_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1232")
 @lru_cache(maxsize=None)
 def is_gc_1232(graph: nx.Graph) -> bool:
@@ -619,6 +626,7 @@ def is_4k1_free(graph: nx.Graph) -> bool:
     return is_h_free(graph, ["4K_{1}"])  # is_even_co_clique_free(graph, 4)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1479")
 @lru_cache(maxsize=None)
 def is_auto_1479(graph: nx.Graph) -> bool:
@@ -633,6 +641,7 @@ def is_auto_1479(graph: nx.Graph) -> bool:
     return is_cograph(graph) and is_4k1_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1449")
 @lru_cache(maxsize=None)
 def is_auto_1449(graph: nx.Graph) -> bool:
@@ -647,6 +656,7 @@ def is_auto_1449(graph: nx.Graph) -> bool:
     return is_co_diamond_free(graph) and is_co_claw_free(graph) and is_4k1_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1501")
 @lru_cache(maxsize=None)
 def is_auto_1501(graph: nx.Graph) -> bool:
@@ -682,6 +692,7 @@ def is_k4_free(graph: nx.Graph) -> bool:
     return is_even_clique_free(graph, 4)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1367")
 @lru_cache(maxsize=None)
 def is_k4_free_and_planar(graph: nx.Graph) -> bool:
@@ -753,6 +764,7 @@ def is_gc_634(graph: nx.Graph) -> bool:
     return is_cograph(graph) and is_k4_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1304")
 @lru_cache(maxsize=None)
 def is_gc_1304(graph: nx.Graph) -> bool:
@@ -768,6 +780,7 @@ def is_gc_1304(graph: nx.Graph) -> bool:
     return is_split(graph) and is_co_claw_free(graph) and is_co_diamond_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1244")
 @lru_cache(maxsize=None)
 def is_gc_1244(graph: nx.Graph) -> bool:
@@ -783,6 +796,7 @@ def is_gc_1244(graph: nx.Graph) -> bool:
     return is_co_p3_free(graph) and is_c4_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_919")
 @lru_cache(maxsize=None)
 def is_gc_919(graph: nx.Graph) -> bool:
@@ -798,6 +812,7 @@ def is_gc_919(graph: nx.Graph) -> bool:
     return is_claw_diamond_free(graph) and is_k4_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_506")
 @lru_cache(maxsize=None)
 def is_gc_506(graph: nx.Graph) -> bool:
@@ -813,6 +828,7 @@ def is_gc_506(graph: nx.Graph) -> bool:
     return is_claw_diamond_free(graph) and is_k4_free(graph) and is_c4_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2776")
 @lru_cache(maxsize=None)
 def is_co_xc11_claw_diamond_free(graph: nx.Graph) -> bool:
@@ -824,6 +840,7 @@ def is_co_xc11_claw_diamond_free(graph: nx.Graph) -> bool:
     return is_co_maximum_degree_4(graph) and is_auto_1467(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2768")
 @lru_cache(maxsize=None)
 def is_co_cnplus4_co_claw_co_gem_free(graph: nx.Graph) -> bool:
@@ -835,6 +852,7 @@ def is_co_cnplus4_co_claw_co_gem_free(graph: nx.Graph) -> bool:
     return is_co_chordal(graph) and is_co_gem_free(graph) and is_co_claw_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1386")
 @lru_cache(maxsize=None)
 def is_weakly_bridged(graph: nx.Graph) -> bool:

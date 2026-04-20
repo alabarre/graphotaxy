@@ -1,4 +1,4 @@
----
+from graph_recognition.recognizers_utils import assign_inherited_fisc---
 title: Writing recognizers for `graphotaxy`
 author: Anthony Labarre
 date: 2024-2026
@@ -174,10 +174,38 @@ def is_frog_gnu_free(graph):
 The `assign_fisc` decorator allows the developer to assign a FISC to a recognizer. Doing so allows the system to propagate results: if recognizer `foo` has a FISC `F` and `foo(graph)` returns `True`, then 
 no subgraph in `F` appears in `graph`, and those findings are propagated using the `_dispatch_findings` function.
 
-Using `assign_fisc` is never mandatory. If the code of your recognizer boils down to calling `is_h_free`, then you do not need to bother 
-with `assign_fisc`, because `is_h_free` propagates the results of its findings through indirect calls to `_dispatch_findings`. The use of `assign_fisc` is therefore only recommended if your code does not use `is_h_free` at all, or if your recognizer might return a value before it has a chance to call `is_h_free`.
+Using `assign_fisc` is never mandatory, but always recommended: not only can the FISC be used by the `GraphAnalyzer` instance to propagate findings, but the analyzer also inspects the FISC to avoid running the recognizer in the first place if it already knows that one of the forbidden subgraphs appears in the target graph.
 
 Note that by itself, `assign_fisc` does nothing more than adding a FISC as an attribute to your recognizer. The code in `subgraphs.py` takes advantage of that attribute.
+
+### The `assign_inherited_fisc` decorator
+
+Some recognizers rely on calls to other recognizers to which a FISC has been assigned using `assign_fisc`. However, the analyzer cannot take advantage of the FISCs of the constituent classes to avoid running the a recognizer that relies on them, since those callees have not been run yet. The solution would be to copy and combine those FISCs into a new FISC to assign to the caller, but that would be tedious and a nightmare to maintain. Fortunately, the `assign_inherited_fisc` decorator handles that job for us.
+
+For instance, consider the following recognizer:
+
+```python
+@assign_inherited_fisc()
+@assign_class_id("gc_847")
+@lru_cache(maxsize=None)
+def is_binary_tree(graph: nx.Graph) -> bool:
+    return is_maximum_degree_3(graph) and is_tree(graph)
+```
+
+Both `is_maximum_degree_3` and `is_tree` are decorated with `assign_fisc`. Thanks to `assign_inherited_fisc()`, `is_binary_tree` now also has a FISC which is the union of the FISCs of the two recognizers that are called in its code.
+
+**Use `assign_inherited_fisc()` with caution:** 
+
+1. the FISCs of **all** callees in the code of the decorated recognizer are gathered and used, and this might lead to errors. For example, the following function **must not** be decorated with `assign_inherited_fisc`:
+   ```python
+   @assign_class_id("gc_1361")
+   @lru_cache(maxsize=None)
+   def is_bipartite_or_co_bipartite_or_split(graph: nx.Graph) -> bool:
+      return is_bipartite(graph) or is_co_bipartite(graph) or is_split(graph)
+   ```
+   If it were, then the FISC of bipartite graphs could be used to propagate findings even if the graph is not bipartite.
+2. the decorator does not dig into your use cases: if your recognizer calls a FISC-based recognizer on a different graph than the one you gave as input, then the FISC of that recognizer will be associated to your input graph and will lead to wrong results too.
+
 
 ### Smarter algorithms
 

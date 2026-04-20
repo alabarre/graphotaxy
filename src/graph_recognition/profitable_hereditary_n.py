@@ -40,7 +40,7 @@ from graph_recognition.online_algo import online_is_forest, online_is_bipartite
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
-    assign_fisc, )
+    assign_fisc, assign_inherited_fisc, )
 from graph_recognition.subgraphs import is_h_free
 
 
@@ -2180,7 +2180,7 @@ def is_co_bipartite(graph: nx.Graph) -> bool:
     return online_is_bipartite(nx.non_edges(graph))
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_847")
 @lru_cache(maxsize=None)
 def is_binary_tree(graph: nx.Graph) -> bool:
@@ -2194,7 +2194,7 @@ def is_binary_tree(graph: nx.Graph) -> bool:
     return is_maximum_degree_3(graph) and is_tree(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_941")
 @lru_cache(maxsize=None)
 def is_bipartite_and_maximum_degree_3(graph: nx.Graph) -> bool:
@@ -2208,7 +2208,7 @@ def is_bipartite_and_maximum_degree_3(graph: nx.Graph) -> bool:
     return is_maximum_degree_3(graph) and is_bipartite(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+# @assign_inherited_fisc() # DON'T: results would be wrong (combinations of "or", not "and")
 @assign_class_id("gc_1361")
 @lru_cache(maxsize=None)
 def is_bipartite_or_co_bipartite_or_split(graph: nx.Graph) -> bool:
@@ -2222,7 +2222,7 @@ def is_bipartite_or_co_bipartite_or_split(graph: nx.Graph) -> bool:
     return is_bipartite(graph) or is_co_bipartite(graph) or is_split(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2145")
 @lru_cache(maxsize=None)
 def is_co_binary_tree(graph: nx.Graph) -> bool:
@@ -2236,7 +2236,7 @@ def is_co_binary_tree(graph: nx.Graph) -> bool:
     return is_co_maximum_degree_3(graph) and is_co_tree(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2158")
 @lru_cache(maxsize=None)
 def is_co_bipartite_and_maximum_degree_3(graph: nx.Graph) -> bool:
@@ -2250,7 +2250,7 @@ def is_co_bipartite_and_maximum_degree_3(graph: nx.Graph) -> bool:
     return is_co_maximum_degree_3(graph) and is_co_bipartite(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("AUTO_3081")
 @lru_cache(maxsize=None)
 def is_co_xc11_odd_cycle_free(graph: nx.Graph) -> bool:
@@ -2264,7 +2264,7 @@ def is_co_xc11_odd_cycle_free(graph: nx.Graph) -> bool:
     return is_co_maximum_degree_4(graph) and is_co_bipartite(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("AUTO_823")
 @lru_cache(maxsize=None)
 def is_xc11_odd_cycle_free(graph: nx.Graph) -> bool:
@@ -2685,7 +2685,7 @@ def is_outerplanar(graph: nx.Graph) -> bool:
     return result
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_985")
 @lru_cache(maxsize=None)
 def is_chordal_and_planar(graph: nx.Graph) -> bool:
@@ -2699,7 +2699,7 @@ def is_chordal_and_planar(graph: nx.Graph) -> bool:
     return is_chordal(graph) and is_planar(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_1103")
 @lru_cache(maxsize=None)
 def is_4_regular_planar(graph: nx.Graph) -> bool:
@@ -2713,7 +2713,7 @@ def is_4_regular_planar(graph: nx.Graph) -> bool:
     return is_4_regular(graph) and is_planar(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_1106")
 @lru_cache(maxsize=None)
 def is_5_regular_planar(graph: nx.Graph) -> bool:
@@ -2727,7 +2727,7 @@ def is_5_regular_planar(graph: nx.Graph) -> bool:
     return is_5_regular(graph) and is_planar(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_1069")
 @lru_cache(maxsize=None)
 def is_bipartite_and_planar(graph: nx.Graph) -> bool:
@@ -2741,7 +2741,7 @@ def is_bipartite_and_planar(graph: nx.Graph) -> bool:
     return is_bipartite(graph) and is_planar(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_1102")
 @lru_cache(maxsize=None)
 def is_cubic_planar(graph: nx.Graph) -> bool:
@@ -2755,7 +2755,7 @@ def is_cubic_planar(graph: nx.Graph) -> bool:
     return is_cubic(graph) and is_planar(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_1183")
 @lru_cache(maxsize=None)
 def is_2_connected_cubic_planar(graph: nx.Graph) -> bool:
@@ -2769,7 +2769,7 @@ def is_2_connected_cubic_planar(graph: nx.Graph) -> bool:
     return nx.is_biconnected(graph) and is_cubic_planar(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_412")
 @lru_cache(maxsize=None)
 def is_planar_and_maximum_degree_3(graph: nx.Graph) -> bool:
@@ -2783,7 +2783,7 @@ def is_planar_and_maximum_degree_3(graph: nx.Graph) -> bool:
     return is_maximum_degree_3(graph) and is_planar(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_909")
 @lru_cache(maxsize=None)
 def is_planar_and_maximum_degree_4(graph: nx.Graph) -> bool:
@@ -2849,7 +2849,7 @@ def is_maximal_outerplanar(graph: nx.Graph) -> bool:
     )
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_1055")
 @lru_cache(maxsize=None)
 def is_bipartite_and_maximum_degree_3_and_planar(graph: nx.Graph) -> bool:
@@ -2863,7 +2863,7 @@ def is_bipartite_and_maximum_degree_3_and_planar(graph: nx.Graph) -> bool:
     return is_maximum_degree_3(graph) and is_bipartite_and_planar(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_1153")
 @lru_cache(maxsize=None)
 def is_bipartite_and_maximum_degree_4_and_planar(graph: nx.Graph) -> bool:
@@ -2877,7 +2877,7 @@ def is_bipartite_and_maximum_degree_4_and_planar(graph: nx.Graph) -> bool:
     return is_maximum_degree_4(graph) and is_bipartite_and_planar(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_1334")
 @lru_cache(maxsize=None)
 def is_bipartite_cubic_planar(graph: nx.Graph) -> bool:

@@ -37,12 +37,13 @@ follow the structure of RECOGNIZERS.
 """
 # Imports -----------------------------------------------------------------------------------------
 import ast
+import os
 import sys
 from collections import OrderedDict
 from functools import lru_cache
 from importlib import import_module
-from inspect import isgeneratorfunction, getsource
-from typing import Callable, Iterable
+from inspect import isgeneratorfunction, getsource, getmodule
+from typing import Callable, Iterable, Set
 
 
 # Decorators --------------------------------------------------------------------------------------
@@ -83,6 +84,105 @@ def assign_fisc(forbidden_subgraphs: Iterable[str]) -> Callable:
         R.FISC appears in G.
         """
         setattr(function, "fisc", forbidden_subgraphs)
+        return function
+
+    return decorator
+
+
+def get_fisc(module_name: str, function_name: str) -> Set[str]:
+    """
+    Returns the FISC associated with the function defined in the given module, or an empty set
+    otherwise.
+
+    >>> sorted(get_fisc("graph_recognition.profitable_hereditary_n", "is_split"))
+    ['2K_{2}', 'C_{4}', 'C_{5}']
+
+    :param module_name:
+    :param function_name:
+    :return:
+    """
+    # first, get the path to the module file for module_name
+    module_path = ""
+    parts = module_name.split(".")
+    for base in sys.path:
+        pkg_path = os.path.join(base, *parts)
+        py = pkg_path + ".py"
+        if os.path.isfile(py):
+            module_path = py
+            break
+        init = os.path.join(pkg_path, "__init__.py")
+        if os.path.isfile(init):
+            module_path = init
+            break
+
+    if module_path:
+        # then load the file and walk its AST up to the function
+        with open(module_path, "r") as src:
+            for node in ast.walk(ast.parse(src.read())):
+                if isinstance(node, ast.FunctionDef) and node.name == function_name:
+                    for sub in ast.walk(node):
+                        if (isinstance(sub, ast.Call) and hasattr(sub.func, "id")
+                                and sub.func.id == "assign_fisc"):
+                            # this is an instance of @assign_fisc, return its argument
+                            return {elt.value for elt in sub.args[0].elts}
+
+    return set()
+
+
+def assign_inherited_fisc() -> Callable:
+    """
+    Assigns a forbidden induced subgraph characterization to a recognizer. The FISC is obtained by
+    computing the union of the FISCs of the recognizers intended to be called by the recognizer to
+    decorate
+
+    :return:
+    """
+
+    def decorator(function: Callable) -> Callable:
+        """
+        This decorator behaves like the one in assign_fisc, except that the new attribute will be a
+        set of forbidden subgraphs and that it will be automatically built from the FISCs of the
+        functions called by the provided function.
+        """
+        union_of_fiscs = set()
+        # we are going to walk the AST of a function object, but the calls we will detect only
+        # provide us with the **names** of the called functions, which is not enough to access
+        # their definitions; therefore, we first build a data structure that allows us to identify
+        # the modules that define those functions so we can load them later. Since the function we
+        # will decorate needs those functions in its definition, the function's module contains the
+        # necessary imports.
+
+        # examine all "from X import a, b, ..." nodes, and record mapping a -> X, b -> X, ...
+        func_mod = getmodule(function)
+        func_names_to_mods = dict()
+        for node in ast.walk(ast.parse(getsource(func_mod))):
+            if isinstance(node, ast.ImportFrom):
+                for alias in node.names:
+                    func_names_to_mods[alias.name] = node.module
+
+        # function may or may not be decorated, which is a problem because function calls detected
+        # by walking the AST include those decorators; so we first skip to the actual definition of
+        # the function
+        for node in ast.walk(ast.parse(getsource(function))):
+            if isinstance(node, ast.FunctionDef):
+                # we're in the function's body, retrieve all calls to other functions
+                for other in ast.walk(ast.Module(body=node.body)):
+                    if isinstance(other, ast.Call):
+                        # found a function call, walk the AST of its source
+                        if hasattr(other.func, "id"):
+                            func_name = other.func.id
+
+                            # try to retrieve the module from our mapping
+                            if func_name in func_names_to_mods:
+                                mod_name = func_names_to_mods[func_name]
+                            else:
+                                # if not found, assume definition comes from the same module as the
+                                # function to decorate
+                                mod_name = func_mod.__name__
+
+                            union_of_fiscs.update(get_fisc(mod_name, func_name))
+
+        setattr(function, "fisc", union_of_fiscs)
         return function
 
     return decorator

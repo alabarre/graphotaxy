@@ -45,7 +45,7 @@ from graph_recognition.profitable_hereditary_n import (
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
-    assign_fisc, undecorated_function, )
+    assign_fisc, undecorated_function, assign_inherited_fisc, )
 from graph_recognition.subgraphs import is_h_free
 
 
@@ -263,7 +263,8 @@ def is_co_chordal_and_co_gem_free(graph: nx.Graph) -> bool:
     return is_co_gem_free(graph) and is_co_chordal(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+
+# @assign_inherited_fisc() # DON'T: results would be wrong (combinations of "or", not "and")
 @assign_class_id("gc_248")
 @lru_cache(maxsize=None)
 def is_chordal_or_co_chordal(graph: nx.Graph) -> bool:
@@ -279,7 +280,7 @@ def is_chordal_or_co_chordal(graph: nx.Graph) -> bool:
     return is_chordal(graph) or is_co_chordal(graph)
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_1290")
 @lru_cache(maxsize=None)
 def is_bipartite_and_mock_threshold(graph: nx.Graph) -> bool:
@@ -292,6 +293,7 @@ def is_bipartite_and_mock_threshold(graph: nx.Graph) -> bool:
 
 
 # not profitable, but needed by a profitable class so included here to avoid circular import issues
+@assign_inherited_fisc()
 @assign_class_id("gc_1195")
 @lru_cache(maxsize=None)
 def is_2_strongly_regular(graph: nx.Graph) -> bool:
@@ -303,7 +305,7 @@ def is_2_strongly_regular(graph: nx.Graph) -> bool:
     return len(set(degree_sequence(graph))) <= 2 and is_deza(graph)
 
 
-# profitable because of planarity
+@assign_inherited_fisc()
 @assign_class_id("gc_1196")
 @lru_cache(maxsize=None)
 def is_2_strongly_regular_and_planar(graph: nx.Graph) -> bool:
@@ -361,7 +363,7 @@ def is_deza(graph: nx.Graph) -> bool:
     return True
 
 
-# not profitable, but needed by a profitable class so included here to avoid circular import issues
+@assign_inherited_fisc()
 @assign_class_id("gc_1185")
 @lru_cache(maxsize=None)
 def is_strongly_regular(graph: nx.Graph) -> bool:
@@ -375,7 +377,7 @@ def is_strongly_regular(graph: nx.Graph) -> bool:
     return is_regular(graph) and is_deza(graph)
 
 
-# not profitable, but needed by a profitable class so included here to avoid circular import issues
+@assign_inherited_fisc()
 @assign_class_id("gc_1186")
 @lru_cache(maxsize=None)
 def is_distance_regular_of_diameter_2(graph: nx.Graph) -> bool:
@@ -488,7 +490,7 @@ def is_nearly_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     )  # note: why does replacing all(...) with is_h_u_k1_free(graph, is_bipartite) fail?
 
 
-# the fisc will be obtained through calls to constituent class recognizers
+@assign_inherited_fisc()
 @assign_class_id("gc_1293")
 @lru_cache(maxsize=None)
 def is_mock_threshold_and_split(graph: nx.Graph) -> bool:
@@ -607,6 +609,7 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
 
 # profitable because of constituent classes
+@assign_inherited_fisc()
 @assign_class_id("gc_123")
 @lru_cache(maxsize=None)
 def is_chordal_and_comparability(graph: nx.Graph) -> bool:
@@ -618,6 +621,7 @@ def is_chordal_and_comparability(graph: nx.Graph) -> bool:
     return is_chordal(graph) and is_comparability(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2774")
 @lru_cache(maxsize=None)
 def is_co_chordal_and_co_diamond_free(graph: nx.Graph) -> bool:

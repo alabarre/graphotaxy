@@ -25,7 +25,7 @@ from graph_recognition.profitable_hereditary_n_2 import is_co_diamond_free, is_c
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
-    assign_fisc,
+    assign_fisc, assign_inherited_fisc,
 )
 from graph_recognition.subgraphs import is_h_free
 
@@ -84,6 +84,7 @@ def is_k2_u_k3_free(graph: nx.Graph) -> bool:
     # return is_h_u_k2_free(graph, is_triangle_free)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1482")
 @lru_cache(maxsize=None)
 def is_auto_1482(graph: nx.Graph) -> bool:
@@ -98,6 +99,7 @@ def is_auto_1482(graph: nx.Graph) -> bool:
     return is_co_diamond_free(graph) and is_k2_u_k3_free(graph)
 
 
+# @assign_inherited_fisc() # DON'T: results would be wrong (combinations of "or", not "and")
 @assign_class_id("gc_148")
 @lru_cache(maxsize=None)
 def is_comparability_or_co_comparability(graph: nx.Graph) -> bool:
@@ -171,7 +173,7 @@ def is_co_comparability(graph: nx.Graph) -> bool:
         is_comparability(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)
     )
 
-
+@assign_inherited_fisc()
 @assign_class_id("gc_23")
 @lru_cache(maxsize=None)
 def is_permutation(graph: nx.Graph) -> bool:
@@ -183,6 +185,7 @@ def is_permutation(graph: nx.Graph) -> bool:
     return is_comparability(graph) and is_co_comparability(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_81")
 @lru_cache(maxsize=None)
 def is_bipartite_permutation(graph: nx.Graph) -> bool:
