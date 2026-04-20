@@ -17,6 +17,7 @@ from typing import Any, Callable, Iterator, Generator, Dict, Iterable
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 from networkx.utils import arbitrary_element
+from pyroaring import BitMap
 from typing_extensions import DefaultDict
 
 # ----- My imports --------------------------------------------------------------------------------
@@ -817,3 +818,14 @@ def connected_components(graph: nx.Graph | HalfAdjacencyMatrix):
             c = plain_bfs(graph, n - len(seen), v)
             seen.update(c)
             yield c
+
+@lru_cache(maxsize=None)
+def neighbors(graph: nx.Graph | HalfAdjacencyMatrix, x: Any) -> BitMap:
+    """
+    Returns the neighbors of x in graph as a BitMap.
+
+    :param graph:
+    :param x:
+    :return:
+    """
+    return BitMap(graph[x])

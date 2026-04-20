@@ -36,7 +36,7 @@ from graph_recognition.profitable_hereditary_n import (
     is_p3_triangle_free,
     is_split,
     is_p3_free,
-    is_2k2_free,
+    is_2k2_free, is_forest,
 )
 from graph_recognition.profitable_hereditary_n_2 import (
     is_co_diamond_free,
@@ -148,6 +148,21 @@ def is_gc_1376(graph: nx.Graph) -> bool:
             and is_diamond_free(graph)
             and is_paw_free(graph)
     )
+
+
+@assign_class_id("gc_1020")
+@lru_cache(maxsize=None)
+def is_cnplus3_u_k1_diamond_paw_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_1020.html
+
+    :param graph:
+    :return:
+    """
+    # checking (C_{n+3} U K_{1})-freeness amounts to checking cycle-freeness of the graph obtained
+    # by removing v U N(v) for every v in the graph
+    return is_h_u_k1_free(graph, is_forest) and is_paw_free(graph) and is_diamond_free(graph)
 
 
 # All recognizers for patterns on at most 5 vertices ----------------------------------------------

@@ -46,14 +46,6 @@ from graph_recognition.recognizers_utils import (
 )
 from graph_recognition.subgraphs import is_h_free
 
-# check whether function has already been lru_cached
-if not hasattr(nx.asteroidal.create_component_structure, "cache_info"):
-    setattr(
-        nx.asteroidal,
-        "create_component_structure",
-        lru_cache(maxsize=None)(nx.asteroidal.create_component_structure),
-    )
-
 
 # Recognizers -------------------------------------------------------------------------------------
 @assign_fisc(["paw"])

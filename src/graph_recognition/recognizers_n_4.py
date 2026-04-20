@@ -114,9 +114,12 @@ def is_02_graph(graph: nx.Graph) -> bool:
     if not is_connected(graph):
         return False
 
-    return all(
-        number_of_common_neighbors(graph, u, v) in {0, 2} for u, v in combinations(graph.nodes, 2)
-    )
+    # first search edges for a contradiction, in the hope that we can stop early
+    if any(number_of_common_neighbors(graph, u, v) not in {0, 2} for u, v in graph.edges()):
+        return False
+
+    # then examine non-edges
+    return all(number_of_common_neighbors(graph, u, v) in {0, 2} for u, v in nx.non_edges(graph))
 
 
 @assign_class_id("gc_1193")

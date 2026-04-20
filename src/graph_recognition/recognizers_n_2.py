@@ -14,13 +14,14 @@ from itertools import combinations
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 from networkx.utils.misc import arbitrary_element
+from pyroaring import BitMap
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     complement,
     number_of_common_neighbors,
     degree_sequence,
-    is_connected, is_co_connected, co_connected_components, is_regular,
+    is_connected, is_co_connected, co_connected_components, is_regular, neighbors, is_complete,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
@@ -36,16 +37,13 @@ from graph_recognition.recognizers_utils import (
 # Cache imported functions that are not already cached --------------------------------------------
 __functions_to_cache = [
     # nx.connected_components,  # DON'T: this is a generator
-    nx.inverse_line_graph,
-    nx.is_chordal,
-    nx.is_regular,
     # nx.non_edges,  # DON'T: this is a generator
     nx.non_neighbors,
 ]
 
 
-for i, function in enumerate(__functions_to_cache):
-    __functions_to_cache[i] = cached_function(function)
+for __i, function in enumerate(__functions_to_cache):
+    __functions_to_cache[__i] = cached_function(function)
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -135,25 +133,15 @@ def has_star_cutset(graph: nx.Graph, _complement: bool = False) -> bool:
         return True
 
     # testing property 2: G has at least two nonadjacent vertices:
-    n = graph.number_of_nodes()
-    if graph.size() == (n * (n - 1)) // 2:
+    if is_complete(graph):
         return False
 
     # ... and it has adjacent vertices u, v such that v dominates u (i.e., each
     # neighbor of u is either v or a neighbor of v)
-
-    # caching neighborhoods is more efficient than repeated calls to dominates
-    neighbourhoods = dict()
     for u, v in graph.edges:
-        if u not in neighbourhoods:
-            neighbourhoods[u] = set(graph[u])
-
-        if v not in neighbourhoods:
-            neighbourhoods[v] = set(graph[v])
-
         if (
-            neighbourhoods[u] - {v} <= neighbourhoods[v]
-            or neighbourhoods[v] - {u} <= neighbourhoods[u]
+            neighbors(graph, u) - BitMap({v}) <= neighbors(graph, v)
+            or neighbors(graph, v) - BitMap({u}) <= neighbors(graph, u)
         ):
             return True
 
@@ -184,14 +172,8 @@ def is_edge_regular(graph: nx.Graph) -> bool:
     k = number_of_common_neighbors(graph, *arbitrary_element(graph.edges))
 
     # check that each pair of adjacent vertices has exactly k common neighbors
-    neighbourhoods = dict()
     for u, v in graph.edges:
-        if u not in neighbourhoods:
-            neighbourhoods[u] = set(graph[u])
-        if v not in neighbourhoods:
-            neighbourhoods[v] = set(graph[v])
-
-        if len(neighbourhoods[u].intersection(neighbourhoods[v])) != k:
+        if len(neighbors(graph, u) & neighbors(graph, v)) != k:
             return False
 
     return True

@@ -29,7 +29,7 @@ from graph_recognition.misc_algo import (
     number_of_common_neighbors,
     is_connected,
     is_h_u_k1_free,
-    co_connected_components, complement_as_adj_mat, connected_components, is_regular,
+    co_connected_components, complement_as_adj_mat, connected_components, is_regular, is_complete, neighbors,
 )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
@@ -335,8 +335,7 @@ def is_deza(graph: nx.Graph) -> bool:
     # if not is_edge_regular(graph):  # <- complexity: O(|E|)
     #     return False
     # necessary check to avoid StopIteration failure with call to non_edges
-    n = graph.number_of_nodes()
-    if graph.size() == (n * (n - 1)) // 2:
+    if is_complete(graph):
         return True
 
     if not graph.size():
@@ -347,14 +346,8 @@ def is_deza(graph: nx.Graph) -> bool:
     # check that each pair of adjacent vertices has exactly k common neighbors
     # we cache the neighborhoods because we need sets and want to avoid a
     # number of calls to set proportional to the degree of each vertex
-    neighbourhoods = dict()
     for u, v in graph.edges:
-        if u not in neighbourhoods:
-            neighbourhoods[u] = set(graph[u])
-        if v not in neighbourhoods:
-            neighbourhoods[v] = set(graph[v])
-
-        if len(neighbourhoods[u] & neighbourhoods[v]) != k:
+        if len(neighbors(graph, u) & neighbors(graph, v)) != k:
             return False
 
     p = number_of_common_neighbors(graph, *next(iter(nx.non_edges(graph))))
@@ -362,11 +355,7 @@ def is_deza(graph: nx.Graph) -> bool:
     # check that each pair of nonadjacent vertices has exactly p common
     # neighbors
     for u, v in nx.non_edges(graph):
-        if u not in neighbourhoods:
-            neighbourhoods[u] = set(graph.neighbors(u))
-        if v not in neighbourhoods:
-            neighbourhoods[v] = set(graph.neighbors(v))
-        if len(neighbourhoods[u] & neighbourhoods[v]) != p:
+        if len(neighbors(graph, u) & neighbors(graph, v)) != p:
             return False
 
     return True

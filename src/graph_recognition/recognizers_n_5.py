@@ -526,8 +526,7 @@ def is_cograph_contraction(graph: nx.Graph) -> bool:
     # algorithm from https://onlinelibrary.wiley.com/doi/abs/10.1002/(SICI)1097-0118(199904)30:4%3C309::AID-JGT5%3E3.0.CO;2-5 p 312
     implication_graph = DirectedGraph()
     # for all non-edges (a, b), build a clause (not a or not b) equivalent to (a => not b)
-    for a, b in nx.non_edges(graph):
-        implication_graph.add_edge(a, Not(b))
+    implication_graph.add_edges_from((a, Not(b)) for a, b in nx.non_edges(graph))
 
     # for each P_4 (a, b, c, d), add clause (b or c)  equivalent to (not b => c)
     # in order to go through fewer subsets, don't examine every 4-subset of vertices; instead,

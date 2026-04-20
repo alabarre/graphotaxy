@@ -18,7 +18,7 @@ from collections.abc import Callable
 from functools import lru_cache
 from itertools import combinations
 from sys import maxsize
-from typing import Any, Hashable, Iterable
+from typing import Any, Iterable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -34,7 +34,7 @@ from graph_recognition.misc_algo import (
     is_complete,
     degree_sequence,
     is_connected,
-    co_connected_components, NUMERIC_TYPECODES, all_vertices_are_int, connected_components,
+    co_connected_components, NUMERIC_TYPECODES, all_vertices_are_int, connected_components, neighbors,
 )
 from graph_recognition.online_algo import online_is_forest, online_is_bipartite
 from graph_recognition.recognizers_utils import (
@@ -62,6 +62,26 @@ def is_co_forest(graph: nx.Graph) -> bool:
 
     # check that each component of the complement is a co_tree
     return all(is_co_tree(graph.subgraph(cc)) for cc in co_connected_components(graph))
+
+
+@assign_fisc(["K_{3}", "C_{4}", "C_{5}", "C_{6}", "C_{7}", "C_{8}"])
+@lru_cache(maxsize=None)
+def is_forest(graph: nx.Graph) -> bool:
+    """
+    Returns True if graph is a forest.
+
+    Complexity: O(m+n).
+
+    :type graph: nx.Graph
+    :param graph:
+    :return:
+    """
+    # networkx decides that the concept makes no sense, but I'm using is_forest on subgraphs that
+    # might be empty; since they contain no cycle, they are forests
+    if len(graph) == 0:
+        return True
+
+    return nx.is_forest(graph)
 
 
 @lru_cache(maxsize=None)
@@ -1788,8 +1808,6 @@ def is_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         return nx.is_bipartite(graph)
 
     # adapted code from nx.color to work with HalfAdjacencyMatrix
-    neighbors = graph.neighbors
-
     color = {}
     for n in graph:  # handle disconnected graphs
         if n in color or len(graph[n]) == 0:  # skip isolates
@@ -1799,7 +1817,7 @@ def is_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         while queue:
             v = queue.pop()
             c = 1 - color[v]  # opposite color of node v
-            for w in neighbors(v):
+            for w in neighbors(graph, v):
                 if w in color:
                     if color[w] == color[v]:
                         return False
@@ -1872,17 +1890,6 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     if len(graph) <= 3 or is_complete(graph):
         return True
 
-    @lru_cache(maxsize=None)
-    def _neighbors(v: Hashable):
-        """
-        Returns the neighbors of v. Mainly exists to avoid recomputing neighborhoods when graph is
-        a HalfAdjacencyMatrix.
-
-        :param v:
-        :return:
-        """
-        return BitMap(graph[v])
-
     def _find_chordality_breaker(s=None, treewidth_bound=maxsize):
         """
         Given a graph G, starts a max cardinality search (starting from s if s is given and from an
@@ -1905,7 +1912,7 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
             v = _max_cardinality_node(unnumbered, numbered)
             unnumbered.remove(v)
             numbered.add(v)
-            clique_wanna_be = numbered & _neighbors(v)
+            clique_wanna_be = numbered & neighbors(graph, v)
 
             # if graph is not complete, then we'll find a missing edge here
             for u, w in combinations(clique_wanna_be, 2):
@@ -1925,10 +1932,9 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         """
         Returns a node in choices with the most connections in graph to nodes in wanna_connect.
         """
-        return max(choices, key=lambda x: len(_neighbors(x) & wanna_connect))
+        return max(choices, key=lambda x: len(neighbors(graph, x) & wanna_connect))
 
     result = len(_find_chordality_breaker()) == 0
-    _neighbors.cache_clear()
     return result
 
 
@@ -2116,7 +2122,7 @@ def is_p4_cycle_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return is_cograph(graph) and nx.is_forest(graph)
+    return is_cograph(graph) and is_forest(graph)
 
 
 @assign_fisc(
