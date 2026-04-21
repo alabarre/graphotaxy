@@ -33,7 +33,6 @@ from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     cached_function, assign_inherited_fisc,
 )
-from graph_recognition.subgraphs import is_h_free
 
 # Cache imported functions that are not already cached --------------------------------------------
 __functions_to_cache = [
@@ -181,7 +180,6 @@ def is_edge_regular(graph: nx.Graph) -> bool:
     return True
 
 
-@assign_inherited_fisc()
 @assign_class_id("gc_277")
 @lru_cache(maxsize=None)
 def is_unbreakable(graph: nx.Graph) -> bool:
@@ -197,9 +195,7 @@ def is_unbreakable(graph: nx.Graph) -> bool:
     """
     # from https://onlinelibrary.wiley.com/doi/abs/10.1002/jgt.3190150403 p.351
     # Every unbreakable graph contains a P_4; therefore, a P_4-free graph is NOT unbreakable
-    print(f"what does is_h_free think?: is_h_free(graph, ['P_{4}']) returns {is_h_free(graph, ['P_{4}'])}")
     if is_cograph(graph):
-        print(f"[DEBUG] this is a cograph")
         return False
 
     return not has_star_cutset(graph) and not has_star_cutset(graph, _complement=True)

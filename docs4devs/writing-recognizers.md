@@ -180,7 +180,7 @@ Note that by itself, `assign_fisc` does nothing more than adding a FISC as an at
 
 ### The `assign_inherited_fisc` decorator
 
-Some recognizers rely on calls to other recognizers to which a FISC has been assigned using `assign_fisc`. However, the analyzer cannot take advantage of the FISCs of the constituent classes to avoid running the a recognizer that relies on them, since those callees have not been run yet. The solution would be to copy and combine those FISCs into a new FISC to assign to the caller, but that would be tedious and a nightmare to maintain. Fortunately, the `assign_inherited_fisc` decorator handles that job for us.
+Some recognizers rely on calls to other recognizers to which a FISC has been assigned using `assign_fisc`. However, the analyzer cannot take advantage of the FISCs of the constituent classes to avoid running a recognizer that relies on them, since those callees have not been run yet. The solution would be to copy and combine those FISCs into a new FISC to assign to the caller, but that would be tedious and a nightmare to maintain. Fortunately, the `assign_inherited_fisc` decorator handles that job for us.
 
 For instance, consider the following recognizer:
 

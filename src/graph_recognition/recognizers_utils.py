@@ -189,7 +189,7 @@ def update_func_names_to_mods(module: ModuleType) -> None:
                 __func_names_to_mods[alias.name] = node.module
 
 
-def assign_inherited_fisc() -> Callable:
+def assign_inherited_fisc(default_fisc: Iterable[str] | None = None) -> Callable:
     """
     Assigns a forbidden induced subgraph characterization to a recognizer. The FISC is obtained by
     computing the union of the FISCs of the recognizers intended to be called by the recognizer to
@@ -197,6 +197,8 @@ def assign_inherited_fisc() -> Callable:
 
     :return:
     """
+    if default_fisc is None:
+        default_fisc = set()
 
     def decorator(function: Callable) -> Callable:
         """
@@ -204,7 +206,7 @@ def assign_inherited_fisc() -> Callable:
         set of forbidden subgraphs and that it will be automatically built from the FISCs of the
         callees.
         """
-        union_of_fiscs = set()
+        union_of_fiscs = set(default_fisc)
 
         # examine all "from X import a, b, ..." nodes, and record mapping a -> X, b -> X, ...
         func_mod = getmodule(function)

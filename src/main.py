@@ -43,7 +43,7 @@ def knows(class_ids: Iterable[str]) -> None:
     # applying assign_inherited_fisc to all recognizers takes a long time and is useless in this
     # particular use case; so we replace the decorator by an identity mapping, which simply returns
     # the original function.
-    def identity_mapping() -> Callable:
+    def identity_mapping(*_args, **_kwargs) -> Callable:
         """
         Useless decoration of a function (has no effect).
 
@@ -304,7 +304,7 @@ def main() -> None:
             analyzer.classification,
             os.path.basename(args.input[0]) + ".graphml",
         )
-        print("done.")
+        print("done.\n")
 
     logger.info("Finished")
 

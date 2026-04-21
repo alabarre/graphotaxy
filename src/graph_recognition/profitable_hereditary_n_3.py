@@ -288,7 +288,7 @@ def my_is_at_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         """
         closed_neighborhood = {w}.union(graph[w])
         row_dict = dict.fromkeys(closed_neighborhood, 0)
-        graph_reduced = graph.subgraph(set(graph) - closed_neighborhood)
+        graph_reduced = graph.subgraph(nodes - closed_neighborhood)
         # note: this is probably doable online, but I'm not sure whether singletons should be
         # included, and at the moment online_connected_components doesn't provide that.
         for label, cc in enumerate(connected_components(graph_reduced), 1):
@@ -297,8 +297,6 @@ def my_is_at_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
         return row_dict
 
-    # component_structure = nx.asteroidal.create_component_structure(graph)
-
     for u, v in nx.non_edges(graph):
         # Check for each pair of vertices whether they belong to the same connected component when
         # the closed neighborhood of the third is removed.
@@ -306,9 +304,6 @@ def my_is_at_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
                 my_component_structure(u)[v] == my_component_structure(u)[w]
                 and my_component_structure(v)[u] == my_component_structure(v)[w]
                 and my_component_structure(w)[u] == my_component_structure(w)[v]
-                #                component_structure[u][v] == component_structure[u][w]
-                #                and component_structure[v][u] == component_structure[v][w]
-                #                and component_structure[w][u] == component_structure[w][v]
                 for w in nodes - set(graph[u]).union(graph[v], [u, v])
         ):
             my_component_structure.cache_clear()

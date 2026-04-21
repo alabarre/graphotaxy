@@ -22,6 +22,7 @@ from functools import lru_cache
 import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.domination import has_dominating_set_of_size_at_most_2, has_dominating_triangle_or_p3
 from graph_recognition.misc_algo import (
     is_h_u_k1_free,
@@ -30,7 +31,7 @@ from graph_recognition.misc_algo import (
     is_odd_co_clique_free,
     must_contain_a_clique_of_size,
     degree_sequence,
-    must_contain_an_independent_set_of_size, is_connected, )
+    must_contain_an_independent_set_of_size, is_connected, complement_as_adj_mat, )
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
     is_p3_triangle_free,
@@ -150,13 +151,20 @@ def is_gc_1376(graph: nx.Graph) -> bool:
     )
 
 
-@assign_inherited_fisc()
+@assign_inherited_fisc([
+    "co-claw",  # C_{3} U K_{1}
+    "co-butterfly",  # C_{4} U K_{1}
+    "co(W_{5})",  # C_{5} U K_{1}
+])  # partial fisc for (C_{n+3} U K_{1})-free, no larger such configuration in ISGCI yet
 @assign_class_id("gc_1020")
 @lru_cache(maxsize=None)
-def is_cnplus3_u_k1_diamond_paw_free(graph: nx.Graph) -> bool:
+def is_cnplus3_u_k1_diamond_paw_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
 
     https://www.graphclasses.org/classes/gc_1020.html
+
+
+    Complexity: O(n^4).
 
     :param graph:
     :return:
@@ -165,6 +173,27 @@ def is_cnplus3_u_k1_diamond_paw_free(graph: nx.Graph) -> bool:
     # by removing v U N(v) for every v in the graph
     return is_h_u_k1_free(graph, is_forest) and is_paw_free(graph) and is_diamond_free(graph)
 
+
+@assign_fisc([
+    "claw",  # co(C_{3} U K_{1})
+    "butterfly",  # co(C_{4} U K_{1})
+    "W_{5}",  # co(C_{5} U K_{1})
+    "co-diamond",
+    "co-paw",
+])  # partial fisc for co(C_{n+3} U K_{1})-free, no larger such configuration in ISGCI yet
+@assign_class_id("AUTO_2776")
+@lru_cache(maxsize=None)
+def is_cnplus3_u_k1_co_diamond_co_paw_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2776
+
+    Complexity: O(n^4).
+
+    :param graph:
+    :return:
+    """
+    return is_cnplus3_u_k1_diamond_paw_free(complement_as_adj_mat(graph))
 
 # All recognizers for patterns on at most 5 vertices ----------------------------------------------
 @assign_fisc(["P"])

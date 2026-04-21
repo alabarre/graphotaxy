@@ -111,7 +111,6 @@ def is_maximal_clique_irreducible(graph: nx.Graph) -> bool:
     return True
 
 
-
 # This code segment must always be at the END of a recognizer file --------------------------------
 RECOGNIZERS = current_module_recognizers(
     ".".join(

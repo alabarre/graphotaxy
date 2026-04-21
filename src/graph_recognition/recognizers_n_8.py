@@ -7,7 +7,6 @@ O(n^8) algorithms.
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import os
-from array import array
 from functools import lru_cache
 from itertools import combinations
 
@@ -22,7 +21,7 @@ from graph_recognition.fisc_based_recognizers import (
     is_e_free,
     is_p6_free, is_k23_free,
 )
-from graph_recognition.misc_algo import degree_sequence, is_h_u_2k1_free, is_h_u_k2_free
+from graph_recognition.misc_algo import is_h_u_2k1_free, is_h_u_k2_free
 from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_co_bipartite,
@@ -45,6 +44,7 @@ from graph_recognition.recognizers_utils import (
     current_module_recognizers, assign_inherited_fisc, assign_fisc,
 )
 from graph_recognition.subgraphs import is_h_free
+from graph_recognition.undirected_graph import UndirectedGraph
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -203,16 +203,17 @@ def is_wing_triangulated(graph: nx.Graph) -> bool:
     ):
         return False
 
-    # build the wing-graph
-    wing_graph = nx.Graph()
-    wing_graph.add_nodes_from(graph.edges())
+    # build the wing-graph; no need to add all edges as nodes since we only build the graph to
+    # check that it is chordal, so only nodes that belong to an edge need to be considered
+    wing_graph = UndirectedGraph()
 
     # connect each pair of nodes in wing_graph that corresponds to edges in the graph that satisfy
     # both conditions; we can actually just check that they are disjoint and induce a P_4
-    p4_deg_seq = array('b', [2, 2, 1, 1])
-    for e, f in combinations(wing_graph, 2):
+    for e, f in combinations(graph.edges(), 2):
         endpoints = set(e + f)
-        if len(endpoints) == 4 and degree_sequence(graph.subgraph(endpoints)) == p4_deg_seq:
+        # if set has 4 elements, then e and f are independent, so checking whether they induce a
+        # P_{4} is equivalent to checking that the subgraph has exactly 3 edges
+        if len(endpoints) == 4 and sum(graph.has_edge(x, y) for x, y in combinations(endpoints, 2)) == 3:
             wing_graph.add_edge(e, f)
 
     # check wing_graph's chordality (preemptively return True for empty graphs, as nx.is_chordal

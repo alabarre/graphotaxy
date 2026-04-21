@@ -495,7 +495,8 @@ def distance(graph: nx.Graph, pair: frozenset) -> int:
     :param graph:
     :return:
     """
-    return int(nx.shortest_path_length(graph, *pair))
+    u, v = pair
+    return int(nx.shortest_path_length(graph, u)[v])
 
 
 @assign_class_id("gc_222")
@@ -575,10 +576,11 @@ def is_probe_co_bipartite(graph: nx.Graph) -> bool:
     if is_3k1_free(graph):
         # then check if for some non-edge e of G whether co(G) − e is bipartite (i.e., whether
         # G U e is co-bipartite); G is probe 2-clique iff there is such an edge (Lemma 1 p 189)
+        graph_copy = graph.copy()
         for u, v in nx.non_edges(graph):
-            graph.add_edge(u, v)
-            retval = is_co_bipartite(graph)
-            graph.remove_edge(u, v)
+            graph_copy.add_edge(u, v)
+            retval = is_co_bipartite(graph_copy)
+            graph_copy.remove_edge(u, v)
             if retval:
                 return True
 

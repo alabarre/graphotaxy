@@ -242,16 +242,7 @@ def is_co_gem_free(graph: nx.Graph) -> bool:
     return is_h_u_k1_free(graph, is_cograph)
 
 
-@assign_fisc(
-    [
-        "co-gem",
-        "co(C_{4})",
-        "co(C_{5})",
-        "co(C_{6})",
-        "co(C_{7})",
-        "co(C_{8})",
-    ]
-)
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2778")
 @lru_cache(maxsize=None)
 def is_co_chordal_and_co_gem_free(graph: nx.Graph) -> bool:
@@ -992,7 +983,7 @@ def is_c_n_plus_4_u_k_1_free(graph: nx.Graph) -> bool:
     return all(is_chordal(graph.subgraph(nodes - {v}.union(graph[v]))) for v in graph)
 
 
-@assign_fisc(["co-diamond", "co-paw", "P_{4}"])
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1939")
 @lru_cache(maxsize=None)
 def is_p4_co_diamond_co_paw_free(graph: nx.Graph) -> bool:
@@ -1008,7 +999,7 @@ def is_p4_co_diamond_co_paw_free(graph: nx.Graph) -> bool:
     return is_cograph(graph) and is_co_paw_free(graph) and is_co_diamond_free(graph)
 
 
-@assign_fisc(["2K_{2}", "P_{4}", "co-diamond", "co-paw"])
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1940")
 @lru_cache(maxsize=None)
 def is_auto_1940(graph: nx.Graph) -> bool:
