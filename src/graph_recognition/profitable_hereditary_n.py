@@ -1902,17 +1902,17 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         """
         if len(graph) == 0:
             raise nx.NetworkXPointlessConcept("Graph has no nodes.")
-        unnumbered = BitMap(graph)
+        unnumbered = set(graph)
         if s is None:
             s = arbitrary_element(graph)
         unnumbered.remove(s)
-        numbered = BitMap({s})
+        numbered = {s}
         current_treewidth = -1
         while unnumbered:  # and current_treewidth <= treewidth_bound:
             v = _max_cardinality_node(unnumbered, numbered)
             unnumbered.remove(v)
             numbered.add(v)
-            clique_wanna_be = numbered & neighbors(graph, v)
+            clique_wanna_be = numbered.intersection(graph[v])
 
             # if graph is not complete, then we'll find a missing edge here
             for u, w in combinations(clique_wanna_be, 2):
@@ -1928,11 +1928,11 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
         return ()
 
-    def _max_cardinality_node(choices: Iterable, wanna_connect: BitMap) -> int:
+    def _max_cardinality_node(choices: Iterable, wanna_connect: set) -> int:
         """
         Returns a node in choices with the most connections in graph to nodes in wanna_connect.
         """
-        return max(choices, key=lambda x: len(neighbors(graph, x) & wanna_connect))
+        return max(choices, key=lambda x: len(wanna_connect.intersection(graph[x])))
 
     result = len(_find_chordality_breaker()) == 0
     return result

@@ -780,21 +780,11 @@ def plain_bfs(graph: nx.Graph | HalfAdjacencyMatrix, n: int, source: Hashable) -
     seen = {source}
     nextlevel = {source}
 
-    # we need a specialized version for HalfAdjacencyMatrix because nx.non_neighbors expects
-    # attributes that HalfAdjacencyMatrix doesn't have; it is much less tedious to write a
-    # neighbors method for HalfAdjacencyMatrix than trying to artificially add fake attributes
-    # to the class that are not needed anywhere else
-    # to avoid code duplications, we introduce the following function so that both calls use the
-    # same syntax
-    def neighbors_provider(x: Hashable):
-        return nx.neighbors(graph, x)
-
-    neighbors = graph.neighbors if isinstance(graph, HalfAdjacencyMatrix) else neighbors_provider
     while nextlevel:
         thislevel = nextlevel
         nextlevel = set()
         for v in thislevel:
-            new_neighbors = {w for w in neighbors(v) if w not in seen}
+            new_neighbors = {w for w in neighbors(graph, v) if w not in seen}
             seen.update(new_neighbors)
             nextlevel.update(new_neighbors)
             if len(seen) == n:
