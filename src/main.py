@@ -12,7 +12,7 @@ import logging
 import os
 import sys
 from collections import defaultdict
-from typing import Iterable
+from typing import Iterable, Callable
 
 # ----- Non-standard imports ----------------------------------------------------------------------
 import networkx as nx
@@ -21,6 +21,7 @@ from tqdm import tqdm
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_analyzer import GraphAnalyzer
+from graph_recognition import recognizers_utils
 from isgci.isgci_base import isgci_equivalences
 
 # Global variables --------------------------------------------------------------------------------
@@ -39,6 +40,28 @@ def knows(class_ids: Iterable[str]) -> None:
     gc_2   : found recognizer is_gc_1 in graph_recognition.profitable_hereditary_n_4
 
     """
+    # applying assign_inherited_fisc to all recognizers takes a long time and is useless in this
+    # particular use case; so we replace the decorator by an identity mapping, which simply returns
+    # the original function.
+    def identity_mapping() -> Callable:
+        """
+        Useless decoration of a function (has no effect).
+
+        :return:
+        """
+        def decorator(func: Callable) -> Callable:
+            """
+            Returns func.
+
+            :param func:
+            :return:
+            """
+            return func
+
+        return decorator
+
+    setattr(recognizers_utils, "assign_inherited_fisc", identity_mapping)
+
     longest_name_length = max(map(len, class_ids))
     analyzer = GraphAnalyzer()
     for _id in class_ids:
@@ -103,7 +126,7 @@ def print_capabilities() -> None:
     analyzer = GraphAnalyzer()
     equivs = isgci_equivalences()
     coverage = set()
-    for class_id, *_ in analyzer.recognizers:
+    for class_id in analyzer.recognizers:
         coverage.add(class_id)
         coverage.update(eqid for _, eqid in equivs[class_id])
 
@@ -281,7 +304,7 @@ def main() -> None:
             analyzer.classification,
             os.path.basename(args.input[0]) + ".graphml",
         )
-        print("done.\n")
+        print("done.")
 
     logger.info("Finished")
 

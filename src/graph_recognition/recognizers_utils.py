@@ -89,6 +89,29 @@ def assign_fisc(forbidden_subgraphs: Iterable[str]) -> Callable:
     return decorator
 
 
+@lru_cache(maxsize=None)
+def get_module_path(module_name: str) -> str:
+    """
+    Returns the path to the module whose name is given as input.
+
+    :param module_name:
+    :return:
+    """
+    parts = module_name.split(".")
+    for base in sys.path:
+        pkg_path = os.path.join(base, *parts)
+        py = pkg_path + ".py"
+        if os.path.isfile(py):
+            return py
+        init = os.path.join(pkg_path, "__init__.py")
+        if os.path.isfile(init):
+            return init
+
+    return ""
+
+
+
+@lru_cache(maxsize=None)
 def get_fisc(module_name: str, function_name: str) -> Set[str]:
     """
     Returns the FISC associated with the function defined in the given module, or an empty set
@@ -101,20 +124,7 @@ def get_fisc(module_name: str, function_name: str) -> Set[str]:
     :param function_name:
     :return:
     """
-    # first, get the path to the module file for module_name
-    module_path = ""
-    parts = module_name.split(".")
-    for base in sys.path:
-        pkg_path = os.path.join(base, *parts)
-        py = pkg_path + ".py"
-        if os.path.isfile(py):
-            module_path = py
-            break
-        init = os.path.join(pkg_path, "__init__.py")
-        if os.path.isfile(init):
-            module_path = init
-            break
-
+    module_path = get_module_path(module_name)
     if module_path:
         # then load the file and walk its AST up to the function
         with open(module_path, "r") as src:

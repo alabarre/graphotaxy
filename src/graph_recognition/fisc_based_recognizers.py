@@ -65,7 +65,7 @@ from graph_recognition.profitable_hereditary_n_5 import is_2p3_free, is_k2_u_k3_
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
-    assign_fisc,
+    assign_fisc, assign_inherited_fisc,
 )
 from graph_recognition.subgraphs import is_h_free
 
@@ -150,6 +150,7 @@ def is_gc_1376(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1020")
 @lru_cache(maxsize=None)
 def is_cnplus3_u_k1_diamond_paw_free(graph: nx.Graph) -> bool:
@@ -437,6 +438,7 @@ def is_gc_430(graph: nx.Graph) -> bool:
     return is_c4_free(graph) and is_p5_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_463")
 @lru_cache(maxsize=None)
 def is_gc_463(graph: nx.Graph) -> bool:
@@ -452,6 +454,7 @@ def is_gc_463(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_co_fork_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1521")
 @lru_cache(maxsize=None)
 def is_auto_1521(graph: nx.Graph) -> bool:
@@ -467,6 +470,7 @@ def is_auto_1521(graph: nx.Graph) -> bool:
     return is_co_diamond_free(graph) and is_house_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_574")
 @lru_cache(maxsize=None)
 def is_gc_574(graph: nx.Graph) -> bool:
@@ -481,6 +485,7 @@ def is_gc_574(graph: nx.Graph) -> bool:
     return is_bull_free(graph) and is_house_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1528")
 @lru_cache(maxsize=None)
 def is_auto_1528(graph: nx.Graph) -> bool:
@@ -496,6 +501,7 @@ def is_auto_1528(graph: nx.Graph) -> bool:
     return is_bull_free(graph) and is_co_fork_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2117")
 @lru_cache(maxsize=None)
 def is_auto_2117(graph: nx.Graph) -> bool:
@@ -513,6 +519,7 @@ def is_auto_2117(graph: nx.Graph) -> bool:
     return is_co_gem_free(graph) and is_h_u_2k1_free(graph, is_co_p3_free)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_628")
 @lru_cache(maxsize=None)
 def is_gc_628(graph: nx.Graph) -> bool:
@@ -528,6 +535,7 @@ def is_gc_628(graph: nx.Graph) -> bool:
     return is_diamond_free(graph) and is_k23_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_427")
 @lru_cache(maxsize=None)
 def is_gc_427(graph: nx.Graph) -> bool:
@@ -543,6 +551,7 @@ def is_gc_427(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_h_free(graph, ["cricket"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_402")
 @lru_cache(maxsize=None)
 def is_gc_402(graph: nx.Graph) -> bool:
@@ -557,6 +566,7 @@ def is_gc_402(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_house_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_403")
 @lru_cache(maxsize=None)
 def is_gc_403(graph: nx.Graph) -> bool:
@@ -571,6 +581,7 @@ def is_gc_403(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_k23_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_408")
 @lru_cache(maxsize=None)
 def is_gc_408(graph: nx.Graph) -> bool:
@@ -585,6 +596,7 @@ def is_gc_408(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_k14_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1472")
 @lru_cache(maxsize=None)
 def is_auto_1472(graph: nx.Graph) -> bool:
@@ -599,6 +611,7 @@ def is_auto_1472(graph: nx.Graph) -> bool:
     return is_3k1_free(graph) and is_house_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_632")
 @lru_cache(maxsize=None)
 def is_gc_632(graph: nx.Graph) -> bool:
@@ -613,6 +626,7 @@ def is_gc_632(graph: nx.Graph) -> bool:
     return is_triangle_free(graph) and is_fork_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1520")
 @lru_cache(maxsize=None)
 def is_auto_1520(graph: nx.Graph) -> bool:
@@ -627,6 +641,7 @@ def is_auto_1520(graph: nx.Graph) -> bool:
     return is_house_free(graph) and is_co_p_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_510")
 @lru_cache(maxsize=None)
 def is_gc_510(graph: nx.Graph) -> bool:
@@ -641,6 +656,7 @@ def is_gc_510(graph: nx.Graph) -> bool:
     return is_co_gem_free(graph) and is_gem_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1728")
 @lru_cache(maxsize=None)
 def is_auto_1728(graph: nx.Graph) -> bool:
@@ -655,6 +671,7 @@ def is_auto_1728(graph: nx.Graph) -> bool:
     return is_co_claw_free(graph) and is_h_free(graph, ["co-butterfly"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_413")
 @lru_cache(maxsize=None)
 def is_gc_413(graph: nx.Graph) -> bool:
@@ -669,6 +686,7 @@ def is_gc_413(graph: nx.Graph) -> bool:
     return is_diamond_free(graph) and is_k14_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1522")
 @lru_cache(maxsize=None)
 def is_auto_1522(graph: nx.Graph) -> bool:
@@ -684,6 +702,7 @@ def is_auto_1522(graph: nx.Graph) -> bool:
     return is_co_k14_free(graph) and is_house_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1481")
 @lru_cache(maxsize=None)
 def is_auto_1481(graph: nx.Graph) -> bool:
@@ -698,6 +717,7 @@ def is_auto_1481(graph: nx.Graph) -> bool:
     return is_3k1_free(graph) and is_co_fork_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_367")
 @lru_cache(maxsize=None)
 def is_gc_367(graph: nx.Graph) -> bool:
@@ -712,6 +732,7 @@ def is_gc_367(graph: nx.Graph) -> bool:
     return is_c4_free(graph) and is_c5_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_812")
 @lru_cache(maxsize=None)
 def is_gc_812(graph: nx.Graph) -> bool:
@@ -726,6 +747,7 @@ def is_gc_812(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_h_free(graph, ["co(P_{2} U P_{3})"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1512")
 @lru_cache(maxsize=None)
 def is_auto_1512(graph: nx.Graph) -> bool:
@@ -740,6 +762,7 @@ def is_auto_1512(graph: nx.Graph) -> bool:
     return is_2k2_free(graph) and is_house_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1525")
 @lru_cache(maxsize=None)
 def is_auto_1525(graph: nx.Graph) -> bool:
@@ -754,6 +777,7 @@ def is_auto_1525(graph: nx.Graph) -> bool:
     return is_k2_u_k3_free(graph) and is_house_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_409")
 @lru_cache(maxsize=None)
 def is_gc_409(graph: nx.Graph) -> bool:
@@ -768,6 +792,7 @@ def is_gc_409(graph: nx.Graph) -> bool:
     return is_diamond_free(graph) and is_p5_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_572")
 @lru_cache(maxsize=None)
 def is_p5_bull_free(graph: nx.Graph) -> bool:
@@ -782,6 +807,7 @@ def is_p5_bull_free(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_bull_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1275")
 @lru_cache(maxsize=None)
 def is_gc_1275(graph: nx.Graph) -> bool:
@@ -796,6 +822,7 @@ def is_gc_1275(graph: nx.Graph) -> bool:
     return is_2k2_free(graph) and is_c5_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_669")
 @lru_cache(maxsize=None)
 def is_gc_669(graph: nx.Graph) -> bool:
@@ -810,6 +837,7 @@ def is_gc_669(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_c5_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_670")
 @lru_cache(maxsize=None)
 def is_gc_670(graph: nx.Graph) -> bool:
@@ -824,6 +852,7 @@ def is_gc_670(graph: nx.Graph) -> bool:
     return is_triangle_free(graph) and is_p5_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1213")
 @lru_cache(maxsize=None)
 def is_gc_1213(graph: nx.Graph) -> bool:
@@ -838,6 +867,7 @@ def is_gc_1213(graph: nx.Graph) -> bool:
     return is_claw_free(graph) and is_h_free(graph, ["butterfly"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_671")
 @lru_cache(maxsize=None)
 def is_gc_671(graph: nx.Graph) -> bool:
@@ -852,6 +882,7 @@ def is_gc_671(graph: nx.Graph) -> bool:
     return is_k4_free(graph) and is_p5_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_871")
 @lru_cache(maxsize=None)
 def is_gc_871(graph: nx.Graph) -> bool:
@@ -866,6 +897,7 @@ def is_gc_871(graph: nx.Graph) -> bool:
     return is_gem_free(graph) and is_h_free(graph, ["butterfly"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_466")
 @lru_cache(maxsize=None)
 def is_gc_466(graph: nx.Graph) -> bool:
@@ -880,6 +912,7 @@ def is_gc_466(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_gem_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1473")
 @lru_cache(maxsize=None)
 def is_auto_1473(graph: nx.Graph) -> bool:
@@ -894,6 +927,7 @@ def is_auto_1473(graph: nx.Graph) -> bool:
     return is_c5_free(graph) and is_house_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_439")
 @lru_cache(maxsize=None)
 def is_gc_439(graph: nx.Graph) -> bool:
@@ -908,6 +942,7 @@ def is_gc_439(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_h_free(graph, ["fork"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1462")
 @lru_cache(maxsize=None)
 def is_house_p2_u_p3_free(graph: nx.Graph) -> bool:
@@ -922,6 +957,7 @@ def is_house_p2_u_p3_free(graph: nx.Graph) -> bool:
     return is_h_free(graph, ["P_{2} U P_{3}"]) and is_house_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_700")
 @lru_cache(maxsize=None)
 def is_gc_700(graph: nx.Graph) -> bool:
@@ -936,6 +972,7 @@ def is_gc_700(graph: nx.Graph) -> bool:
     return is_gem_free(graph) and is_h_free(graph, ["W_{4}"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1448")
 @lru_cache(maxsize=None)
 def is_auto_1448(graph: nx.Graph) -> bool:
@@ -950,6 +987,7 @@ def is_auto_1448(graph: nx.Graph) -> bool:
     return is_co_paw_free(graph) and is_co_k14_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1762")
 @lru_cache(maxsize=None)
 def is_auto_1762(graph: nx.Graph) -> bool:
@@ -964,6 +1002,7 @@ def is_auto_1762(graph: nx.Graph) -> bool:
     return is_gem_free(graph) and is_4k1_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_920")
 @lru_cache(maxsize=None)
 def is_gc_920(graph: nx.Graph) -> bool:
@@ -978,6 +1017,7 @@ def is_gc_920(graph: nx.Graph) -> bool:
     return is_paw_free(graph) and is_k14_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_410")
 @lru_cache(maxsize=None)
 def is_gc_410(graph: nx.Graph) -> bool:
@@ -992,6 +1032,7 @@ def is_gc_410(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_h_free(graph, ["P"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_438")
 @lru_cache(maxsize=None)
 def is_gc_438(graph: nx.Graph) -> bool:
@@ -1020,6 +1061,7 @@ def is_gc_397(graph: nx.Graph) -> bool:
     return is_h_free(graph, ["fork", "bull"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1510")
 @lru_cache(maxsize=None)
 def is_auto_1510(graph: nx.Graph) -> bool:
@@ -1034,6 +1076,7 @@ def is_auto_1510(graph: nx.Graph) -> bool:
     return is_p_free(graph) and is_co_fork_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1523")
 @lru_cache(maxsize=None)
 def is_auto_1523(graph: nx.Graph) -> bool:
@@ -1048,6 +1091,7 @@ def is_auto_1523(graph: nx.Graph) -> bool:
     return is_co_claw_free(graph) and is_h_free(graph, ["house"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1509")
 @lru_cache(maxsize=None)
 def is_auto_1509(graph: nx.Graph) -> bool:
@@ -1062,6 +1106,7 @@ def is_auto_1509(graph: nx.Graph) -> bool:
     return is_house_free(graph) and is_co_fork_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1508")
 @lru_cache(maxsize=None)
 def is_auto_1508(graph: nx.Graph) -> bool:
@@ -1076,6 +1121,7 @@ def is_auto_1508(graph: nx.Graph) -> bool:
     return is_fork_free(graph) and is_house_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_407")
 @lru_cache(maxsize=None)
 def is_gc_407(graph: nx.Graph) -> bool:
@@ -1090,6 +1136,7 @@ def is_gc_407(graph: nx.Graph) -> bool:
     return is_claw_free(graph) and is_p5_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1453")
 @lru_cache(maxsize=None)
 def is_auto_1453(graph: nx.Graph) -> bool:
@@ -1104,6 +1151,7 @@ def is_auto_1453(graph: nx.Graph) -> bool:
     return is_co_gem_free(graph) and is_h_free(graph, ["co-butterfly"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1518")
 @lru_cache(maxsize=None)
 def is_auto_1518(graph: nx.Graph) -> bool:
@@ -1118,6 +1166,7 @@ def is_auto_1518(graph: nx.Graph) -> bool:
     return is_co_diamond_free(graph) and is_co_k14_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1233")
 @lru_cache(maxsize=None)
 def is_gc_1233(graph: nx.Graph) -> bool:
@@ -1132,6 +1181,7 @@ def is_gc_1233(graph: nx.Graph) -> bool:
     return is_co_gem_free(graph) and is_k4_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_566")
 @lru_cache(maxsize=None)
 def is_gc_566(graph: nx.Graph) -> bool:
@@ -1146,6 +1196,7 @@ def is_gc_566(graph: nx.Graph) -> bool:
     return is_claw_free(graph) and is_h_free(graph, ["W_{4}"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1507")
 @lru_cache(maxsize=None)
 def is_auto_1507(graph: nx.Graph) -> bool:
@@ -1160,6 +1211,7 @@ def is_auto_1507(graph: nx.Graph) -> bool:
     return is_co_gem_free(graph) and is_house_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1471")
 @lru_cache(maxsize=None)
 def is_auto_1471(graph: nx.Graph) -> bool:
@@ -1174,6 +1226,7 @@ def is_auto_1471(graph: nx.Graph) -> bool:
     return is_4k1_free(graph) and is_house_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2094")
 @lru_cache(maxsize=None)
 def is_auto_2094(graph: nx.Graph) -> bool:
@@ -1188,6 +1241,7 @@ def is_auto_2094(graph: nx.Graph) -> bool:
     return is_co_claw_free(graph) and is_h_u_k1_free(graph, is_2k2_free)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_854")
 @lru_cache(maxsize=None)
 def is_gc_854(graph: nx.Graph) -> bool:
@@ -1199,11 +1253,10 @@ def is_gc_854(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return (
-            is_cograph(graph) and is_k23_free(graph) and is_h_free(graph, ["co-butterfly"])
-    )
+    return is_cograph(graph) and is_k23_free(graph) and is_h_free(graph, ["co-butterfly"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_478")
 @lru_cache(maxsize=None)
 def is_gc_478(graph: nx.Graph) -> bool:
@@ -1218,6 +1271,7 @@ def is_gc_478(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_bull_free(graph) and is_house_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_518")
 @lru_cache(maxsize=None)
 def is_gc_518(graph: nx.Graph) -> bool:
