@@ -125,6 +125,12 @@ def module_path_to_ast(module_path: str) -> ast.AST:
 
 @lru_cache(maxsize=None)
 def module_to_ast(mod: ModuleType) -> ast.AST:
+    """
+    Returns the AST for the given module.
+
+    :param mod:
+    :return:
+    """
     return ast.parse(getsource(mod))
 
 
@@ -167,6 +173,21 @@ def get_fisc(module_name: str, function_name: str) -> Set[str]:
 
     return set()
 
+__func_names_to_mods = dict()
+
+@lru_cache(maxsize=None)
+def update_func_names_to_mods(module: ModuleType) -> None:
+    """
+    Retrieves all functions f in module, and stores the mapping "f's name" -> "f's module name".
+
+    :param module:
+    :return:
+    """
+    for node in ast.walk(module_to_ast(module)):
+        if isinstance(node, ast.ImportFrom):
+            for alias in node.names:
+                __func_names_to_mods[alias.name] = node.module
+
 
 def assign_inherited_fisc() -> Callable:
     """
@@ -184,21 +205,10 @@ def assign_inherited_fisc() -> Callable:
         callees.
         """
         union_of_fiscs = set()
-        
-        # we are going to walk the AST of a function object, but the calls we will detect only
-        # provide us with the **names** of the called functions, which is not enough to access
-        # their definitions; therefore, we first build a data structure that allows us to identify
-        # the modules that define those functions so we can load them later. Since the function we
-        # will decorate needs those functions in its definition, the function's module contains the
-        # necessary imports.
 
         # examine all "from X import a, b, ..." nodes, and record mapping a -> X, b -> X, ...
         func_mod = getmodule(function)
-        func_names_to_mods = dict()
-        for node in ast.walk(module_to_ast(func_mod)):
-            if isinstance(node, ast.ImportFrom):
-                for alias in node.names:
-                    func_names_to_mods[alias.name] = node.module
+        update_func_names_to_mods(func_mod)
 
         # retrieve all calls to other functions in the function's body
         for other in ast.walk(
@@ -210,11 +220,11 @@ def assign_inherited_fisc() -> Callable:
                     func_name = other.func.id
 
                     # try to retrieve the module from our mapping
-                    if func_name in func_names_to_mods:
-                        mod_name = func_names_to_mods[func_name]
+                    if func_name in __func_names_to_mods:
+                        mod_name = __func_names_to_mods[func_name]
                     else:
-                        # if not found, assume definition comes from the same module as the
-                        # function to decorate
+                        # if not found, assume definition comes from the same module as the function
+                        # to decorate
                         mod_name = func_mod.__name__
 
                     union_of_fiscs.update(get_fisc(mod_name, func_name))
