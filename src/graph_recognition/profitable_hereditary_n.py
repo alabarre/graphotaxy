@@ -25,7 +25,6 @@ import networkx as nx
 from networkx.algorithms.planarity import LRPlanarity  # noqa (not declared in __all__)
 from networkx.generators import line
 from networkx.utils import arbitrary_element
-from pyroaring import BitMap
 from tralda.cograph import to_cotree
 
 # ----- My imports --------------------------------------------------------------------------------
@@ -1885,6 +1884,10 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     @param graph:
     @return:
     """
+    # note: don't try to optimise this function by using BitMaps or other tricks that assume
+    # integer vertices: this function is called by is_wing_triangulated, which feeds it a graph
+    # whose vertices are not integers
+
     # the following is basically a copy / paste of networkx.is_chordal, with a few minor changes so
     # it can be run on a HalfAdjacencyMatrix
     if len(graph) <= 3 or is_complete(graph):

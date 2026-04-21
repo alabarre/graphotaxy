@@ -46,7 +46,7 @@ from graph_recognition.profitable_hereditary_n_4 import (
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
-    cached_function,
+    cached_function, assign_inherited_fisc,
 )
 from graph_recognition.subgraphs import is_h_free
 
@@ -60,6 +60,7 @@ for i, function in enumerate(__functions_to_cache):
 
 
 # Recognizers -------------------------------------------------------------------------------------
+@assign_inherited_fisc()
 @assign_class_id("gc_986")
 @lru_cache(maxsize=None)
 def is_polyhedral(graph: nx.Graph) -> bool:
@@ -83,6 +84,7 @@ def is_polyhedral(graph: nx.Graph) -> bool:
     return is_planar(graph) and nx.node_connectivity(graph) == 3
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_939")
 @lru_cache(maxsize=None)
 def is_claw_union_3_k1_odd_cycle_free(graph: nx.Graph) -> bool:
@@ -94,6 +96,7 @@ def is_claw_union_3_k1_odd_cycle_free(graph: nx.Graph) -> bool:
     return is_bipartite(graph) and is_h_free(graph, ["claw U 3K_{1}"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1306")
 @lru_cache(maxsize=None)
 def is_p7_free_and_bipartite(graph: nx.Graph) -> bool:
@@ -105,6 +108,7 @@ def is_p7_free_and_bipartite(graph: nx.Graph) -> bool:
     return is_bipartite(graph) and is_p7_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_3313")
 @lru_cache(maxsize=None)
 def is_co_p7_free_and_co_bipartite(graph: nx.Graph) -> bool:
@@ -116,6 +120,7 @@ def is_co_p7_free_and_co_bipartite(graph: nx.Graph) -> bool:
     return is_co_bipartite(graph) and is_co_p7_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_971")
 @lru_cache(maxsize=None)
 def is_balanced_and_co_line(graph: nx.Graph) -> bool:
@@ -130,6 +135,7 @@ def is_balanced_and_co_line(graph: nx.Graph) -> bool:
     return is_co_line(graph) and is_gc_972(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2156")
 @lru_cache(maxsize=None)
 def is_co_claw_union_3_k1_odd_anti_cycle_free(graph: nx.Graph) -> bool:
@@ -143,6 +149,7 @@ def is_co_claw_union_3_k1_odd_anti_cycle_free(graph: nx.Graph) -> bool:
     return is_co_bipartite(graph) and is_h_free(graph, ["co(claw U 3K_{1})"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1280")
 @lru_cache(maxsize=None)
 def is5_pan_t2_x172_free_and_planar(graph: nx.Graph) -> bool:
@@ -154,6 +161,7 @@ def is5_pan_t2_x172_free_and_planar(graph: nx.Graph) -> bool:
     return is_planar(graph) and is_gc_1276(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_782")
 @lru_cache(maxsize=None)
 def is_chordal_and_proper_circular_arc(graph: nx.Graph) -> bool:
@@ -166,13 +174,14 @@ def is_chordal_and_proper_circular_arc(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_chordal(graph)
-        and is_claw_free(graph)
-        and is_net_free(graph)
-        and is_h_free(graph, ["S_{3} U K_{1}"])
+            is_chordal(graph)
+            and is_claw_free(graph)
+            and is_net_free(graph)
+            and is_h_free(graph, ["S_{3} U K_{1}"])
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_577")
 @lru_cache(maxsize=None)
 def is_cnplus4_t2_net_free(graph: nx.Graph) -> bool:
@@ -184,6 +193,7 @@ def is_cnplus4_t2_net_free(graph: nx.Graph) -> bool:
     return is_chordal(graph) and is_net_free(graph) and is_h_free(graph, ["T_{2}"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_505")
 @lru_cache(maxsize=None)
 def is_at2_odd_cycle_free(graph: nx.Graph) -> bool:
@@ -195,6 +205,7 @@ def is_at2_odd_cycle_free(graph: nx.Graph) -> bool:
     return is_bipartite(graph) and is_h_free(graph, ["A", "T_{2}"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_450")
 @lru_cache(maxsize=None)
 def is_odd_cycle_star123_free(graph: nx.Graph) -> bool:
@@ -206,6 +217,7 @@ def is_odd_cycle_star123_free(graph: nx.Graph) -> bool:
     return is_bipartite(graph) and is_h_free(graph, ["star_{1,2,3}"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_446")
 @lru_cache(maxsize=None)
 def is_p7_odd_cycle_star123_free(graph: nx.Graph) -> bool:
@@ -215,10 +227,11 @@ def is_p7_odd_cycle_star123_free(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_bipartite(graph) and is_p7_free(graph) and is_h_free(graph, ["star_{1,2,3}"])
+            is_bipartite(graph) and is_p7_free(graph) and is_h_free(graph, ["star_{1,2,3}"])
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_940")
 @lru_cache(maxsize=None)
 def is_x177_odd_cycle_free(graph: nx.Graph) -> bool:
@@ -230,6 +243,7 @@ def is_x177_odd_cycle_free(graph: nx.Graph) -> bool:
     return is_bipartite(graph) and is_h_free(graph, ["X_{177}"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2081")
 @lru_cache(maxsize=None)
 def is_co_p7_co_star123_odd_anti_cycle_free(graph: nx.Graph) -> bool:
@@ -239,12 +253,13 @@ def is_co_p7_co_star123_odd_anti_cycle_free(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_co_bipartite(graph)
-        and is_co_p7_free(graph)
-        and is_h_free(graph, ["co(star_{1,2,3})"])
+            is_co_bipartite(graph)
+            and is_co_p7_free(graph)
+            and is_h_free(graph, ["co(star_{1,2,3})"])
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2084")
 @lru_cache(maxsize=None)
 def is_co_star123_odd_anti_cycle_free(graph: nx.Graph) -> bool:
@@ -256,6 +271,7 @@ def is_co_star123_odd_anti_cycle_free(graph: nx.Graph) -> bool:
     return is_co_bipartite(graph) and is_h_free(graph, ["co(star_{1,2,3})"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2095")
 @lru_cache(maxsize=None)
 def is_s3_co_cnplus4_co_t2_free(graph: nx.Graph) -> bool:
@@ -265,10 +281,11 @@ def is_s3_co_cnplus4_co_t2_free(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_co_chordal(graph) and is_s3_free(graph) and is_h_free(graph, ["co(T_{2})"])
+            is_co_chordal(graph) and is_s3_free(graph) and is_h_free(graph, ["co(T_{2})"])
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2157")
 @lru_cache(maxsize=None)
 def is_co_x177_odd_anti_cycle_free(graph: nx.Graph) -> bool:
@@ -280,6 +297,7 @@ def is_co_x177_odd_anti_cycle_free(graph: nx.Graph) -> bool:
     return is_co_bipartite(graph) and is_h_free(graph, ["co(X_{177})"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2086")
 @lru_cache(maxsize=None)
 def is_co_a_co_t2_co_odd_cycle_free(graph: nx.Graph) -> bool:
@@ -291,6 +309,7 @@ def is_co_a_co_t2_co_odd_cycle_free(graph: nx.Graph) -> bool:
     return is_co_bipartite(graph) and is_h_free(graph, ["co(A)", "co(T_{2})"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_858")
 @lru_cache(maxsize=None)
 def is_chordal_and_circular_arc_and_claw_free(graph: nx.Graph) -> bool:
@@ -302,14 +321,15 @@ def is_chordal_and_circular_arc_and_claw_free(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_chordal(graph)
-        and is_claw_free(graph)
-        and is_h_free(
-            graph, ["S_{3} U K_{1}", "co(X_{103})", "eiffeltower", "net U K_{1}"]
-        )
+            is_chordal(graph)
+            and is_claw_free(graph)
+            and is_h_free(
+        graph, ["S_{3} U K_{1}", "co(X_{103})", "eiffeltower", "net U K_{1}"]
+    )
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2147")
 @lru_cache(maxsize=None)
 def is_auto_2147(graph: nx.Graph) -> bool:
@@ -321,20 +341,21 @@ def is_auto_2147(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_co_chordal(graph)
-        and is_co_claw_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "co(S_{3} U K_{1})",
-                "X_{103}",
-                "co-eiffeltower",
-                "co(net U K_{1})",
-            ],
-        )
+            is_co_chordal(graph)
+            and is_co_claw_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "co(S_{3} U K_{1})",
+            "X_{103}",
+            "co-eiffeltower",
+            "co(net U K_{1})",
+        ],
+    )
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2132")
 @lru_cache(maxsize=None)
 def is_auto_2132(graph: nx.Graph) -> bool:
@@ -344,23 +365,24 @@ def is_auto_2132(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_co_chordal(graph)
-        and is_net_free(graph)
-        and is_h_u_2k1_free(graph, is_triangle_free)
-        and is_h_free(
-            graph,
-            [
-                "co-4-fan",
-                "co(K_{5} - e)",
-                "co(X_{100})",
-                "co(X_{101})",
-                "co(X_{102})",
-                "H",
-            ],
-        )
+            is_co_chordal(graph)
+            and is_net_free(graph)
+            and is_h_u_2k1_free(graph, is_triangle_free)
+            and is_h_free(
+        graph,
+        [
+            "co-4-fan",
+            "co(K_{5} - e)",
+            "co(X_{100})",
+            "co(X_{101})",
+            "co(X_{102})",
+            "H",
+        ],
+    )
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2135")
 @lru_cache(maxsize=None)
 def is_auto_2135(graph: nx.Graph) -> bool:
@@ -373,13 +395,14 @@ def is_auto_2135(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_co_claw_free(graph)
-        and is_co_chordal(graph)
-        and is_s3_free(graph)
-        and is_h_free(graph, ["co(S_{3} U K_{1})"])
+            is_co_claw_free(graph)
+            and is_co_chordal(graph)
+            and is_s3_free(graph)
+            and is_h_free(graph, ["co(S_{3} U K_{1})"])
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2136")
 @lru_cache(maxsize=None)
 def is_co_t2_co_cycle_free(graph: nx.Graph) -> bool:
@@ -391,6 +414,7 @@ def is_co_t2_co_cycle_free(graph: nx.Graph) -> bool:
     return is_co_tree(graph) and is_h_free(graph, ["co(T_{2})"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_774")
 @lru_cache(maxsize=None)
 def is_gc_774(graph: nx.Graph) -> bool:
@@ -400,23 +424,24 @@ def is_gc_774(graph: nx.Graph) -> bool:
     @return:
     """
     return (
-        is_chordal(graph)
-        and is_s3_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "4-fan",
-                "K_{5} - e",
-                "X_{100}",
-                "X_{101}",
-                "X_{102}",
-                "co(H)",
-                "co(K_{3} U 2K_{1})",
-            ],
-        )
+            is_chordal(graph)
+            and is_s3_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "4-fan",
+            "K_{5} - e",
+            "X_{100}",
+            "X_{101}",
+            "X_{102}",
+            "co(H)",
+            "co(K_{3} U 2K_{1})",
+        ],
+    )
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_859")
 @lru_cache(maxsize=None)
 def is_circular_arc_and_diamond_free(graph: nx.Graph) -> bool:
@@ -429,27 +454,28 @@ def is_circular_arc_and_diamond_free(graph: nx.Graph) -> bool:
     """
     # this algo uses https://www.graphclasses.org/classes/gc_860.html instead
     return (
-        is_c_n_plus_4_u_k_1_free(graph)
-        and is_diamond_free(graph)
-        and is_k23_free(graph)
-        and is_h_free(
-            graph,
-            [
-                "T_{2}",
-                "co(C_{6})",
-                "co(X_{103})",
-                "co(X_{37})",
-                "co(X_{88})",
-                "co(X_{90})",
-                "net U K_{1}",
-                "domino",
-                "eiffeltower",
-                "twin-C_{5}",
-            ],
-        )
+            is_c_n_plus_4_u_k_1_free(graph)
+            and is_diamond_free(graph)
+            and is_k23_free(graph)
+            and is_h_free(
+        graph,
+        [
+            "T_{2}",
+            "co(C_{6})",
+            "co(X_{103})",
+            "co(X_{37})",
+            "co(X_{88})",
+            "co(X_{90})",
+            "net U K_{1}",
+            "domino",
+            "eiffeltower",
+            "twin-C_{5}",
+        ],
+    )
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_856")
 @lru_cache(maxsize=None)
 def is_circular_arc_and_paw_free(graph: nx.Graph) -> bool:
@@ -462,13 +488,14 @@ def is_circular_arc_and_paw_free(graph: nx.Graph) -> bool:
     """
     # this algo uses https://www.graphclasses.org/classes/gc_856.html instead
     return (
-        is_c_n_plus_4_u_k_1_free(graph)
-        and is_paw_free(graph)
-        and is_k23_free(graph)
-        and is_h_free(graph, ["T_{2}", "co(X_{90})", "domino", "twin-C_{5}"])
+            is_c_n_plus_4_u_k_1_free(graph)
+            and is_paw_free(graph)
+            and is_k23_free(graph)
+            and is_h_free(graph, ["T_{2}", "co(X_{90})", "domino", "twin-C_{5}"])
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_534")
 @lru_cache(maxsize=None)
 def is_hereditary_welsh_powell_perfect(graph: nx.Graph) -> bool:

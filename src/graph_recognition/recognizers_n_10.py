@@ -22,12 +22,13 @@ from graph_recognition.profitable_hereditary_n import (
 )
 from graph_recognition.recognizers_utils import (
     assign_class_id,
-    current_module_recognizers,
+    current_module_recognizers, assign_inherited_fisc,
 )
 from graph_recognition.subgraphs import is_h_free
 
 
 # Recognizers -------------------------------------------------------------------------------------
+@assign_inherited_fisc()
 @assign_class_id("gc_620")
 @lru_cache(maxsize=None)
 def is_probe_interval_and_tree(graph: nx.Graph) -> bool:
@@ -43,6 +44,7 @@ def is_probe_interval_and_tree(graph: nx.Graph) -> bool:
     return is_tree(graph) and is_h_free(graph, ["T_{3}", "X_{81}"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2101")
 @lru_cache(maxsize=None)
 def is_co_t3_co_x_81_co_cycle_free(graph: nx.Graph) -> bool:
@@ -56,6 +58,7 @@ def is_co_t3_co_x_81_co_cycle_free(graph: nx.Graph) -> bool:
     return is_co_tree(graph) and is_h_free(graph, ["co(T_{3})", "co(X_{81})"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1004")
 @lru_cache(maxsize=None)
 def is_b_perfect_and_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
@@ -81,6 +84,7 @@ def is_b_perfect_and_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2255")
 @lru_cache(maxsize=None)
 def is_co_t3_co_cycle_free(graph: nx.Graph) -> bool:

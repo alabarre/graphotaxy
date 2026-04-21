@@ -43,7 +43,7 @@ from graph_recognition.profitable_hereditary_n_3 import (
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
-    cached_function,
+    cached_function, assign_inherited_fisc,
 )
 
 # Cache imported functions that are not already cached -------------------------------------------
@@ -225,18 +225,17 @@ def is_dismantlable(graph: nx.Graph) -> bool:
     return True
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_50")
 @lru_cache(maxsize=None)
 def is_modular(graph: nx.Graph) -> bool:
     """
-    G is modular if for every three vertices x,y,z there exists a vertex w that
-    lies on a shortest path between every two of x, y, z; i.e. if every metric
-    triangle has size 0.
+    G is modular if for every three vertices x,y,z there exists a vertex w that lies on a shortest
+    path between every two of x, y, z; i.e. if every metric triangle has size 0.
 
     https://www.graphclasses.org/classes/gc_50.html
 
-    From https://doi.org/10.1007/BF02122796: "all graphs considered here are
-    connected."
+    From https://doi.org/10.1007/BF02122796: "all graphs considered here are connected."
 
     @param graph:
     @return:
@@ -246,6 +245,7 @@ def is_modular(graph: nx.Graph) -> bool:
     return is_connected(graph) and is_triangle_free(graph) and is_pseudo_modular(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_211")
 @lru_cache(maxsize=None)
 def is_median(graph: nx.Graph) -> bool:
@@ -262,6 +262,7 @@ def is_median(graph: nx.Graph) -> bool:
     return is_triangle_free(graph) and is_pseudo_median(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1169")
 @lru_cache(maxsize=None)
 def is_median_and_planar(graph: nx.Graph) -> bool:
@@ -452,6 +453,7 @@ def is_interval_regular(graph: nx.Graph) -> bool:
     return True
 
 
+# @assign_inherited_fisc()  # DON'T: condition below is a "or", not an "and"
 @assign_class_id("gc_247")
 @lru_cache(maxsize=None)
 def is_interval_or_co_interval(graph: nx.Graph) -> bool:
@@ -463,6 +465,7 @@ def is_interval_or_co_interval(graph: nx.Graph) -> bool:
     return is_interval(graph) or is_co_interval(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1226")
 @lru_cache(maxsize=None)
 def is_bipartite_and_girth_at_least9_and_maximum_degree3_and_planar(graph: nx.Graph) -> bool:

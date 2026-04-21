@@ -31,8 +31,9 @@ from graph_recognition.recognizers_n_10 import is_b_perfect_and_chordal
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
-    cached_function,
+    cached_function, assign_inherited_fisc,
 )
+from graph_recognition.subgraphs import is_h_free
 
 # Cache imported functions that are not already cached --------------------------------------------
 __functions_to_cache = [
@@ -41,12 +42,12 @@ __functions_to_cache = [
     nx.non_neighbors,
 ]
 
-
 for __i, function in enumerate(__functions_to_cache):
     __functions_to_cache[__i] = cached_function(function)
 
 
 # Recognizers -------------------------------------------------------------------------------------
+@assign_inherited_fisc()
 @assign_class_id("gc_1181")
 @lru_cache(maxsize=None)
 def is_apex(graph: nx.Graph) -> bool:
@@ -107,7 +108,7 @@ def has_star_cutset(graph: nx.Graph, _complement: bool = False) -> bool:
             neighbourhoods[w] = set(nx.non_neighbors(graph, w))
             closed_n_w = neighbourhoods[w].union({w})
             if not is_connected(
-                complement(graph.subgraph(previous_nodes.difference(closed_n_w)))
+                    complement(graph.subgraph(previous_nodes.difference(closed_n_w)))
             ):
                 return True
 
@@ -120,8 +121,8 @@ def has_star_cutset(graph: nx.Graph, _complement: bool = False) -> bool:
         # neighbor of u is either v or a neighbor of v)
         for u, v in nx.non_edges(graph):
             if (
-                neighbourhoods[u].difference({v}) <= neighbourhoods[v]
-                or neighbourhoods[v].difference({u}) <= neighbourhoods[u]
+                    neighbourhoods[u].difference({v}) <= neighbourhoods[v]
+                    or neighbourhoods[v].difference({u}) <= neighbourhoods[u]
             ):
                 return True
 
@@ -140,14 +141,15 @@ def has_star_cutset(graph: nx.Graph, _complement: bool = False) -> bool:
     # neighbor of u is either v or a neighbor of v)
     for u, v in graph.edges:
         if (
-            neighbors(graph, u) - BitMap({v}) <= neighbors(graph, v)
-            or neighbors(graph, v) - BitMap({u}) <= neighbors(graph, u)
+                neighbors(graph, u) - BitMap({v}) <= neighbors(graph, v)
+                or neighbors(graph, v) - BitMap({u}) <= neighbors(graph, u)
         ):
             return True
 
     return False
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1188")
 @lru_cache(maxsize=None)
 def is_edge_regular(graph: nx.Graph) -> bool:
@@ -179,17 +181,25 @@ def is_edge_regular(graph: nx.Graph) -> bool:
     return True
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_277")
 @lru_cache(maxsize=None)
 def is_unbreakable(graph: nx.Graph) -> bool:
     """
+    A graph G is unbreakable if neither G nor its complement contains a star-cutset. A star-cutset
+    is a cutset C (i.e., a subset of V(G) whose removal disconnects the graph) that contains a
+    vertex v adjacent to all other vertices in C.
+
+    https://www.graphclasses.org/classes/gc_277.html
 
     @param graph:
     @return:
     """
     # from https://onlinelibrary.wiley.com/doi/abs/10.1002/jgt.3190150403 p.351
     # Every unbreakable graph contains a P_4; therefore, a P_4-free graph is NOT unbreakable
+    print(f"what does is_h_free think?: is_h_free(graph, ['P_{4}']) returns {is_h_free(graph, ['P_{4}'])}")
     if is_cograph(graph):
+        print(f"[DEBUG] this is a cograph")
         return False
 
     return not has_star_cutset(graph) and not has_star_cutset(graph, _complement=True)
@@ -220,6 +230,7 @@ def is_bigeodetic(graph: nx.Graph) -> bool:
     return True
 
 
+# @assign_inherited_fisc() # DON'T: condition below is an "or", not an "and"
 @assign_class_id("gc_270")
 @lru_cache(maxsize=None)
 def is_minimally_imperfect(graph: nx.Graph) -> bool:
@@ -236,7 +247,7 @@ def is_minimally_imperfect(graph: nx.Graph) -> bool:
     n = graph.size()
     if n % 2:
         if (is_connected(graph) and degree_sequence(graph) == array('b', [2] * n)) or (
-            is_co_connected(graph) and degree_sequence(graph) == array('Q', [n - 3] * n)
+                is_co_connected(graph) and degree_sequence(graph) == array('Q', [n - 3] * n)
         ):
             return True
 

@@ -42,12 +42,13 @@ from graph_recognition.profitable_hereditary_n_3 import is_claw_diamond_free
 from graph_recognition.profitable_hereditary_n_4 import is_co_claw_free
 from graph_recognition.recognizers_utils import (
     assign_class_id,
-    current_module_recognizers,
+    current_module_recognizers, assign_inherited_fisc, assign_fisc,
 )
 from graph_recognition.subgraphs import is_h_free
 
 
 # Recognizers -------------------------------------------------------------------------------------
+@assign_inherited_fisc()
 @assign_class_id("gc_445")
 @lru_cache(maxsize=None)
 def is_p7_odd_cycle_star123_sunlet4_free(graph: nx.Graph) -> bool:
@@ -63,6 +64,7 @@ def is_p7_odd_cycle_star123_sunlet4_free(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2080")
 @lru_cache(maxsize=None)
 def is_co_p7_co_star123_co_sunlet4_odd_anti_cycle_free(graph: nx.Graph) -> bool:
@@ -78,6 +80,7 @@ def is_co_p7_co_star123_co_sunlet4_odd_anti_cycle_free(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_528")
 @lru_cache(maxsize=None)
 def is_c4_c5_c6_c7_c8_xc11_claw_diamond_free(graph: nx.Graph) -> bool:
@@ -93,6 +96,7 @@ def is_c4_c5_c6_c7_c8_xc11_claw_diamond_free(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1739")
 @lru_cache(maxsize=None)
 def is_c4_c6_c8_k1_4_free_and_bipartite(graph: nx.Graph) -> bool:
@@ -106,6 +110,7 @@ def is_c4_c6_c8_k1_4_free_and_bipartite(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1282")
 @lru_cache(maxsize=None)
 def is_c4_c5_c6_c7_c8_free_and_maximum_degree3_and_planar(graph: nx.Graph) -> bool:
@@ -117,6 +122,7 @@ def is_c4_c5_c6_c7_c8_free_and_maximum_degree3_and_planar(graph: nx.Graph) -> bo
     return is_planar_and_maximum_degree_3(graph) and is_c4_c5_c6_c7_c8_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2471")
 @lru_cache(maxsize=None)
 def is_auto_2471(graph: nx.Graph) -> bool:
@@ -142,6 +148,7 @@ def is_auto_2471(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_3653")
 @lru_cache(maxsize=None)
 def is_co_c4_c6_c8_k1_4_free_and_bipartite(graph: nx.Graph) -> bool:
@@ -155,6 +162,15 @@ def is_co_c4_c6_c8_k1_4_free_and_bipartite(graph: nx.Graph) -> bool:
     )
 
 
+@assign_fisc([
+    "co(C_{5})",
+    "co(C_{6})",
+    "co(C_{7})",
+    "co(C_{8})",
+    "domino",
+    "C_{7}",
+    "C_{8}",
+])  # partial fisc also used in the code of the function
 @assign_class_id("gc_352")
 @lru_cache(maxsize=None)
 def is_wing_triangulated(graph: nx.Graph) -> bool:
@@ -204,6 +220,7 @@ def is_wing_triangulated(graph: nx.Graph) -> bool:
     return not wing_graph or is_chordal(wing_graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2083")
 @lru_cache(maxsize=None)
 def is_co_star123_co_sunlet4_odd_anti_cycle_free(graph: nx.Graph) -> bool:
@@ -215,6 +232,7 @@ def is_co_star123_co_sunlet4_odd_anti_cycle_free(graph: nx.Graph) -> bool:
     return is_co_bipartite(graph) and is_h_free(graph, ["co(star_{1,2,3})", "co(sunlet_{4})"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1240")
 @lru_cache(maxsize=None)
 def is_gc_1240(graph: nx.Graph) -> bool:
@@ -228,6 +246,7 @@ def is_gc_1240(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_449")
 @lru_cache(maxsize=None)
 def is_odd_cycle_star123_sunlet4_free(graph: nx.Graph) -> bool:
@@ -239,6 +258,7 @@ def is_odd_cycle_star123_sunlet4_free(graph: nx.Graph) -> bool:
     return is_bipartite(graph) and is_h_free(graph, ["star_{1,2,3}", "sunlet_{4}"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_827")
 @lru_cache(maxsize=None)
 def is_probe_bipartite_chain(graph: nx.Graph) -> bool:
@@ -252,6 +272,7 @@ def is_probe_bipartite_chain(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2459")
 @lru_cache(maxsize=None)
 def is_auto_2459(graph: nx.Graph) -> bool:
@@ -268,6 +289,7 @@ def is_auto_2459(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2144")
 @lru_cache(maxsize=None)
 def is_co_probe_bipartite_chain(graph: nx.Graph) -> bool:
@@ -289,6 +311,7 @@ def is_co_probe_bipartite_chain(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_447")
 @lru_cache(maxsize=None)
 def is_bipartite_and_bithreshold(graph: nx.Graph) -> bool:
@@ -320,6 +343,7 @@ def is_bipartite_and_bithreshold(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2091")
 @lru_cache(maxsize=None)
 def is_auto_2091(graph: nx.Graph) -> bool:
@@ -346,6 +370,7 @@ def is_auto_2091(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1291")
 @lru_cache(maxsize=None)
 def is_line_and_mock_threshold(graph: nx.Graph) -> bool:

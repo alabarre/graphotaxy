@@ -50,7 +50,7 @@ from graph_recognition.profitable_hereditary_n_4 import (
 from graph_recognition.recognizers_n_7 import is_hereditary_welsh_powell_perfect
 from graph_recognition.recognizers_utils import (
     assign_class_id,
-    current_module_recognizers,
+    current_module_recognizers, assign_inherited_fisc,
 )
 from graph_recognition.two_sat import Not, satisfiable
 
@@ -77,6 +77,7 @@ def vertex_is_pretty(graph: nx.Graph, v: Hashable) -> bool:
 
 
 # Recognizers -------------------------------------------------------------------------------------
+@assign_inherited_fisc()
 @assign_class_id("gc_660")
 @lru_cache(maxsize=None)
 def is_cnplus4_k4_free(graph: nx.Graph) -> bool:
@@ -88,6 +89,7 @@ def is_cnplus4_k4_free(graph: nx.Graph) -> bool:
     return is_chordal(graph) and is_k4_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2106")
 @lru_cache(maxsize=None)
 def is4_k1_co_cnplus4_free(graph: nx.Graph) -> bool:
@@ -122,6 +124,7 @@ def is_02_graph(graph: nx.Graph) -> bool:
     return all(number_of_common_neighbors(graph, u, v) in {0, 2} for u, v in nx.non_edges(graph))
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1193")
 @lru_cache(maxsize=None)
 def is_02_graph_and_bipartite(graph: nx.Graph) -> bool:
@@ -133,6 +136,7 @@ def is_02_graph_and_bipartite(graph: nx.Graph) -> bool:
     return is_bipartite(graph) and is_02_graph(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_912")
 @lru_cache(maxsize=None)
 def is_c4_triangle_free_and_planar(graph: nx.Graph) -> bool:
@@ -163,6 +167,7 @@ def is_pretty(graph: nx.Graph) -> bool:
     return empty_graph_by_removing_vertices(graph, vertex_is_pretty)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_1192")
 @lru_cache(maxsize=None)
 def is_rectagraph(graph: nx.Graph) -> bool:

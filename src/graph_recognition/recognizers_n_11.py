@@ -22,12 +22,13 @@ from graph_recognition.profitable_hereditary_n import (
 from graph_recognition.profitable_hereditary_n_2 import is_co_chordal
 from graph_recognition.recognizers_utils import (
     assign_class_id,
-    current_module_recognizers,
+    current_module_recognizers, assign_inherited_fisc,
 )
 from graph_recognition.subgraphs import is_h_free
 
 
 # Recognizers -------------------------------------------------------------------------------------
+@assign_inherited_fisc()
 @assign_class_id("gc_562")
 @lru_cache(maxsize=None)
 def is_cnplus4_x_59_longhorn_free(graph: nx.Graph) -> bool:
@@ -41,6 +42,7 @@ def is_cnplus4_x_59_longhorn_free(graph: nx.Graph) -> bool:
     return is_chordal(graph) and is_h_free(graph, ["longhorn", "X_{59}"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_554")
 @lru_cache(maxsize=None)
 def is_domination_perfect_and_planar(graph: nx.Graph) -> bool:
@@ -54,6 +56,7 @@ def is_domination_perfect_and_planar(graph: nx.Graph) -> bool:
     return is_planar(graph) and is_gc_550(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_2093")
 @lru_cache(maxsize=None)
 def is_co_cnplus4_co_x_59_co_longhorn_free(graph: nx.Graph) -> bool:

@@ -36,7 +36,7 @@ six==1.17.0
 soupsieve==2.7
 textual==8.1.1
 tqdm==4.67.1
-tralda==1.1.0
+tralda==2.0.1
 typing_extensions==4.14.0
 uc-micro-py==2.0.0
 urllib3==2.4.0
