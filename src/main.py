@@ -292,6 +292,23 @@ def main() -> None:
 
     if args.only:
         analyzer.restrict_to(args.only)
+        class_ids_without_a_recognizer = set()
+        for class_id in args.only:
+            try:
+                analyzer.get_recognizer(class_id)
+            except KeyError:
+                class_ids_without_a_recognizer.add(class_id)
+
+        if class_ids_without_a_recognizer:
+            print(
+                "The following class ids have no recognizer. Make sure you use the --exponential "
+                "option to include all recognizers.\n"
+            )
+            for class_id in sorted(class_ids_without_a_recognizer):
+                print(f"- {class_id}")
+
+            print("\nAborting.")
+            exit(-1)
 
     if args.skip:
         analyzer.blacklist(args.skip)
