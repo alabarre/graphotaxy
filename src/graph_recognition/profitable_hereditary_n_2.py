@@ -67,7 +67,6 @@ def is_threshold(graph: nx.Graph) -> bool:
     if not is_cograph(graph):
         return False
 
-    # equivalent to threshold: https://www.graphclasses.org/classes/gc_329
     # adapting networkx's code until they release the version that contains function is_threshold:
     """
     Uses the property that a threshold graph must be constructed by adding either dominating or 

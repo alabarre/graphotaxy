@@ -16,6 +16,7 @@ from typing import Iterable, Callable
 
 # ----- Non-standard imports ----------------------------------------------------------------------
 import networkx as nx
+
 nx.config.cache_converted_graphs = False
 from tqdm import tqdm
 
@@ -40,6 +41,7 @@ def knows(class_ids: Iterable[str]) -> None:
     gc_2   : found recognizer is_gc_1 in graph_recognition.profitable_hereditary_n_4
 
     """
+
     # applying assign_inherited_fisc to all recognizers takes a long time and is useless in this
     # particular use case; so we replace the decorator by an identity mapping, which simply returns
     # the original function.
@@ -49,6 +51,7 @@ def knows(class_ids: Iterable[str]) -> None:
 
         :return:
         """
+
         def decorator(func: Callable) -> Callable:
             """
             Returns func.
@@ -63,7 +66,7 @@ def knows(class_ids: Iterable[str]) -> None:
     setattr(recognizers_utils, "assign_inherited_fisc", identity_mapping)
 
     longest_name_length = max(map(len, class_ids))
-    analyzer = GraphAnalyzer()
+    analyzer = GraphAnalyzer(run_exponential_algos=True)
     for _id in class_ids:
         try:
             function = analyzer.get_recognizer(_id)
@@ -90,13 +93,9 @@ def check_for_multiple_recognizers() -> None:
     """
     # scan for classes with multiple recognizers
     ids_to_recognizers = defaultdict(set)
-    analyzer = GraphAnalyzer()
-    equivs = isgci_equivalences()
-    coverage = set()
-    for class_id, *_ in analyzer.recognizers:
-        coverage.add(class_id)
-        coverage.update(eqid for _, eqid in equivs[class_id])
-        ids_to_recognizers[class_id].update(_)
+    analyzer = GraphAnalyzer(run_exponential_algos=True)
+    for class_id, recognizer in analyzer.recognizers.items():
+        ids_to_recognizers[class_id].add(recognizer.__wrapped__)
 
     # no problem found -> stop
     if all(len(val) == 1 for val in ids_to_recognizers.values()):
@@ -123,7 +122,7 @@ def print_capabilities() -> None:
     """
     # compute the set of all recognizable classes: recognizers handle a class and all equivalent
     # classes
-    analyzer = GraphAnalyzer()
+    analyzer = GraphAnalyzer(run_exponential_algos=True)
     equivs = isgci_equivalences()
     coverage = set()
     for class_id in analyzer.recognizers:
@@ -192,12 +191,23 @@ def main() -> None:
         nargs="+",
         help="classes to which all input graphs are known to belong",
     )
-    input_options.add_argument(
+    behavior_options = parser.add_argument_group(
+        "behavior options",
+        description="The following options modify the behavior of the program, i.e., which "
+                    "recognizers should be run or skipped.",
+    )
+
+    behavior_options.add_argument(
+        "--exponential",
+        action="store_true",
+        help="run exponential-time recognizers (default: False)",
+    )
+    behavior_options.add_argument(
         "--only",
         nargs="+",
         help="classes to which the classification must be restricted",
     )
-    input_options.add_argument(
+    behavior_options.add_argument(
         "--skip",
         nargs="+",
         help="classes whose recognition should be skipped; use ISGCI ids",
@@ -267,7 +277,7 @@ def main() -> None:
         tqdm.__init__ = partialmethod(tqdm.__init__, disable=True)
 
     print()
-    analyzer = GraphAnalyzer()
+    analyzer = GraphAnalyzer(run_exponential_algos=args.exponential)
 
     # pass known classification information if provided
     if args.positive:

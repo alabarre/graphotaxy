@@ -48,7 +48,7 @@ from readwrite import process_graphs, number_of_graphs_in_file
 class GraphAnalyzer:
     """The class responsible for classifying a bunch of undirected graphs."""
 
-    def __init__(self) -> None:
+    def __init__(self, run_exponential_algos=False) -> None:
         """
         Initializes all data structures.
         """
@@ -83,9 +83,10 @@ class GraphAnalyzer:
         # other useful data -----------------------------------------------------------------------
         self.equivalences = isgci_equivalences()
         self.recognizers = OrderedDict()
-        self.setup_recognizers()
         self.active_progress_bars = []
         self.stop_refresh = False
+        self.run_exponential_recognizers = run_exponential_algos
+        self.setup_recognizers()
 
     # Methods related to recognizers --------------------------------------------------------------
     def get_recognizer(self, class_id: str) -> Callable:
@@ -131,6 +132,10 @@ class GraphAnalyzer:
         # 3) and then recognizers that run in O(n), O(n^2), ... time
         nonprofitable_modules = ["recognizers_n"] + [f"recognizers_n_{i}" for i in range(2, 12)]
         modules.extend(nonprofitable_modules)
+
+        # 4) optionally, add exponential-time recognizers
+        if self.run_exponential_recognizers:
+            modules.append("recognizers_exponential")
 
         # gather and load all recognizers; they will be run in the order in which they are defined
         # in their respective modules

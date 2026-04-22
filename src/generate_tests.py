@@ -104,8 +104,7 @@ def all_recognizable_class_ids_to_recognizers() -> Dict[str, Callable]:
     @return:
     """
     # load all classes with the corresponding recognizers
-    # base_dict = {class_id: recognizer for class_id, recognizer in GraphAnalyzer().recognizers}
-    base_dict = dict(GraphAnalyzer().recognizers)
+    base_dict = dict(GraphAnalyzer(run_exponential_algos=True).recognizers)
     # for each class with an id equivalent to a recognizable class: map it to the same recognizer
     # as its equivalent class
     for class_id in set(base_dict).intersection(EQUIV_IDS):
