@@ -145,7 +145,4 @@ def satisfiable(graph: DiGraph) -> bool:
     Does this 2SAT instance have a satisfying assignment?
     """
     symmetrize_in_place(graph)
-    if any(Not(v) in scc for scc in condensation(graph) for v in scc):
-        return False
-
-    return True
+    return all(Not(v) not in scc for scc in condensation(graph) for v in scc)
