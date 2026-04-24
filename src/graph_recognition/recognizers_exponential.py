@@ -18,7 +18,8 @@ from graph_recognition.profitable_hereditary_n import is_planar, is_line, is_bip
     is_co_bipartite
 from graph_recognition.profitable_hereditary_n_2 import is_comparability
 from graph_recognition.profitable_hereditary_n_3 import is_paw_free, is_triangle_free, is_3k1_free
-from graph_recognition.profitable_hereditary_n_4 import is_c4_free, is_k4_free, is_claw_free, is_hole_free
+from graph_recognition.profitable_hereditary_n_4 import is_c4_free, is_k4_free, is_claw_free, is_hole_free, \
+    is_co_claw_free
 from graph_recognition.recognizers_n_4 import is_pretty
 from graph_recognition.recognizers_n_5 import is_split_neighbourhood
 from graph_recognition.recognizers_utils import current_module_recognizers, assign_class_id, assign_inherited_fisc
@@ -114,6 +115,7 @@ def is_co3k2_paw_odd_hole_free(graph: nx.Graph):
     """
     return is_paw_free(graph) and is_h_free(graph, ["co(3K_{2})"]) and is_odd_hole_free(graph)
 
+
 @lru_cache(maxsize=None)
 @assign_class_id("gc_1258")
 def is_coc7_paw_odd_hole_free(graph: nx.Graph):
@@ -138,6 +140,32 @@ def is_bull_house_odd_hole_free(graph: nx.Graph):
     :return:
     """
     return is_gc_574(graph) and is_odd_hole_free(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_750")
+def is_claw_odd_hole_free(graph: nx.Graph):
+    """
+
+    https://www.graphclasses.org/classes/AUTO_750
+
+    :param graph:
+    :return:
+    """
+    return is_claw_free(graph) and is_odd_hole_free(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_2772")
+def is_co_claw_odd_hole_free(graph: nx.Graph):
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2772
+
+    :param graph:
+    :return:
+    """
+    return is_co_claw_free(graph) and is_odd_hole_free(graph)
 
 
 # ----- Subclasses of perfect graphs --------------------------------------------------------------
