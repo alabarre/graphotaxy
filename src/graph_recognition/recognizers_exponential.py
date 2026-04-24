@@ -13,16 +13,19 @@ from functools import lru_cache
 import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.fisc_based_recognizers import is_bull_free, is_diamond_free, is_gc_180, is_gc_574
+from graph_recognition.fisc_based_recognizers import is_bull_free, is_diamond_free, is_gc_180, is_gc_574, is_net_free, \
+    is_e_free
+from graph_recognition.misc_algo import complement
 from graph_recognition.profitable_hereditary_n import is_planar, is_line, is_bipartite, is_cograph, is_chordal, \
-    is_co_bipartite
-from graph_recognition.profitable_hereditary_n_2 import is_comparability
-from graph_recognition.profitable_hereditary_n_3 import is_paw_free, is_triangle_free, is_3k1_free
+    is_co_bipartite, is_2k2_free
+from graph_recognition.profitable_hereditary_n_2 import is_comparability, is_co_diamond_free, is_co_paw_free
+from graph_recognition.profitable_hereditary_n_3 import is_paw_free, is_triangle_free, is_3k1_free, is_p2up4_free
 from graph_recognition.profitable_hereditary_n_4 import is_c4_free, is_k4_free, is_claw_free, is_hole_free, \
     is_co_claw_free
 from graph_recognition.recognizers_n_4 import is_pretty
 from graph_recognition.recognizers_n_5 import is_split_neighbourhood
-from graph_recognition.recognizers_utils import current_module_recognizers, assign_class_id, assign_inherited_fisc
+from graph_recognition.recognizers_utils import current_module_recognizers, assign_class_id, assign_inherited_fisc, \
+    assign_fisc
 from graph_recognition.subgraphs import is_h_free
 
 
@@ -31,7 +34,7 @@ from graph_recognition.subgraphs import is_h_free
 # ---------- Subclasses of even-hole-free graphs --------------------------------------------------
 @lru_cache(maxsize=None)
 @assign_class_id("gc_547")
-def is_even_hole_free(graph: nx.Graph):
+def is_even_hole_free(graph: nx.Graph) -> bool:
     """
     Even-hole-free graphs contain no induced cycles whose number of vertices is even and >= 6.
 
@@ -47,7 +50,7 @@ def is_even_hole_free(graph: nx.Graph):
 
 @lru_cache(maxsize=None)
 @assign_class_id("gc_1325")
-def is_gc_1325(graph: nx.Graph):
+def is_gc_1325(graph: nx.Graph) -> bool:
     """
 
     https://www.graphclasses.org/classes/gc_1325.html
@@ -61,9 +64,10 @@ def is_gc_1325(graph: nx.Graph):
 
 
 # ---------- Subclasses of odd-hole-free graphs --------------------------------------------------
+@assign_fisc(["C_{5}", "C_{7}"])
 @lru_cache(maxsize=None)
 @assign_class_id("gc_356")
-def is_odd_hole_free(graph: nx.Graph):
+def is_odd_hole_free(graph: nx.Graph) -> bool:
     """
     Odd-hole-free graphs contain no induced cycles whose number of vertices is odd and >= 5.
 
@@ -77,9 +81,10 @@ def is_odd_hole_free(graph: nx.Graph):
     )
 
 
+@assign_fisc(["C_{5}", "C_{7}"])
 @lru_cache(maxsize=None)
 @assign_class_id("gc_610")
-def is_odd_hole_free_and_pretty(graph: nx.Graph):
+def is_odd_hole_free_and_pretty(graph: nx.Graph) -> bool:
     """
 
     https://www.graphclasses.org/classes/gc_610.html
@@ -90,9 +95,10 @@ def is_odd_hole_free_and_pretty(graph: nx.Graph):
     return is_pretty(graph) and is_odd_hole_free(graph)
 
 
+@assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("gc_711")
-def is_gc_711(graph: nx.Graph):
+def is_gc_711(graph: nx.Graph) -> bool:
     """
 
     https://www.graphclasses.org/classes/gc_711
@@ -103,9 +109,10 @@ def is_gc_711(graph: nx.Graph):
     return is_gc_180(graph) and is_odd_hole_free(graph)
 
 
+@assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("gc_965")
-def is_co3k2_paw_odd_hole_free(graph: nx.Graph):
+def is_co3k2_paw_odd_hole_free(graph: nx.Graph) -> bool:
     """
 
     https://www.graphclasses.org/classes/gc_965
@@ -118,7 +125,7 @@ def is_co3k2_paw_odd_hole_free(graph: nx.Graph):
 
 @lru_cache(maxsize=None)
 @assign_class_id("gc_1258")
-def is_coc7_paw_odd_hole_free(graph: nx.Graph):
+def is_coc7_paw_odd_hole_free(graph: nx.Graph) -> bool:
     """
 
     https://www.graphclasses.org/classes/gc_1258
@@ -131,7 +138,7 @@ def is_coc7_paw_odd_hole_free(graph: nx.Graph):
 
 @lru_cache(maxsize=None)
 @assign_class_id("gc_575")
-def is_bull_house_odd_hole_free(graph: nx.Graph):
+def is_bull_house_odd_hole_free(graph: nx.Graph) -> bool:
     """
 
     https://www.graphclasses.org/classes/gc_575
@@ -144,7 +151,7 @@ def is_bull_house_odd_hole_free(graph: nx.Graph):
 
 @lru_cache(maxsize=None)
 @assign_class_id("AUTO_750")
-def is_claw_odd_hole_free(graph: nx.Graph):
+def is_claw_odd_hole_free(graph: nx.Graph) -> bool:
     """
 
     https://www.graphclasses.org/classes/AUTO_750
@@ -157,7 +164,7 @@ def is_claw_odd_hole_free(graph: nx.Graph):
 
 @lru_cache(maxsize=None)
 @assign_class_id("AUTO_2772")
-def is_co_claw_odd_hole_free(graph: nx.Graph):
+def is_co_claw_odd_hole_free(graph: nx.Graph) -> bool:
     """
 
     https://www.graphclasses.org/classes/AUTO_2772
@@ -166,6 +173,134 @@ def is_co_claw_odd_hole_free(graph: nx.Graph):
     :return:
     """
     return is_co_claw_free(graph) and is_odd_hole_free(graph)
+
+
+# ----- Subclasses of anti-hole-free graphs -------------------------------------------------------
+@lru_cache(maxsize=None)
+@assign_class_id("gc_623")
+def is_odd_anti_hole_free(graph: nx.Graph) -> bool:
+    """
+    Odd anti-hole-free graphs are graphs whose complement contains no induced cycles whose number
+    of vertices is odd and >= 5.
+
+    https://www.graphclasses.org/classes/gc_623.html
+
+    :param graph:
+    :return:
+    """
+    # note: complement_as_adj_mat not usable because of missing attribute graph.adj
+    return is_odd_hole_free(complement(graph))
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_1611")
+def is_2k2_odd_anti_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_1611.html
+
+    :param graph:
+    :return:
+    """
+    return is_2k2_free(graph) and is_odd_anti_hole_free(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_1561")
+def is_3k2_e_net_odd_anti_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_1561.html
+
+
+    :param graph:
+    :return:
+    """
+    return is_h_free(graph, ["3K_{2}"]) and is_e_free(graph) and is_net_free(graph) and is_odd_anti_hole_free(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_2770")
+def is_co_diamond_odd_anti_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2770.html
+
+    :param graph:
+    :return:
+    """
+    return is_co_diamond_free(graph) and is_odd_anti_hole_free(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_2771")
+def is_co_claw_odd_anti_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2771.html
+
+    :param graph:
+    :return:
+    """
+    return is_co_claw_free(graph) and is_odd_anti_hole_free(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("gc_630")
+def is_even_anti_hole_free(graph: nx.Graph):
+    """
+    Even anti-hole-free graphs are graphs whose complement contains no induced cycles whose number
+    of vertices is odd and >= 6.
+
+    https://www.graphclasses.org/classes/gc_630.html
+
+    :param graph:
+    :return:
+    """
+    # note: complement_as_adj_mat not usable because of missing attribute graph.adj
+    return is_even_hole_free(complement(graph))
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_2839")
+def is_3k2_e_p2up4_net_odd_anti_hole_odd_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2839
+
+
+    :param graph:
+    :return:
+    """
+    return is_p2up4_free(graph) and is_3k2_e_net_odd_anti_hole_free(graph) and is_odd_hole_free(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_1562")
+def is_3k2_co_paw_odd_anti_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_1562
+
+
+    :param graph:
+    :return:
+    """
+    return is_co_paw_free(graph) and is_h_free(graph, ["3K_{2}"]) and is_odd_anti_hole_free(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_1789")
+def is_c7_odd_anti_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_1789
+
+
+    :param graph:
+    :return:
+    """
+    return is_h_free(graph, ["C_{7}"]) and is_odd_anti_hole_free(graph)
 
 
 # ----- Subclasses of perfect graphs --------------------------------------------------------------
@@ -359,6 +494,50 @@ def is_paw_free_and_perfect(graph: nx.Graph) -> bool:
     :return:
     """
     return is_paw_free(graph) and is_perfect(graph)
+
+
+# ----- Subclasses of even-cycle-free graphs ------------------------------------------------------
+# Note: this is more restricted than even-hole-free graphs: an even hole has length >= 6, but an
+# even cycle has length >= 4.
+@assign_inherited_fisc()
+@lru_cache(maxsize=None)
+@assign_class_id("gc_706")
+def is_even_cycle_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_706.html
+
+    :param graph:
+    :return:
+    """
+    return is_c4_free(graph) and is_even_hole_free(graph)
+
+
+# ----- Subclasses of even-anti-cycle-free graphs -------------------------------------------------
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_2118")
+def is_even_anti_cycle_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2118.html
+
+    :param graph:
+    :return:
+    """
+    return is_2k2_free(graph) and is_even_anti_hole_free(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_2206")
+def is_co_diamond_even_anti_cycle_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2206
+
+    :param graph:
+    :return:
+    """
+    return is_co_diamond_free(graph) and is_even_anti_cycle_free(graph)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

@@ -1545,6 +1545,7 @@ def is_auto_2071(graph: nx.Graph) -> bool:
     return is_co_gem_free(graph) and is_auto_2094(graph)
 
 
+@assign_fisc(["claw", "W_{4}", "gem"])
 @assign_class_id("gc_180")
 @lru_cache(maxsize=None)
 def is_gc_180(graph: nx.Graph) -> bool:
