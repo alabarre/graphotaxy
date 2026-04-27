@@ -103,8 +103,8 @@ def print_capabilities() -> None:
 
 def main() -> None:
     """
-    The main part of the program: takes as input a graph file, and outputs the results of its
-    analysis.
+    The main part of the program: takes as input one or several files each containing one or more
+    graphs, and outputs the results of its analysis.
 
     @return:
     """
@@ -272,15 +272,10 @@ def main() -> None:
     # single graph classification: output classification as a GML graph so that it can later be
     # read by tools like cytoscape
     if analyzer.num_graphs == 1:
-        print()
         print(
-            f"Writing GraphML file to {os.path.basename(args.input[0])}.graphml ... ",
-            end="",
+            f"\nWriting GraphML file to {os.path.basename(args.input[0])}.graphml ... ", end="",
         )
-        nx.write_graphml(
-            analyzer.classification,
-            os.path.basename(args.input[0]) + ".graphml",
-        )
+        nx.write_graphml(analyzer.classification, os.path.basename(args.input[0]) + ".graphml")
         print("done.\n")
 
     logger.info("Finished")

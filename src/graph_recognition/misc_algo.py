@@ -23,6 +23,7 @@ from typing_extensions import DefaultDict
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.recognizers_utils import cached_function
+from graph_recognition.undirected_graph import UndirectedGraph
 
 # Cache imported functions that are not already cached --------------------------------------------
 __functions_to_cache = [
@@ -735,7 +736,9 @@ def maximal_independent_set(graph: nx.Graph, cutoff: int = inf) -> set:
     :return:
     """
     retval = set()
-    graph_copy = graph.copy()
+    graph_copy = UndirectedGraph()
+    graph_copy.add_nodes_from(graph)
+    graph_copy.add_edges_from(graph.edges())
     while graph_copy and len(retval) < cutoff:
         # select a vertex with minimum degree
         v = min(graph_copy, key=graph_copy.degree)
