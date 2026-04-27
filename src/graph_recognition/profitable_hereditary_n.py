@@ -80,7 +80,9 @@ def is_forest(graph: nx.Graph) -> bool:
     if len(graph) == 0:
         return True
 
-    return nx.is_forest(graph)
+
+    return all(len(c) - 1 == c.number_of_edges() for c in map(graph.subgraph, connected_components(graph)))
+
 
 
 @lru_cache(maxsize=None)

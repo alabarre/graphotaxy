@@ -181,12 +181,12 @@ def is_cnplus3_u_k1_diamond_paw_free(graph: nx.Graph | HalfAdjacencyMatrix) -> b
     "co-diamond",
     "co-paw",
 ])  # partial fisc for co(C_{n+3} U K_{1})-free, no larger such configuration in ISGCI yet
-@assign_class_id("AUTO_2776")
+@assign_class_id("AUTO_2276")
 @lru_cache(maxsize=None)
 def is_cnplus3_u_k1_co_diamond_co_paw_free(graph: nx.Graph) -> bool:
     """
 
-    https://www.graphclasses.org/classes/AUTO_2776
+    https://www.graphclasses.org/classes/AUTO_2276
 
     Complexity: O(n^4).
 
@@ -194,6 +194,7 @@ def is_cnplus3_u_k1_co_diamond_co_paw_free(graph: nx.Graph) -> bool:
     :return:
     """
     return is_cnplus3_u_k1_diamond_paw_free(complement_as_adj_mat(graph))
+
 
 # All recognizers for patterns on at most 5 vertices ----------------------------------------------
 @assign_fisc(["P"])

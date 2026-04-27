@@ -33,6 +33,7 @@ from tqdm import tqdm
 # ----- My imports --------------------------------------------------------------------------------
 from cache_utils import clear_function_caches, get_cached_non_recognizers
 from classification_digraph import ClassificationDigraph
+from graph_recognition.recognizers_utils import undecorated_function
 from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings, clear_subgraph_cache, query_status
 from isgci.isgci_base import (
     isgci_equivalences,
@@ -109,6 +110,15 @@ class GraphAnalyzer:
         :param recognizer:
         :return:
         """
+        if class_id in self.recognizers:
+            former_recognizer = undecorated_function(self.recognizers[class_id])
+            new_recognizer = undecorated_function(recognizer)
+            print(
+                f"Warning: {class_id} already registered with recognizer "
+                f"{former_recognizer.__name__} from module {former_recognizer.__module__}, will "
+                f"be replaced with {new_recognizer.__name__} from module "
+                f"{new_recognizer.__module__}"
+            )
         self.recognizers[class_id] = recognizer
         self.recognizers.update({eq_id: recognizer for _, eq_id in self.equivalences[class_id]})
 

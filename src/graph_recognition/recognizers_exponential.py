@@ -482,20 +482,6 @@ def is_line_and_perfect(graph: nx.Graph) -> bool:
     return is_perfect(nx.line_graph(graph))
 
 
-@assign_inherited_fisc()
-@lru_cache(maxsize=None)
-@assign_class_id("gc_278")
-def is_paw_free_and_perfect(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_278.html
-
-    :param graph:
-    :return:
-    """
-    return is_paw_free(graph) and is_perfect(graph)
-
-
 # ----- Subclasses of even-cycle-free graphs ------------------------------------------------------
 # Note: this is more restricted than even-hole-free graphs: an even hole has length >= 6, but an
 # even cycle has length >= 4.

@@ -173,6 +173,7 @@ def is_co_comparability(graph: nx.Graph) -> bool:
         is_comparability(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)
     )
 
+
 @assign_inherited_fisc()
 @assign_class_id("gc_23")
 @lru_cache(maxsize=None)

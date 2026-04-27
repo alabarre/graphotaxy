@@ -103,7 +103,7 @@ def is_complete(graph: nx.Graph) -> bool:
 
 
 @lru_cache(maxsize=None)
-def is_h_u_k1_free(graph: nx.Graph, recognizer_for_h: Callable) -> bool:
+def is_h_u_k1_free(graph: nx.Graph | HalfAdjacencyMatrix, recognizer_for_h: Callable) -> bool:
     """
     Returns True if graph is (H U K_{1})-free, and False otherwise. Requires a recognizer for
     H-free graphs.
@@ -117,7 +117,7 @@ def is_h_u_k1_free(graph: nx.Graph, recognizer_for_h: Callable) -> bool:
     """
     # G is (H U K_{1})-free iff G - ({u} U N(u)) is H-free for every vertex v; this is equivalent
     # to verifying whether the subgraph of G induced by the non-neighbors of v is H-free for all v
-    return all(recognizer_for_h(graph.subgraph(nx.non_neighbors(graph, v))) for v in graph)
+    return all(recognizer_for_h(graph.subgraph(non_neighbors(graph, v))) for v in graph)
 
 
 @lru_cache(maxsize=None)
@@ -134,11 +134,7 @@ def is_h_u_k2_free(graph: nx.Graph, recognizer_for_h: Callable) -> bool:
     # this is equivalent to verifying whether the subgraph of G induced by the vertices that are
     # adjacent neither to u nor to v is H-free for every edge {u, v}
     return all(
-        recognizer_for_h(
-            graph.subgraph(
-                set(nx.non_neighbors(graph, u)).intersection(nx.non_neighbors(graph, v))
-            )
-        )
+        recognizer_for_h(graph.subgraph(non_neighbors(graph, u) & non_neighbors(graph, v)))
         for u, v in graph.edges
     )
 
@@ -157,11 +153,7 @@ def is_h_u_2k1_free(graph: nx.Graph, recognizer_for_h: Callable) -> bool:
     # this is equivalent to verifying whether the subgraph of G induced by the vertices that are
     # adjacent neither to u nor to v is H-free for every non-edge {u, v}
     return all(
-        recognizer_for_h(
-            graph.subgraph(
-                set(nx.non_neighbors(graph, u)).intersection(nx.non_neighbors(graph, v))
-            )
-        )
+        recognizer_for_h(graph.subgraph(non_neighbors(graph, u) & non_neighbors(graph, v)))
         for u, v in nx.non_edges(graph)
     )
 
@@ -246,7 +238,6 @@ def is_regular(graph: nx.Graph) -> bool:
 
     ds = degree_sequence(graph)
     return ds[0] == ds[-1]
-
 
 
 # Functions for recognizing a graph by repeatedly removing edges ----------------------------------
@@ -337,21 +328,11 @@ def plain_co_bfs(graph: nx.Graph, n: int, source: Hashable) -> set:
     seen = {source}
     nextlevel = {source}
 
-    # we need a specialized version for HalfAdjacencyMatrix because nx.non_neighbors expects
-    # attributes that HalfAdjacencyMatrix doesn't have; it is much less tedious to write a
-    # non_neighbors method for HalfAdjacencyMatrix than trying to artificially add fake attributes
-    # to the class that are not needed anywhere else
-    # to avoid code duplications, we introduce the following function so that both calls use the
-    # same syntax
-    def non_neighbors_provider(x: Hashable):
-        return nx.non_neighbors(graph, x)
-
-    non_neighbors = graph.non_neighbors if isinstance(graph, HalfAdjacencyMatrix) else non_neighbors_provider
     while nextlevel:
         thislevel = nextlevel
         nextlevel = set()
         for v in thislevel:
-            new_non_neighbors = {w for w in non_neighbors(v) if w not in seen}
+            new_non_neighbors = {w for w in non_neighbors(graph, v) if w not in seen}
             seen.update(new_non_neighbors)
             nextlevel.update(new_non_neighbors)
             if len(seen) == n:
@@ -557,7 +538,7 @@ def is_odd_co_clique_free(graph: nx.Graph, k: int) -> bool:
     # of degree at most n-1-(k-1) = n-k
     n = graph.number_of_nodes()
     return all(
-        is_even_co_clique_free(graph.subgraph(nx.non_neighbors(graph, v)), k - 1)
+        is_even_co_clique_free(graph.subgraph(non_neighbors(graph, v)), k - 1)
         for v, d in graph.degree
         if d <= n - k
     )
@@ -809,6 +790,7 @@ def connected_components(graph: nx.Graph | HalfAdjacencyMatrix):
             seen.update(c)
             yield c
 
+
 @lru_cache(maxsize=None)
 def neighbors(graph: nx.Graph | HalfAdjacencyMatrix, x: Any) -> BitMap:
     """
@@ -819,3 +801,18 @@ def neighbors(graph: nx.Graph | HalfAdjacencyMatrix, x: Any) -> BitMap:
     :return:
     """
     return BitMap(graph[x])
+
+
+@lru_cache(maxsize=None)
+def non_neighbors(graph: nx.Graph | HalfAdjacencyMatrix, x: Any) -> BitMap:
+    """
+    Returns the non-neighbors of x in graph as a BitMap.
+
+    :param graph:
+    :param x:
+    :return:
+    """
+    if isinstance(graph, nx.Graph):
+        return BitMap(nx.non_neighbors(graph, x))
+
+    return BitMap(graph.non_neighbors(x))

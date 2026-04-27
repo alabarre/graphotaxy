@@ -43,8 +43,9 @@ from typing import Iterable, Set
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.graph_formats import nx_graph_to_lad_file, lad_file_to_nx_graph
+from graph_recognition.graph_formats import nx_graph_to_lad_file, lad_file_to_nx_graph, half_adj_mat_to_lad_file
 from graph_recognition.misc_algo import degree_sequence, maximal_independent_set
 from graph_recognition.recognizers_utils import cached_function
 from graph_recognition.smallgraphs import (
@@ -123,14 +124,19 @@ class SubgraphMatcher:
 
         # store target properties which will be useful to quickly rule out matches in
         # self.find_induced
-        self._graph_max_degree = 0 if nx.is_empty(self._graph) else degree_sequence(self._graph)[0]
-        self._graph_min_degree = 0 if nx.is_empty(self._graph) else degree_sequence(self._graph)[-1]
+        self._graph_max_degree = 0 if not self._graph else degree_sequence(self._graph)[0]
+        self._graph_min_degree = 0 if not self._graph else degree_sequence(self._graph)[-1]
 
         # write graph to LAD file for further queries, so we translate it only once
         self._graph_lad_path = ""
         with NamedTemporaryFile(prefix=SubgraphMatcher._temp_dir.name + os.sep, delete=False) as output:
             self._graph_lad_path = output.name
-            nx_graph_to_lad_file(graph, self._graph_lad_path)
+            if isinstance(graph, nx.Graph):
+                nx_graph_to_lad_file(graph, self._graph_lad_path)
+            elif isinstance(graph, HalfAdjacencyMatrix):
+                half_adj_mat_to_lad_file(graph, self._graph_lad_path)
+            else:
+                raise TypeError(f"cannot handle type {type(self._graph)}")
 
     def find_induced(self, smallgraph_name: str) -> bool:
         """

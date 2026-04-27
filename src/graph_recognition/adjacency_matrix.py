@@ -101,6 +101,15 @@ class HalfAdjacencyMatrix:
                 if node_id < self.row_lengths[row_idx]
             )
 
+    def get_degree(self, v: Hashable) -> int:
+        """
+        Returns the degree of v in the graph.
+
+        :param v:
+        :return:
+        """
+        return sum(1 for _ in self.neighbors(v))
+
     def neighbors(self, v: Hashable):
         """
         Returns the neighbors of vertex v.
@@ -324,3 +333,12 @@ class HalfAdjacencyMatrix:
         :return:
         """
         return v in self.node_to_id
+
+    def order(self) -> int:
+        """
+        Returns the number of nodes in the graph.
+
+        :return:
+        """
+        return self.num_nodes
+    

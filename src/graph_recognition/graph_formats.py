@@ -15,6 +15,7 @@ from itertools import chain
 import networkx as nx
 
 from benchmarks.mem_usage_graphs import UndirectedGraph
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 
 # Functions ---------------------------------------------------------------------------------------
 # ----- conversion to LAD -------------------------------------------------------------------------
@@ -116,6 +117,33 @@ def nx_graph_to_lad_file(graph: nx.Graph, filename: str) -> None:
                 + "\n"
             )
 
+def half_adj_mat_to_lad_file(graph: HalfAdjacencyMatrix, filename: str) -> None:
+    """
+    Writes the LAD encoding of a HalfAdjacencyMatrix to a file.
+
+    :param graph:
+    :param filename:
+    :return:
+    """
+    with open(filename, "w") as output:
+        # nodes must sometimes be relabeled, because the glasgow subgraph solver
+        # expects nodes in the range [0, n-1] when n vertices are announced. This
+        # causes it to crash on subgraphs with the following error:
+        #
+        #   "Error: Error reading graph file ... : edge index out of bounds"
+        n = graph.number_of_nodes()
+        mapping = dict(zip(graph.nodes, range(n)))
+        output.write(str(n) + "\n")
+        for node in graph:
+            output.write(
+                " ".join(
+                    map(
+                        str,
+                        chain([graph.get_degree(node)], (mapping[v] for v in graph[node])),
+                    )
+                )
+                + "\n"
+            )
 
 def nx_graph_to_gr_file(graph: nx.Graph, filename: str) -> None:
     """
