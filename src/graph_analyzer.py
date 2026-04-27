@@ -87,6 +87,7 @@ class GraphAnalyzer:
         self.active_progress_bars = []
         self.stop_refresh = False
         self.run_exponential_recognizers = run_exponential_algos
+        self.number_of_recognizers = 0
         self.setup_recognizers()
 
     # Methods related to recognizers --------------------------------------------------------------
@@ -151,6 +152,7 @@ class GraphAnalyzer:
         # in their respective modules
         for i, mod_name in enumerate(modules, 1):
             algos = getattr(import_module("." + mod_name, "graph_recognition"), "RECOGNIZERS")
+            self.number_of_recognizers += len(algos)
             for class_id, recognizer in algos.items():
                 self.register_recognizer(class_id, recognizer)
 

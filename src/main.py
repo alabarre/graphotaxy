@@ -11,7 +11,6 @@ import argparse
 import logging
 import os
 import sys
-from collections import defaultdict
 from typing import Iterable, Callable
 
 # ----- Non-standard imports ----------------------------------------------------------------------
@@ -94,15 +93,11 @@ def print_capabilities() -> None:
     # classes
     analyzer = GraphAnalyzer(run_exponential_algos=True)
     equivs = isgci_equivalences()
-    coverage = set()
-    for class_id in analyzer.recognizers:
-        coverage.add(class_id)
-        coverage.update(eqid for _, eqid in equivs[class_id])
 
     print(
-        f"{len(analyzer.recognizers)} recognizers are currently implemented, covering "
-        f"{len(coverage)} classes out of {len(equivs)} "
-        f"({round(100 * len(coverage) / len(equivs), 2)} % coverage)"
+        f"{analyzer.number_of_recognizers} recognizers are currently implemented, covering "
+        f"{len(analyzer.recognizers)} classes out of {len(equivs)} "
+        f"({round(100 * len(analyzer.recognizers) / len(equivs), 2)} % coverage)"
     )
 
 
