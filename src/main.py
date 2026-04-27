@@ -80,36 +80,6 @@ def knows(class_ids: Iterable[str]) -> None:
             print(f"{_id.ljust(longest_name_length)}: no recognizer available")
 
 
-def check_for_multiple_recognizers() -> None:
-    """
-    Checks for graph classes that have multiple recognizers.
-
-    This function was written for debugging purposes: only one recognizer, if any, should be
-    available for each graph class. If a class has several recognizers, then only one of them is
-    really useful: the others may be redundant, less efficient, or the result of wrong
-    associations (class id paired with the wrong function).
-
-    @return:
-    """
-    # scan for classes with multiple recognizers
-    ids_to_recognizers = defaultdict(set)
-    analyzer = GraphAnalyzer(run_exponential_algos=True)
-    for class_id, recognizer in analyzer.recognizers.items():
-        ids_to_recognizers[class_id].add(recognizer.__wrapped__)
-
-    # no problem found -> stop
-    if all(len(val) == 1 for val in ids_to_recognizers.values()):
-        print("No class with multiple recognizers found")
-        return
-
-    # otherwise, print classes with multiple recognizers
-    for a, b in ids_to_recognizers.items():
-        if len(b) > 1:
-            print(f"https://www.graphclasses.org/classes/{a} has more than one recognizer:")
-            for recognizer in b:
-                print(f"  {recognizer.__name__} in {recognizer.__module__}")
-
-
 def print_capabilities() -> None:
     """
     Prints program's capabilities. Currently, this means:
@@ -235,17 +205,6 @@ def main() -> None:
              "polynomial time, due to the lack of an implemented recognizer",
     )
 
-    debug_options = parser.add_argument_group(
-        "debug options",
-        description="The following options are helpful to debug the program. They should be of no "
-                    "interest to the end user.",
-    )
-    debug_options.add_argument(
-        "--check-multiple",
-        action="store_true",
-        help="show which classes, if any, have multiple recognizers",
-    )
-
     if len(sys.argv) == 1:
         parser.print_help()
         parser.exit()
@@ -254,10 +213,6 @@ def main() -> None:
 
     if args.capabilities:
         print_capabilities()
-        return
-
-    if args.check_multiple:
-        check_for_multiple_recognizers()
         return
 
     if args.knows:

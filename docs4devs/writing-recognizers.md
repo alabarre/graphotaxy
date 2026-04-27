@@ -53,6 +53,17 @@ RECOGNIZERS.update(
 )
 ```
 
+# Before adding a new recognizer
+
+Make sure the system does not already know how to recognize your class, or a class equivalent to it. To do that, simply provide the ISGCI id of your class to the `--knows` option, like so:
+
+```commandline
+$ python3 main.py --knows gc_400
+gc_400: found recognizer is_k_23_p_hole_free in graph_recognition.recognizers_n_5
+$ python3 main.py --knows gc_SOME_MADE_UP_ID
+gc_SOME_MADE_UP_ID: no recognizer available
+```
+
 # Organizing recognizers
 
 Recognizers are roughly ordered by increasing worst-case complexity. They are scattered among three categories of files:

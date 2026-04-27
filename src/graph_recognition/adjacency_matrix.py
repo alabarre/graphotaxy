@@ -341,4 +341,3 @@ class HalfAdjacencyMatrix:
         :return:
         """
         return self.num_nodes
-    
