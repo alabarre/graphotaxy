@@ -14,8 +14,8 @@ from itertools import chain
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
-from benchmarks.mem_usage_graphs import UndirectedGraph
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
+from graph_recognition.undirected_graph import UndirectedGraph
 
 # Functions ---------------------------------------------------------------------------------------
 # ----- conversion to LAD -------------------------------------------------------------------------
