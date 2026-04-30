@@ -8,7 +8,6 @@ outputs the classes in ISGCI to which these graphs belong, being as precise as p
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import argparse
-import logging
 import os
 import sys
 from typing import Iterable, Callable
@@ -24,8 +23,8 @@ from graph_analyzer import GraphAnalyzer
 from graph_recognition import recognizers_utils
 from isgci.isgci_base import isgci_equivalences
 
+
 # Global variables --------------------------------------------------------------------------------
-logger = logging.getLogger(__name__)
 
 
 # Functions ---------------------------------------------------------------------------------------
@@ -111,9 +110,6 @@ def main() -> None:
 
     @return:
     """
-    logging.basicConfig(filename="myapp.log", level=logging.INFO)
-    logger.info("Started")
-
     parser = argparse.ArgumentParser(
         description="graphotaxy analyzes one or several graphs stored in one or more input files, "
                     "and outputs membership information about them with respect to the classes "
@@ -280,8 +276,6 @@ def main() -> None:
         )
         nx.write_graphml(analyzer.classification, os.path.basename(args.input[0]) + ".graphml")
         print("done.\n")
-
-    logger.info("Finished")
 
 
 if __name__ == "__main__":

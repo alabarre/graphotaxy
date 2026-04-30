@@ -31,8 +31,6 @@ whenever possible; namely:
 """
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
-import inspect
-import logging
 import os.path
 import re
 import shutil
@@ -45,8 +43,8 @@ from typing import Iterable, Set
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
-from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.graph_formats import nx_graph_to_lad_file, lad_file_to_nx_graph, half_adj_mat_to_lad_file
 from graph_recognition.misc_algo import degree_sequence, maximal_independent_set
 from graph_recognition.recognizers_utils import cached_function
@@ -54,23 +52,6 @@ from graph_recognition.smallgraphs import (
     all_smallgraphs_by_order,
     smallgraph_inclusion_graph,
 )
-
-logger = logging.getLogger(__name__)
-logging.basicConfig(filename="myapp.log")
-
-# from https://stackoverflow.com/questions/3220284/how-to-customize-the-time-format-for-python-logging
-# create console handler and set level to debug
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-
-# create formatter
-formatter = logging.Formatter("%(asctime)s;%(levelname)s;%(message)s")
-
-# add formatter to ch
-ch.setFormatter(formatter)
-
-# add ch to logger
-logger.addHandler(ch)
 
 # Cache selected imported functions ---------------------------------------------------------------
 functions_to_cache = [
@@ -267,16 +248,12 @@ class SubgraphMatcher:
                 self._graph_lad_path,
             ]
 
-        logger.info(
-            f"Starting {solver_name} to find {smallgraph_name} (caller: "
-            f"{inspect.getmodule(inspect.stack()[1][0]).__name__})"
-        )
         output = subprocess.check_output(glasgow_command).decode()
         if use_clique_solver:
             SubgraphMatcher.number_of_calls_to_gcs += 1
         else:
             SubgraphMatcher.number_of_calls_to_gss += 1
-        logger.info(f"{solver_name} finished successfully")
+
         return self._truth_mapping[re.findall("status = (false|true)", output)[0]]
 
     def no_match(self, subgraphs: Iterable[str]) -> bool:
