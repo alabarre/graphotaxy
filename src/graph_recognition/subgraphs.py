@@ -35,8 +35,10 @@ import inspect
 import logging
 import os.path
 import re
+import shutil
 import subprocess
 from itertools import filterfalse
+from pathlib import Path
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 from typing import Iterable, Set
 
@@ -239,9 +241,11 @@ class SubgraphMatcher:
         # *****************************************************************************************
         # use the clique solver if the pattern is K_{?}
         use_clique_solver = smallgraph_name[:3] == "K_{" and smallgraph_name[4:] == "}"
+        solver_name = "glasgow_clique_solver" if use_clique_solver else "glasgow_subgraph_solver"
+        solver_path = _path_to_solver(solver_name)
         if use_clique_solver:
             glasgow_command = [
-                os.path.join(os.path.dirname(__file__), "./glasgow_clique_solver"),
+                solver_path,
                 "--format",
                 "lad",
                 # "--no-nds",
@@ -253,7 +257,7 @@ class SubgraphMatcher:
 
         else:  # use the general-purpose solver if pattern is not a clique
             glasgow_command = [
-                os.path.join(os.path.dirname(__file__), "./glasgow_subgraph_solver"),
+                solver_path,
                 "--format",
                 "lad",
                 "--induced",
@@ -263,7 +267,6 @@ class SubgraphMatcher:
                 self._graph_lad_path,
             ]
 
-        solver_name = ['GSS', 'GCS'][use_clique_solver]
         logger.info(
             f"Starting {solver_name} to find {smallgraph_name} (caller: "
             f"{inspect.getmodule(inspect.stack()[1][0]).__name__})"
@@ -445,6 +448,7 @@ class SubgraphMatcher:
 
 
 # Functions ---------------------------------------------------------------------------------------
+# ----- Private functions -------------------------------------------------------------------------
 def _dispatch_findings(graph: nx.Graph, subgraphs: Iterable[str], value: bool) -> None:
     """
     Records that all the given subgraphs appear as induced subgraphs of the given graph
@@ -461,6 +465,32 @@ def _dispatch_findings(graph: nx.Graph, subgraphs: Iterable[str], value: bool) -
     __MATCHERS[graph].set_and_propagate(subgraphs, value)
 
 
+def _path_to_solver(name: str) -> str:
+    """
+    Resolve solver binary location.
+
+    Priority:
+    1. System PATH (recommended)
+    2. ~/.local/bin (default install location)
+    """
+
+    # 1) PATH (best case)
+    system_path = shutil.which(name)
+    if system_path:
+        return system_path
+
+    # 2) ~/.local/bin fallback
+    local_bin = Path.home() / ".local" / "bin" / name
+    if local_bin.exists() and os.access(local_bin, os.X_OK):
+        return str(local_bin)
+
+    # 3) failure
+    raise FileNotFoundError(
+        f"{name} not found.\nPlease install it using install_gss.sh or ensure it is in your PATH."
+    )
+
+
+# ----- Public functions --------------------------------------------------------------------------
 def is_h_free(graph: nx.Graph, subgraphs: Iterable[str]) -> bool:
     """
     Returns True iff none of the input subgraphs appear as induced subgraphs of the input graph.

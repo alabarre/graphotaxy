@@ -10,40 +10,51 @@
 # Copyright (C) 2025-2026
 #
 # Author: Anthony Labarre
-echo "This script will download the Glasgow Subgraph Solver."
-echo "It is licensed separately under its own terms."
-echo "By continuing, you agree to comply with its license."
-read -p "Continue? [y/N] " confirm
+#!/bin/bash
+#
+# Install the Glasgow Subgraph Solver locally (outside of the project tree).
+# Binaries will be installed in ~/.local/bin by default.
+#
 
+set -e
+
+INSTALL_DIR="$HOME/.local/bin"
+GSS_DIR="glasgow-subgraph-solver"
+GSS_REPO="https://github.com/ciaranm/glasgow-subgraph-solver.git"
+
+echo "This script will download and build the Glasgow Subgraph Solver."
+echo "It is licensed separately under its own terms."
+echo "It may have restrictions (e.g. non-commercial use)."
+echo "See: https://github.com/ciaranm/glasgow-subgraph-solver"
+echo
+
+read -p "Continue? [y/N] " confirm
 if [[ "$confirm" != "y" ]]; then
     echo "Aborted."
     exit 1
 fi
 
+echo
 echo "+------------------------------------------------+"
 echo "| Cloning the Glasgow Subgraph Solver repository |"
 echo "+------------------------------------------------+"
 echo
-gss_git_address=https://github.com/ciaranm/glasgow-subgraph-solver.git
-if [[ -d glasgow-subgraph-solver ]]
-then
-    echo "Error: target directory glasgow-subgraph-solver already exists"
-    while [[ $answer != "e" && $answer != "s" && $answer != "a" ]]
-    do
-        read -p "Do you want to (e)rase it and retry, (s)kip this step, or (a)bort? [e/s/a] " -r answer
+
+if [[ -d "$GSS_DIR" ]]; then
+    answer=""
+    while [[ "$answer" != "e" && "$answer" != "s" && "$answer" != "a" ]]; do
+        read -p "Directory $GSS_DIR exists: (e)rase, (s)kip clone, or (a)bort? [e/s/a] " answer
     done
-    if [[ $answer == "e" ]]
-    then
-        rm -rf glasgow-subgraph-solver
-        git clone $gss_git_address
-    elif [[ $answer == "a" ]]
-    then
-        echo
-        echo "OK, aborting."
-        exit
+
+    if [[ "$answer" == "e" ]]; then
+        rm -rf "./$GSS_DIR"
+        git clone "$GSS_REPO"
+    elif [[ "$answer" == "a" ]]; then
+        echo "Aborted."
+        exit 1
     fi
 else
-    git clone $gss_git_address
+    git clone "$GSS_REPO"
 fi
 
 echo
@@ -51,86 +62,101 @@ echo "+-----------------------+"
 echo "| Checking dependencies |"
 echo "+-----------------------+"
 echo
-# TODO assuming a Ubuntu-like platform for now (specifically Debian, since it's
-# what I use); if that doesn't work for you, get in touch so I can improve this
-# script
-# TODO /etc/os-release tells us what we're actually running
-# find out if necessary packages are installed
-declare -a packages_to_install=()
-devlibs=(libgmp-dev)
-for libname in "${devlibs[@]}"
-do
-    present=$(dpkg --get-selections | grep "$libname")
-    if [[ -z $present ]]
-    then
-        packages_to_install+=("$libname")
-    fi
-done
-binnames=(cmake gcc)
-for path in "${binnames[@]}"
-do
-    location=$(which "$path")
-    if [[ -z $location ]]
-    then
-        packages_to_install+=("$path")
-    fi
-done
-if (( ${#packages_to_install[@]} ))
-then
-    echo
-    echo "You are missing the following dependencies:" "${packages_to_install[@]}"
-    echo "I can install them for you, or you can abort, install them yourself, then launch me again"
-    echo
-    while [[ $answer != "e" && $answer != "s" && $answer != "a" ]]
-    do
-        read -p "Do you want to (i)nstall dependencies or (a)bort? [i/a] " -r answer
+
+packages_to_install=()
+
+# Debian-based systems only (best effort)
+if command -v dpkg &> /dev/null; then
+    devlibs=(libgmp-dev)
+    for lib in "${devlibs[@]}"; do
+        if ! dpkg -s "$lib" &> /dev/null; then
+            packages_to_install+=("$lib")
+        fi
     done
-    if [[ $answer == "i" ]]
-    then
-        sudo apt install "${packages_to_install[@]}"
-    elif [[ $answer == "a" ]]
-    then
-        echo
-        echo "OK, aborting."
-        exit
+fi
+
+binaries=(cmake gcc)
+for bin in "${binaries[@]}"; do
+    if ! command -v "$bin" &> /dev/null; then
+        packages_to_install+=("$bin")
+    fi
+done
+
+if (( ${#packages_to_install[@]} )); then
+    echo "Missing dependencies: ${packages_to_install[*]}"
+    read -p "Install them automatically (Debian/Ubuntu)? [y/N] " install_deps
+
+    if [[ "$install_deps" == "y" ]]; then
+        if command -v apt &> /dev/null; then
+            sudo apt update
+            sudo apt install -y "${packages_to_install[@]}"
+        else
+            echo "Automatic install not supported on this system."
+            echo "Please install dependencies manually and rerun."
+            exit 1
+        fi
+    else
+        echo "Please install dependencies manually and rerun."
+        exit 1
     fi
 else
-    echo "Everything required to build the Glasgow tools is installed."
+    echo "All required dependencies are installed."
 fi
 
 echo
 echo "+---------------------------------------------------+"
-echo "| Compiling the Glasgow Clique and Subgraph solvers |"
+echo "| Compiling the Glasgow Subgraph Solver             |"
 echo "+---------------------------------------------------+"
 echo
-cd glasgow-subgraph-solver
+
+cd "$GSS_DIR"
 cmake -S . -B build
 cmake --build build
 
 echo
-echo "+---------------------------------------------------+"
-echo "| Copying binaries to the graph_recognition package |"
-echo "+---------------------------------------------------+"
+echo "+------------------------------+"
+echo "| Installing binaries          |"
+echo "+------------------------------+"
 echo
+
+mkdir -p "$INSTALL_DIR"
+
 cd build
-for file in $(ls)
-do
-    if [[ -f $file && -x file ]]
-    then
-        cp $file ../../graph_recognition
+installed_any=false
+
+for file in *; do
+    if [[ -f "$file" && -x "$file" ]]; then
+        cp "$file" "$INSTALL_DIR/"
+        echo "Installed: $file -> $INSTALL_DIR"
+        installed_any=true
     fi
 done
 
+if [[ "$installed_any" = false ]]; then
+    echo "Warning: no executable files found."
+fi
+
 echo
-echo "+-------------------------------------------------------------------+"
-echo "| Removing the glasgow_subgraph_solver directory (no longer useful) |"
-echo "+-------------------------------------------------------------------+"
+echo "+---------------------------------------------+"
+echo "| Cleaning up source directory                |"
+echo "+---------------------------------------------+"
 echo
-cd ../../
-rm -rf glasgow-subgraph-solver/
+
+cd ..
+cd ..
+rm -rf "./$GSS_DIR"
 
 echo
 echo "+-------+"
 echo "| Done. |"
 echo "+-------+"
 echo
+
+# PATH reminder
+if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
+    echo
+    echo "  $INSTALL_DIR is not in your PATH."
+    echo "Add the following line to your shell config (~/.bashrc, ~/.zshrc):"
+    echo
+    echo "export PATH=\"$INSTALL_DIR:\$PATH\""
+fi

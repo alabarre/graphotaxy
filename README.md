@@ -124,8 +124,10 @@ This project does not include or redistribute SageMath code.
 
 This software is NOT distributed with this repository.
 
-A helper script downloads and builds it locally from:
+A helper script (`./src/install_gss.sh) downloads and builds it locally from:
 https://github.com/ciaranm/glasgow-subgraph-solver
+
+By default, it installs the solver in `~/.local/bin`. Make sure this directory is in your `PATH`.
 
 The solver is licensed under its own terms (academic / non-commercial).
 Users are responsible for complying with those terms.
