@@ -6,14 +6,11 @@ A minimal implementation of a directed graph that subclasses the DiGraph structu
 """
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
-from typing import Set
 
 # ----- Third party imports -----------------------------------------------------------------------
 import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
-from isgci.isgci_base import reduced_isgci_inclusion_graph
-from isgci.vars import OPEN, HARD, EASY
 
 
 # Classes -----------------------------------------------------------------------------------------
@@ -35,9 +32,8 @@ class DirectedGraph(nx.DiGraph):
 
     edge_attr_dict_factory = single_edge_dict
 
-    def __init__(self) -> None:
+    def __init__(self, incoming_graph_data=None, **attr):
         """
-        Initializes the DirectedGraph. Its value defaults to the whole, simplified ISGCI
-        graph class inclusion graph, albeit without directed graph classes.
+        Initializes the DirectedGraph.
         """
-        super().__init__()  # TODO check signature
+        super().__init__(incoming_graph_data, **attr)

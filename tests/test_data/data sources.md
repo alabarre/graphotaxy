@@ -20,7 +20,7 @@ Generators are available for a few classes. The `nauty` suite has a few of them:
 - `nauty-gentourng`:  Generate all tournaments of a specified class.
 - `nauty-gentreeg`:   Generate (unrooted) trees.
 
-Other generators I found or wrote are available in the `./tests/generators` directory.
+Other generators I wrote are available in the `./tests/generators` directory. I'm not including software from other authors.
 
 # Building new datasets
 
@@ -61,7 +61,6 @@ Generated from planar connected graphs using nauty-pickg:
 
 Unfortunately that yields only one such graph, for n=8.
 
-TODO find other generators / datasets for that class
 
 ## bipartite=gc_69
 
@@ -95,7 +94,7 @@ Removed graphs for size 18 and 19 because gitlab does not allow files with size 
 
 ## chordal=gc_32
 
-Taken from https://users.cecs.anu.edu.au/~bdm/data/graphs.html
+Source: https://users.cecs.anu.edu.au/~bdm/data/graphs.html
 
 ## circle=gc_132
 
@@ -185,12 +184,11 @@ generated from triangle-free using nauty-complg
 
 ## distance-regular=gc_1148
 
-All data taken from https://www.distanceregular.org/graphdata/
+Source:  https://www.distanceregular.org/graphdata/
 
 ## halin=gc_198
 
-halin graphs: from https://cheddarmonk.org/maths/halin_graphs/
-
+Source: from https://cheddarmonk.org/maths/halin_graphs/
 
 
 
@@ -243,26 +241,15 @@ generate the line graphs of triangle-free graphs: for file in $(ls *g6); do naut
 
 ./regular/
 
-
-The files below were retrieved from https://sites.flinders.edu.au/flinders-hamiltonian-cycle-project/graph-database/
-on 2023-06-25. They contain Hamiltonian cubic graphs.
+Source :  https://sites.flinders.edu.au/flinders-hamiltonian-cycle-project/graph-database/
 
 ./regular/cubic graphs/hamiltonian
-
-Note: 6_H.g6 and 8_H.g6. Waiting for an answer (warned author on 2024-06-24)
-
-
-The files below were retrieved from https://sites.flinders.edu.au/flinders-hamiltonian-cycle-project/graph-database/
-on 2023-06-25. They contain non-Hamiltonian cubic graphs.
-
 ./regular/cubic graphs/nonhamiltonian
-
 
 
 ## strongly_regular=gc_1185
 
-The files below were retrieved from http://users.cecs.anu.edu.au/~bdm/data/graphs.html
-on 2023-06-16. They contain strongly regular graphs.
+Source: http://users.cecs.anu.edu.au/~bdm/data/graphs.html
 
 - sr25832.g6          (1 graph)
 - sr251256.g6         (15 graphs)
@@ -282,22 +269,19 @@ on 2023-06-16. They contain strongly regular graphs.
 
 ## trees=gc_342
 
-From https://users.cecs.anu.edu.au/~bdm/data/graphs.html
+Source: https://users.cecs.anu.edu.au/~bdm/data/graphs.html
 
 ## planar=gc_43
 
-From https://houseofgraphs.org/data/planar/planar_graphs/
+Source: https://houseofgraphs.org/data/planar/planar_graphs/
 
 ## permutation=gc_23 
 
 Generated using Tom Johnston's software: https://tomjohnston.co.uk/blog/2020-10-25-enumerating-permutation-graphs.html
 
-
-
-
 ## self-complementary=gc_1059
 
-From https://users.cecs.anu.edu.au/~bdm/data/graphs.html
+Source: https://users.cecs.anu.edu.au/~bdm/data/graphs.html
 
 ## split=gc_39
 
@@ -319,7 +303,7 @@ https://twiki.di.uniroma1.it/pub/Users/AndreaSterbini/Ricerca/11-IPL-1995.pdf (s
 
 ## ptolemaic=gc_95
 
-from http://www.jaist.ac.jp/~uehara/graphs/#ptolemaic
+Source: http://www.jaist.ac.jp/~uehara/graphs/#ptolemaic
 
 converted to g6 format myself
 

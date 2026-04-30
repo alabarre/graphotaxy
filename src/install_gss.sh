@@ -10,6 +10,16 @@
 # Copyright (C) 2025-2026
 #
 # Author: Anthony Labarre
+echo "This script will download the Glasgow Subgraph Solver."
+echo "It is licensed separately under its own terms."
+echo "By continuing, you agree to comply with its license."
+read -p "Continue? [y/N] " confirm
+
+if [[ "$confirm" != "y" ]]; then
+    echo "Aborted."
+    exit 1
+fi
+
 echo "+------------------------------------------------+"
 echo "| Cloning the Glasgow Subgraph Solver repository |"
 echo "+------------------------------------------------+"

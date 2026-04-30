@@ -23,8 +23,8 @@ Check https://www.graphclasses.org/classes/gc_771 for more information.
 import os
 import sys
 import unittest
-import networkx.algorithms.components.biconnected
 import networkx
+import networkx.algorithms.components.biconnected
 import graph_recognition.profitable_hereditary_n
 from readwrite import process_graphs
 

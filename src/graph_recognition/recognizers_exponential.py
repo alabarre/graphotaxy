@@ -32,6 +32,7 @@ from graph_recognition.subgraphs import is_h_free
 # Recognizers -------------------------------------------------------------------------------------
 # ----- Subclasses of hole-free graphs ------------------------------------------------------------
 # ---------- Subclasses of even-hole-free graphs --------------------------------------------------
+@assign_fisc(["C_{6}", "C_{8}"])
 @lru_cache(maxsize=None)
 @assign_class_id("gc_547")
 def is_even_hole_free(graph: nx.Graph) -> bool:
@@ -48,6 +49,7 @@ def is_even_hole_free(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("gc_1325")
 def is_gc_1325(graph: nx.Graph) -> bool:
@@ -76,6 +78,15 @@ def is_odd_hole_free(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
+    # if graph has no odd cycles, then it has no odd holes
+    if is_bipartite(graph):
+        return True
+    # if graph has odd cycles but no triangles, then it has an odd hole
+    elif is_triangle_free(graph):
+        return False
+
+    # try detecting holes first in the hope that we don't need to run the exponential time
+    # algorithm
     return is_hole_free(graph) or not any(
         len_c >= 5 and len_c % 2 for len_c in map(len, nx.chordless_cycles(graph))  # noqa
     )
@@ -123,6 +134,7 @@ def is_co3k2_paw_odd_hole_free(graph: nx.Graph) -> bool:
     return is_paw_free(graph) and is_h_free(graph, ["co(3K_{2})"]) and is_odd_hole_free(graph)
 
 
+@assign_fisc(["C_{5}", "C_{7}", "co(C_{7})"])
 @lru_cache(maxsize=None)
 @assign_class_id("gc_1258")
 def is_coc7_paw_odd_hole_free(graph: nx.Graph) -> bool:
@@ -136,6 +148,7 @@ def is_coc7_paw_odd_hole_free(graph: nx.Graph) -> bool:
     return is_h_free(graph, ["co(C_{7})"]) and is_odd_hole_free(graph)
 
 
+@assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("gc_575")
 def is_bull_house_odd_hole_free(graph: nx.Graph) -> bool:
@@ -149,6 +162,7 @@ def is_bull_house_odd_hole_free(graph: nx.Graph) -> bool:
     return is_gc_574(graph) and is_odd_hole_free(graph)
 
 
+@assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("AUTO_750")
 def is_claw_odd_hole_free(graph: nx.Graph) -> bool:
@@ -162,6 +176,7 @@ def is_claw_odd_hole_free(graph: nx.Graph) -> bool:
     return is_claw_free(graph) and is_odd_hole_free(graph)
 
 
+@assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("AUTO_2772")
 def is_co_claw_odd_hole_free(graph: nx.Graph) -> bool:
@@ -176,6 +191,7 @@ def is_co_claw_odd_hole_free(graph: nx.Graph) -> bool:
 
 
 # ----- Subclasses of anti-hole-free graphs -------------------------------------------------------
+@assign_fisc(["co(C_{5})", "co(C_{7})"])
 @lru_cache(maxsize=None)
 @assign_class_id("gc_623")
 def is_odd_anti_hole_free(graph: nx.Graph) -> bool:
@@ -188,10 +204,18 @@ def is_odd_anti_hole_free(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
+    # if graph has no odd anti-cycle, then it has no odd anti-hole
+    if is_co_bipartite(graph):
+        return True
+    # if graph odd anti-cycles but no co(K_{3}), then it has an odd anti-hole
+    elif is_3k1_free(graph):
+        return False
+
     # note: complement_as_adj_mat not usable because of missing attribute graph.adj
     return is_odd_hole_free(complement(graph))
 
 
+@assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("AUTO_1611")
 def is_2k2_odd_anti_hole_free(graph: nx.Graph) -> bool:
@@ -205,6 +229,7 @@ def is_2k2_odd_anti_hole_free(graph: nx.Graph) -> bool:
     return is_2k2_free(graph) and is_odd_anti_hole_free(graph)
 
 
+@assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("AUTO_1561")
 def is_3k2_e_net_odd_anti_hole_free(graph: nx.Graph) -> bool:
@@ -219,6 +244,7 @@ def is_3k2_e_net_odd_anti_hole_free(graph: nx.Graph) -> bool:
     return is_h_free(graph, ["3K_{2}"]) and is_e_free(graph) and is_net_free(graph) and is_odd_anti_hole_free(graph)
 
 
+@assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("AUTO_2770")
 def is_co_diamond_odd_anti_hole_free(graph: nx.Graph) -> bool:
@@ -232,6 +258,7 @@ def is_co_diamond_odd_anti_hole_free(graph: nx.Graph) -> bool:
     return is_co_diamond_free(graph) and is_odd_anti_hole_free(graph)
 
 
+@assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("AUTO_2771")
 def is_co_claw_odd_anti_hole_free(graph: nx.Graph) -> bool:
@@ -261,6 +288,7 @@ def is_even_anti_hole_free(graph: nx.Graph):
     return is_even_hole_free(complement(graph))
 
 
+@assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("AUTO_2839")
 def is_3k2_e_p2up4_net_odd_anti_hole_odd_hole_free(graph: nx.Graph) -> bool:
@@ -303,6 +331,38 @@ def is_c7_odd_anti_hole_free(graph: nx.Graph) -> bool:
     return is_h_free(graph, ["C_{7}"]) and is_odd_anti_hole_free(graph)
 
 
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_748")
+def is_claw_odd_anti_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_748
+
+
+    :param graph:
+    :return:
+    """
+    return is_claw_free(graph) and is_odd_anti_hole_free(graph)
+
+
+@assign_fisc(["4K_{1}", "C_{7}", "S_{3}", "X_{175}", "X_{176}", "X_{42}", "X_{36}", "claw", "co-antenna", "net"])
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_2155")
+def is_auto_2155(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2155
+
+
+    :param graph:
+    :return:
+    """
+    return is_h_free(
+        graph,
+        ["4K_{1}", "C_{7}", "S_{3}", "X_{175}", "X_{176}", "X_{42}", "X_{36}", "claw", "co-antenna", "net"]
+    ) and is_odd_anti_hole_free(graph)
+
+
 # ----- Subclasses of perfect graphs --------------------------------------------------------------
 @lru_cache(maxsize=None)
 @assign_class_id("gc_56")
@@ -327,8 +387,6 @@ def is_perfect(graph: nx.Graph) -> bool:
     # note that a polynomial-time recognition exists, at least in theory; I haven't come across
     # an implementation yet. See https://www.graphclasses.org/classes/gc_56 for more details
 
-    # 1) known subclasses of perfect graphs
-
     # the following families are included in the class of perfect graphs and membership is much
     # cheaper to check; ordered by increasing complexity
     profitable_recognizers_for_subclasses = (
@@ -337,23 +395,11 @@ def is_perfect(graph: nx.Graph) -> bool:
     if any(recognizer(graph) for recognizer in profitable_recognizers_for_subclasses):
         return True
 
-    # 2) contradictions for SPGT
-
-    # none of the above worked, let's test sufficient conditions to conclude that the graph is NOT
-    # perfect. I'm repeating some of the tests I've done above to avoid regressions later should we
-    # modify what we did before; since all results are cached, calling a recognizer multiple times
-    # is cheap
-    if not is_bipartite(graph) and is_triangle_free(graph):
-        # then graph contains an odd cycle of length >= 5, which contradicts perfectness
-        return False
-
-    # same condition as above but on the complement:
-    if not is_co_bipartite(graph) and is_3k1_free(graph):
-        # then complement contains an odd cycle of length >= 5, which contradicts perfectness
-        return False
-
-    # 3) no way around it: run the exponential algorithm and hope that it finishes "quickly"
-    return nx.is_perfect_graph(graph)  # noqa (pycharm can't find is_perfect_graph)
+    # if there's no way around it: run the exponential algorithm and hope that it finishes
+    # "quickly"
+    # this is exactly what nx.is_perfect_graph does, but we call our versions instead because they
+    # are cached and feature additional tricks to short-circuit the actual search for (anti-)holes
+    return is_odd_hole_free(graph) and is_odd_anti_hole_free(graph)
 
 
 # The following recognizers all run in exponential time, because they call is_perfect. There may
@@ -363,6 +409,7 @@ def is_perfect(graph: nx.Graph) -> bool:
 @assign_class_id("gc_283")
 def is_perfect_and_planar(graph: nx.Graph) -> bool:
     """
+
     https://www.graphclasses.org/classes/gc_283.html
 
     :param graph:
@@ -470,7 +517,7 @@ def is_line_and_perfect(graph: nx.Graph) -> bool:
 @assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("gc_1358")
-def is_line_and_perfect(graph: nx.Graph) -> bool:
+def is_line_perfect(graph: nx.Graph) -> bool:
     """
     A graph is line perfect if its line graph is perfect graph.
 
@@ -524,6 +571,19 @@ def is_co_diamond_even_anti_cycle_free(graph: nx.Graph) -> bool:
     :return:
     """
     return is_co_diamond_free(graph) and is_even_anti_cycle_free(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_2207")
+def is_co_x_37_co_diamond_even_anti_cycle_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2207
+
+    :param graph:
+    :return:
+    """
+    return is_co_diamond_free(graph) and is_h_free(graph, ["co(X_{37})"]) and is_even_anti_cycle_free(graph)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

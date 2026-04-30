@@ -1,5 +1,4 @@
-graphotaxy
-==========
+# graphotaxy
 
 `graphotaxy` is a software for performing undirected graph classification. Its two main usages are:
 
@@ -7,6 +6,8 @@ graphotaxy
 1. multiple graph classification: given a collection of graphs, compute the percentage of graphs that belong to each minimal class.
 
 "Minimal" is to be understood with respect to class inclusion relationships; in more accessible terms, the program will always try to be as precise as possible (e.g., if an input graph is a path, then it will be reported as such instead of as a tree or as a bipartite graph).  The classes that are taken into account are a subset of those classes in [ISGCI](https://www.graphclasses.org/) for which a polynomial-time recognition algorithm exists. 
+
+---
 
 # Installation
 
@@ -22,9 +23,13 @@ pip install -r requirements.txt  # install the necessary Python packages
 ./install_gss.sh                 # download and build the Glasgow Subgraph Solver
 ```
 
-# Basic usage
+---
 
-The simplest way to use the software is to give it one or more input files. As of this writing, `graphotaxy` only accepts `graph6` and `sparse6` files, whether plain or compressed in the following formats: `gz`, `bz2`, and `xz` (but not `tar` archives). You can run it like this:
+# Usage
+
+## Basic usage
+
+The simplest way to use the software is to give it one or more input files. 
 
 ```
 python3 main.py -i input_file(s) # wildcards are ok
@@ -35,8 +40,13 @@ The result depends on the number of graphs in the input file(s):
 - if a single graph is analyzed, then the classes to which it belongs are listed, and the result of the classification is written to a `graphml` file for further manipulation or visualisation with external tools (e.g., Cytoscape);
 - if several graphs are analyzed, then the output consists of a list of graph classes to which those graphs belong, sorted decreasingly by percentage of members. The classes are as restricted as possible (i.e., if all graphs can be identified to be trees, then the software will identify that class instead of the more general bipartite class that contains it).
 
+## Supported file formats
 
-# Options
+- `g6` and `s6` files, whether plain or compressed in the following formats: `gz`, `bz2`, and `xz`
+- `edges` and `mtx` files
+- `dot` files (not recommended if they contain more than one graphs, as only the first one will be read)
+
+## Options
 
 The following options are available. Many of them require knowing the ISGCI id of the class you are interested in (e.g., don't write "bipartite", but "gc_69").
 
@@ -49,6 +59,11 @@ The following options are available. Many of them require knowing the ISGCI id o
                         classes to which all input graphs are known **not** to belong
     - `--positive [ISGCI id list]`:
                         classes to which all input graphs are known to belong
+                        
+- behavior options: modify the behavior of the program, i.e., which recognizers should be run or skipped.
+
+    - `--exponential`: 
+                        run exponential-time recognizers (default: `False`)
     - `--only [ISGCI id list]`:
                         classes to which the classification must be restricted
     - `--skip [ISGCI id list]`:
@@ -61,20 +76,75 @@ The following options are available. Many of them require knowing the ISGCI id o
     - `--todo`:                show the classes that have not been identified, although recognizable in polynomial time, due to the lack of an implemented
                         recognizer
 
-- debug options: should be of no interest to the end user
-    - `--check-multiple`:      show which classes, if any, have multiple recognizers
+---
 
 # Credits
 
-`graphotaxy` uses many building blocks from other people. I am especially thankful for:
+`graphotaxy` builds upon several excellent open-source projects:
 
-- [`networkx`](https://github.com/networkx), for their graph classes and the many algorithms they provide;
-- the [Glasgow Subgraph Solver](https://github.com/ciaranm/glasgow-subgraph-solver) for providing an efficient way of looking for induced subgraphs;
-- [PADS](http://www.ics.uci.edu/~eppstein/PADS/) by David Eppstein, portions of whose code I adapted for the purposes of this project;
-- [SageMath](https://github.com/sagemath), which also provided some of the code I adapted and used;
-- [`tralda`](https://github.com/david-schaller/tralda) by David Schaller, for the linear-time implementation of the recognition algorithm for cographs;
-- [ISGCI](https://graphclasses.org/) for providing the necessary information for this project, and without whom `graphotaxy` simply would not exist.
+* [`networkx`](https://github.com/networkx), for graph data structures and algorithms;
+* the [Glasgow Subgraph Solver](https://github.com/ciaranm/glasgow-subgraph-solver), for efficient induced subgraph detection;
+* [PADS](http://www.ics.uci.edu/~eppstein/PADS/) by David Eppstein (MIT License);
+* [SageMath](https://github.com/sagemath), whose algorithms inspired parts of this implementation;
+* [`tralda`](https://github.com/david-schaller/tralda) by David Schaller, for cograph recognition algorithms;
+* [ISGCI](https://graphclasses.org/), for graph class data and relationships.
 
-# Citation and references
+---
 
-A paper describing graphotaxy will be submitted shortly, and an "official" bibtex entry will be included here for convenience once the paper is accepted. 
+
+# License
+
+This project is licensed under the MIT License.
+
+---
+
+# Code reuse and inspirations
+
+## PADS (David Eppstein)
+
+* License: MIT License
+* Source: http://www.ics.uci.edu/~eppstein/PADS/
+
+Some portions of code have been adapted and integrated.
+Original license and copyright notices are preserved in the corresponding files.
+
+## SageMath
+
+* License: GPL-compatible
+* Source: https://github.com/sagemath/sage
+
+Some algorithms implemented in this project are inspired by SageMath.
+This project does not include or redistribute SageMath code.
+
+---
+
+# Third-Party Software
+
+## Glasgow Subgraph Solver
+
+This software is NOT distributed with this repository.
+
+A helper script downloads and builds it locally from:
+https://github.com/ciaranm/glasgow-subgraph-solver
+
+The solver is licensed under its own terms (academic / non-commercial).
+Users are responsible for complying with those terms.
+
+## Python Dependencies
+
+All Python dependencies are listed in `requirements.txt` and are subject to their respective licenses (MIT, BSD, Apache 2.0, and similar permissive licenses).
+
+---
+
+# Disclaimer
+
+This project is provided "as is", without warranty of any kind.
+
+The authors are not responsible for misuse of third-party software.
+
+---
+
+# Citation
+
+A paper describing graphotaxy will be submitted soon.
+A BibTeX entry will be added upon publication.

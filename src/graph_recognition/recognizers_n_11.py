@@ -85,9 +85,10 @@ def is_maximal_clique_irreducible(graph: nx.Graph) -> bool:
     if not graph.edges:
         return True
 
-    # TODO: move this function to the appropriate file, I haven't computed the complexity yet
     # naïve algorithm: first, compute all maximal cliques. If there are more than the number of
     # edges, then at least one edge appears in more than one clique, so we can return False
+    # I don't know the complexity of nx.find_cliques; we can only claim that we will not read more
+    # than m elements from its result.
     max_clique_edges = list()
     m = graph.number_of_edges()
     for k, clique in enumerate(nx.find_cliques(graph), 1):

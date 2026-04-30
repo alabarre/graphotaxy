@@ -1,3 +1,7 @@
+.venv/
 __pycache__/
-src/glasgow-subgraph-solver/
-.idea/
+*.pyc
+*.pyo
+*.log
+*.tmp
+.DS_Store

@@ -12,6 +12,7 @@ from functools import lru_cache
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.fisc_based_recognizers import (
     is_gc_972,
     is_p7_free,
@@ -24,7 +25,7 @@ from graph_recognition.fisc_based_recognizers import (
 )
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.misc_algo import is_h_u_2k1_free
+from graph_recognition.misc_algo import is_h_u_2k1_free, complement_as_adj_mat
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
     is_bipartite,
@@ -226,9 +227,7 @@ def is_p7_odd_cycle_star123_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return (
-            is_bipartite(graph) and is_p7_free(graph) and is_h_free(graph, ["star_{1,2,3}"])
-    )
+    return is_bipartite(graph) and is_p7_free(graph) and is_h_free(graph, ["star_{1,2,3}"])
 
 
 @assign_inherited_fisc()
@@ -280,9 +279,7 @@ def is_s3_co_cnplus4_co_t2_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return (
-            is_co_chordal(graph) and is_s3_free(graph) and is_h_free(graph, ["co(T_{2})"])
-    )
+    return is_co_chordal(graph) and is_s3_free(graph) and is_h_free(graph, ["co(T_{2})"])
 
 
 @assign_inherited_fisc()
@@ -444,7 +441,7 @@ def is_gc_774(graph: nx.Graph) -> bool:
 @assign_inherited_fisc()
 @assign_class_id("gc_859")
 @lru_cache(maxsize=None)
-def is_circular_arc_and_diamond_free(graph: nx.Graph) -> bool:
+def is_circular_arc_and_diamond_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
 
     https://www.graphclasses.org/classes/gc_859.html
@@ -473,6 +470,19 @@ def is_circular_arc_and_diamond_free(graph: nx.Graph) -> bool:
         ],
     )
     )
+
+
+@assign_class_id("AUTO_2148")
+@lru_cache(maxsize=None)
+def is_co_circular_arc_and_diamond_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2148
+
+    @param graph:
+    @return:
+    """
+    return is_circular_arc_and_diamond_free(complement_as_adj_mat(graph))
 
 
 @assign_inherited_fisc()

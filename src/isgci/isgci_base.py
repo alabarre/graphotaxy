@@ -39,7 +39,6 @@ from urllib.request import urlopen
 
 # ----- Third-party imports -----------------------------------------------------------------------
 from bs4 import BeautifulSoup
-from html2text import html2text
 from networkx import DiGraph, NetworkXNoPath, NodeNotFound, shortest_path
 from networkx.drawing.nx_pydot import read_dot
 from networkx.readwrite import json_graph
@@ -184,6 +183,19 @@ def dump_to_json(obj: object, filename: str) -> None:
     """
     with open(filename, "w") as output:
         json.dump(obj, output, default=list, indent=4, sort_keys=True)
+
+
+def html_to_text(s: str) -> str:
+    """
+    Returns the original text contained in string s without the HTML tags.
+
+    >>> html_to_text("<i>bipartite</i> graphs")
+    'bipartite graphs'
+
+    :param s:
+    :return:
+    """
+    return "" if s is None else BeautifulSoup(s, "html.parser").get_text()
 
 
 def isgci_version_info() -> dict:
@@ -358,11 +370,11 @@ def compute_class_equivalences(isgci_graph: DiGraph) -> DefaultDict[str, set]:
     for node in tqdm(isgci_graph.nodes(), desc="Building equivalence dictionary", unit=" nodes"):
         # store the classes that are equivalent to the current node
         equivalences[node].update(
-            (html2text(GraphClass(class_id).class_name()), class_id)
+            (html_to_text(GraphClass(class_id).class_name()), class_id)
             for class_id in GraphClass(node).equivalent_classes()
         )
         # update the equivalence classes of each equivalent name
-        current_name = html2text(GraphClass(node).class_name())
+        current_name = html_to_text(GraphClass(node).class_name())
         for eq_name, eq_id in equivalences[node]:
             equivalences[eq_id].update(
                 equivalences[node]

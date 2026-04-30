@@ -99,6 +99,9 @@ def print_capabilities() -> None:
         f"{len(analyzer.recognizers)} classes out of {len(equivs)} "
         f"({round(100 * len(analyzer.recognizers) / len(equivs), 2)} % coverage)"
     )
+    print("\nThe classes with the following ids can be recognized:\n")
+    for class_id in sorted(analyzer.recognizers):
+        print(f"    - {class_id}")
 
 
 def main() -> None:

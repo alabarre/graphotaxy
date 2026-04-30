@@ -40,7 +40,7 @@ from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_planar,
     is_cubic,
-    is_2k2_free, is_mock_threshold,
+    is_2k2_free, is_mock_threshold, is_co_bipartite,
 )
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
@@ -251,7 +251,6 @@ def is_co_chordal_and_co_gem_free(graph: nx.Graph) -> bool:
     @return:
     """
     return is_co_gem_free(graph) and is_co_chordal(graph)
-
 
 
 # @assign_inherited_fisc() # DON'T: results would be wrong (combinations of "or", not "and")
@@ -525,9 +524,9 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
     https://www.graphclasses.org/classes/gc_72.html
 
-    Note: adapted from SageMath's greedy_is_comparability ; (version from 2024-07-13)
-
-    https://github.com/sagemath/sage/blob/develop/src/sage/graphs/comparability.pyx
+    Implementation inspired by the greedy_is_comparability algorithm from SageMath
+    (https://github.com/sagemath/sage). This implementation significantly differs and introduces an
+    online/lazy approach.
     """
     # this is a lazy online implementation of sage's algorithm; the original implementation
     # consists of 3 steps:
@@ -1017,6 +1016,28 @@ def is_auto_1940(graph: nx.Graph) -> bool:
             and is_2k2_free(graph)
             and is_co_diamond_free(graph)
             and is_co_paw_free(graph)
+    )
+
+
+@assign_fisc([
+    "X_{12}", "X_{5}", "X_{95}", "X_{96}", "X_{97}", "co(X_{12})", "co(X_{5})", "co(X_{95})",
+    "co(X_{96})", "co(X_{97})", "co(claw U triangle)", "claw U triangle", "co-cricket",
+    "co-twin-house", "cricket", "twin-house"
+]) # partial fisc, add those excluded by odd anti holes and odd holes
+@assign_class_id("gc_745")
+@lru_cache(maxsize=None)
+def is_gc_745(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_745
+
+
+    @param graph:
+    @return:
+    """
+    return (
+            is_bipartite(graph) or is_co_bipartite(graph) or
+            is_line_graph_of_bipartite_graph(graph) or is_co_line_graph_of_bipartite_graph(graph)
     )
 
 
