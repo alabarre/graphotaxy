@@ -501,7 +501,10 @@ class GraphAnalyzer:
                     nx.descendants(self.prototype_classification_digraph, class_id)
                 ) - unknown_children
 
-                print(f"    - class has {len(unknown_descendants)} further unidentified descendants")
+                print(
+                    f"    - class has {len(unknown_descendants)} further descendants with unknown "
+                    f"status"
+                )
                 for child in unknown_descendants:
                     print(
                         " " * 8 + f"  - [{ids_to_names[child]}]"
@@ -515,7 +518,9 @@ class GraphAnalyzer:
 
         print()
         if not self.scope:
-            print("We have", [f"between {lo} and {hi}", lo][lo == hi], "unidentified classes.")
+            print(
+                "We have", [f"between {lo} and {hi}", lo][lo == hi], "classes with unknown status."
+            )
 
         if print_todo:
             # print all classes that can be recognized in polynomial time, but for which we have no
