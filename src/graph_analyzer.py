@@ -538,8 +538,8 @@ class GraphAnalyzer:
         # information on recognizers
         print("- recognizers:")
         print(
-            f"    - {len(self.recognizers_that_were_run)} / {len(self.recognizers)} recognizers "
-            f"were called by the analyzer."
+            f"    - {len(self.recognizers_that_were_run)} / {self.number_of_recognizers} "
+            f"recognizers were called by the analyzer."
         )
         print(
             f"    - {self.hits_and_misses['hits']} cache hits and {self.hits_and_misses['misses']} "
