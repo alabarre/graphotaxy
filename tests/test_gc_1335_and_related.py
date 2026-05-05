@@ -24,12 +24,12 @@ import os
 import sys
 import unittest
 import networkx
-import graph_recognition.profitable_hereditary_n_2
-import graph_recognition.recognizers_n_6
-import graph_recognition.recognizers_n_7
-import graph_recognition.recognizers_exponential
 import graph_recognition.profitable_hereditary_n_3
+import graph_recognition.recognizers_n_7
+import graph_recognition.profitable_hereditary_n_2
 import graph_recognition.recognizers_n_11
+import graph_recognition.recognizers_exponential
+import graph_recognition.recognizers_n_6
 from readwrite import process_graphs
 
 
@@ -159,8 +159,8 @@ class Test_gc_1335_and_related(unittest.TestCase):
 
         print("done.")
 
-    def test_gc_1280(self) -> None:
-        """Tests positive instances for class gc_1280. gc_1280 is an ancestor of gc_1335."""
+    def test_gc_1216(self) -> None:
+        """Tests positive instances for class gc_1216. gc_1216 is an ancestor of gc_1335."""
         print(
             self._testMethodName.join("[]"),
             "testing",
@@ -173,9 +173,7 @@ class Test_gc_1335_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.recognizers_n_7.is5_pan_t2_x172_free_and_planar(
-                    graph
-                ),
+                graph_recognition.recognizers_n_6.is_e_free_and_planar(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "
@@ -215,6 +213,35 @@ class Test_gc_1335_and_related(unittest.TestCase):
 
         print("done.")
 
+    def test_gc_1280(self) -> None:
+        """Tests positive instances for class gc_1280. gc_1280 is an ancestor of gc_1335."""
+        print(
+            self._testMethodName.join("[]"),
+            "testing",
+            len(self.positive),
+            "graphs",
+            end=" ",
+        )
+        sys.stdout.flush()
+
+        # looping over enumerate so we can print failed instances
+        for num, graph in enumerate(self.positive):
+            self.assertTrue(
+                graph_recognition.recognizers_n_7.is5_pan_t2_x172_free_and_planar(
+                    graph
+                ),
+                "failed on graph number "
+                + str(num)
+                + " / "
+                + str(len(self.positive))
+                + " with node set "
+                + str(graph.nodes)
+                + " and edge set "
+                + str(graph.edges),
+            )
+
+        print("done.")
+
     def test_gc_712(self) -> None:
         """Tests positive instances for class gc_712. gc_712 is an ancestor of gc_1335."""
         print(
@@ -230,33 +257,6 @@ class Test_gc_1335_and_related(unittest.TestCase):
         for num, graph in enumerate(self.positive):
             self.assertTrue(
                 graph_recognition.recognizers_exponential.is_gc_711(graph),
-                "failed on graph number "
-                + str(num)
-                + " / "
-                + str(len(self.positive))
-                + " with node set "
-                + str(graph.nodes)
-                + " and edge set "
-                + str(graph.edges),
-            )
-
-        print("done.")
-
-    def test_gc_1216(self) -> None:
-        """Tests positive instances for class gc_1216. gc_1216 is an ancestor of gc_1335."""
-        print(
-            self._testMethodName.join("[]"),
-            "testing",
-            len(self.positive),
-            "graphs",
-            end=" ",
-        )
-        sys.stdout.flush()
-
-        # looping over enumerate so we can print failed instances
-        for num, graph in enumerate(self.positive):
-            self.assertTrue(
-                graph_recognition.recognizers_n_6.is_e_free_and_planar(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "

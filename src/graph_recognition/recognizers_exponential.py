@@ -563,6 +563,20 @@ def is_even_cycle_free(graph: nx.Graph) -> bool:
     return is_c4_free(graph) and is_even_hole_free(graph)
 
 
+@assign_inherited_fisc()
+@lru_cache(maxsize=None)
+@assign_class_id("gc_829")
+def is_diamond_even_cycle_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_829.html
+
+    :param graph:
+    :return:
+    """
+    return is_diamond_free(graph) and is_even_cycle_free(graph)
+
+
 # ----- Subclasses of even-anti-cycle-free graphs -------------------------------------------------
 @lru_cache(maxsize=None)
 @assign_class_id("AUTO_2118")
