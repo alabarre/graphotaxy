@@ -18,7 +18,8 @@ from graph_recognition.fisc_based_recognizers import is_bull_free, is_diamond_fr
 from graph_recognition.misc_algo import complement
 from graph_recognition.profitable_hereditary_n import is_planar, is_line, is_bipartite, is_cograph, is_chordal, \
     is_co_bipartite, is_2k2_free
-from graph_recognition.profitable_hereditary_n_2 import is_comparability, is_co_diamond_free, is_co_paw_free
+from graph_recognition.profitable_hereditary_n_2 import is_comparability, is_co_diamond_free, is_co_paw_free, \
+    is_co_gem_free
 from graph_recognition.profitable_hereditary_n_3 import is_paw_free, is_triangle_free, is_3k1_free, is_p2up4_free
 from graph_recognition.profitable_hereditary_n_4 import is_c4_free, is_k4_free, is_claw_free, is_hole_free, \
     is_co_claw_free
@@ -353,13 +354,29 @@ def is_auto_2155(graph: nx.Graph) -> bool:
 
     https://www.graphclasses.org/classes/AUTO_2155
 
-
     :param graph:
     :return:
     """
     return is_h_free(
         graph,
         ["4K_{1}", "C_{7}", "S_{3}", "X_{175}", "X_{176}", "X_{42}", "X_{36}", "claw", "co-antenna", "net"]
+    ) and is_odd_anti_hole_free(graph)
+
+
+@assign_inherited_fisc()
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_2119")
+def is_auto_2119(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2119
+
+
+    :param graph:
+    :return:
+    """
+    return is_co_gem_free(graph) and is_co_claw_free(graph) and is_h_free(
+        graph, ["co(W_{4})"]
     ) and is_odd_anti_hole_free(graph)
 
 
