@@ -15,7 +15,7 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
-    degree_sequence,
+    degree_sequence, is_regular,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
@@ -31,7 +31,6 @@ __functions_to_cache = [
     # nx.biconnected_components,  # DON'T: it returns a generator
     nx.is_biconnected,
     nx.is_k_edge_connected,
-    nx.is_regular,
     nx.non_neighbors,
 ]
 for i, function in enumerate(__functions_to_cache):
@@ -228,7 +227,7 @@ RECOGNIZERS = current_module_recognizers(
 )
 RECOGNIZERS.update(
     {
-        "gc_1149": cached_function(nx.is_regular),
+        "gc_1149": is_regular,
         "gc_771": cached_function(nx.is_biconnected),
     }
 )
