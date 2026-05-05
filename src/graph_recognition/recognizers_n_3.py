@@ -245,7 +245,6 @@ def is_modular(graph: nx.Graph) -> bool:
     return is_connected(graph) and is_triangle_free(graph) and is_pseudo_modular(graph)
 
 
-@assign_inherited_fisc()
 @assign_class_id("gc_211")
 @lru_cache(maxsize=None)
 def is_median(graph: nx.Graph) -> bool:
@@ -258,8 +257,15 @@ def is_median(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # equivalence from ISGCI: triangle-free and pseudo-median
-    return is_triangle_free(graph) and is_pseudo_median(graph)
+    for cc in connected_components(graph):
+        for x, y, z in combinations(cc, 3):
+            int_x_y = vertices_on_shortest_paths_between(graph, frozenset([x, y]))
+            int_x_z = vertices_on_shortest_paths_between(graph, frozenset([x, z]))
+            int_y_z = vertices_on_shortest_paths_between(graph, frozenset([y, z]))
+            if len(int_x_y & int_x_z & int_y_z) != 1:
+                return False
+
+    return True
 
 
 @assign_inherited_fisc()

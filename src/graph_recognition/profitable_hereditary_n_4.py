@@ -705,7 +705,7 @@ def is_k4_free_and_planar(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_planar(graph) and is_even_clique_free(graph, 4)
+    return is_planar(graph) and is_k4_free(graph)
 
 
 @assign_fisc(["diamond", "co-diamond"])
