@@ -689,7 +689,7 @@ def is_k4_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_even_clique_free(graph, 4)
+    return is_h_free(graph, ["K_{4}"])
 
 
 @assign_inherited_fisc()
