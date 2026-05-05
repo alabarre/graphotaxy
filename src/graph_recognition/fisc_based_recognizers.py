@@ -174,6 +174,27 @@ def is_cnplus3_u_k1_diamond_paw_free(graph: nx.Graph | HalfAdjacencyMatrix) -> b
     return is_h_u_k1_free(graph, is_forest) and is_paw_free(graph) and is_diamond_free(graph)
 
 
+@assign_inherited_fisc([
+    "claw",  # co(C_{3} U K_{1})
+    "butterfly",  # co(C_{4} U K_{1})
+    "W_{5}",  # co(C_{5} U K_{1})
+])  # partial fisc for co(C_{n+3} U K_{1})-free, no larger such configuration in ISGCI yet
+@assign_class_id("AUTO_2276")
+@lru_cache(maxsize=None)
+def is_co_cnplus3_u_k1_co_diamond_co_paw_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2276.html
+
+
+    Complexity: O(n^4).
+
+    :param graph:
+    :return:
+    """
+    return is_cnplus3_u_k1_diamond_paw_free(complement_as_adj_mat(graph))
+
+
 @assign_fisc([
     "claw",  # co(C_{3} U K_{1})
     "butterfly",  # co(C_{4} U K_{1})
