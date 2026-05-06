@@ -22,7 +22,7 @@ import networkx as nx
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     is_connected,
-    co_connected_components, complement_as_adj_mat, connected_components, number_of_nodes,
+    co_connected_components, complement_as_adj_mat, connected_components, number_of_nodes, number_of_edges,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_gc_1312,
@@ -143,7 +143,7 @@ def is_triangle_free(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     # Mantel's theorem: a triangle-free graph on n vertices cannot have more than ⌊n²/4⌋ edges
-    if graph.number_of_edges() > number_of_nodes(graph) ** 2 // 4:
+    if number_of_edges(graph) > number_of_nodes(graph) ** 2 // 4:
         return False
 
     # for each vertex, go through its neighbors; if any two of them are adjacent, then we have a

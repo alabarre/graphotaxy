@@ -34,6 +34,7 @@ from graph_recognition.misc_algo import (
     degree_sequence,
     is_connected,
     co_connected_components, NUMERIC_TYPECODES, all_vertices_are_int, connected_components, neighbors, number_of_nodes,
+    number_of_edges,
 )
 from graph_recognition.online_algo import online_is_forest, online_is_bipartite
 from graph_recognition.recognizers_utils import (
@@ -80,9 +81,7 @@ def is_forest(graph: nx.Graph) -> bool:
     if len(graph) == 0:
         return True
 
-
-    return all(len(c) - 1 == c.number_of_edges() for c in map(graph.subgraph, connected_components(graph)))
-
+    return all(len(c) - 1 == number_of_edges(c) for c in map(graph.subgraph, connected_components(graph)))
 
 
 @lru_cache(maxsize=None)
@@ -286,7 +285,7 @@ def my_inverse_line_graph(graph: nx.Graph) -> None:
     if number_of_nodes(graph) < 2:
         return
 
-    elif graph.number_of_edges() == 0:
+    elif number_of_edges(graph) == 0:
         raise nx.NetworkXError(
             "inverse_line_graph() doesn't work on an edgeless graph. Please use this function on "
             "each component separately."
@@ -1484,7 +1483,7 @@ def is_tree(graph: nx.Graph) -> bool:
     # artificially deciding that a graph without any node is a tree in order to avoid crashes when
     # function is called on empty subgraphs
     return not number_of_nodes(graph) or (
-            len(graph) - 1 == graph.number_of_edges() and is_connected(graph)
+            len(graph) - 1 == number_of_edges(graph) and is_connected(graph)
     )
 
 
@@ -1801,7 +1800,7 @@ def is_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     # if there are too many edges, the graph cannot be bipartite
     n = number_of_nodes(graph)
-    m = graph.number_of_edges()
+    m = number_of_edges(graph)
     if m > (n ** 2) / 4:
         return False
 
@@ -2178,7 +2177,7 @@ def is_co_bipartite(graph: nx.Graph) -> bool:
 
     # if complement has too many edges, then it cannot be bipartite
     n = number_of_nodes(graph)
-    m = (n * (n - 1)) // 2 - graph.number_of_edges()
+    m = (n * (n - 1)) // 2 - number_of_edges(graph)
     if m > (n ** 2) / 4:
         return False
 
@@ -2818,7 +2817,7 @@ def is_maximal_planar(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    return graph.number_of_edges() == 3 * number_of_nodes(graph) - 6 and is_planar(graph)
+    return number_of_edges(graph) == 3 * number_of_nodes(graph) - 6 and is_planar(graph)
 
 
 @assign_class_id("gc_982")
@@ -2849,10 +2848,7 @@ def is_maximal_outerplanar(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    return (
-            graph.number_of_edges() == 2 * number_of_nodes(graph) - 3
-            and is_outerplanar(graph)
-    )
+    return number_of_edges(graph) == 2 * number_of_nodes(graph) - 3 and is_outerplanar(graph)
 
 
 @assign_inherited_fisc()

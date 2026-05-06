@@ -17,7 +17,7 @@ from functools import lru_cache
 from networkx import Graph
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.misc_algo import is_complete, number_of_nodes
+from graph_recognition.misc_algo import is_complete, number_of_nodes, number_of_edges
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
@@ -57,7 +57,7 @@ def is_k2_free(graph: Graph) -> bool:
     :type graph: networkx.Graph
     """
     # graph is K_2-free iff it has no edges
-    return graph.number_of_edges() == 0
+    return number_of_edges(graph) == 0
 
 
 @assign_fisc(["3K_{1}", "co(P_{3})", "C_{4}"])

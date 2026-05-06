@@ -46,7 +46,7 @@ import networkx as nx
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.graph_formats import nx_graph_to_lad_file, lad_file_to_nx_graph, half_adj_mat_to_lad_file
-from graph_recognition.misc_algo import degree_sequence, maximal_independent_set, number_of_nodes
+from graph_recognition.misc_algo import degree_sequence, maximal_independent_set, number_of_nodes, number_of_edges
 from graph_recognition.recognizers_utils import cached_function
 from graph_recognition.smallgraphs import (
     all_smallgraphs_by_order,
@@ -131,7 +131,7 @@ class SubgraphMatcher:
         """
         # trivial cases that don't even require loading the pattern graph
         if smallgraph_name == "K_{2}":
-            return not self._graph.number_of_edges()
+            return not number_of_edges(self._graph)
 
         path_to_pattern_lad = os.path.join(
             os.path.dirname(__file__), "smallgraphs", smallgraph_name

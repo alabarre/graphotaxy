@@ -46,6 +46,8 @@ class UndirectedGraph(Graph):
     # A simple solution would be to keep track of the number of edges and nodes in the graph
     # whenever an update occurs, but unfortunately this entails reimplementing many methods. In
     # particular, what to do for methods like subgraph() is not obvious to me.
+    # Instead, I provide cached versions of these methods as functions in the misc_algo module.
+
     def to_undirected_class(self):
         """
         Returns the class to use for empty undirected copies.

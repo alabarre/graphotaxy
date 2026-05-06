@@ -407,7 +407,7 @@ def is_even_clique_free(graph: nx.Graph, k: int) -> bool:
     # vertices that are connected
     clique_num_edges = (k ** 2 - k) // 2
     return all(
-        graph.subgraph(sum(edges, ())).number_of_edges() != clique_num_edges
+        number_of_edges(graph.subgraph(sum(edges, ()))) != clique_num_edges
         for edges in combinations(graph.edges, k // 2)
     )
 
@@ -463,7 +463,7 @@ def is_even_co_clique_free(graph: nx.Graph, k: int) -> bool:
     # opposed to blindly trying every k-subset of vertices, since we only select pairs of
     # vertices that are independent (but not necessarily all pairwise)
     return k > number_of_nodes(graph) or all(
-        number_of_nodes(subgraph) != k or subgraph.number_of_edges() != 0
+        number_of_nodes(subgraph) != k or number_of_edges(subgraph) != 0
         for subgraph in map(
             # we can't use graph.edge_subgraph here, since nonedges always induce an empty graph,
             # so we must use graph.subgraph with the endpoints of all nonedges
@@ -485,7 +485,7 @@ def must_contain_a_clique_of_size(graph: nx.Graph, k: int) -> bool:
     @return:
     """
     # Turan's theorem: a K_{r+1}-free graph cannot have more than (1 - 1/r)n²/2 edges
-    if graph.number_of_edges() > ((1 - 1 / (k - 1)) * number_of_nodes(graph) ** 2) / 2:
+    if number_of_edges(graph) > ((1 - 1 / (k - 1)) * number_of_nodes(graph) ** 2) / 2:
         return True
 
     return False

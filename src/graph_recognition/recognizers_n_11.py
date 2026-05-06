@@ -15,6 +15,7 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.fisc_based_recognizers import is_gc_550
+from graph_recognition.misc_algo import number_of_edges
 from graph_recognition.profitable_hereditary_n import (
     is_chordal,
     is_planar,
@@ -90,7 +91,7 @@ def is_maximal_clique_irreducible(graph: nx.Graph) -> bool:
     # I don't know the complexity of nx.find_cliques; we can only claim that we will not read more
     # than m elements from its result.
     max_clique_edges = list()
-    m = graph.number_of_edges()
+    m = number_of_edges(graph)
     for k, clique in enumerate(nx.find_cliques(graph), 1):
         if k > m:
             return False
