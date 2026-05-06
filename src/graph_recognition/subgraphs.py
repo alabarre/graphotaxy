@@ -46,7 +46,7 @@ import networkx as nx
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.graph_formats import nx_graph_to_lad_file, lad_file_to_nx_graph, half_adj_mat_to_lad_file
-from graph_recognition.misc_algo import degree_sequence, maximal_independent_set
+from graph_recognition.misc_algo import degree_sequence, maximal_independent_set, number_of_nodes
 from graph_recognition.recognizers_utils import cached_function
 from graph_recognition.smallgraphs import (
     all_smallgraphs_by_order,
@@ -144,7 +144,7 @@ class SubgraphMatcher:
 
         # O(1) verifications ----------------------------------------------------------------------
         # if graph has fewer vertices or edges than pattern, then it cannot contain the pattern
-        if self._graph.order() < pattern.order() or self._graph.size() < pattern.size():
+        if number_of_nodes(self._graph) < number_of_nodes(pattern) or self._graph.size() < pattern.size():
             return False
 
         # if graph's max degree is smaller than pattern's, then it cannot contain the pattern
@@ -373,7 +373,7 @@ class SubgraphMatcher:
         basis = {
             subgraph
             for subgraph in basis
-            if SubgraphMatcher.smallgraph_names_and_orders[subgraph] <= self._graph.order()
+            if SubgraphMatcher.smallgraph_names_and_orders[subgraph] <= number_of_nodes(self._graph)
         }
 
         graph_relation = {"maximal": nx.ancestors, "minimal": nx.descendants}[restriction]
@@ -387,7 +387,7 @@ class SubgraphMatcher:
                 other not in basis
                 for other in graph_relation(SubgraphMatcher.inclusion_graph, subgraph)
             )
-               and SubgraphMatcher.smallgraph_names_and_orders[subgraph] <= self._graph.order()
+               and SubgraphMatcher.smallgraph_names_and_orders[subgraph] <= number_of_nodes(self._graph)
         }
 
     def minimal_missed_subgraphs(self) -> Set[str]:

@@ -42,7 +42,7 @@ from graph_recognition.misc_algo import (
     explicit_triangles,
     degree_sequence,
     empty_graph_by_removing_vertices,
-    enumerate_all_p4s,
+    enumerate_all_p4s, number_of_nodes,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_complete_bipartite,
@@ -162,7 +162,7 @@ def is_clique_helly(graph: nx.Graph) -> bool:
         induced_subgraph = graph.subgraph(extended_triangle)
         if (
                 max(induced_subgraph.degree, key=lambda pair: pair[1])[1]
-                != induced_subgraph.order() - 1
+                != number_of_nodes(induced_subgraph) - 1
         ):
             return False
 

@@ -2170,7 +2170,7 @@ def is_co_bipartite(graph: nx.Graph) -> bool:
     """
     # the empty graph is trivially co-bipartite iff it has at most 2 nodes
     if not graph.size():
-        return graph.order() <= 2
+        return number_of_nodes(graph) <= 2
 
     # the complete graph is trivially co-bipartite
     if is_complete(graph):
@@ -2476,7 +2476,7 @@ def is_mock_threshold(graph: nx.Graph) -> bool:
     :return:
     """
     # see https://www.sciencedirect.com/science/article/pii/S0012365X18301286
-    num_nodes = graph.order()
+    num_nodes = number_of_nodes(graph)
     degseq = degree_sequence(graph)
     # Every graph on at most five vertices except C_5 is mock threshold (Proposition 13)
     if num_nodes <= 5:
@@ -2588,7 +2588,7 @@ def is_cactus(graph: nx.Graph) -> bool:
     """
     # adapted from sagemath
     # Special cases
-    if graph.order() < 4:
+    if number_of_nodes(graph) < 4:
         return True
 
     if not is_connected(graph):

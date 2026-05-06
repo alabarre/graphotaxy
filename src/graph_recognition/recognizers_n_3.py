@@ -23,7 +23,7 @@ from graph_recognition.misc_algo import (
     empty_graph_by_removing_vertices,
     is_connected,
     degree_sequence, co_connected_components, complement_as_adj_mat, number_of_common_neighbors, common_neighbors,
-    connected_components,
+    connected_components, number_of_nodes,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
@@ -197,7 +197,7 @@ def is_dismantlable(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    n = graph.order()
+    n = number_of_nodes(graph)
     if n == 1:
         return True
 
