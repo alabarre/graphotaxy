@@ -72,7 +72,7 @@ def degree_sequence(graph: nx.Graph | HalfAdjacencyMatrix) -> array:
     # if graph is edgeless, then graph.degree is empty, so I need to build the sequence of zeroes
     # myself
     if not graph.size():
-        return array('b', [0] * graph.number_of_nodes())
+        return array('b', [0] * number_of_nodes(graph))
 
     degseq = sorted((d for _, d in graph.degree), reverse=True)
     # print(f"[debug] degree sequence = {degseq}, nodes = {graph.nodes}, edges = {graph.edges}")
@@ -99,7 +99,7 @@ def is_complete(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    n = graph.number_of_nodes()
+    n = number_of_nodes(graph)
     return graph.size() == (n * (n - 1)) // 2
 
 
@@ -462,8 +462,8 @@ def is_even_co_clique_free(graph: nx.Graph, k: int) -> bool:
     # and we then check that they induce 0 edges; we might then gain a little bit of time as
     # opposed to blindly trying every k-subset of vertices, since we only select pairs of
     # vertices that are independent (but not necessarily all pairwise)
-    return k > graph.number_of_nodes() or all(
-        subgraph.number_of_nodes() != k or subgraph.number_of_edges() != 0
+    return k > number_of_nodes(graph) or all(
+        number_of_nodes(subgraph) != k or subgraph.number_of_edges() != 0
         for subgraph in map(
             # we can't use graph.edge_subgraph here, since nonedges always induce an empty graph,
             # so we must use graph.subgraph with the endpoints of all nonedges
@@ -485,7 +485,7 @@ def must_contain_a_clique_of_size(graph: nx.Graph, k: int) -> bool:
     @return:
     """
     # Turan's theorem: a K_{r+1}-free graph cannot have more than (1 - 1/r)n²/2 edges
-    if graph.number_of_edges() > ((1 - 1 / (k - 1)) * graph.number_of_nodes() ** 2) / 2:
+    if graph.number_of_edges() > ((1 - 1 / (k - 1)) * number_of_nodes(graph) ** 2) / 2:
         return True
 
     return False
@@ -537,7 +537,7 @@ def is_odd_co_clique_free(graph: nx.Graph, k: int) -> bool:
     # graph is k-K_{1}-free iff the non-neighborhood of each vertex contains k-1 independent
     # vertices; we only examine vertices with at least k-1 non-neighbors, or equivalently, vertices
     # of degree at most n-1-(k-1) = n-k
-    n = graph.number_of_nodes()
+    n = number_of_nodes(graph)
     return all(
         is_even_co_clique_free(graph.subgraph(non_neighbors(graph, v)), k - 1)
         for v, d in graph.degree
@@ -819,3 +819,29 @@ def non_neighbors(graph: nx.Graph | HalfAdjacencyMatrix, x: Any) -> BitMap:
         return BitMap(nx.non_neighbors(graph, x))
 
     return BitMap(graph.non_neighbors(x))
+
+
+@lru_cache(maxsize=None)
+def number_of_edges(graph: nx.Graph | HalfAdjacencyMatrix) -> int:
+    """
+    Returns the number of edges in the graph. This function only exists to be able to cache
+    results and is a much more convenient alternative to reimplementing the corresponding
+    methods in nx.Graph, which unfortunately run in linear time.
+
+    :param graph:
+    :return:
+    """
+    return graph.number_of_edges()
+
+
+@lru_cache(maxsize=None)
+def number_of_nodes(graph: nx.Graph | HalfAdjacencyMatrix) -> int:
+    """
+    Returns the number of nodes in the graph. This function only exists to be able to cache
+    results and is a much more convenient alternative to reimplementing the corresponding
+    methods in nx.Graph, which unfortunately run in linear time.
+
+    :param graph:
+    :return:
+    """
+    return graph.number_of_nodes()

@@ -14,7 +14,7 @@ from typing import Any, Iterable
 from networkx import Graph
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.misc_algo import degree_sequence
+from graph_recognition.misc_algo import degree_sequence, number_of_nodes
 
 
 @lru_cache(maxsize=None)
@@ -53,7 +53,7 @@ def has_dominating_set_of_size_at_most_2(graph: Graph) -> bool:
     :return:
     """
     # if there is a dominating vertex, say yes
-    if degree_sequence(graph)[0] == graph.number_of_nodes() - 1:
+    if degree_sequence(graph)[0] == number_of_nodes(graph) - 1:
         return True
 
     # if there is a pair of dominating vertices, say yes

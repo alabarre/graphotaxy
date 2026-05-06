@@ -214,10 +214,13 @@ def is_dismantlable(graph: nx.Graph) -> bool:
     # nonrecursive version; to avoid creating a lot of new subgraphs, copy graph into a disposable
     # version
     new_graph = graph.copy()
-    while new_graph.number_of_nodes() > 1:
+
+    num_nodes = len(new_graph)
+    while num_nodes > 1:
         for u, v in combinations(new_graph, 2):
             if dominates(new_graph, u, v):
                 new_graph.remove_node(v)
+                num_nodes -= 1
                 break
         else:
             return False

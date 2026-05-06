@@ -26,8 +26,7 @@ from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     number_of_common_neighbors,
     degree_sequence,
-    is_even_clique_free,
-    co_connected_components, is_connected, complement_as_adj_mat, )
+    co_connected_components, is_connected, complement_as_adj_mat, number_of_nodes, )
 from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_cograph,
@@ -180,7 +179,7 @@ def is_claw_free(graph: nx.Graph) -> bool:
     # https://www.combinatorics.org/ojs/index.php/eljc/article/download/v13i1r59/pdf/, thm. 5 p. 4
     # Note: they don't mention connectedness in this quoted result, but obviously it is required:
     # otherwise, we can simply add singletons, which by definition cannot be paired
-    if is_connected(graph) and not graph.number_of_nodes() % 2 and not is_perfect_matching(
+    if is_connected(graph) and not number_of_nodes(graph) % 2 and not is_perfect_matching(
             graph, maximum_matching(graph)
     ):
         return False

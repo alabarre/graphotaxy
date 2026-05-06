@@ -15,7 +15,7 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
-    degree_sequence, is_regular,
+    degree_sequence, is_regular, number_of_nodes,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
@@ -50,7 +50,7 @@ def is_planar_and_strongly_regular(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    order = graph.number_of_nodes()
+    order = number_of_nodes(graph)
     if order == 1:
         return True
 
@@ -213,7 +213,7 @@ def is_reflexive(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return nx.number_of_selfloops(graph) == graph.number_of_nodes()
+    return nx.number_of_selfloops(graph) == number_of_nodes(graph)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

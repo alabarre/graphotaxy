@@ -43,6 +43,7 @@ from tqdm import tqdm
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.graph_formats import g6string_to_lad, lad_file_to_nx_graph
+from graph_recognition.misc_algo import number_of_nodes
 from isgci.functions import prettify_name
 from isgci.graphclass import GraphClass
 from isgci.isgci_base import BASE_URL, save_webpage_to_file
@@ -555,7 +556,7 @@ def store_graph(graph: nx.Graph, name: str, graph_dictionary: Dict[int, Any]) ->
     :param graph_dictionary:
     :return:
     """
-    graph_dictionary[graph.number_of_nodes()].add(
+    graph_dictionary[number_of_nodes(graph)].add(
         (name, nx.to_graph6_bytes(graph, header=False).decode().strip())
     )
 
@@ -705,7 +706,7 @@ def missing_smallgraphs() -> Dict[int, Any]:
     # "graph U K_{1}" (and "co(graph U K_{1})"
     for filename in ("C_{6}", "domino", "K_{3,3}-e"):
         graph = lad_file_to_nx_graph(filename)
-        graph.add_node(graph.number_of_nodes())
+        graph.add_node(number_of_nodes(graph))
         store_graph(graph, filename + " U K_{1}", smallgraphs)
         store_graph(nx.complement(graph), "co(" + filename + " U K_{1})", smallgraphs)
 
@@ -742,7 +743,7 @@ def missing_smallgraphs() -> Dict[int, Any]:
         graph = nx.disjoint_union(graph, nx.path_graph(k))
 
         # add new node connected to each path
-        new_node = graph.number_of_nodes()
+        new_node = number_of_nodes(graph)
         graph.add_node(new_node)
         graph.add_edge(0, new_node)  # connect to min of first path
         graph.add_edge(j, new_node)  # connect to first elem of second path

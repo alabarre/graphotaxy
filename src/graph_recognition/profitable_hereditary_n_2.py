@@ -30,6 +30,7 @@ from graph_recognition.misc_algo import (
     is_connected,
     is_h_u_k1_free,
     co_connected_components, complement_as_adj_mat, connected_components, is_regular, is_complete, neighbors,
+    number_of_nodes,
 )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
@@ -835,7 +836,7 @@ def is_co_planar(graph: nx.Graph) -> bool:
     @return:
     """
     # if complement has too many edges, then it cannot be planar
-    n = graph.number_of_nodes()
+    n = number_of_nodes(graph)
     if n >= 3 and (n * (n - 1)) // 2 - graph.size() > 3 * n - 6:
         return False
 

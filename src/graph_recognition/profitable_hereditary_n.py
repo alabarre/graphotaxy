@@ -33,7 +33,7 @@ from graph_recognition.misc_algo import (
     is_complete,
     degree_sequence,
     is_connected,
-    co_connected_components, NUMERIC_TYPECODES, all_vertices_are_int, connected_components, neighbors,
+    co_connected_components, NUMERIC_TYPECODES, all_vertices_are_int, connected_components, neighbors, number_of_nodes,
 )
 from graph_recognition.online_algo import online_is_forest, online_is_bipartite
 from graph_recognition.recognizers_utils import (
@@ -283,7 +283,7 @@ def my_inverse_line_graph(graph: nx.Graph) -> None:
 
         return any(val in {1, 3} for val in t_nbrs.values())
 
-    if graph.number_of_nodes() < 2:
+    if number_of_nodes(graph) < 2:
         return
 
     elif graph.number_of_edges() == 0:
@@ -330,7 +330,7 @@ def is_3k1_co_p3_free(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     # True iff complement has maximum degree 1, i.e. if original graph has minimum degree n-2
-    return degree_sequence(graph)[-1] >= graph.number_of_nodes() - 2
+    return degree_sequence(graph)[-1] >= number_of_nodes(graph) - 2
 
 
 @assign_fisc(["P_{3}", "triangle"])
@@ -1017,7 +1017,7 @@ def is_cubic(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    if 2 * graph.size() != 3 * graph.number_of_nodes():
+    if 2 * graph.size() != 3 * number_of_nodes(graph):
         return False
     degseq = degree_sequence(graph)
     return degseq[0] == degseq[-1] == 3
@@ -1277,7 +1277,7 @@ def is_4_regular(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    if 2 * graph.size() != 4 * graph.number_of_nodes():
+    if 2 * graph.size() != 4 * number_of_nodes(graph):
         return False
     degseq = degree_sequence(graph)
     return degseq[0] == degseq[-1] == 4
@@ -1400,7 +1400,7 @@ def is_5_regular(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    if 2 * graph.size() != 5 * graph.number_of_nodes():
+    if 2 * graph.size() != 5 * number_of_nodes(graph):
         return False
     degseq = degree_sequence(graph)
     return degseq[0] == degseq[-1] == 5
@@ -1432,7 +1432,7 @@ def is_co_maximum_degree_3(graph: nx.Graph) -> bool:
     @return:
     """
     # the complement has maximum degree 3 iff the original graph has minimum degree n-4
-    return degree_sequence(graph)[-1] >= graph.number_of_nodes() - 4
+    return degree_sequence(graph)[-1] >= number_of_nodes(graph) - 4
 
 
 # derived from the fisc for maximum_degree_4
@@ -1463,7 +1463,7 @@ def is_co_maximum_degree_4(graph: nx.Graph) -> bool:
     @return:
     """
     # the complement has maximum degree 4 iff the original graph has minimum degree n-5
-    return degree_sequence(graph)[-1] >= graph.number_of_nodes() - 5
+    return degree_sequence(graph)[-1] >= number_of_nodes(graph) - 5
 
 
 @assign_fisc(
@@ -1483,7 +1483,7 @@ def is_tree(graph: nx.Graph) -> bool:
     """
     # artificially deciding that a graph without any node is a tree in order to avoid crashes when
     # function is called on empty subgraphs
-    return not graph.number_of_nodes() or (
+    return not number_of_nodes(graph) or (
             len(graph) - 1 == graph.number_of_edges() and is_connected(graph)
     )
 
@@ -1544,7 +1544,7 @@ def is_gc_1307(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     # a graph is (C_{4}, co(P_{3}), triangle)-free if it is either a star, or edgeless
-    n = graph.number_of_nodes()
+    n = number_of_nodes(graph)
     return not graph.size() or degree_sequence(graph) == array("Q", [n - 1] + [1] * (n - 1))
 
 
@@ -1568,7 +1568,7 @@ def is_gc_1313(graph: nx.Graph) -> bool:
         lambda subgraph: degree_sequence(subgraph)
                          == array(
             "Q",
-            [subgraph.number_of_nodes() - 1] + [1] * (subgraph.number_of_nodes() - 1),
+            [number_of_nodes(subgraph) - 1] + [1] * (number_of_nodes(subgraph) - 1),
         ),
     )
 
@@ -1800,7 +1800,7 @@ def is_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     @type graph: nx.Graph
     """
     # if there are too many edges, the graph cannot be bipartite
-    n = graph.number_of_nodes()
+    n = number_of_nodes(graph)
     m = graph.number_of_edges()
     if m > (n ** 2) / 4:
         return False
@@ -2069,7 +2069,7 @@ def is_caterpillar(graph: nx.Graph) -> bool:
     # note: nx.is_path does not recognize paths ... so we check that pruned_graph is a tree with
     # degree sequence 2, 2, ... 2, 1, 1
     return degree_sequence(pruned_graph) == array(
-        "Q", [2] * (pruned_graph.number_of_nodes() - 2) + [1, 1]
+        "Q", [2] * (number_of_nodes(pruned_graph) - 2) + [1, 1]
     ) and is_tree(pruned_graph)
 
 
@@ -2146,7 +2146,7 @@ def is_co_tree(graph: nx.Graph) -> bool:
     @return:
     """
     # the complement must have n-1 edges in order to be a tree
-    n = graph.number_of_nodes()
+    n = number_of_nodes(graph)
     num_co_edges = (n * (n - 1)) // 2 - graph.size()
     if num_co_edges != n - 1:
         return False
@@ -2177,7 +2177,7 @@ def is_co_bipartite(graph: nx.Graph) -> bool:
         return True
 
     # if complement has too many edges, then it cannot be bipartite
-    n = graph.number_of_nodes()
+    n = number_of_nodes(graph)
     m = (n * (n - 1)) // 2 - graph.number_of_edges()
     if m > (n ** 2) / 4:
         return False
@@ -2336,7 +2336,7 @@ def is_unicyclic(graph: nx.Graph) -> bool:
     https://www.graphclasses.org/classes/gc_1202.html
 
     """
-    return is_connected(graph) and graph.size() == graph.number_of_nodes()
+    return is_connected(graph) and graph.size() == number_of_nodes(graph)
 
 
 @assign_fisc(["P_{4}", "2K_{2}"])
@@ -2510,7 +2510,7 @@ def is_mock_threshold(graph: nx.Graph) -> bool:
                      } - retrieved
 
     # the graph is empty iff all vertices were retrieved
-    return len(retrieved) == graph.number_of_nodes()
+    return len(retrieved) == number_of_nodes(graph)
 
     # NOTE: the following one-liner also works, but is slower as the graph's size increases
     # return empty_graph_by_removing_vertices(graph, vertex_has_degree_or_codegree_at_most_1)
@@ -2626,7 +2626,7 @@ def is_planar(graph: nx.Graph) -> bool:
     """
     # this is merely a call to networkx's algorithm, except we avoid it if graph has too many edges
     # to be planar
-    n = graph.number_of_nodes()
+    n = number_of_nodes(graph)
     m = graph.size()
 
     if not n or not m:
@@ -2673,7 +2673,7 @@ def is_outerplanar(graph: nx.Graph) -> bool:
     :return:
     """
     # avoid work if graph has too many edges
-    if graph.size() > 2 * graph.number_of_nodes() - 3:
+    if graph.size() > 2 * number_of_nodes(graph) - 3:
         return False
 
     # add a new vertex and connect it to all other vertices; G is outerplanar
@@ -2683,11 +2683,12 @@ def is_outerplanar(graph: nx.Graph) -> bool:
     else:
         new_node = ''.join(random.choices(string.printable, k=16))
 
-    # note: don't remove { }, since otherwise we're modifying the graph as we iterate over it
-    graph.add_edges_from({(new_node, v) for v in graph})
-    result = is_planar(graph)
-    graph.remove_node(new_node)
-    return result
+    # note: we're copying the graph because is_planar calls number_of_nodes, which is cached and
+    # will therefore return a wrong result since we're adding a node to the graph; alternatively,
+    # we could force is_planar to access the undecorated function if this leads to memory issues
+    new_graph = graph.copy()
+    new_graph.add_edges_from((new_node, v) for v in graph)
+    return is_planar(new_graph)
 
 
 @assign_inherited_fisc()
@@ -2817,7 +2818,7 @@ def is_maximal_planar(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    return graph.number_of_edges() == 3 * graph.number_of_nodes() - 6 and is_planar(graph)
+    return graph.number_of_edges() == 3 * number_of_nodes(graph) - 6 and is_planar(graph)
 
 
 @assign_class_id("gc_982")
@@ -2849,7 +2850,7 @@ def is_maximal_outerplanar(graph: nx.Graph) -> bool:
     :return:
     """
     return (
-            graph.number_of_edges() == 2 * graph.number_of_nodes() - 3
+            graph.number_of_edges() == 2 * number_of_nodes(graph) - 3
             and is_outerplanar(graph)
     )
 

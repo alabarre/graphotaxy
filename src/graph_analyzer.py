@@ -33,6 +33,7 @@ from tqdm import tqdm
 # ----- My imports --------------------------------------------------------------------------------
 from cache_utils import clear_function_caches, get_cached_non_recognizers
 from classification_digraph import ClassificationDigraph
+from graph_recognition.misc_algo import number_of_nodes
 from graph_recognition.recognizers_utils import undecorated_function
 from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings, clear_subgraph_cache, query_status
 from isgci.isgci_base import (
@@ -190,7 +191,7 @@ class GraphAnalyzer:
         threading.Thread(target=self._auto_refresh, daemon=True).start()
         for graph in main_pbar:
             # update graph stats
-            self.num_nodes += graph.number_of_nodes()
+            self.num_nodes += number_of_nodes(graph)
             self.num_edges += graph.number_of_edges()
 
             # create classification for current graph

@@ -21,7 +21,7 @@ from graph_recognition.misc_algo import (
     complement,
     number_of_common_neighbors,
     degree_sequence,
-    is_connected, is_co_connected, co_connected_components, is_regular, neighbors, is_complete,
+    is_connected, is_co_connected, co_connected_components, is_regular, neighbors, is_complete, number_of_nodes,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
@@ -65,7 +65,7 @@ def is_apex(graph: nx.Graph) -> bool:
     # then removing a vertex must leave a graph with at most 3(n - 1) - 6 edges; since the degree
     # of a vertex in our graph is < n, if our graph has more than 3(n-1) - 6 + n - 1 = 4n - 10
     # edges, then it cannot be apex
-    n = graph.number_of_nodes()
+    n = number_of_nodes(graph)
     if graph.size() > 4 * n - 10:
         return False
 

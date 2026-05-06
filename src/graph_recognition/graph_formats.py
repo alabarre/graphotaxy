@@ -14,7 +14,9 @@ from itertools import chain
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+# ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
+from graph_recognition.misc_algo import number_of_nodes
 from graph_recognition.undirected_graph import UndirectedGraph
 
 # Functions ---------------------------------------------------------------------------------------
@@ -70,7 +72,7 @@ def nx_graph_to_lad_string(graph: nx.Graph) -> str:
     # following error:
     #
     #   "Error: Error reading graph file ... : edge index out of bounds"
-    n = graph.number_of_nodes()
+    n = number_of_nodes(graph)
     mapping = dict(zip(graph.nodes, range(n)))
     result = str(n)
     for node in graph:
@@ -103,7 +105,7 @@ def nx_graph_to_lad_file(graph: nx.Graph, filename: str) -> None:
         # causes it to crash on subgraphs with the following error:
         #
         #   "Error: Error reading graph file ... : edge index out of bounds"
-        n = graph.number_of_nodes()
+        n = number_of_nodes(graph)
         mapping = dict(zip(graph.nodes, range(n)))
         output.write(str(n) + "\n")
         for node in graph:
@@ -131,7 +133,7 @@ def half_adj_mat_to_lad_file(graph: HalfAdjacencyMatrix, filename: str) -> None:
         # causes it to crash on subgraphs with the following error:
         #
         #   "Error: Error reading graph file ... : edge index out of bounds"
-        n = graph.number_of_nodes()
+        n = number_of_nodes(graph)
         mapping = dict(zip(graph.nodes, range(n)))
         output.write(str(n) + "\n")
         for node in graph:
@@ -167,7 +169,7 @@ def nx_graph_to_gr_file(graph: nx.Graph, filename: str) -> None:
     """
     with open(filename, "w") as output:
         # mandatory first line
-        output.write("p tw " + str(graph.number_of_nodes()) + " " + str(graph.size()) + "\n")
+        output.write("p tw " + str(number_of_nodes(graph)) + " " + str(graph.size()) + "\n")
         # every subsequent line is an edge u v, where indices must be in the range [1, n]
         for u, v in graph.edges:
             output.write(str(u + 1) + " " + str(v + 1) + "\n")

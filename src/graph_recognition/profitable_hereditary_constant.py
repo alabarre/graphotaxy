@@ -17,7 +17,7 @@ from functools import lru_cache
 from networkx import Graph
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.misc_algo import is_complete
+from graph_recognition.misc_algo import is_complete, number_of_nodes
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
@@ -74,7 +74,7 @@ def is_3k1_c4_co_p3_free(graph: Graph) -> bool:
     :type graph: networkx.Graph
     """
     # A graph is (3K_{1}, C_{4}, co(P_{3}))-free if it has at most one non-edge
-    n = graph.number_of_nodes()
+    n = number_of_nodes(graph)
     return graph.size() >= (n * (n - 1)) // 2 - 1
 
 
