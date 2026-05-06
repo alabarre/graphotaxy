@@ -71,7 +71,7 @@ def degree_sequence(graph: nx.Graph | HalfAdjacencyMatrix) -> array:
     """
     # if graph is edgeless, then graph.degree is empty, so I need to build the sequence of zeroes
     # myself
-    if not graph.size():
+    if not number_of_edges(graph):
         return array('b', [0] * number_of_nodes(graph))
 
     degseq = sorted((d for _, d in graph.degree), reverse=True)
@@ -100,7 +100,7 @@ def is_complete(graph: nx.Graph) -> bool:
     :return:
     """
     n = number_of_nodes(graph)
-    return graph.size() == (n * (n - 1)) // 2
+    return number_of_edges(graph) == (n * (n - 1)) // 2
 
 
 @lru_cache(maxsize=None)

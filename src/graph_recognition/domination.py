@@ -14,7 +14,7 @@ from typing import Any, Iterable
 from networkx import Graph
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.misc_algo import degree_sequence, number_of_nodes
+from graph_recognition.misc_algo import degree_sequence, number_of_nodes, number_of_edges
 
 
 @lru_cache(maxsize=None)
@@ -72,5 +72,5 @@ def has_dominating_triangle_or_p3(graph: Graph) -> bool:
     # a triplet induces a P_{3} or a K_{3} if it has at least two edges
     return any(
         is_dominating_set(graph, triplet) for triplet in combinations(graph, 3)
-        if graph.subgraph(triplet).size() >= 2
+        if number_of_edges(graph.subgraph(triplet)) >= 2
     )

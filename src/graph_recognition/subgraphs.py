@@ -144,7 +144,7 @@ class SubgraphMatcher:
 
         # O(1) verifications ----------------------------------------------------------------------
         # if graph has fewer vertices or edges than pattern, then it cannot contain the pattern
-        if number_of_nodes(self._graph) < number_of_nodes(pattern) or self._graph.size() < pattern.size():
+        if number_of_nodes(self._graph) < number_of_nodes(pattern) or number_of_edges(self._graph) < number_of_edges(pattern):
             return False
 
         # if graph's max degree is smaller than pattern's, then it cannot contain the pattern

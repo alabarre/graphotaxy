@@ -15,7 +15,7 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
-    degree_sequence, is_regular, number_of_nodes,
+    degree_sequence, is_regular, number_of_nodes, number_of_edges,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
@@ -54,7 +54,7 @@ def is_planar_and_strongly_regular(graph: nx.Graph) -> bool:
     if order == 1:
         return True
 
-    size = graph.size()
+    size = number_of_edges(graph)
     if order in {2, 3}:
         return order == size
 
@@ -117,7 +117,7 @@ def is_2_tree(graph: nx.Graph) -> bool:
 
     # checking conditions a, b and c in Theorem 1; requiring that sum(degseq) = 4n - 6 = 2|E| is
     # equivalent to requiring that |E| = 2n - 3
-    if graph.size() == 2 * n - 3 and max_degree <= n - 1 and min_degree == 2 and n_2 >= 2:
+    if number_of_edges(graph) == 2 * n - 3 and max_degree <= n - 1 and min_degree == 2 and n_2 >= 2:
         # condition d: D is NOT of the form 2^{n-4} d^{4} for any d >= 5; for this to happen, we
         # would need len(D) >= 4
         if len(degseq) >= 4 and degseq[0] == 2 and degseq[-4] == degseq[-1] and degseq[-1] >= 5:

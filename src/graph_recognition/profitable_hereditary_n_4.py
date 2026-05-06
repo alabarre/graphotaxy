@@ -26,7 +26,7 @@ from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     number_of_common_neighbors,
     degree_sequence,
-    co_connected_components, is_connected, complement_as_adj_mat, number_of_nodes, )
+    co_connected_components, is_connected, complement_as_adj_mat, number_of_nodes, number_of_edges, )
 from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_cograph,
@@ -172,7 +172,7 @@ def is_claw_free(graph: nx.Graph) -> bool:
     """
     # in a claw-free graph the maximum degree is 2 * sqrt(|E|)
     # (see https://doi.org/10.1016/S0020-0190(00)00047-8)
-    if graph and degree_sequence(graph)[0] > 2 * graph.size() ** 0.5:
+    if graph and degree_sequence(graph)[0] > 2 * number_of_edges(graph) ** 0.5:
         return False
 
     # every claw-free graph of even order has a perfect matching

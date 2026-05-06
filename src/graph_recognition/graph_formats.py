@@ -16,7 +16,7 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
-from graph_recognition.misc_algo import number_of_nodes
+from graph_recognition.misc_algo import number_of_nodes, number_of_edges
 from graph_recognition.undirected_graph import UndirectedGraph
 
 # Functions ---------------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ def nx_graph_to_gr_file(graph: nx.Graph, filename: str) -> None:
     """
     with open(filename, "w") as output:
         # mandatory first line
-        output.write("p tw " + str(number_of_nodes(graph)) + " " + str(graph.size()) + "\n")
+        output.write("p tw " + str(number_of_nodes(graph)) + " " + str(number_of_edges(graph)) + "\n")
         # every subsequent line is an edge u v, where indices must be in the range [1, n]
         for u, v in graph.edges:
             output.write(str(u + 1) + " " + str(v + 1) + "\n")

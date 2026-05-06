@@ -22,6 +22,7 @@ from graph_recognition.misc_algo import (
     number_of_common_neighbors,
     degree_sequence,
     is_connected, is_co_connected, co_connected_components, is_regular, neighbors, is_complete, number_of_nodes,
+    number_of_edges,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
@@ -66,7 +67,7 @@ def is_apex(graph: nx.Graph) -> bool:
     # of a vertex in our graph is < n, if our graph has more than 3(n-1) - 6 + n - 1 = 4n - 10
     # edges, then it cannot be apex
     n = number_of_nodes(graph)
-    if graph.size() > 4 * n - 10:
+    if number_of_edges(graph) > 4 * n - 10:
         return False
 
     # the removal of a higher degree node has a better chance of yielding a planar graph, so let's
@@ -113,7 +114,7 @@ def has_star_cutset(graph: nx.Graph, _complement: bool = False) -> bool:
 
         # testing property 2: complement has at least two nonadjacent vertices,
         # which holds iff graph has at least one edge
-        if not graph.size():
+        if not number_of_edges(graph):
             return False
 
         # ... and it has adjacent vertices u, v such that v dominates u (i.e., each
@@ -164,7 +165,7 @@ def is_edge_regular(graph: nx.Graph) -> bool:
     # Complexity: O(|E|)
     # the empty graph is trivially edge-regular; this check is also required to prevent a
     # StopIteration exception below
-    if not graph.size():
+    if not number_of_edges(graph):
         return True
 
     if not is_regular(graph):
@@ -240,7 +241,7 @@ def is_minimally_imperfect(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    n = graph.size()
+    n = number_of_nodes(graph)
     if n % 2:
         if (is_connected(graph) and degree_sequence(graph) == array('b', [2] * n)) or (
                 is_co_connected(graph) and degree_sequence(graph) == array('Q', [n - 3] * n)

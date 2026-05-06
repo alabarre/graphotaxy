@@ -1016,7 +1016,7 @@ def is_cubic(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    if 2 * graph.size() != 3 * number_of_nodes(graph):
+    if 2 * number_of_edges(graph) != 3 * number_of_nodes(graph):
         return False
     degseq = degree_sequence(graph)
     return degseq[0] == degseq[-1] == 3
@@ -1276,7 +1276,7 @@ def is_4_regular(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    if 2 * graph.size() != 4 * number_of_nodes(graph):
+    if 2 * number_of_edges(graph) != 4 * number_of_nodes(graph):
         return False
     degseq = degree_sequence(graph)
     return degseq[0] == degseq[-1] == 4
@@ -1399,7 +1399,7 @@ def is_5_regular(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    if 2 * graph.size() != 5 * number_of_nodes(graph):
+    if 2 * number_of_edges(graph) != 5 * number_of_nodes(graph):
         return False
     degseq = degree_sequence(graph)
     return degseq[0] == degseq[-1] == 5
@@ -1544,7 +1544,7 @@ def is_gc_1307(graph: nx.Graph) -> bool:
     """
     # a graph is (C_{4}, co(P_{3}), triangle)-free if it is either a star, or edgeless
     n = number_of_nodes(graph)
-    return not graph.size() or degree_sequence(graph) == array("Q", [n - 1] + [1] * (n - 1))
+    return not number_of_edges(graph) or degree_sequence(graph) == array("Q", [n - 1] + [1] * (n - 1))
 
 
 @assign_fisc(["triangle", "P_{4}", "2K_{2}", "C_{4}"])
@@ -1956,7 +1956,7 @@ def is_gc_1246(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     # a graph is (co(P_{3}), triangle)-free iff it either has no edge or is complete multipartite
-    return not graph.size() or is_complete_bipartite(graph)
+    return not number_of_edges(graph) or is_complete_bipartite(graph)
 
 
 # @lru_cache(maxsize=None)  # cannot apply: unhashable type for indegree
@@ -2146,7 +2146,7 @@ def is_co_tree(graph: nx.Graph) -> bool:
     """
     # the complement must have n-1 edges in order to be a tree
     n = number_of_nodes(graph)
-    num_co_edges = (n * (n - 1)) // 2 - graph.size()
+    num_co_edges = (n * (n - 1)) // 2 - number_of_edges(graph)
     if num_co_edges != n - 1:
         return False
 
@@ -2168,7 +2168,7 @@ def is_co_bipartite(graph: nx.Graph) -> bool:
     :return:
     """
     # the empty graph is trivially co-bipartite iff it has at most 2 nodes
-    if not graph.size():
+    if not number_of_edges(graph):
         return number_of_nodes(graph) <= 2
 
     # the complete graph is trivially co-bipartite
@@ -2335,7 +2335,7 @@ def is_unicyclic(graph: nx.Graph) -> bool:
     https://www.graphclasses.org/classes/gc_1202.html
 
     """
-    return is_connected(graph) and graph.size() == number_of_nodes(graph)
+    return is_connected(graph) and number_of_edges(graph) == number_of_nodes(graph)
 
 
 @assign_fisc(["P_{4}", "2K_{2}"])
@@ -2626,7 +2626,7 @@ def is_planar(graph: nx.Graph) -> bool:
     # this is merely a call to networkx's algorithm, except we avoid it if graph has too many edges
     # to be planar
     n = number_of_nodes(graph)
-    m = graph.size()
+    m = number_of_edges(graph)
 
     if not n or not m:
         return True
@@ -2672,7 +2672,7 @@ def is_outerplanar(graph: nx.Graph) -> bool:
     :return:
     """
     # avoid work if graph has too many edges
-    if graph.size() > 2 * number_of_nodes(graph) - 3:
+    if number_of_edges(graph) > 2 * number_of_nodes(graph) - 3:
         return False
 
     # add a new vertex and connect it to all other vertices; G is outerplanar

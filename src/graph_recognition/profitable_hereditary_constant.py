@@ -75,7 +75,7 @@ def is_3k1_c4_co_p3_free(graph: Graph) -> bool:
     """
     # A graph is (3K_{1}, C_{4}, co(P_{3}))-free if it has at most one non-edge
     n = number_of_nodes(graph)
-    return graph.size() >= (n * (n - 1)) // 2 - 1
+    return number_of_edges(graph) >= (n * (n - 1)) // 2 - 1
 
 
 @assign_fisc(["P_{3}", "triangle", "2K_{2}"])
@@ -92,7 +92,7 @@ def is_gc_1309(graph: Graph) -> bool:
     :type graph: networkx.Graph
     """
     # a graph is (2K_{2}, P_{3}, triangle)-free if it has at most one edge.
-    return graph.size() <= 1
+    return number_of_edges(graph) <= 1
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

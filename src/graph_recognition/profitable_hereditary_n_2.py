@@ -30,7 +30,7 @@ from graph_recognition.misc_algo import (
     is_connected,
     is_h_u_k1_free,
     co_connected_components, complement_as_adj_mat, connected_components, is_regular, is_complete, neighbors,
-    number_of_nodes,
+    number_of_nodes, number_of_edges,
 )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
@@ -330,7 +330,7 @@ def is_deza(graph: nx.Graph) -> bool:
     if is_complete(graph):
         return True
 
-    if not graph.size():
+    if not number_of_edges(graph):
         return True
 
     k = number_of_common_neighbors(graph, *next(iter(graph.edges)))
@@ -442,7 +442,7 @@ def is_locally_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     for v in graph:
         subgraph = graph.subgraph(graph[v])
         # checking size is mandatory: is_chordal crashes on edgeless graphs
-        if subgraph.size() and not is_chordal(subgraph):
+        if number_of_edges(subgraph) and not is_chordal(subgraph):
             return False
 
     return True
@@ -837,7 +837,7 @@ def is_co_planar(graph: nx.Graph) -> bool:
     """
     # if complement has too many edges, then it cannot be planar
     n = number_of_nodes(graph)
-    if n >= 3 and (n * (n - 1)) // 2 - graph.size() > 3 * n - 6:
+    if n >= 3 and (n * (n - 1)) // 2 - number_of_edges(graph) > 3 * n - 6:
         return False
 
     # https://pjm.ppu.edu/sites/default/files/papers/PJM_May_2022_575_to_581.pdf
