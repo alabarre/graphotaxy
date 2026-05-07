@@ -2294,6 +2294,12 @@ def is_2k2_free(graph: nx.Graph) -> bool:
 
     Complexity: O(m+n) < O(n^4) (naïve)
 
+    >>> import networkx as nx
+    >>> is_2k2_free(nx.path_graph(4))
+    True
+    >>> is_2k2_free(nx.path_graph(5))
+    False
+
     :type graph: networkx.Graph
     """
     # if graph has at least two components with at least one edge each, then it contains a 2K_{2}

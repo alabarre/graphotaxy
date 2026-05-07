@@ -129,6 +129,7 @@ class SubgraphMatcher:
         :param smallgraph_name:
         :return:
         """
+        # print(f"now in self.find_induced for {smallgraph_name}")
         # trivial cases that don't even require loading the pattern graph
         if smallgraph_name == "K_{2}":
             return not number_of_edges(self._graph)
@@ -183,8 +184,8 @@ class SubgraphMatcher:
         # if subgraph belongs to graph, then so do all its induced subgraphs; therefore, we first
         # recurse on all induced subgraphs sorted by increasing sizes; if any of them is missing,
         # then the pattern does not appear in the graph
-
-        # """
+        # note: this does not seem to work as expected, commenting out until the issue is fixed
+        """
         for subpattern in sorted(
                 nx.descendants(SubgraphMatcher.inclusion_graph, smallgraph_name),
                 key=SubgraphMatcher.smallgraph_names_and_orders.get
@@ -197,7 +198,7 @@ class SubgraphMatcher:
             # noinspection PySimplifyBooleanCheck
             if self._checked_subgraphs[subpattern] is False:
                 return False
-        # """
+        """
 
         # 2b) try profitable hereditary recognizers but only O(m+n) ones
         # NOTE: the same trick could be applied to more profitable recognizers, but at some point
