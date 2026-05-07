@@ -158,8 +158,8 @@ def is_unbreakable(graph: nx.Graph) -> bool:
     """
     # from https://onlinelibrary.wiley.com/doi/abs/10.1002/jgt.3190150403 p.351
     # Every unbreakable graph contains a P_4; therefore, a P_4-free graph is NOT unbreakable
-    #if is_cograph(graph):
-    #    return False
+    if is_cograph(graph):
+        return False
 
     return not has_star_cutset(graph) and not has_star_cutset(complement(graph))
 

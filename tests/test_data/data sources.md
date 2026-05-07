@@ -367,4 +367,18 @@ For n >= 6, to be more than "fairly certain", you can always increase the timeou
 I encoded by hand the following graphs:
 
 - from https://doi.org/10.1016/0095-8956(90)90028-X
-    - graph L_8 p. 202 (proven to be unbreakable p. 233)
+    - graph L_8 p. 202 (proven to be unbreakable p. 232-233)
+    - graph L_9 p. 202 (proven to be unbreakable p. 232-233)
+    
+Note 1: other instances (Fig 9 and Fig 10-11-12 (those last 3 are isomorphic)) are provided in the paper, but they are painful to encode by hand. I'll wait for Graph Harvester to be available again.
+
+Note 2: my labels may not coincide with the labellings provided in Fig. 3 of the paper, because I only realised its existence afterwards.
+    
+
+## murky=gc_218
+
+The following unbreakable graphs are also known to be murky:
+
+- from https://doi.org/10.1016/0095-8956(90)90028-X
+    - graph L_8 p. 202 (proven to be murky p. 232-233)
+    - graph L_9 p. 202 (proven to be murky p. 232-233)
