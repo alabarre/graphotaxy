@@ -17,9 +17,6 @@ import networkx as nx
 from graph_recognition.misc_algo import (
     degree_sequence, is_regular, number_of_nodes, number_of_edges,
 )
-from graph_recognition.profitable_hereditary_n import (
-    is_bipartite,
-)
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
@@ -132,62 +129,28 @@ def is_2_tree(graph: nx.Graph) -> bool:
     return False
 
 
-@assign_class_id("gc_1151")
-@lru_cache(maxsize=None)
-def is_star_convex(graph: nx.Graph) -> bool:
-    """
-    A bipartite graph B = (X, Y, E) is star convex if a tree T=(X, F) can be defined such that T is
-    a star and for every vertex y ∈ Y, the neighborhood of y induces a subtree in T.
-
-    https://www.graphclasses.org/classes/gc_1151.html
-
-    :param graph:
-    :return:
-    """
-    try:
-        left, right = nx.bipartite.sets(graph)
-    except nx.exception.NetworkXError:  # graph is not bipartite
-        return False
-    except nx.exception.AmbiguousSolution:  # graph is disconnected
-        # check bipartiteness
-        if not is_bipartite(graph):
-            return False
-
-        # G is bipartite: nx.is_bipartite wrote 0s and 1s on vertices, retrieve
-        # them to build the bipartition
-        left = {n for n, d in graph.nodes(data=True) if d == 0}
-        right = set(graph) - left
-
-    # let X = left elements of partition and Y = right elements of partition
-    # according to https://www.graphclasses.org/classes/refs1600.html#ref_1655 :
-    #
-    # Graph G = (X, Y, E) is star convex if and only if there exists vertex
-    # x ∈ X such that (x, y) ∈ E for all y ∈ Y ∣ deg(y) ≥ 2. If there is such
-    # x, then x can be center of star T. If there is no such x then for any
-    # center z of star T there exists vertex y ∈ Y such that it is adjacent to
-    # two leaves of T, but not adjacent to the center of T.
-
-    # store all degree >= 2 nodes in Y
-    nonleaves_in_Y = {v for v, d in graph.degree if d >= 2}.intersection(right)
-
-    # find an x in X that is connected to all elements of nonleaves_in_Y
-    if any(graph[x] == nonleaves_in_Y for x in left):
-        return True
-
-    # search Y and do the opposite direction
-    # store all degree >= 2 nodes in X
-    nonleaves_in_X = {v for v, d in graph.degree if d >= 2}.intersection(left)
-    # find a y in Y that is connected to all elements of nonleaves_in_X
-    if any(graph[y] == nonleaves_in_X for y in right):
-        return True
-
-    return False
-
-
 # -------------------------------------------------------------------------------------------------
 # The following classes are unlikely to have even a partial FISC: induced subgraphs are too local
 # to capture their properties.
 # -------------------------------------------------------------------------------------------------
+@assign_class_id("gc_771")
+@lru_cache(maxsize=None)
+def is_2_vertex_connected(graph: nx.Graph) -> bool:
+    """
+    A graph is 2-vertex-connected if it cannot be disconnected by removing less than 2 vertices.
+
+    https://www.graphclasses.org/classes/gc_771
+
+    @param graph:
+    @return:
+    """
+    # Corollary 1.4 page 4 in Bollobas, "Extremal Graph Theory":
+    if 2 * (degree_sequence(graph)[-1]) + 2 - number_of_nodes(graph) >= 2:
+        return True
+
+    return nx.is_biconnected(graph)
+
+
 @assign_class_id("gc_1362")
 @lru_cache(maxsize=None)
 def is_2_edge_connected(graph: nx.Graph) -> bool:
@@ -228,7 +191,6 @@ RECOGNIZERS = current_module_recognizers(
 RECOGNIZERS.update(
     {
         "gc_1149": is_regular,
-        "gc_771": cached_function(nx.is_biconnected),
     }
 )
 # -------------------------------------------------------------------------------------------------

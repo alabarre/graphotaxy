@@ -12,6 +12,7 @@ from functools import lru_cache
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+# ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.fisc_based_recognizers import (
     is_gc_972,
@@ -23,8 +24,6 @@ from graph_recognition.fisc_based_recognizers import (
     is_k23_free,
     is_diamond_free,
 )
-
-# ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import is_h_u_2k1_free, complement_as_adj_mat
 from graph_recognition.profitable_hereditary_n import (
     is_planar,

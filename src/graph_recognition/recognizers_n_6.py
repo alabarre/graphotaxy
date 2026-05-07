@@ -45,21 +45,13 @@ from graph_recognition.profitable_hereditary_n_4 import (
     is_hole_free,
     is_anti_hole_free,
 )
-
+from graph_recognition.recognizers_n import is_2_vertex_connected
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
-    cached_function, assign_inherited_fisc,
+    assign_inherited_fisc,
 )
 from graph_recognition.subgraphs import is_h_free
-
-# Cache imported functions that are not already cached --------------------------------------------
-__functions_to_cache = [
-    nx.is_biconnected,
-    nx.is_chordal,
-]
-for i, function in enumerate(__functions_to_cache):
-    __functions_to_cache[i] = cached_function(function)
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -320,7 +312,7 @@ def is_2_connected_and_p6_claw_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return nx.is_biconnected(graph) and is_gc_1234(graph)
+    return is_2_vertex_connected(graph) and is_gc_1234(graph)
 
 
 @assign_inherited_fisc()
@@ -546,7 +538,7 @@ def is_2_connected_and_gc_772(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return nx.is_biconnected(graph) and is_gc_772(graph)
+    return is_2_vertex_connected(graph) and is_gc_772(graph)
 
 
 @assign_inherited_fisc()
