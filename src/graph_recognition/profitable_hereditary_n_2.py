@@ -545,7 +545,7 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     #       this information is needed to obtain H's next edge, instead of waiting for the whole
     #       dictionary to be available
     classes = dict()
-    non_twins = defaultdict(BitMap)
+    non_twins = defaultdict(set)
 
     def equiv_class_gen(v):
         """

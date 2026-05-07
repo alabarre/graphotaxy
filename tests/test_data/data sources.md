@@ -367,4 +367,4 @@ For n >= 6, to be more than "fairly certain", you can always increase the timeou
 I encoded by hand the following graphs:
 
 - from https://doi.org/10.1016/0095-8956(90)90028-X
-    - graph L_8 p. 202 
+    - graph L_8 p. 202 (proven to be unbreakable p. 233)

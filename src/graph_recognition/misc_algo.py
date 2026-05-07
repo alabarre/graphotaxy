@@ -807,7 +807,7 @@ def neighbors(graph: nx.Graph | HalfAdjacencyMatrix, x: Any) -> BitMap:
 
 
 @lru_cache(maxsize=None)
-def non_neighbors(graph: nx.Graph | HalfAdjacencyMatrix, x: Any) -> BitMap:
+def non_neighbors(graph: nx.Graph | HalfAdjacencyMatrix, x: Any) -> set | BitMap:
     """
     Returns the non-neighbors of x in graph as a BitMap.
 
@@ -816,9 +816,14 @@ def non_neighbors(graph: nx.Graph | HalfAdjacencyMatrix, x: Any) -> BitMap:
     :return:
     """
     if isinstance(graph, nx.Graph):
-        return BitMap(nx.non_neighbors(graph, x))
+        retval = set(nx.non_neighbors(graph, x))
+    else:
+        retval = set(graph.non_neighbors(x))
 
-    return BitMap(graph.non_neighbors(x))
+    if all(isinstance(x, int) for x in retval):
+        retval = BitMap(retval)
+
+    return retval
 
 
 @lru_cache(maxsize=None)
