@@ -2111,7 +2111,7 @@ def is_cograph(graph: nx.Graph) -> bool:
     # an empty graph is necessarily P_{4}-free: catch case to prevent to_cotree from raising an
     # exception
     # note: currently to_cotree does not accept other types than nx.Graph
-    return not graph or to_cotree(graph) is not False
+    return not graph or to_cotree(graph) is not None
 
 
 @assign_fisc(

@@ -16,13 +16,14 @@ import networkx as nx
 from networkx.utils.misc import arbitrary_element
 from pyroaring import BitMap
 
+from graph_recognition.domination import dominates
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     complement,
     number_of_common_neighbors,
     degree_sequence,
     is_connected, is_co_connected, co_connected_components, is_regular, neighbors, is_complete, number_of_nodes,
-    number_of_edges,
+    number_of_edges, complement_as_adj_mat, non_neighbors,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
@@ -81,9 +82,8 @@ def is_apex(graph: nx.Graph) -> bool:
 
 # not an actual ISGCI class
 @lru_cache(maxsize=None)
-def has_star_cutset(graph: nx.Graph, _complement: bool = False) -> bool:
-    """Returns true if graph has a star-cutset, false otherwise. If _complement
-    is True, checks the property on the complement of the graph instead.
+def has_star_cutset(graph: nx.Graph) -> bool:
+    """Returns True if graph has a star-cutset, False otherwise.
 
     https://doi.org/10.1016/0095-8956(85)90049-8
 
@@ -92,59 +92,21 @@ def has_star_cutset(graph: nx.Graph, _complement: bool = False) -> bool:
     @param graph:
     @param _complement:
     """
-    # See https://doi.org/10.1016/0095-8956(85)90049-8, Theorem 1 page 192: G
-    # has a star-cutset if and only if at least one of two properties hold
-
-    if _complement:
-        # testing property 1: G has a vertex w such that the set of all the
-        # vertices distinct from w and not adjacent to w induces a disconnected
-        # subgraph
-        # since we're in the complement, neighborhoods are in fact
-        # co-neighborhoods, and subgraphs are induced by non-edges; it shouldn't
-        # cost too much to compute complements here, so let's try
-        neighbourhoods = dict()
-        previous_nodes = set(graph.nodes)
-        for w in graph.nodes:
-            neighbourhoods[w] = set(nx.non_neighbors(graph, w))
-            closed_n_w = neighbourhoods[w].union({w})
-            if not is_connected(
-                    complement(graph.subgraph(previous_nodes.difference(closed_n_w)))
-            ):
-                return True
-
-        # testing property 2: complement has at least two nonadjacent vertices,
-        # which holds iff graph has at least one edge
-        if not number_of_edges(graph):
-            return False
-
-        # ... and it has adjacent vertices u, v such that v dominates u (i.e., each
-        # neighbor of u is either v or a neighbor of v)
-        for u, v in nx.non_edges(graph):
-            if (
-                    neighbourhoods[u].difference({v}) <= neighbourhoods[v]
-                    or neighbourhoods[v].difference({u}) <= neighbourhoods[u]
-            ):
-                return True
-
-        return False
-
-    # testing property 1: G has a vertex w such that the set of all the vertices distinct from w
-    # and not adjacent to w induces a disconnected subgraph
-    if any(not is_connected(graph.subgraph(nx.non_neighbors(graph, w))) for w in graph):
-        return True
-
-    # testing property 2: G has at least two nonadjacent vertices:
     if is_complete(graph):
         return False
 
-    # ... and it has adjacent vertices u, v such that v dominates u (i.e., each
-    # neighbor of u is either v or a neighbor of v)
-    for u, v in graph.edges:
-        if (
-                neighbors(graph, u) - BitMap({v}) <= neighbors(graph, v)
-                or neighbors(graph, v) - BitMap({u}) <= neighbors(graph, u)
-        ):
-            return True
+    # See https://doi.org/10.1016/0095-8956(85)90049-8, Theorem 1 page 192: G
+    # has a star-cutset if and only if at least one of two properties hold
+
+    # testing property 1: G has a vertex w such that the set of all the vertices distinct from w
+    # and not adjacent to w induces a disconnected subgraph
+    if any(not is_connected(graph.subgraph(non_neighbors(graph, w))) for w in graph):
+        return True
+
+    # testing property 2: G has at least two nonadjacent vertices (this holds because of our test
+    # at the beginning) and it has adjacent vertices v, w such that w dominates v
+    if any(dominates(graph, w, v) for v, w in graph.edges):
+        return True
 
     return False
 
@@ -196,10 +158,10 @@ def is_unbreakable(graph: nx.Graph) -> bool:
     """
     # from https://onlinelibrary.wiley.com/doi/abs/10.1002/jgt.3190150403 p.351
     # Every unbreakable graph contains a P_4; therefore, a P_4-free graph is NOT unbreakable
-    if is_cograph(graph):
-        return False
+    #if is_cograph(graph):
+    #    return False
 
-    return not has_star_cutset(graph) and not has_star_cutset(graph, _complement=True)
+    return not has_star_cutset(graph) and not has_star_cutset(complement(graph))
 
 
 @assign_class_id("gc_195")

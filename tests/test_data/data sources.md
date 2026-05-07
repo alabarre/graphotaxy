@@ -362,3 +362,9 @@ For n <= 5, we have all mock threshold graphs since all of graphs on <= 5 vertic
 
 For n >= 6, to be more than "fairly certain", you can always increase the timeout, or check that the graphs not in those files are **not**. Until someone finds a formula the number of mock threshold graphs, if that is even feasible.
 
+## unbreakable=gc_277
+
+I encoded by hand the following graphs:
+
+- from https://doi.org/10.1016/0095-8956(90)90028-X
+    - graph L_8 p. 202 
