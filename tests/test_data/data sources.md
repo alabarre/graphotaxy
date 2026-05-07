@@ -373,6 +373,13 @@ I encoded by hand the following graphs:
 Note 1: other instances (Fig 9 and Fig 10-11-12 (those last 3 are isomorphic)) are provided in the paper, but they are painful to encode by hand. I'll wait for Graph Harvester to be available again.
 
 Note 2: my labels may not coincide with the labellings provided in Fig. 3 of the paper, because I only realised its existence afterwards.
+
+I encoded by hand the following graphs:
+
+- from https://www.or.uni-bonn.de/~hougardy/paper/P4Struc.pdf
+    - fig 11 p 18 (left)
+    - fig 11 p 18 (right)
+
     
 
 ## murky=gc_218
