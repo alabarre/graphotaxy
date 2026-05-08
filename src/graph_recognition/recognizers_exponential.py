@@ -116,7 +116,21 @@ def is_s3_co_3k2_co_e_odd_hole_free(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    return is_h_free(graph, ["S_{3}", "co(3K_{2})", "co-E"]) and is_odd_hole_free(graph)
+    return is_h_free(graph, ["S_{3}", "co(3K_{2})", "co(E)"]) and is_odd_hole_free(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_766")
+def is_auto_766(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_766
+
+    :param graph:
+    :return:
+    """
+    return is_s3_co_3k2_co_e_odd_hole_free(graph) and is_h_free(graph, ["co(P_{2} U P_{4})"]) and is_odd_anti_hole_free(
+        graph)
 
 
 @assign_fisc(["C_{5}", "C_{7}"])
@@ -240,6 +254,20 @@ def is_odd_anti_hole_free(graph: nx.Graph) -> bool:
 
     # note: complement_as_adj_mat not usable because of missing attribute graph.adj
     return is_odd_hole_free(complement(graph))
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("gc_976")
+def is_hole_odd_anti_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_976
+
+    :param graph:
+    :return:
+    """
+    return is_hole_free(graph) and is_odd_anti_hole_free(graph)
+
 
 
 @assign_inherited_fisc()
