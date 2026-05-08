@@ -93,6 +93,32 @@ def is_odd_hole_free(graph: nx.Graph) -> bool:
     )
 
 
+@lru_cache(maxsize=None)
+@assign_class_id("gc_968")
+def is_s3_co_3k2_co_e_odd_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_968.html
+
+    :param graph:
+    :return:
+    """
+    return is_h_free(graph, ["S_{3}", "co(3K_{2})", "co-E"]) and is_odd_hole_free(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("gc_968")
+def is_s3_co_3k2_co_e_odd_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_968.html
+
+    :param graph:
+    :return:
+    """
+    return is_h_free(graph, ["S_{3}", "co(3K_{2})", "co-E"]) and is_odd_hole_free(graph)
+
+
 @assign_fisc(["C_{5}", "C_{7}"])
 @lru_cache(maxsize=None)
 @assign_class_id("gc_610")
