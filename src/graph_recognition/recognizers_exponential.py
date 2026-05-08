@@ -22,7 +22,7 @@ from graph_recognition.profitable_hereditary_n_2 import is_comparability, is_co_
     is_co_gem_free
 from graph_recognition.profitable_hereditary_n_3 import is_paw_free, is_triangle_free, is_3k1_free, is_p2up4_free
 from graph_recognition.profitable_hereditary_n_4 import is_c4_free, is_k4_free, is_claw_free, is_hole_free, \
-    is_co_claw_free, is_4k1_free
+    is_co_claw_free, is_4k1_free, is_anti_hole_free
 from graph_recognition.recognizers_n_4 import is_pretty
 from graph_recognition.recognizers_n_5 import is_split_neighbourhood
 from graph_recognition.recognizers_utils import current_module_recognizers, assign_class_id, assign_inherited_fisc, \
@@ -257,6 +257,20 @@ def is_odd_anti_hole_free(graph: nx.Graph) -> bool:
 
 
 @lru_cache(maxsize=None)
+@assign_class_id("gc_977")
+def is_anti_hole_odd_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_977
+
+
+    :param graph:
+    :return:
+    """
+    return is_anti_hole_free(graph) and is_odd_hole_free(graph)
+
+
+@lru_cache(maxsize=None)
 @assign_class_id("gc_976")
 def is_hole_odd_anti_hole_free(graph: nx.Graph) -> bool:
     """
@@ -267,7 +281,6 @@ def is_hole_odd_anti_hole_free(graph: nx.Graph) -> bool:
     :return:
     """
     return is_hole_free(graph) and is_odd_anti_hole_free(graph)
-
 
 
 @assign_inherited_fisc()
