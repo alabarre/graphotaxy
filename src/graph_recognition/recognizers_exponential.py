@@ -273,6 +273,20 @@ def is_co_claw_odd_anti_hole_free(graph: nx.Graph) -> bool:
     return is_co_claw_free(graph) and is_odd_anti_hole_free(graph)
 
 
+@assign_inherited_fisc()
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_2781")
+def is_co_claw_odd_anti_hole_odd_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2781.html
+
+    :param graph:
+    :return:
+    """
+    return is_co_claw_odd_anti_hole_free(graph) and is_odd_hole_free(graph)
+
+
 @lru_cache(maxsize=None)
 @assign_class_id("gc_630")
 def is_even_anti_hole_free(graph: nx.Graph):
