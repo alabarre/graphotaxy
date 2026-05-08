@@ -591,6 +591,21 @@ def is_diamond_even_cycle_free(graph: nx.Graph) -> bool:
     return is_diamond_free(graph) and is_even_cycle_free(graph)
 
 
+
+@assign_inherited_fisc()
+@lru_cache(maxsize=None)
+@assign_class_id("gc_991")
+def is_x37_diamond_even_cycle_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_991.html
+
+    :param graph:
+    :return:
+    """
+    return is_h_free(graph, ["X_{37}"]) and is_diamond_even_cycle_free(graph)
+
+
 # ----- Subclasses of even-anti-cycle-free graphs -------------------------------------------------
 @lru_cache(maxsize=None)
 @assign_class_id("AUTO_2118")
