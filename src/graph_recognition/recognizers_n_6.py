@@ -26,7 +26,7 @@ from graph_recognition.fisc_based_recognizers import (
     is_house_free,
     is_gem_free,
 )
-from graph_recognition.misc_algo import is_h_u_2k1_free
+from graph_recognition.misc_algo import is_h_u_2k1_free, complement_as_adj_mat
 from graph_recognition.profitable_hereditary_n import (
     is_chordal,
     is_co_bipartite,
@@ -511,6 +511,19 @@ def is_proper_helly_circular_arc(graph: nx.Graph) -> bool:
             and is_s3_free(graph)
             and is_h_free(graph, ["W_{4}", "W_{5}", "co(C_{6})", "net"])
     )
+
+
+@assign_class_id("AUTO_2442")
+@lru_cache(maxsize=None)
+def is_co_proper_helly_circular_arc(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2442
+
+    @param graph:
+    @return:
+    """
+    return is_proper_helly_circular_arc(complement_as_adj_mat(graph))
 
 
 @assign_inherited_fisc()
