@@ -22,7 +22,7 @@ from graph_recognition.profitable_hereditary_n_2 import is_comparability, is_co_
     is_co_gem_free
 from graph_recognition.profitable_hereditary_n_3 import is_paw_free, is_triangle_free, is_3k1_free, is_p2up4_free
 from graph_recognition.profitable_hereditary_n_4 import is_c4_free, is_k4_free, is_claw_free, is_hole_free, \
-    is_co_claw_free
+    is_co_claw_free, is_4k1_free
 from graph_recognition.recognizers_n_4 import is_pretty
 from graph_recognition.recognizers_n_5 import is_split_neighbourhood
 from graph_recognition.recognizers_utils import current_module_recognizers, assign_class_id, assign_inherited_fisc, \
@@ -285,6 +285,20 @@ def is_co_claw_odd_anti_hole_odd_hole_free(graph: nx.Graph) -> bool:
     :return:
     """
     return is_co_claw_odd_anti_hole_free(graph) and is_odd_hole_free(graph)
+
+
+@assign_inherited_fisc()
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_2769")
+def is_4k1_odd_anti_hole_odd_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2769.html
+
+    :param graph:
+    :return:
+    """
+    return is_4k1_free(graph) and is_odd_hole_free(graph) and is_odd_anti_hole_free(graph)
 
 
 @lru_cache(maxsize=None)
@@ -589,7 +603,6 @@ def is_diamond_even_cycle_free(graph: nx.Graph) -> bool:
     :return:
     """
     return is_diamond_free(graph) and is_even_cycle_free(graph)
-
 
 
 @assign_inherited_fisc()

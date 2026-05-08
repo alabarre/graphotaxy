@@ -24,8 +24,8 @@ import os
 import sys
 import unittest
 import networkx
-import graph_recognition.profitable_hereditary_n_4
 import graph_recognition.fisc_based_recognizers
+import graph_recognition.profitable_hereditary_n_4
 from readwrite import process_graphs
 
 
@@ -147,33 +147,6 @@ class Test_gc_367_and_related(unittest.TestCase):
 
         print("done.")
 
-    def test_gc_360(self) -> None:
-        """Tests positive instances for class gc_360. gc_360 is an ancestor of gc_367."""
-        print(
-            self._testMethodName.join("[]"),
-            "testing",
-            len(self.positive),
-            "graphs",
-            end=" ",
-        )
-        sys.stdout.flush()
-
-        # looping over enumerate so we can print failed instances
-        for num, graph in enumerate(self.positive):
-            self.assertTrue(
-                graph_recognition.profitable_hereditary_n_4.is_c4_free(graph),
-                "failed on graph number "
-                + str(num)
-                + " / "
-                + str(len(self.positive))
-                + " with node set "
-                + str(graph.nodes)
-                + " and edge set "
-                + str(graph.edges),
-            )
-
-        print("done.")
-
     def test_gc_814(self) -> None:
         """Tests positive instances for class gc_814. gc_814 is an ancestor of gc_367."""
         print(
@@ -189,6 +162,33 @@ class Test_gc_367_and_related(unittest.TestCase):
         for num, graph in enumerate(self.positive):
             self.assertTrue(
                 graph_recognition.fisc_based_recognizers.is_p_free(graph),
+                "failed on graph number "
+                + str(num)
+                + " / "
+                + str(len(self.positive))
+                + " with node set "
+                + str(graph.nodes)
+                + " and edge set "
+                + str(graph.edges),
+            )
+
+        print("done.")
+
+    def test_gc_360(self) -> None:
+        """Tests positive instances for class gc_360. gc_360 is an ancestor of gc_367."""
+        print(
+            self._testMethodName.join("[]"),
+            "testing",
+            len(self.positive),
+            "graphs",
+            end=" ",
+        )
+        sys.stdout.flush()
+
+        # looping over enumerate so we can print failed instances
+        for num, graph in enumerate(self.positive):
+            self.assertTrue(
+                graph_recognition.profitable_hereditary_n_4.is_c4_free(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "
