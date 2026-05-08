@@ -2371,7 +2371,7 @@ def is_gc_815(graph: nx.Graph) -> bool:
     return is_c4_free(graph) and is_p6_free(graph)
 
 
-@assign_fisc(["P_{5}, co(P_{6})"])
+@assign_fisc(["P_{5}", "co(P_{6})"])
 @assign_class_id("gc_677")
 @lru_cache(maxsize=None)
 def is_p5_co_p6_free(graph: nx.Graph) -> bool:
