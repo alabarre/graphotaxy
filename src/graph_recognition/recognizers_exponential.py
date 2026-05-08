@@ -283,6 +283,19 @@ def is_hole_odd_anti_hole_free(graph: nx.Graph) -> bool:
     return is_hole_free(graph) and is_odd_anti_hole_free(graph)
 
 
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_1457")
+def is_bull_hole_odd_anti_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_1457
+
+    :param graph:
+    :return:
+    """
+    return is_bull_free(graph) and is_hole_odd_anti_hole_free(graph)
+
+
 @assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("AUTO_1611")
