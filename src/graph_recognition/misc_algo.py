@@ -10,7 +10,7 @@ from array import array, typecodes
 from collections import defaultdict
 from collections.abc import Hashable
 from functools import lru_cache
-from itertools import combinations
+from itertools import combinations, product
 from math import inf
 from typing import Any, Callable, Iterator, Generator, Dict, Iterable
 
@@ -566,17 +566,20 @@ def enumerate_all_p4s(graph: nx.Graph) -> Generator:
     :param graph:
     :return:
     """
-    # in order to go through fewer subsets, don't examine every 4-subset of vertices; instead,
-    # examine all pairs of edges
-    for e, f in combinations(graph.edges(), 2):
-        p4_candidates = set(e + f)
-        # if set has 4 elements, then e and f are independent, so checking whether they induce a
-        # P_{4} is equivalent to checking that the subgraph has exactly 3 edges
-        if (
-                len(p4_candidates) == 4 and
-                sum(graph.has_edge(x, y) for x, y in combinations(p4_candidates, 2)) == 3
-        ):
-            yield p4_candidates
+    # iterate over every edge {u, v}, and examine all combinations of neighbors of u and v
+    for u, v in graph.edges():
+        # keep only neighbors of u that are not neighbors of v (and conversely) to reduce the
+        # number of elements in the product below
+        n_u = neighbors(graph, u) - neighbors(graph, v)
+        n_v = neighbors(graph, v) - neighbors(graph, u)
+        n_u.remove(v)
+        n_v.remove(u)
+        for x, y in product(n_u, n_v):
+            # by construction, all vertices in p4_candidates are distinct, so no need to check
+            # its length
+            p4_candidates = {x, u, y, v}
+            if sum(graph.has_edge(a, b) for a, b in combinations(p4_candidates, 2)) == 3:
+                yield p4_candidates
 
 
 def twins(graph: nx.Graph) -> DefaultDict[Any, set]:
