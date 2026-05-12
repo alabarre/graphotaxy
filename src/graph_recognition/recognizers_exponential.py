@@ -639,7 +639,6 @@ def is_line_and_perfect(graph: nx.Graph) -> bool:
     return is_line(graph) and is_perfect(graph)
 
 
-@assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("gc_1358")
 def is_line_perfect(graph: nx.Graph) -> bool:

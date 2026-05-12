@@ -1886,7 +1886,7 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     @param graph:
     @return:
     """
-    # note: don't try to optimise this function by using BitMaps or other tricks that assume
+    # note: don't try to optimize this function by using BitMaps or other tricks that assume
     # integer vertices: this function is called by is_wing_triangulated, which feeds it a graph
     # whose vertices are not integers
 
@@ -1895,7 +1895,7 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     if len(graph) <= 3 or is_complete(graph):
         return True
 
-    def _find_chordality_breaker(s=None, treewidth_bound=maxsize):
+    def _find_chordality_breaker(s=None, treewidth_bound=maxsize) -> tuple:
         """
         Given a graph G, starts a max cardinality search (starting from s if s is given and from an
         arbitrary node otherwise) trying to find a non-chordal cycle.

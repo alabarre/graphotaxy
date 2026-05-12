@@ -19,7 +19,6 @@ from itertools import combinations, takewhile
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 from networkx import is_empty
-from pyroaring import BitMap
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
@@ -861,6 +860,8 @@ def is_co_planar(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_co_locally_chordal(graph: nx.Graph) -> bool:
     """
+
+    https://www.graphclasses.org/classes/AUTO_2465
 
     @param graph:
     @return:

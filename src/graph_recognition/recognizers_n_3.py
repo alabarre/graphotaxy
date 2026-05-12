@@ -523,7 +523,7 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
     conditions:
 
         The triangle condition: For every three vertices u, v, w with 1 = d(v,w) < d(u,v) = d(u,w),
-            there is a common neighbor x of v and w such that d(u,x) = d(u,v) + 1.
+            there is a common neighbor x of v and w such that d(u,x) = d(u,v) - 1.
 
         The quadrangle condition: For every four vertices, u, v, w, z with d(v, z) = d(w, z) = 1
             and d(u, v) = d(u, w) = d(u, z) - 1, there is a common neighbor x of v and w such that
@@ -539,22 +539,31 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # Note: the second definition yields a faster algorithm, but currently fails on my test data
-    # sets, so either my implementation is wrong or the paper is. Let us settle for definition 1)
-    # for now
-    for cc in connected_components(graph):
-        for u, v, w in combinations(cc, 3):
-            # do u, v, w form a metric triangle?
-            int_u_v = vertices_on_shortest_paths_between(graph, frozenset([u, v]))
-            int_u_w = vertices_on_shortest_paths_between(graph, frozenset([u, w]))
-            int_v_w = vertices_on_shortest_paths_between(graph, frozenset([v, w]))
+    # using definition 2
+    # 1) check the triangle condition
+    # examine all triplets u, v, w with 1 = d(v,w) ...
+    for u, (v, w) in product(graph, graph.edges):
+        # ... and d(u, v) == d(u, w) > 1
+        if u not in {v, w} and distance(graph, frozenset([u, v])) == distance(graph, frozenset([u, w])) > 1:
+            if all(
+                    distance(graph, frozenset([u, x])) != distance(graph, frozenset([u, v])) - 1
+                    for x in common_neighbors(graph, v, w)
+            ):
+                return False
 
-            if int_u_v & int_u_w == {u} and int_u_v & int_v_w == {v} and int_u_w & int_v_w == {w}:
-                # do all vertices in I(v, w) have the same distance to u?
-                k = distance(graph, frozenset([next(iter(int_u_v)), u]))
-                if any(distance(graph, frozenset([x, u])) != k for x in int_v_w):
-                    return False
+    # 2) check the quadrangle condition
+    for u, v, w, z in combinations(graph, 4):
+        if graph.has_edge(v, z) and graph.has_edge(w, z) and distance(
+                graph, frozenset([u, v])) == distance(graph, frozenset([u, w])) == distance(
+            graph, frozenset([u, z])
+        ) - 1:
+            if all(
+                    distance(graph, frozenset([u, x])) != distance(graph, frozenset([u, v])) - 1
+                    for x in common_neighbors(graph, v, w)
+            ):
+                return False
 
+    # nothing failed
     return True
 
 
@@ -562,9 +571,9 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_probe_co_bipartite(graph: nx.Graph) -> bool:
     """
-    A graph is a probe co-bipartite graph if its vertex set can be partitioned into two sets,
-    probes (P) and non-probes (N), such that N is independent and new edges can be added between
-    non-probes in such a way that the resulting graph is a co-bipartite graph.
+    A graph is probe co-bipartite if its vertex set can be partitioned into two sets probes (P) and
+    non-probes (N), such that N is independent and new edges can be added between non-probes in
+    such a way that the resulting graph is co-bipartite.
 
     https://www.graphclasses.org/classes/gc_1267
 
