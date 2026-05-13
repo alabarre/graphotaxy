@@ -23,7 +23,6 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
-from graph_recognition.domination import has_dominating_set_of_size_at_most_2, has_dominating_triangle_or_p3
 from graph_recognition.misc_algo import (
     is_h_u_k1_free,
     is_h_u_2k1_free,
@@ -31,7 +30,7 @@ from graph_recognition.misc_algo import (
     is_odd_co_clique_free,
     must_contain_a_clique_of_size,
     degree_sequence,
-    must_contain_an_independent_set_of_size, is_connected, complement_as_adj_mat, )
+    must_contain_an_independent_set_of_size, complement_as_adj_mat, )
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
     is_p3_triangle_free,
@@ -288,6 +287,8 @@ def is_p5_free(graph: nx.Graph) -> bool:
     if is_cograph(graph):
         return True
 
+    """
+    # note: this slows down things a lot for large graphs, removing
     # every connected P_{5}-free graph has a dominating clique of size <= 3 or a dominating P_{3}
     # see https://doi.org/10.4230/LIPIcs.ISAAC.2017.16 page 16:4
     if is_connected(graph) and (
@@ -295,7 +296,7 @@ def is_p5_free(graph: nx.Graph) -> bool:
             not has_dominating_triangle_or_p3(graph)
     ):
         return False
-
+    """
     return is_h_free(graph, ["P_{5}"])
 
 
