@@ -17,6 +17,7 @@ digraph G {
     gc_1139 [label="maximum degree 5"]
     gc_1299 [label="maximum degree 1"]
     gc_1362 [label="2-edge-connected"]
+    gc_472 [label="2-subdivision"]
     
     
     
@@ -116,5 +117,27 @@ digraph G {
     // biconnected graphs have minimum degree 2
     gc_771 -> gc_1299
     gc_1299 -> gc_771
-    
+
+    // by construction, 2-subdivisions (gc_472) have minimum degree 2, so we exclude:
+    //  - gc_1099 [texlbl="$k$-regular, fixed $k\ge 3$"]
+    //  - gc_1100 [label="cubic"]
+    //  - gc_1101 [label="4-regular"]
+    //  - gc_1104 [label="5-regular"]
+    //  - gc_1105 [texlbl="$k$-regular, fixed $k\ge 6$"]
+    //  - gc_1299 [label="maximum degree 1"]
+    gc_472 -> gc_1099
+    gc_472 -> gc_1100
+    gc_472 -> gc_1101
+    gc_472 -> gc_1104
+    gc_472 -> gc_1105
+    gc_472 -> gc_1299
+    // and the other way around
+    gc_1099 -> gc_472
+    gc_1100 -> gc_472
+    gc_1101 -> gc_472
+    gc_1104 -> gc_472
+    gc_1105 -> gc_472
+    gc_1299 -> gc_472
+
+
 }

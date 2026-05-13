@@ -398,7 +398,7 @@ The following unbreakable graphs are also known to be murky:
 
 ## 2-subdivision=gc_472
 
-for ((i=1; i<10; i++)); do nauty-geng -cl $i | nauty-subdivideg -k2 > 2-subdivisions-from-connected-$i.g6; done
+`for ((i=1; i<10; i++)); do nauty-geng -cl $i | nauty-subdivideg -k2 > 2-subdivisions-from-connected-$i.g6; done`
 
 The "from-connected-$i" means we subdivided twice each edge of a connected graph on i vertices. Don't go for a higher value than 10, file will be huge (killed program when it was about 2.6G).
 
@@ -406,3 +406,11 @@ The "from-connected-$i" means we subdivided twice each edge of a connected graph
 
 Obtained from 2-subdivision by complementing
 
+for file in $(ls *g6); do nauty-complg -l $file > co-$file; done
+
+
+## 2-subdivision-and-planar=gc_675
+Obtained from 2-subdivision by filtering planar graphs
+
+
+for file in $(ls *g6); do nauty-planarg $file > planar-$file; done
