@@ -13,6 +13,7 @@ Recognizers in this file have running time O(n^6).
 import os
 from functools import lru_cache
 
+# ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
@@ -22,7 +23,6 @@ from graph_recognition.recognizers_utils import (
     current_module_recognizers, assign_inherited_fisc, assign_class_id,
 )
 
-# ----- Third-party imports -----------------------------------------------------------------------
 
 # Recognizers -------------------------------------------------------------------------------------
 @assign_inherited_fisc()
@@ -37,6 +37,7 @@ def is_p6_hole_house_free(graph: nx.Graph) -> bool:
     :return:
     """
     return is_hole_free(graph) and is_house_free(graph) and is_p6_free(graph)
+
 
 # This code segment must always be at the END of a recognizer file --------------------------------
 RECOGNIZERS = current_module_recognizers(

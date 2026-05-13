@@ -389,3 +389,8 @@ The following unbreakable graphs are also known to be murky:
 - from https://doi.org/10.1016/0095-8956(90)90028-X
     - graph L_8 p. 202 (proven to be murky p. 232-233)
     - graph L_9 p. 202 (proven to be murky p. 232-233)
+
+    
+## 4-regular=gc_1101
+
+`for i in {5..15}; do nauty-genquarticg $i -lc > connected-4-regular-$i.g6; done`

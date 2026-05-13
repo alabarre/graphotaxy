@@ -459,6 +459,7 @@ def is_auto_136(graph: nx.Graph) -> bool:
     return is_k_clique_free(graph, 5)
 
 
+@assign_fisc(["5K_{1}"])
 @assign_class_id("gc_1377")
 @lru_cache(maxsize=None)
 def is_gc_1377(graph: nx.Graph) -> bool:
@@ -474,6 +475,7 @@ def is_gc_1377(graph: nx.Graph) -> bool:
     return is_h_free(graph, ["5K_{1}"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_430")
 @lru_cache(maxsize=None)
 def is_gc_430(graph: nx.Graph) -> bool:
@@ -1098,6 +1100,7 @@ def is_gc_438(graph: nx.Graph) -> bool:
     return is_h_free(graph, ["fork", "co(P)"])
 
 
+@assign_fisc(["fork", "bull"])
 @assign_class_id("gc_397")
 @lru_cache(maxsize=None)
 def is_gc_397(graph: nx.Graph) -> bool:
@@ -1337,6 +1340,7 @@ def is_gc_518(graph: nx.Graph) -> bool:
     return is_co_gem_free(graph) and is_c5_free(graph) and is_gem_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_519")
 @lru_cache(maxsize=None)
 def is_gc_519(graph: nx.Graph) -> bool:
@@ -1351,6 +1355,7 @@ def is_gc_519(graph: nx.Graph) -> bool:
     return is_co_gem_free(graph) and is_bull_free(graph) and is_gem_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("AUTO_1502")
 @lru_cache(maxsize=None)
 def is_auto_1502(graph: nx.Graph) -> bool:
@@ -1365,6 +1370,7 @@ def is_auto_1502(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_bull_free(graph) and is_co_fork_free(graph)
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_517")
 @lru_cache(maxsize=None)
 def is_gc_517(graph: nx.Graph) -> bool:
@@ -1379,6 +1385,7 @@ def is_gc_517(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_c5_free(graph) and is_gem_free(graph)
 
 
+@assign_inherited_fisc(["P"])
 @assign_class_id("gc_404")
 @lru_cache(maxsize=None)
 def is_gc_404(graph: nx.Graph) -> bool:
@@ -1393,6 +1400,7 @@ def is_gc_404(graph: nx.Graph) -> bool:
     return is_p5_free(graph) and is_k23_free(graph) and is_h_free(graph, ["P"])
 
 
+@assign_inherited_fisc(["butterfly"])
 @assign_class_id("AUTO_1454")
 @lru_cache(maxsize=None)
 def is_auto_1454(graph: nx.Graph) -> bool:
@@ -1404,11 +1412,10 @@ def is_auto_1454(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return (
-            is_cograph(graph) and is_k2_u_k3_free(graph) and is_h_free(graph, ["butterfly"])
-    )
+    return is_cograph(graph) and is_k2_u_k3_free(graph) and is_h_free(graph, ["butterfly"])
 
 
+@assign_inherited_fisc()
 @assign_class_id("gc_477")
 @lru_cache(maxsize=None)
 def is_gc_477(graph: nx.Graph) -> bool:
@@ -6326,6 +6333,15 @@ def is_auto_2248(graph: nx.Graph) -> bool:
 
 
 # All recognizers for patterns on at most 11 vertices ---------------------------------------------
+@assign_fisc([
+    "net",
+    "X_{42}",
+    "co(T_{2})",
+    "co(X_{205})",
+    "co(X_{207})",
+    "co(X_{206})",
+    "co(X_{208})",
+])
 @assign_class_id("gc_1330")
 @lru_cache(maxsize=None)
 def is_gc_1330(graph: nx.Graph) -> bool:
@@ -6353,6 +6369,7 @@ def is_gc_1330(graph: nx.Graph) -> bool:
     )
 
 
+@assign_fisc(["S_{3}", "T_{2}", "co(X_{42})", "X_{205}", "X_{207}", "X_{206}", "X_{208}"])
 @assign_class_id("AUTO_1892")
 @lru_cache(maxsize=None)
 def is_auto_1892(graph: nx.Graph) -> bool:
@@ -6370,6 +6387,25 @@ def is_auto_1892(graph: nx.Graph) -> bool:
     )
 
 
+@assign_fisc([
+    "X_{45}",
+    "K_{3,3}",
+    "H",
+    "A",
+    "co(X_{42})",
+    "X_{46}",
+    "X_{52}",
+    "X_{49}",
+    "X_{50}",
+    "X_{48}",
+    "X_{51}",
+    "X_{47}",
+    "X_{53}",
+    "X_{55}",
+    "X_{56}",
+    "X_{54}",
+    "X_{57}",
+])
 @assign_class_id("gc_550")
 @lru_cache(maxsize=None)
 def is_gc_550(graph: nx.Graph) -> bool:
@@ -6406,6 +6442,25 @@ def is_gc_550(graph: nx.Graph) -> bool:
     )
 
 
+@assign_fisc([
+    "co(H)",
+    "co(A)",
+    "2K_{3}",
+    "co(X_{45})",
+    "X_{42}",
+    "co(X_{46})",
+    "co(X_{53})",
+    "co(X_{51})",
+    "co(X_{48})",
+    "co(X_{52})",
+    "co(X_{49})",
+    "co(X_{50})",
+    "co(X_{47})",
+    "co(X_{55})",
+    "co(X_{54})",
+    "co(X_{56})",
+    "co(X_{57})",
+])
 @assign_class_id("AUTO_2092")
 @lru_cache(maxsize=None)
 def is_auto_2092(graph: nx.Graph) -> bool:
@@ -6444,6 +6499,19 @@ def is_auto_2092(graph: nx.Graph) -> bool:
 
 
 # All recognizers for patterns on at most 13 vertices ---------------------------------------------
+@assign_inherited_fisc([
+    "W_{5}",
+    "co(X_{39})",
+    "X_{88}",
+    "co(X_{38})",
+    "co(C_{7})",
+    "X_{89}",
+    "X_{86}",
+    "X_{90}",
+    "X_{194}",
+    "co(X_{195})",
+    "co(X_{196})",
+])
 @assign_class_id("gc_1031")
 @lru_cache(maxsize=None)
 def is_gc_1031(graph: nx.Graph) -> bool:
@@ -6478,6 +6546,19 @@ def is_gc_1031(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc([
+    "co(W_{5})",
+    "co(X_{88})",
+    "X_{39}",
+    "co(X_{90})",
+    "C_{7}",
+    "co(X_{86})",
+    "co(X_{89})",
+    "X_{38}",
+    "co(X_{194})",
+    "X_{195}",
+    "X_{196}",
+])
 @assign_class_id("AUTO_2292")
 @lru_cache(maxsize=None)
 def is_auto_2292(graph: nx.Graph) -> bool:

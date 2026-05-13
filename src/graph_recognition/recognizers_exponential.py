@@ -82,6 +82,7 @@ def is_odd_hole_free(graph: nx.Graph) -> bool:
     # if graph has no odd cycles, then it has no odd holes
     if is_bipartite(graph):
         return True
+
     # if graph has odd cycles but no triangles, then it has an odd hole
     elif is_triangle_free(graph):
         return False

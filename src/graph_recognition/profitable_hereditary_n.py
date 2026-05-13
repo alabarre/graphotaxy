@@ -29,6 +29,7 @@ from tralda.cograph import to_cotree
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
+from graph_recognition.directed_graph import DirectedGraph
 from graph_recognition.misc_algo import (
     is_complete,
     degree_sequence,
@@ -82,7 +83,9 @@ def is_forest(graph: nx.Graph) -> bool:
     if len(graph) == 0:
         return True
 
-    return all(len(c) - 1 == number_of_edges(c) for c in map(graph.subgraph, connected_components(graph)))
+    return all(
+        len(c) - 1 == number_of_edges(c) for c in map(graph.subgraph, connected_components(graph))
+    )
 
 
 @lru_cache(maxsize=None)
@@ -1545,7 +1548,9 @@ def is_gc_1307(graph: nx.Graph) -> bool:
     """
     # a graph is (C_{4}, co(P_{3}), triangle)-free if it is either a star, or edgeless
     n = number_of_nodes(graph)
-    return not number_of_edges(graph) or degree_sequence(graph) == array("Q", [n - 1] + [1] * (n - 1))
+    return not number_of_edges(graph) or degree_sequence(graph) == array(
+        "Q", [n - 1] + [1] * (n - 1)
+    )
 
 
 @assign_fisc(["triangle", "P_{4}", "2K_{2}", "C_{4}"])
@@ -1705,7 +1710,7 @@ class MyLRPlanarity(LRPlanarity):
         self.parent_edge = defaultdict(lambda: None)
 
         # oriented DFS graph
-        self.DG = nx.DiGraph()
+        self.DG = DirectedGraph()
         self.DG.add_nodes_from(G.nodes)
 
         self.adjs = {}
@@ -1792,8 +1797,7 @@ class MyLRPlanarity(LRPlanarity):
 @lru_cache(maxsize=None)
 def is_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
-    Returns True iff graph is bipartite. This is a mere cached call to networkx's function, except
-    for a preliminary check to see if the call is actually needed.
+    Returns True iff graph is bipartite.
 
     https://www.graphclasses.org/classes/gc_69
 
@@ -2044,8 +2048,8 @@ def is_gc_1314(graph: nx.Graph) -> bool:
     return any(is_complete(graph.subgraph(all_vertices - {v})) for v in graph.nodes)
 
 
-# partial fisc: graph is cycle-free, but we will obtain those cycles through a call to is_tree
-@assign_fisc(["T_{2}"])
+# partial fisc: graph is cycle-free
+@assign_fisc(["T_{2}", "triangle", "C_{4}", "C_{5}", "C_{6}", "C_{7}", "C_{8}"])
 @assign_class_id("gc_784")
 @lru_cache(maxsize=None)
 def is_caterpillar(graph: nx.Graph) -> bool:
@@ -2073,8 +2077,8 @@ def is_caterpillar(graph: nx.Graph) -> bool:
     ) and is_tree(pruned_graph)
 
 
-# partial fisc: graph is cycle-free, but we will obtain those cycles through a call to is_tree
-@assign_fisc(["T_{3}"])
+# partial fisc: graph is cycle-free
+@assign_fisc(["T_{3}", "triangle", "C_{4}", "C_{5}", "C_{6}", "C_{7}", "C_{8}"])
 @assign_class_id("gc_1341")
 @lru_cache(maxsize=None)
 def is_lobster(graph: nx.Graph) -> bool:
@@ -2630,8 +2634,6 @@ def is_planar(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    # this is merely a call to networkx's algorithm, except we avoid it if graph has too many edges
-    # to be planar
     n = number_of_nodes(graph)
     m = number_of_edges(graph)
 
