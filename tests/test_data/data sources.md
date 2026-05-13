@@ -394,3 +394,15 @@ The following unbreakable graphs are also known to be murky:
 ## 4-regular=gc_1101
 
 `for i in {5..15}; do nauty-genquarticg $i -lc > connected-4-regular-$i.g6; done`
+
+
+## 2-subdivision=gc_472
+
+for ((i=1; i<10; i++)); do nauty-geng -cl $i | nauty-subdivideg -k2 > 2-subdivisions-from-connected-$i.g6; done
+
+The "from-connected-$i" means we subdivided twice each edge of a connected graph on i vertices. Don't go for a higher value than 10, file will be huge (killed program when it was about 2.6G).
+
+## co-2-subdivision=gc_1078
+
+Obtained from 2-subdivision by complementing
+
