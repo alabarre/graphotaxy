@@ -109,7 +109,7 @@ digraph G {
     gc_1105 -> gc_110 // k >= 6
     
     
-    // other classes ----------------------------------------------------------
+    // other classes ------------------------------------------------------------------------------
     // unbreakable graphs contain a P_4
     gc_277 -> gc_152
     gc_152 -> gc_277 
@@ -118,26 +118,26 @@ digraph G {
     gc_771 -> gc_1299
     gc_1299 -> gc_771
 
-    // by construction, 2-subdivisions (gc_472) have minimum degree 2, so we exclude:
+    // by construction, 2-subdivisions (gc_472) cannot have minimum degree > 2, so we exclude:
     //  - gc_1099 [texlbl="$k$-regular, fixed $k\ge 3$"]
     //  - gc_1100 [label="cubic"]
     //  - gc_1101 [label="4-regular"]
     //  - gc_1104 [label="5-regular"]
     //  - gc_1105 [texlbl="$k$-regular, fixed $k\ge 6$"]
-    //  - gc_1299 [label="maximum degree 1"]
+    //
+    // we do not exclude gc_1299 [label="maximum degree 1"], because a 2-subdivision might consist
+    // of isolated vertices if the original graph to subdivide was edgeless
     gc_472 -> gc_1099
     gc_472 -> gc_1100
     gc_472 -> gc_1101
     gc_472 -> gc_1104
     gc_472 -> gc_1105
-    gc_472 -> gc_1299
     // and the other way around
     gc_1099 -> gc_472
     gc_1100 -> gc_472
     gc_1101 -> gc_472
     gc_1104 -> gc_472
     gc_1105 -> gc_472
-    gc_1299 -> gc_472
 
 
 }

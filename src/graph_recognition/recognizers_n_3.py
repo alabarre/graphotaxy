@@ -559,7 +559,7 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
         ) - 1:
             if all(
                     distance(graph, frozenset([u, x])) != distance(graph, frozenset([u, v])) - 1
-                    for x in common_neighbors(graph, v, w)
+                    for x in set(common_neighbors(graph, v, w)) - {u}
             ):
                 return False
 
