@@ -32,7 +32,7 @@ from graph_recognition.fisc_based_recognizers import (
     is_bull_free,
     is_fork_free,
     is_gc_628,
-    is_k14_free,
+    is_k14_free, is_xc_10_free, is_chordal_and_gem_free,
 )
 from graph_recognition.misc_algo import (
     empty_graph_by_removing_edges_and_incident_edges,
@@ -228,19 +228,7 @@ def is_cnplus4_dart_gem_free(graph: nx.Graph) -> bool:
     @return:
     """
     # note: dart-free is not a class in ISGCI
-    return is_chordal(graph) and is_gem_free(graph) and is_h_free(graph, ["dart"])
-
-
-@assign_inherited_fisc()
-@assign_class_id("gc_307")
-@lru_cache(maxsize=None)
-def is_chordal_and_gem_free(graph: nx.Graph) -> bool:
-    """
-
-    @param graph:
-    @return:
-    """
-    return is_chordal(graph) and is_gem_free(graph)
+    return is_chordal_and_gem_free(graph) and is_h_free(graph, ["dart"])
 
 
 @assign_inherited_fisc()
@@ -335,22 +323,6 @@ def is_co_cnplus4_co_dart_co_gem_free(graph: nx.Graph) -> bool:
     @return:
     """
     return is_co_gem_free(graph) and is_co_chordal(graph) and is_h_free(graph, ["co-dart"])
-
-
-@assign_inherited_fisc()
-@assign_class_id("gc_613")
-@lru_cache(maxsize=None)
-def is_xc_10_free(graph: nx.Graph) -> bool:
-    """
-    Characterisation found by my xc_unpacker program
-
-    @param graph:
-    @return:
-    """
-    return is_k23_free(graph) and is_h_free(
-        graph,
-        ["co(K_{3} U 2K_{1})", "co(P_{2} U P_{3})", "co(P_{3} U 2K_{1})"],
-    )
 
 
 @assign_inherited_fisc()

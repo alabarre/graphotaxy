@@ -29,6 +29,7 @@ Other generators I wrote are available in the `./tests/generators` directory. I'
 - `nauty-complg` builds the complement of a graph, so if you have a dataset for class C, you can obtain a dataset for its complement;
 - `nauty-linegraphg` builds the line graph of a graph, so if you have a dataset for class C, you can obtain a dataset for the class "line graph of C";
 - `nauty-pickg` selects graphs from a given dataset according to various criteria, so if you have a dataset for class C, you can obtain datasets for various subclasses of C, depending on the capabilities of `nauty-pickg`.
+- `nauty-planarg` selects planar graphs from a given dataset 
 
 # Compressed formats
 
@@ -414,3 +415,10 @@ Obtained from 2-subdivision by filtering planar graphs
 
 
 for file in $(ls *g6); do nauty-planarg $file > planar-$file; done
+
+
+## 5-regular=gc_1104
+
+for i in {6,8,10,12}; do nauty-geng $i -d5 -D5 -c > 5-regular-connected-$i.g6; done
+
+too many graphs for n=14

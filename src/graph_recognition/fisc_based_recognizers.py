@@ -36,7 +36,7 @@ from graph_recognition.profitable_hereditary_n import (
     is_p3_triangle_free,
     is_split,
     is_p3_free,
-    is_2k2_free, is_forest,
+    is_2k2_free, is_forest, is_chordal,
 )
 from graph_recognition.profitable_hereditary_n_2 import (
     is_co_diamond_free,
@@ -362,6 +362,18 @@ def is_gem_free(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return is_h_free(graph, ["gem"])
+
+
+@assign_inherited_fisc()
+@assign_class_id("gc_307")
+@lru_cache(maxsize=None)
+def is_chordal_and_gem_free(graph: nx.Graph) -> bool:
+    """
+
+    @param graph:
+    @return:
+    """
+    return is_chordal(graph) and is_gem_free(graph)
 
 
 @assign_fisc(["K_{2,3}"])
@@ -2099,6 +2111,22 @@ def is_xc_9_free(graph: nx.Graph) -> bool:
             "fork",
         ],
     )
+    )
+
+
+@assign_inherited_fisc()
+@assign_class_id("gc_613")
+@lru_cache(maxsize=None)
+def is_xc_10_free(graph: nx.Graph) -> bool:
+    """
+    Characterisation found by my xc_unpacker program
+
+    @param graph:
+    @return:
+    """
+    return is_k23_free(graph) and is_h_free(
+        graph,
+        ["co(K_{3} U 2K_{1})", "co(P_{2} U P_{3})", "co(P_{3} U 2K_{1})"],
     )
 
 
