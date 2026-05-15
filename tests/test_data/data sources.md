@@ -437,3 +437,16 @@ also can be generated directly: nauty-geng -cbF [SIZE]
 generated from chordal:
 
 for file in $(ls *g6); do nauty-planarg $file > planar-$file; done
+
+
+## bipartite-and-planar=gc_1069
+
+generated from planar
+
+for file in $(ls *g6); do nauty-pickg -b $file ../bipartite-and-planar\=gc_1069/bipartite-$file; done
+
+
+## cubic=gc_1100
+
+
+for i in {4..18}; do nauty-geng $i -cl -d3 -D3 > cubic-$i.g6; done
