@@ -430,3 +430,10 @@ generated from claw-free:
 
 for file in $(ls *g6); do nauty-pickg -b $file > bipartite-$file; done
 
+also can be generated directly: nauty-geng -cbF [SIZE]
+
+## chordal-and-planar\=gc_985
+
+generated from chordal:
+
+for file in $(ls *g6); do nauty-planarg $file > planar-$file; done
