@@ -2680,6 +2680,10 @@ def is_outerplanar(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
+    # trivial but mandatory cases
+    if not number_of_edges(graph):
+        return True
+
     # avoid work if graph has too many edges
     if number_of_edges(graph) > 2 * number_of_nodes(graph) - 3:
         return False

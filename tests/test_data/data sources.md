@@ -422,3 +422,11 @@ for file in $(ls *g6); do nauty-planarg $file > planar-$file; done
 for i in {6,8,10,12}; do nauty-geng $i -d5 -D5 -c > 5-regular-connected-$i.g6; done
 
 too many graphs for n=14
+
+
+## bipartite-and-claw-free=gc_525
+
+generated from claw-free:
+
+for file in $(ls *g6); do nauty-pickg -b $file > bipartite-$file; done
+
