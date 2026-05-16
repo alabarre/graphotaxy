@@ -86,7 +86,7 @@ def maximum_matching(graph: nx.Graph) -> dict:
             result.update(nx.bipartite.maximum_matching(graph.subgraph(cc)))
         return result
 
-    return dict(nx.max_weight_matching(graph))
+    return dict(nx.max_weight_matching(graph, maxcardinality=True))
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -175,6 +175,8 @@ def is_claw_free(graph: nx.Graph) -> bool:
     if graph and degree_sequence(graph)[0] > 2 * number_of_edges(graph) ** 0.5:
         return False
 
+    # note: commenting the trick below, issues getting it to work with HalfAdjacencyMatrix
+    """
     # every claw-free graph of even order has a perfect matching
     # https://www.combinatorics.org/ojs/index.php/eljc/article/download/v13i1r59/pdf/, thm. 5 p. 4
     # Note: they don't mention connectedness in this quoted result, but obviously it is required:
@@ -184,6 +186,7 @@ def is_claw_free(graph: nx.Graph) -> bool:
     ):
         return False
 
+    """
     # no way around it: check membership
     return is_h_free(graph, ["claw"])
 

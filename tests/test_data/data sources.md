@@ -49,6 +49,12 @@ generated from the datasets in connected by my filter.py program
 
 `for ((i=3; i<15; i++)); do nauty-genktreeg -k3 -l $i 3-trees-$i.g6; done`
 
+## 3-tree-and-planar=gc_984
+
+generated from 3-tree
+
+for file in $(ls *g6); do nauty-planarg $file > planar-$file; done
+
 
 ## biconnected=gc_771
 
