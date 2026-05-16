@@ -25,10 +25,10 @@ import sys
 import unittest
 import networkx
 import graph_recognition.profitable_hereditary_n_3
-import graph_recognition.profitable_hereditary_n
-import graph_recognition.profitable_hereditary_n_2
 import graph_recognition.profitable_hereditary_n_4
 import graph_recognition.recognizers_n_8
+import graph_recognition.profitable_hereditary_n_2
+import graph_recognition.profitable_hereditary_n
 from readwrite import process_graphs
 
 
@@ -97,64 +97,6 @@ class Test_gc_1104_and_related(unittest.TestCase):
 
         print("done.")
 
-    def test_gc_528(self) -> None:
-        """Tests negative instances for class gc_528. gc_528 is a descendant of excluded class gc_717."""
-        print(
-            self._testMethodName.join("[]"),
-            "testing",
-            len(self.positive),
-            "graphs",
-            end=" ",
-        )
-        sys.stdout.flush()
-
-        # looping over enumerate so we can print failed instances
-        for num, graph in enumerate(self.positive):
-            self.assertFalse(
-                graph_recognition.recognizers_n_8.is_c4_c5_c6_c7_c8_xc11_claw_diamond_free(
-                    graph
-                ),
-                "failed on graph number "
-                + str(num)
-                + " / "
-                + str(len(self.positive))
-                + " with node set "
-                + str(graph.nodes)
-                + " and edge set "
-                + str(graph.edges),
-            )
-
-        print("done.")
-
-    def test_gc_1094(self) -> None:
-        """Tests negative instances for class gc_1094. gc_1094 is a descendant of excluded class gc_717."""
-        print(
-            self._testMethodName.join("[]"),
-            "testing",
-            len(self.positive),
-            "graphs",
-            end=" ",
-        )
-        sys.stdout.flush()
-
-        # looping over enumerate so we can print failed instances
-        for num, graph in enumerate(self.positive):
-            self.assertFalse(
-                graph_recognition.profitable_hereditary_n_3.is_locally_connected_and_maximum_degree_4(
-                    graph
-                ),
-                "failed on graph number "
-                + str(num)
-                + " / "
-                + str(len(self.positive))
-                + " with node set "
-                + str(graph.nodes)
-                + " and edge set "
-                + str(graph.edges),
-            )
-
-        print("done.")
-
     def test_gc_921(self) -> None:
         """Tests negative instances for class gc_921. gc_921 is a descendant of excluded class gc_717."""
         print(
@@ -170,33 +112,6 @@ class Test_gc_1104_and_related(unittest.TestCase):
         for num, graph in enumerate(self.positive):
             self.assertFalse(
                 graph_recognition.profitable_hereditary_n_3.is_gc_921(graph),
-                "failed on graph number "
-                + str(num)
-                + " / "
-                + str(len(self.positive))
-                + " with node set "
-                + str(graph.nodes)
-                + " and edge set "
-                + str(graph.edges),
-            )
-
-        print("done.")
-
-    def test_AUTO_823(self) -> None:
-        """Tests negative instances for class AUTO_823. AUTO_823 is a descendant of excluded class gc_717."""
-        print(
-            self._testMethodName.join("[]"),
-            "testing",
-            len(self.positive),
-            "graphs",
-            end=" ",
-        )
-        sys.stdout.flush()
-
-        # looping over enumerate so we can print failed instances
-        for num, graph in enumerate(self.positive):
-            self.assertFalse(
-                graph_recognition.profitable_hereditary_n.is_xc11_odd_cycle_free(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "
@@ -238,8 +153,8 @@ class Test_gc_1104_and_related(unittest.TestCase):
 
         print("done.")
 
-    def test_gc_1153(self) -> None:
-        """Tests negative instances for class gc_1153. gc_1153 is a descendant of excluded class gc_717."""
+    def test_gc_919(self) -> None:
+        """Tests negative instances for class gc_919. gc_919 is a descendant of excluded class gc_717."""
         print(
             self._testMethodName.join("[]"),
             "testing",
@@ -252,38 +167,7 @@ class Test_gc_1104_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertFalse(
-                graph_recognition.profitable_hereditary_n.is_bipartite_and_maximum_degree_4_and_planar(
-                    graph
-                ),
-                "failed on graph number "
-                + str(num)
-                + " / "
-                + str(len(self.positive))
-                + " with node set "
-                + str(graph.nodes)
-                + " and edge set "
-                + str(graph.edges),
-            )
-
-        print("done.")
-
-    def test_gc_718(self) -> None:
-        """Tests negative instances for class gc_718. gc_718 is a descendant of excluded class gc_717."""
-        print(
-            self._testMethodName.join("[]"),
-            "testing",
-            len(self.positive),
-            "graphs",
-            end=" ",
-        )
-        sys.stdout.flush()
-
-        # looping over enumerate so we can print failed instances
-        for num, graph in enumerate(self.positive):
-            self.assertFalse(
-                graph_recognition.profitable_hereditary_n_3.is_xc11_claw_diamond_free(
-                    graph
-                ),
+                graph_recognition.profitable_hereditary_n_4.is_gc_919(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "
@@ -352,8 +236,8 @@ class Test_gc_1104_and_related(unittest.TestCase):
 
         print("done.")
 
-    def test_gc_919(self) -> None:
-        """Tests negative instances for class gc_919. gc_919 is a descendant of excluded class gc_717."""
+    def test_gc_1153(self) -> None:
+        """Tests negative instances for class gc_1153. gc_1153 is a descendant of excluded class gc_717."""
         print(
             self._testMethodName.join("[]"),
             "testing",
@@ -366,7 +250,123 @@ class Test_gc_1104_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertFalse(
-                graph_recognition.profitable_hereditary_n_4.is_gc_919(graph),
+                graph_recognition.profitable_hereditary_n.is_bipartite_and_maximum_degree_4_and_planar(
+                    graph
+                ),
+                "failed on graph number "
+                + str(num)
+                + " / "
+                + str(len(self.positive))
+                + " with node set "
+                + str(graph.nodes)
+                + " and edge set "
+                + str(graph.edges),
+            )
+
+        print("done.")
+
+    def test_AUTO_823(self) -> None:
+        """Tests negative instances for class AUTO_823. AUTO_823 is a descendant of excluded class gc_717."""
+        print(
+            self._testMethodName.join("[]"),
+            "testing",
+            len(self.positive),
+            "graphs",
+            end=" ",
+        )
+        sys.stdout.flush()
+
+        # looping over enumerate so we can print failed instances
+        for num, graph in enumerate(self.positive):
+            self.assertFalse(
+                graph_recognition.profitable_hereditary_n.is_xc11_odd_cycle_free(graph),
+                "failed on graph number "
+                + str(num)
+                + " / "
+                + str(len(self.positive))
+                + " with node set "
+                + str(graph.nodes)
+                + " and edge set "
+                + str(graph.edges),
+            )
+
+        print("done.")
+
+    def test_gc_528(self) -> None:
+        """Tests negative instances for class gc_528. gc_528 is a descendant of excluded class gc_717."""
+        print(
+            self._testMethodName.join("[]"),
+            "testing",
+            len(self.positive),
+            "graphs",
+            end=" ",
+        )
+        sys.stdout.flush()
+
+        # looping over enumerate so we can print failed instances
+        for num, graph in enumerate(self.positive):
+            self.assertFalse(
+                graph_recognition.recognizers_n_8.is_c4_c5_c6_c7_c8_xc11_claw_diamond_free(
+                    graph
+                ),
+                "failed on graph number "
+                + str(num)
+                + " / "
+                + str(len(self.positive))
+                + " with node set "
+                + str(graph.nodes)
+                + " and edge set "
+                + str(graph.edges),
+            )
+
+        print("done.")
+
+    def test_gc_718(self) -> None:
+        """Tests negative instances for class gc_718. gc_718 is a descendant of excluded class gc_717."""
+        print(
+            self._testMethodName.join("[]"),
+            "testing",
+            len(self.positive),
+            "graphs",
+            end=" ",
+        )
+        sys.stdout.flush()
+
+        # looping over enumerate so we can print failed instances
+        for num, graph in enumerate(self.positive):
+            self.assertFalse(
+                graph_recognition.profitable_hereditary_n_3.is_xc11_claw_diamond_free(
+                    graph
+                ),
+                "failed on graph number "
+                + str(num)
+                + " / "
+                + str(len(self.positive))
+                + " with node set "
+                + str(graph.nodes)
+                + " and edge set "
+                + str(graph.edges),
+            )
+
+        print("done.")
+
+    def test_gc_1094(self) -> None:
+        """Tests negative instances for class gc_1094. gc_1094 is a descendant of excluded class gc_717."""
+        print(
+            self._testMethodName.join("[]"),
+            "testing",
+            len(self.positive),
+            "graphs",
+            end=" ",
+        )
+        sys.stdout.flush()
+
+        # looping over enumerate so we can print failed instances
+        for num, graph in enumerate(self.positive):
+            self.assertFalse(
+                graph_recognition.profitable_hereditary_n_3.is_locally_connected_and_maximum_degree_4(
+                    graph
+                ),
                 "failed on graph number "
                 + str(num)
                 + " / "

@@ -273,6 +273,7 @@ Source: http://users.cecs.anu.edu.au/~bdm/data/graphs.html
 - sr401224.g6         (28 graphs)
 - sr65321516some.g6   (32 graphs, maybe incomplete).
 
+Note: none of them are planar, so we cannot create a dataset for class planar ∩ strongly regular gc_1194 from them.
 
 ## trees=gc_342
 
@@ -456,3 +457,16 @@ for file in $(ls *g6); do nauty-pickg -b $file ../bipartite-and-planar\=gc_1069/
 
 
 for i in {4..18}; do nauty-geng $i -cl -d3 -D3 > cubic-$i.g6; done
+
+
+## planar-and-triangle-free=gc_869$ 
+
+for i in {1..12}; do nauty-geng $i -clt | nauty-planarg > planar-connected-triangle-free-$i.g6 ; done
+
+## planar-of-maximum-degree-4=gc_909
+
+for i in {1..11}; do nauty-geng $i -cl -D4 | nauty-planarg > planar-connected-maxdeg4-$i.g6 ; done
+
+## 4-regular-and-planar=gc_1103
+
+for i in {5..14}; do nauty-geng $i -cl -D4 -d4 | nauty-planarg > planar-connected-4-regular-$i.g6 ; done
