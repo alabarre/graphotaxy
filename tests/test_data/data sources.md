@@ -470,3 +470,13 @@ for i in {1..11}; do nauty-geng $i -cl -D4 | nauty-planarg > planar-connected-ma
 ## 4-regular-and-planar=gc_1103
 
 for i in {5..14}; do nauty-geng $i -cl -D4 -d4 | nauty-planarg > planar-connected-4-regular-$i.g6 ; done
+
+
+## (C4,triangle)-free-and-planar=gc_912
+
+for i in {1..14}; do nauty-geng $i -cltf | nauty-planarg > connected-C4-free-triangle-free-planar-$i.g6; done
+
+## planar-of-maximum-degree-3=gc_412
+
+for i in {1..12}; do nauty-geng $i -cl -D3 | nauty-planarg > planar-connected-maxdeg3-$i.g6 ; done
+
