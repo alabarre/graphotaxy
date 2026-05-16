@@ -31,6 +31,12 @@ Other generators I wrote are available in the `./tests/generators` directory. I'
 - `nauty-pickg` selects graphs from a given dataset according to various criteria, so if you have a dataset for class C, you can obtain datasets for various subclasses of C, depending on the capabilities of `nauty-pickg`.
 - `nauty-planarg` selects planar graphs from a given dataset 
 
+## nauty-pickg
+
+With `nauty-pickg` we can filter graphs based on:
+
+- girth: -g#
+
 # Compressed formats
 
 Since graphotaxy can read g6 and s6 files compressed with bzip2, gzip or xzip, some directories contain only compressed versions of the original files. For each file, only the smallest resulting archive was kept (all compressors were invoked with the `-9` option).
@@ -497,3 +503,9 @@ for i in {1..11}; do nauty-geng $i -clb -D3 | nauty-planarg > planar-connected-m
 ## biconnected-cubic-planar=gc_1183
 
 for i in {1..16}; do nauty-geng -Cl -d3 -D3 $i | nauty-planarg > bi-vertex-connected-graphs-cubic-planar-$i.g6; done
+
+
+## girth-at-least-9=gc_1225
+
+for i in {9..20}; do nauty-geng $i -clftp | nauty-pickg -g9 > connected-girth-at-least-9-$i.g6; done
+

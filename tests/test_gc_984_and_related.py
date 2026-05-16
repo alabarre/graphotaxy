@@ -24,8 +24,8 @@ import os
 import sys
 import unittest
 import networkx
-import graph_recognition.profitable_hereditary_n
 import graph_recognition.recognizers_n_7
+import graph_recognition.profitable_hereditary_n
 from readwrite import process_graphs
 
 
@@ -95,33 +95,6 @@ class Test_gc_984_and_related(unittest.TestCase):
         print("done.")
 
     # Generated tests for ancestors of base class gc_984 not yet covered by other tests:
-    def test_gc_981(self) -> None:
-        """Tests positive instances for class gc_981. gc_981 is an ancestor of gc_984."""
-        print(
-            self._testMethodName.join("[]"),
-            "testing",
-            len(self.positive),
-            "graphs",
-            end=" ",
-        )
-        sys.stdout.flush()
-
-        # looping over enumerate so we can print failed instances
-        for num, graph in enumerate(self.positive):
-            self.assertTrue(
-                graph_recognition.profitable_hereditary_n.is_maximal_planar(graph),
-                "failed on graph number "
-                + str(num)
-                + " / "
-                + str(len(self.positive))
-                + " with node set "
-                + str(graph.nodes)
-                + " and edge set "
-                + str(graph.edges),
-            )
-
-        print("done.")
-
     def test_gc_986(self) -> None:
         """Tests positive instances for class gc_986. gc_986 is an ancestor of gc_984."""
         print(
@@ -137,6 +110,33 @@ class Test_gc_984_and_related(unittest.TestCase):
         for num, graph in enumerate(self.positive):
             self.assertTrue(
                 graph_recognition.recognizers_n_7.is_polyhedral(graph),
+                "failed on graph number "
+                + str(num)
+                + " / "
+                + str(len(self.positive))
+                + " with node set "
+                + str(graph.nodes)
+                + " and edge set "
+                + str(graph.edges),
+            )
+
+        print("done.")
+
+    def test_gc_981(self) -> None:
+        """Tests positive instances for class gc_981. gc_981 is an ancestor of gc_984."""
+        print(
+            self._testMethodName.join("[]"),
+            "testing",
+            len(self.positive),
+            "graphs",
+            end=" ",
+        )
+        sys.stdout.flush()
+
+        # looping over enumerate so we can print failed instances
+        for num, graph in enumerate(self.positive):
+            self.assertTrue(
+                graph_recognition.profitable_hereditary_n.is_maximal_planar(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "

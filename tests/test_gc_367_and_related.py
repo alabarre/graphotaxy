@@ -24,8 +24,8 @@ import os
 import sys
 import unittest
 import networkx
-import graph_recognition.profitable_hereditary_n_4
 import graph_recognition.fisc_based_recognizers
+import graph_recognition.profitable_hereditary_n_4
 from readwrite import process_graphs
 
 
