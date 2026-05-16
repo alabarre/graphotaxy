@@ -133,10 +133,6 @@ Generated from the datasets in chordal with nauty.
 
 `for file in $(ls *g6); do nauty-complg -l $file co$file; done`
 
-## (co-claw,co-diamond)-free=AUTO_1467
-
-`for file in $(ls *g6); do nauty-complg $file > ../\(co-claw\,co-diamond\)-free\=AUTO_1467/co-$file; done`
-
 ## co-claw-free=AUTO_79
 
 generated from claw-free using nauty-complg
@@ -480,3 +476,24 @@ for i in {1..14}; do nauty-geng $i -cltf | nauty-planarg > connected-C4-free-tri
 
 for i in {1..12}; do nauty-geng $i -cl -D3 | nauty-planarg > planar-connected-maxdeg3-$i.g6 ; done
 
+## planar-of-maximum-degree-3-triangle-free=gc_1274
+
+for i in {1..12}; do nauty-geng $i -clt -D3 | nauty-planarg > planar-connected-maxdeg3-triangle-free-$i.g6 ; done
+
+
+## cubic-and-planar=gc_1102
+
+for i in {1..16}; do nauty-geng $i -cl -d3 -D3 | nauty-planarg > planar-connected-cubic-$i.g6 ; done
+
+## planar-of-maximum-degree-4-bipartite=gc_1153
+
+for i in {1..11}; do nauty-geng $i -clb -D4 | nauty-planarg > planar-connected-maxdeg4-bipartite-$i.g6 ; done 
+
+## planar-of-maximum-degree-3-bipartite=gc_1055
+
+for i in {1..11}; do nauty-geng $i -clb -D3 | nauty-planarg > planar-connected-maxdeg3-bipartite-$i.g6 ; done
+
+
+## biconnected-cubic-planar=gc_1183
+
+for i in {1..16}; do nauty-geng -Cl -d3 -D3 $i | nauty-planarg > bi-vertex-connected-graphs-cubic-planar-$i.g6; done
