@@ -35,7 +35,7 @@ digraph G {
     gc_342 -> gc_771
     gc_771 -> gc_342
 
-    // no tree is k-regular for any k >= 3
+    // trivial: no tree is k-regular for any k >= 3
     gc_342 -> gc_1099 // k >= 3
     gc_1099 -> gc_342 // k >= 3
     gc_342 -> gc_1100 // k = 3 
@@ -48,7 +48,7 @@ digraph G {
     gc_1105 -> gc_342 // k >= 6
     
     // relationships involving bounded degrees --------------------------------
-    // maximum degree k -> not p-regular for any p > k
+    // trivial: maximum degree k -> not p-regular for any p > k
     gc_1299 -> gc_1101 // k = 1, p = 4
     gc_1101 -> gc_1299 // k = 1, p = 4
     gc_1299 -> gc_1104 // k = 1, p = 5
@@ -71,7 +71,7 @@ digraph G {
     gc_1139 -> gc_1105 // k = 5, p >= 6
     gc_1105 -> gc_1139 // k = 5, p >= 6
     
-    // k-regular -> not p-regular for any p != k
+    // trivial: k-regular -> not p-regular for any p != k
     gc_1100 -> gc_1101 // k = 3, p = 4
     gc_1101 -> gc_1100 // k = 3, p = 4
     gc_1100 -> gc_1104 // k = 3, p = 5
@@ -111,7 +111,7 @@ digraph G {
     
     
     // other classes ------------------------------------------------------------------------------
-    // unbreakable graphs contain a P_4
+    // unbreakable graphs contain a P_4 (see https://dx.doi.org/10.1002/JGT.3190150403 , page 351)
     gc_277 -> gc_152
     gc_152 -> gc_277
 

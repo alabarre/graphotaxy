@@ -68,3 +68,30 @@ Keep an open mind and don't refrain from investigating any option. To help you d
   This **might** mean that the exclusion relationship XXX -> YYY is wrong and should be deleted from `./isgci/exclusion_graph.dot`.
 
 - if the outcome of a test contains "AssertionError: False is not true", then this means the test expected a positive answer, which happens when a class is included in another class. The lines following the FAIL message are helpful, for instance:
+    
+    
+    FAIL: test_gc_986 (tests.test_gc_984_and_related.Test_gc_984_and_related.test_gc_986)
+    Tests positive instances for class gc_986. gc_986 is an ancestor of gc_984.
+    ----------------------------------------------------------------------
+    Traceback (most recent call last):
+    File "/home/anthony/Travail/graphotaxy/tests/test_gc_984_and_related.py", line 111, in test_gc_986
+        self.assertTrue(
+        ~~~~~~~~~~~~~~~^
+            graph_recognition.recognizers_n_7.is_polyhedral(graph),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ...<7 lines>...
+            + str(graph.edges),
+            ^^^^^^^^^^^^^^^^^^^
+        )
+        ^
+    AssertionError: False is not true : failed on graph number 0 / 7 with node set [0, 1, 2] and edge set [(0, 1), (0, 2), (1, 2)]
+
+
+Here either the recognizer is mistaken, or the inclusion relationship that led to assuming that the graph should be a member of the class is wrong. More precisely, the graph is supposed to be a member of class gc_984, and class gc_986 contains class gc_984; therefore:
+
+1. if the data and the relationship are correct, then the recognizer is wrong;
+1. if the data and the recognizer are correct, then the relationship is wrong;
+1. if the recognizer and the relationship are correct, then the data is wrong.
+
+Since the graph and its node and edge sets are provided, it is not difficult to determine in which case we are. Here, the offending graph is a triangle, and a graph is polyhedral iff it is planar (which K_3 is) and 3-vertex-connected (which K_3 is not). So the relationship must be to blame, and I've emailed the authors of ISGCI to discuss it.
+
