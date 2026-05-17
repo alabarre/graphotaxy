@@ -1,3 +1,4 @@
+// TODO document each exclusion relationship
 digraph G {
     node [shape=rect]
     // graph classes ----------------------------------------------------------
@@ -112,11 +113,7 @@ digraph G {
     // other classes ------------------------------------------------------------------------------
     // unbreakable graphs contain a P_4
     gc_277 -> gc_152
-    gc_152 -> gc_277 
-    
-    // biconnected graphs have minimum degree 2
-    gc_771 -> gc_1299
-    gc_1299 -> gc_771
+    gc_152 -> gc_277
 
     // by construction, 2-subdivisions (gc_472) cannot have minimum degree > 2, so we exclude:
     //  - gc_1099 [texlbl="$k$-regular, fixed $k\ge 3$"]

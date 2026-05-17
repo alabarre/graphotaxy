@@ -33,6 +33,7 @@ Of course, you can also write your own tests manually, but you really don't have
 1. write them in the `./tests/` directory;
 2. name them anything you want except `test_*_and_related.py`: this naming scheme is used by `generate_tests.py`, which when run erases all files following this naming convention before generating new tests to avoid mixups between different runs.
 
+
 ## Positive tests
 
 A dataset for a class `dummy_id` contains graphs for which the corresponding recognizer `is_dummy` should return `True`. By inclusion, a member of class `dummy_id` is also a member of all classes that contain it; therefore, a dataset for class `dummy_id` allows us to generate positive tests not only for the function `is_dummy`, but for all available recognizers for classes that contain `dummy_id`.
@@ -42,3 +43,28 @@ A dataset for a class `dummy_id` contains graphs for which the corresponding rec
 Datasets also allow us to generate negative tests, but for this we need an *exclusion graph*, which summarizes separation relationships between graph classes (e.g., the fact that if a graph is a tree, then it cannot be a cubic graph). The exclusion graph is stored in `./src/isgci/exclusion-graph.dot` . 
 
 Again, a dataset for a class `dummy_id` contains graphs for which the corresponding recognizer `is_dummy` should return `True`. The exclusion relationships tell us for which classes the corresponding recognizer should return `False` for the same dataset. Therefore, for every positive dataset for class `dummy_id`, we also generate negative tests for recognizers for classes that are known not to contain graphs from the dataset for `dummy_id`.
+
+
+# Datasets
+
+Never be afraid to add missing datasets, even if the classes seem "trivial". Each dataset can reveal problems in the software, which can then be fixed.
+
+# Test outcomes
+
+A failed test can mean:
+
+1. that a recognizer is flawed;
+1. that an inclusion relationship is wrong;
+1. that an exclusion relationship is wrong;
+1. that the dataset is wrong.
+
+Keep an open mind and don't refrain from investigating any option. To help you detect which is which:
+
+- if the outcome of a test contains "AssertionError: True is not false", then this means the test expected a negative answer, which happens when a class is excluded by another class. The lines following the FAIL message are helpful, for instance:
+
+    FAIL: test_ZZZ (tests.test_XXX_and_related.Test_XXX_and_related.test_ZZZ)
+    Tests negative instances for class ZZZ. ZZZ is a descendant of excluded class YYY.
+    
+  This **might** mean that the exclusion relationship XXX -> YYY is wrong and should be deleted from `./isgci/exclusion_graph.dot`.
+
+- if the outcome of a test contains "AssertionError: False is not true", then this means the test expected a positive answer, which happens when a class is included in another class. The lines following the FAIL message are helpful, for instance:

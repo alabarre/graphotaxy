@@ -2064,8 +2064,13 @@ def is_caterpillar(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
+    # trivial base cases
     if not is_tree(graph):
         return False
+
+    # single node or single edge
+    if number_of_nodes(graph) == 1 or number_of_nodes(graph) == 2 and number_of_edges(graph) == 1:
+        return True
 
     # returns True iff subgraph induced by all nonleaves is a path
     pruned_graph = graph.subgraph(n for n, d in graph.degree if d != 1)
@@ -2093,6 +2098,10 @@ def is_lobster(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
+    # single node or single edge
+    if number_of_nodes(graph) == 1 or number_of_nodes(graph) == 2 and number_of_edges(graph) == 1:
+        return True
+
     # returns True iff subgraph induced by all nonleaves is a caterpillar
     return is_tree(graph) and is_caterpillar(  # just to avoid building subgraph if possible
         graph.subgraph(n for n, d in graph.degree if d != 1)

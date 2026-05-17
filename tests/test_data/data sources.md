@@ -520,3 +520,29 @@ for i in {1..10}; do nauty-geng $i -clPF > connected-claw-free-perfect-$i.g6 ; d
 ## C4-free-and-perfect=gc_1250
 
 for i in {1..10}; do nauty-geng $i -clPf > connected-c4-free-perfect-$i.g6 ; done
+
+
+## maximum degree 1=gc_1299
+
+for i in {1..10}; do nauty-geng $i -cl -D1 > connected-maxdegree-1-$i.g6 ; done
+
+## maximum degree 3=gc_720
+
+for i in {1..10}; do nauty-geng $i -cl -D3 > connected-maxdegree-3-$i.g6 ; done
+
+
+## maximum degree 4=gc_717
+for i in {1..10}; do nauty-geng $i -cl -D4 > connected-maxdegree-4-$i.g6 ; done
+
+
+## maximum degree 5=gc_1139
+
+for i in {1..10}; do nauty-geng $i -cl -D5 > connected-maxdegree-5-$i.g6 ; done
+
+## maximum degree 6=gc_1119
+
+for i in {1..10}; do nauty-geng $i -cl -D6 > connected-maxdegree-6-$i.g6 ; done
+
+## maximum degree 7=gc_1090
+for i in {1..10}; do nauty-geng $i -cl -D7 > connected-maxdegree-7-$i.g6 ; done
+

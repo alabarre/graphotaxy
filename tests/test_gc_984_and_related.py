@@ -24,8 +24,8 @@ import os
 import sys
 import unittest
 import networkx
-import graph_recognition.profitable_hereditary_n
 import graph_recognition.recognizers_n_7
+import graph_recognition.profitable_hereditary_n
 from readwrite import process_graphs
 
 
