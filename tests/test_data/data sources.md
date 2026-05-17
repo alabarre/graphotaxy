@@ -509,3 +509,14 @@ for i in {1..16}; do nauty-geng -Cl -d3 -D3 $i | nauty-planarg > bi-vertex-conne
 
 for i in {9..20}; do nauty-geng $i -clftp | nauty-pickg -g9 > connected-girth-at-least-9-$i.g6; done
 
+## K4-free-and-perfect=gc_598
+
+for i in {1..10}; do nauty-geng $i -cPk > connected-k4-free-perfect-$i.g6 ; done
+
+## claw-free-and-perfect=gc_139$ 
+
+for i in {1..10}; do nauty-geng $i -clPF > connected-claw-free-perfect-$i.g6 ; done
+
+## C4-free-and-perfect=gc_1250
+
+for i in {1..10}; do nauty-geng $i -clPf > connected-c4-free-perfect-$i.g6 ; done

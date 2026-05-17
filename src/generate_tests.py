@@ -386,7 +386,7 @@ def prepare_code_string(
         reason = "a recognizer was found, but it has already been covered by other tests." \
             if class_id in recognizers else "no recognizer was found."
         code_string += textwrap.fill(
-            f"# No test was generated for class {class_id}{NAMING_SCHEME[1]}: {reason}",
+            f"# No test was generated for base class {class_id}: {reason}",
             width=WRAP_WIDTH,
             subsequent_indent="    # ",
         ) + "\n"
