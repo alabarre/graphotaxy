@@ -640,20 +640,6 @@ def is_line_and_perfect(graph: nx.Graph) -> bool:
     return is_line(graph) and is_perfect(graph)
 
 
-@lru_cache(maxsize=None)
-@assign_class_id("gc_1358")
-def is_line_perfect(graph: nx.Graph) -> bool:
-    """
-    A graph is line perfect if its line graph is perfect graph.
-
-    https://www.graphclasses.org/classes/gc_1358.html
-
-    :param graph:
-    :return:
-    """
-    return is_perfect(nx.line_graph(graph))
-
-
 # ----- Subclasses of even-cycle-free graphs ------------------------------------------------------
 # Note: this is more restricted than even-hole-free graphs: an even hole has length >= 6, but an
 # even cycle has length >= 4.

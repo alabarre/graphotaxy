@@ -28,7 +28,7 @@ Other generators I wrote are available in the `./tests/generators` directory. I'
 
 - `nauty-complg` builds the complement of a graph, so if you have a dataset for class C, you can obtain a dataset for its complement;
 - `nauty-linegraphg` builds the line graph of a graph, so if you have a dataset for class C, you can obtain a dataset for the class "line graph of C";
-- `nauty-pickg` selects graphs from a given dataset according to various criteria, so if you have a dataset for class C, you can obtain datasets for various subclasses of C, depending on the capabilities of `nauty-pickg`.
+- `nauty-pickg` selects graphs from a given dataset according to various criteria, so if you have a dataset for class C, you can obtain datasets for various subclasses of C, depending on the capabilities of `nauty-pickg`; more info below
 - `nauty-planarg` selects planar graphs from a given dataset 
 
 ## nauty-pickg
@@ -36,6 +36,9 @@ Other generators I wrote are available in the `./tests/generators` directory. I'
 With `nauty-pickg` we can filter graphs based on:
 
 - girth: -g#
+- number of diamonds: -WW#, so diamond-free graphs can be filtered with -WW0
+
+
 
 # Compressed formats
 
@@ -544,5 +547,25 @@ for i in {1..10}; do nauty-geng $i -cl -D5 > connected-maxdegree-5-$i.g6 ; done
 for i in {1..10}; do nauty-geng $i -cl -D6 > connected-maxdegree-6-$i.g6 ; done
 
 ## maximum degree 7=gc_1090
+
 for i in {1..10}; do nauty-geng $i -cl -D7 > connected-maxdegree-7-$i.g6 ; done
 
+## chordal-and-claw-free=gc_303
+
+for i in {1..10}; do nauty-geng $i -clTF  > connected-chordal-claw-free-$i.g6 ; done
+
+
+## chordal-bipartite=gc_79
+
+for i in {1..10}; do nauty-geng $i -clTb  > connected-chordal-bipartite-$i.g6 ; done
+
+
+## diamond-free=gc_441
+
+for i in {1..10}; do nauty-geng $i -cl | nauty-pickg -WW0 > connected-diamond-free-$i.g6; done
+
+## co-diamond-free=AUTO_77
+
+from diamond-free=gc_441:
+
+for file in $(ls connected-diamond-free-*g6); do nauty-complg -l $file > ../co-diamond-free\=AUTO_77/${file/diamond/co-diamond}; done

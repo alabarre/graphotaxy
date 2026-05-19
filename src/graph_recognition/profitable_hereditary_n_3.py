@@ -143,7 +143,14 @@ def is_triangle_free(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     # Mantel's theorem: a triangle-free graph on n vertices cannot have more than ⌊n²/4⌋ edges
-    if number_of_edges(graph) > number_of_nodes(graph) ** 2 // 4:
+    n = number_of_nodes(graph)
+    e = number_of_edges(graph)
+    if e > n ** 2 // 4:
+        return False
+
+    # Corollary 1.6 page 297 in Bollobas, "Extremal Graph Theory": n nodes and e edges -> graph
+    # contains at least (e/3n)(4e-n²) triangles
+    if n and (e / (3 * n)) * (4 * e - n ** 2) > 0:
         return False
 
     # for each vertex, go through its neighbors; if any two of them are adjacent, then we have a
