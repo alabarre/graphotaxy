@@ -1833,22 +1833,6 @@ def is_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     return True
 
 
-@lru_cache(maxsize=None)
-@assign_class_id("gc_1358")
-def is_line_perfect(graph: nx.Graph) -> bool:
-    """
-    A graph is line perfect if its line graph is a perfect graph.
-
-    https://www.graphclasses.org/classes/gc_1358.html
-
-    :param graph:
-    :return:
-    """
-    # see https://link.springer.com/article/10.1007/BF01593791: a graph is line perfect iff it is
-    # bipartite
-    return is_bipartite(graph)
-
-
 @assign_fisc(["C_{5}", "co-butterfly", "co-diamond", "triangle"])
 @assign_class_id("gc_685")
 @lru_cache(maxsize=None)

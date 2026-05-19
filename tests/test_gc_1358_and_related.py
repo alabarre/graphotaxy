@@ -25,7 +25,6 @@ import sys
 import unittest
 import networkx
 import graph_recognition.recognizers_exponential
-from graph_recognition import profitable_hereditary_n
 from readwrite import process_graphs
 
 
@@ -79,7 +78,7 @@ class Test_gc_1358_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                profitable_hereditary_n.is_line_perfect(graph),
+                graph_recognition.recognizers_exponential.is_line_perfect(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "
