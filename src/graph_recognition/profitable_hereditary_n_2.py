@@ -104,6 +104,9 @@ def is_dilworth_k(graph: nx.Graph, k: int) -> bool:
     :param k:
     :return:
     """
+    if not number_of_edges(graph):
+        return True
+
     count = 0
 
     # for each pair of vertices, test whether they are incomparable;

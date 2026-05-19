@@ -59,9 +59,6 @@ def is_co_forest(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    if len(graph) == 0:
-        return False
-
     # check that each component of the complement is a co_tree
     return all(is_co_tree(graph.subgraph(cc)) for cc in co_connected_components(graph))
 
@@ -2158,8 +2155,11 @@ def is_co_tree(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # the complement must have n-1 edges in order to be a tree
     n = number_of_nodes(graph)
+    if n == 1:
+        return True
+
+    # the complement must have n-1 edges in order to be a tree
     num_co_edges = (n * (n - 1)) // 2 - number_of_edges(graph)
     if num_co_edges != n - 1:
         return False
@@ -2243,15 +2243,19 @@ def is_bipartite_or_co_bipartite_or_split(graph: nx.Graph) -> bool:
 @assign_inherited_fisc()
 @assign_class_id("AUTO_2145")
 @lru_cache(maxsize=None)
-def is_co_binary_tree(graph: nx.Graph) -> bool:
+def is_co_binary_forest(graph: nx.Graph) -> bool:
     """
+    Remark: ISGCI is imprecise with connectedness. Trees are considered equivalent to cycle-free
+    graphs, and therefore co-trees are identified with co-cycle-free graphs. But The first
+    equivalence is wrong: forests are also cycle-free graphs. Therefore, I'm naming and adapting
+    this function to be consistent with the assumed equivalence.
 
     https://www.graphclasses.org/classes/AUTO_2145
 
     @param graph:
     @return:
     """
-    return is_co_maximum_degree_3(graph) and is_co_tree(graph)
+    return is_co_maximum_degree_3(graph) and is_co_forest(graph)
 
 
 @assign_inherited_fisc()

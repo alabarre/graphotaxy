@@ -23,6 +23,7 @@ from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     is_connected,
     co_connected_components, complement_as_adj_mat, connected_components, number_of_nodes, number_of_edges,
+    non_neighbors,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_gc_1312,
@@ -180,7 +181,7 @@ def is_co_p3_free(graph: nx.Graph) -> bool:
     has_co_p3 = any(
         graph.has_edge(v, w)
         for u in graph
-        for v, w in combinations(nx.non_neighbors(graph, u), 2)
+        for v, w in combinations(non_neighbors(graph, u), 2)
     )
 
     return not has_co_p3

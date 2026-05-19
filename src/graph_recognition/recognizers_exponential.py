@@ -652,11 +652,8 @@ def is_line_perfect(graph: nx.Graph) -> bool:
     :return:
     """
     # see https://link.springer.com/article/10.1007/BF01593791: a graph is line perfect iff it has
-    # no odd cycle of size > 3. So let's start by checking if graph is bipartite:
-    if is_bipartite(graph):
-        return True
-
-    return is_perfect(nx.line_graph(graph))
+    # no odd cycle of size > 3, so this class actually equivalent to odd-hole-free
+    return is_odd_hole_free(graph)
 
 
 # ----- Subclasses of even-cycle-free graphs ------------------------------------------------------

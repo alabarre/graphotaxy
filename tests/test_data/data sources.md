@@ -569,3 +569,13 @@ for i in {1..10}; do nauty-geng $i -cl | nauty-pickg -WW0 > connected-diamond-fr
 from diamond-free=gc_441:
 
 for file in $(ls connected-diamond-free-*g6); do nauty-complg -l $file > ../co-diamond-free\=AUTO_77/${file/diamond/co-diamond}; done
+
+
+## K2-free=gc_1247
+
+for i in {1..12}; do nauty-geng $i -l -D0 > edgeless-$i.g6; done
+
+
+## complete=gc_1241
+
+for i in {1..12}; do nauty-genspecialg -k$i -g > complete-$i.g6; done

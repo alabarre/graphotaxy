@@ -15,10 +15,11 @@ import networkx as nx
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.fisc_based_recognizers import is_p5_free
+from graph_recognition.misc_algo import complement_as_adj_mat, co_connected_components
 from graph_recognition.profitable_hereditary_n import (
     is_chordal,
     is_tree,
-    is_co_tree,
+    is_co_tree, is_co_forest, is_lobster,
 )
 from graph_recognition.recognizers_utils import (
     assign_class_id,
@@ -55,7 +56,7 @@ def is_co_t3_co_x_81_co_cycle_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return is_co_tree(graph) and is_h_free(graph, ["co(T_{3})", "co(X_{81})"])
+    return is_co_t3_co_cycle_free(graph) and is_h_free(graph, ["co(X_{81})"])
 
 
 @assign_inherited_fisc()
@@ -95,7 +96,9 @@ def is_co_t3_co_cycle_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return is_co_tree(graph) and is_h_free(graph, ["co(T_{3})"])
+    return all(
+        is_lobster(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)
+    )
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

@@ -24,13 +24,13 @@ from graph_recognition.fisc_based_recognizers import (
     is_k23_free,
     is_diamond_free,
 )
-from graph_recognition.misc_algo import is_h_u_2k1_free, complement_as_adj_mat
+from graph_recognition.misc_algo import is_h_u_2k1_free, complement_as_adj_mat, co_connected_components
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
     is_bipartite,
     is_co_bipartite,
     is_chordal,
-    is_co_tree,
+    is_co_tree, is_co_forest, is_caterpillar,
 )
 from graph_recognition.profitable_hereditary_n_2 import (
     is_co_chordal,
@@ -406,10 +406,12 @@ def is_auto_2135(graph: nx.Graph) -> bool:
 def is_co_t2_co_cycle_free(graph: nx.Graph) -> bool:
     """
 
+
+
     @param graph:
     @return:
     """
-    return is_co_tree(graph) and is_h_free(graph, ["co(T_{2})"])
+    return all(is_caterpillar(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)) # is_co_forest(graph) and is_h_free(graph, ["co(T_{2})"])
 
 
 @assign_inherited_fisc()
