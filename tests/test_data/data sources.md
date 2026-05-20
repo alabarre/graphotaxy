@@ -579,3 +579,30 @@ for i in {1..12}; do nauty-geng $i -l -D0 > edgeless-$i.g6; done
 ## complete=gc_1241
 
 for i in {1..12}; do nauty-genspecialg -k$i -g > complete-$i.g6; done
+
+
+## binary-tree=gc_847
+
+for i in {1..12}; do nauty-gentreeg $i -D3 > binary-tree-$i.s6; done
+
+
+## (P_{4},triangle)-free=gc_1270
+
+in cographs=gc_151:
+
+for file in $(ls *g6); do nauty-pickg $file -T0 > ../\(P_\{4\}\,triangle\)-free\=gc_1270/triangle-free-$file; done
+
+
+## complete-bipartite=gc_1245
+
+N=11; for i in $(seq 1 $N); do for j in $(seq $((i+1)) $N); do nauty-genspecialg -g -b$i,$j >> complete-bipartite-$i-up-to-$N.g6; done; done
+
+so each file contains all complete bipartite graphs with $i vertices on the left and 2, 3, ..., N vertices on the right
+
+
+## (3K_{1},P_{4})-free=gc_852
+
+
+in cographs=gc_151:
+
+for file in $(ls *g6); do nauty-pickg $file -TT0 > ../"(3K_{1},P_{4})-free=gc_852"/3k1-free-$file; done
