@@ -23,8 +23,8 @@ Check https://www.graphclasses.org/classes/gc_1148 for more information.
 import os
 import sys
 import unittest
-import networkx.algorithms.distance_regular
 import networkx
+import networkx.algorithms.distance_regular
 from readwrite import process_graphs
 
 

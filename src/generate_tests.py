@@ -167,6 +167,28 @@ def descendants_of_some_equivalent_class(graph: networkx.Graph, class_id: str) -
     return __ancestors_or_descendants_of_some_equivalent_class(graph, class_id, networkx.descendants)
 
 
+
+def class_ids_covered_by_test_file(filename: str) -> Set[str]:
+    """
+    Returns the set of class ids for which a test has been found in the given test files.
+
+    :return:
+    """
+    result = set()
+    with open(os.path.join(TEST_OUTPUT_DIR, filename), "r", encoding="utf8") as f:
+        # retrieve each class definition that corresponds to a unit test (named class
+        # "Test_YYY")
+        tree = ast.parse(f.read())
+        for node in tree.body:
+            if isinstance(node, ast.ClassDef) and node.name.startswith("Test_"):
+                # all methods in the class that correspond to tests are named test_classid
+                result.update(
+                    n.name[5:] for n in node.body
+                    if isinstance(n, ast.FunctionDef) and n.name.startswith("test_")
+                )
+
+    return result
+
 def class_ids_covered_by_tests() -> Set[str]:
     """
     Returns the set of class ids for which a test has been found. This includes classes that are
@@ -177,19 +199,9 @@ def class_ids_covered_by_tests() -> Set[str]:
     result = set()
 
     # examine each file named "test_XXX.py"
-    for name in listdir(TEST_OUTPUT_DIR):
-        if name.startswith("test_") and name.endswith(".py"):
-            with open(os.path.join(TEST_OUTPUT_DIR, name), "r", encoding="utf8") as f:
-                # retrieve each class definition that corresponds to a unit test (named class
-                # "Test_YYY")
-                tree = ast.parse(f.read())
-                for node in tree.body:
-                    if isinstance(node, ast.ClassDef) and node.name.startswith("Test_"):
-                        # all methods in the class that correspond to tests are named test_classid
-                        result.update(
-                            n.name[5:] for n in node.body
-                            if isinstance(n, ast.FunctionDef) and n.name.startswith("test_")
-                        )
+    for filename in listdir(TEST_OUTPUT_DIR):
+        if filename.startswith("test_") and filename.endswith(".py"):
+            result.update(class_ids_covered_by_test_file(filename))
 
     # once we have all id's, expand with all equivalences
     result.update(*(EQUIV_IDS[class_id] for class_id in result))
@@ -615,6 +627,25 @@ def remove_existing_test_files() -> None:
     print("done.")
 
 
+def remove_useless_test_files() -> None:
+    """
+    Removes all useless test files from TEST_OUTPUT_DIR. A test file is deemed useless if the
+    unit test case it defines contains no actual test.
+
+    @return:
+    """
+    print("Removing useless test files...", end=" ")
+    sys.stdout.flush()
+    count = 0
+    for filename in os.listdir(TEST_OUTPUT_DIR):
+        if filename.startswith(NAMING_SCHEME[0]) and filename.endswith(NAMING_SCHEME[1] + ".py"):
+            if not class_ids_covered_by_test_file(filename):
+                os.remove(os.path.join(TEST_OUTPUT_DIR, filename))
+                count += 1
+
+    print(f"done, removed {count} files.")
+
+
 def main() -> None:
     """
     Removes previous tests from TEST_OUTPUT_DIR, and generates new ones.
@@ -623,6 +654,7 @@ def main() -> None:
     """
     remove_existing_test_files()
     generate_all_test_files()
+    remove_useless_test_files()
     # print test statistics
     print(
         f"\nThe generated files cover {sum(map(len, TEST_COVERAGE.values()))} classes, with "
