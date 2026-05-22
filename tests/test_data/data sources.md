@@ -606,3 +606,23 @@ so each file contains all complete bipartite graphs with $i vertices on the left
 in cographs=gc_151:
 
 for file in $(ls *g6); do nauty-pickg $file -TT0 > ../"(3K_{1},P_{4})-free=gc_852"/3k1-free-$file; done
+
+
+## caterpillar=gc_784
+
+see generators directory for script
+
+
+for i in {3..12} ; do python3 caterpillars.py $i > caterpillars-$i.g6; done
+
+
+
+## distance-regular-of-diameter-2=gc_1186
+
+from distance-regular\=gc_1148/:
+
+for file in $(ls *s6); do nauty-pickg -Z2 $file > ../distance-regular-of-diameter-2\=gc_1186/$file; done
+
+## (4K_{1},K_{4})-free=gc_515
+
+for i in {4..10}; do nauty-geng -clk $i | nauty-pickg -h3 > connected-4k1-k4-free-$i.g6; done

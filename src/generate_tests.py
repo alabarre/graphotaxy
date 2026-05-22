@@ -57,15 +57,17 @@ others.
 """
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
+import ast
 import datetime
 import os
 import subprocess
 import sys
 import textwrap
 from collections.abc import Callable
+from os import listdir
 from typing import TextIO, Dict, Iterable, Set
 
-# ----- Non-standard imports ----------------------------------------------------------------------
+# ----- Third-party imports -----------------------------------------------------------------------
 import networkx
 from tqdm import tqdm
 
@@ -163,6 +165,35 @@ def descendants_of_some_equivalent_class(graph: networkx.Graph, class_id: str) -
     @return:
     """
     return __ancestors_or_descendants_of_some_equivalent_class(graph, class_id, networkx.descendants)
+
+
+def class_ids_covered_by_tests() -> Set[str]:
+    """
+    Returns the set of class ids for which a test has been found. This includes classes that are
+    covered by a test for an equivalent class.
+
+    :return:
+    """
+    result = set()
+
+    # examine each file named "test_XXX.py"
+    for name in listdir(TEST_OUTPUT_DIR):
+        if name.startswith("test_") and name.endswith(".py"):
+            with open(os.path.join(TEST_OUTPUT_DIR, name), "r", encoding="utf8") as f:
+                # retrieve each class definition that corresponds to a unit test (named class
+                # "Test_YYY")
+                tree = ast.parse(f.read())
+                for node in tree.body:
+                    if isinstance(node, ast.ClassDef) and node.name.startswith("Test_"):
+                        # all methods in the class that correspond to tests are named test_classid
+                        result.update(
+                            n.name[5:] for n in node.body
+                            if isinstance(n, ast.FunctionDef) and n.name.startswith("test_")
+                        )
+
+    # once we have all id's, expand with all equivalences
+    result.update(*(EQUIV_IDS[class_id] for class_id in result))
+    return result
 
 
 def test_method(
