@@ -626,3 +626,12 @@ for file in $(ls *s6); do nauty-pickg -Z2 $file > ../distance-regular-of-diamete
 ## (4K_{1},K_{4})-free=gc_515
 
 for i in {4..10}; do nauty-geng -clk $i | nauty-pickg -h3 > connected-4k1-k4-free-$i.g6; done
+
+
+## (0,2)-graph-and-bipartite=gc_1193
+
+converted all "s files" from Andries Brouwer's datasets: https://aeb.win.tue.nl/graphs/recta/02graphs.tgz
+
+Just run nauty-dretog file > file.g6
+
+
