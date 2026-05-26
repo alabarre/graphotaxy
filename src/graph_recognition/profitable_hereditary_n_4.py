@@ -19,14 +19,13 @@ from itertools import combinations
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 from networkx import connected_components
-from networkx.algorithms.matching import is_perfect_matching
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     number_of_common_neighbors,
     degree_sequence,
-    co_connected_components, is_connected, complement_as_adj_mat, number_of_nodes, number_of_edges, )
+    co_connected_components, complement_as_adj_mat, number_of_edges, )
 from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_cograph,
@@ -90,26 +89,6 @@ def maximum_matching(graph: nx.Graph) -> dict:
 
 
 # Recognizers -------------------------------------------------------------------------------------
-@assign_fisc(["diamond", "C_{4}"])
-@assign_class_id("gc_473")
-@lru_cache(maxsize=None)
-def is_c4_diamond_free(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is (C_{4}, diamond)-free.
-
-    See https://www.graphclasses.org/classes/gc_473
-
-    Complexity: O(m^2) <= O(n^4) (naïve)
-
-    :type graph: networkx.Graph
-    """
-    # equivalent to https://www.graphclasses.org/classes/gc_196.html
-    # A graph is weakly geodetic if for every pair of vertices of distance 2 there is a unique
-    # common neighbor of them.
-    # iterate over the extremities of all non-edges; either they are at distance 2, and therefore
-    # must have exactly one common neighbor, or they are at distance > 2, in which case they have
-    # no common neighbor
-    return all(number_of_common_neighbors(graph, u, v) <= 1 for u, v in nx.non_edges(graph))
 
 
 @assign_fisc(
@@ -501,6 +480,7 @@ def is_c4_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    # note: cannot move function to fisc_based_recognizers due to circular import issues
     if nx.girth(graph) > 4:
         return True
 

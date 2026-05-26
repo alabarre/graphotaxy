@@ -56,7 +56,6 @@ from graph_recognition.profitable_hereditary_n_4 import (
     is_claw_free,
     is_c4_free,
     is_k4_free,
-    is_c4_diamond_free,
     is_4k1_free,
     is_anti_hole_free,
     is_hole_free,
@@ -115,6 +114,22 @@ def is_diamond_free(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return is_h_free(graph, ["diamond"])
+
+
+@assign_fisc(["diamond", "C_{4}"])
+@assign_class_id("gc_473")
+@lru_cache(maxsize=None)
+def is_c4_diamond_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is (C_{4}, diamond)-free.
+
+    See https://www.graphclasses.org/classes/gc_473
+
+    Complexity: O(m^2) <= O(n^4) (naïve)
+
+    :type graph: networkx.Graph
+    """
+    return is_h_free(graph, ["diamond", "C_{4}"])
 
 
 @assign_fisc(["diamond", "paw", "P_{4}"])
@@ -2039,9 +2054,10 @@ def is_gc_1359(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_h_u_2k1_free(graph, is_triangle_free) and is_h_free(
+    return is_h_free(
         graph,
         [
+            "K_{3} U 2K_{1}",
             "dart",
             "co-dart",
             "co-cricket",
