@@ -337,7 +337,7 @@ def is_co_xc_10_free(graph: nx.Graph) -> bool:
     """
     return (
             is_k2_u_k3_free(graph)
-            and is_h_u_2k1_free(graph, is_triangle_free)
+            and is_h_free(graph, ["K_{3} U 2K_{1}"])
             and is_h_u_2k1_free(graph, is_p3_free)
             and is_h_u_k2_free(graph, is_p3_free)
     )
