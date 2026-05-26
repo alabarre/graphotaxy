@@ -129,7 +129,7 @@ def is_c4_diamond_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["diamond", "C_{4}"])
+    return is_c4_free(graph) and is_diamond_free(graph)
 
 
 @assign_fisc(["diamond", "paw", "P_{4}"])

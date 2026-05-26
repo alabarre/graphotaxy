@@ -30,7 +30,7 @@ from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_co_bipartite,
     is_chordal,
-    is_co_tree, is_co_forest, is_caterpillar,
+    is_caterpillar,
 )
 from graph_recognition.profitable_hereditary_n_2 import (
     is_co_chordal,
@@ -411,7 +411,9 @@ def is_co_t2_co_cycle_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return all(is_caterpillar(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)) # is_co_forest(graph) and is_h_free(graph, ["co(T_{2})"])
+    return all(
+        is_caterpillar(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)
+    )
 
 
 @assign_inherited_fisc()

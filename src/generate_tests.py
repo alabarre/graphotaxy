@@ -65,7 +65,7 @@ import sys
 import textwrap
 from collections.abc import Callable
 from os import listdir
-from typing import TextIO, Dict, Iterable, Set
+from typing import TextIO, Dict, Iterable, Set, Generator
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx
@@ -167,7 +167,6 @@ def descendants_of_some_equivalent_class(graph: networkx.Graph, class_id: str) -
     return __ancestors_or_descendants_of_some_equivalent_class(graph, class_id, networkx.descendants)
 
 
-
 def class_ids_covered_by_test_file(filename: str) -> Set[str]:
     """
     Returns the set of class ids for which a test has been found in the given test files.
@@ -189,6 +188,18 @@ def class_ids_covered_by_test_file(filename: str) -> Set[str]:
 
     return result
 
+
+def test_files() -> Generator:
+    """
+    Yields all test files found in test directory.
+
+    :return:
+    """
+    for filename in listdir(TEST_OUTPUT_DIR):
+        if filename.startswith(NAMING_SCHEME[0]) and filename.endswith(NAMING_SCHEME[1] + ".py"):
+            yield filename
+
+
 def class_ids_covered_by_tests() -> Set[str]:
     """
     Returns the set of class ids for which a test has been found. This includes classes that are
@@ -196,59 +207,12 @@ def class_ids_covered_by_tests() -> Set[str]:
 
     :return:
     """
-    result = set()
-
     # examine each file named "test_XXX.py"
-    for filename in listdir(TEST_OUTPUT_DIR):
-        if filename.startswith("test_") and filename.endswith(".py"):
-            result.update(class_ids_covered_by_test_file(filename))
+    result = set.union(*(class_ids_covered_by_test_file(filename) for filename in test_files()))
 
     # once we have all id's, expand with all equivalences
     result.update(*(EQUIV_IDS[class_id] for class_id in result))
     return result
-
-
-def test_method(
-        class_id: str, recognizer: Callable, base_id: str = "", kind: str = "positive"
-) -> str:
-    """
-    Returns a test method for the recognizer for class_id. base_id is an optional placeholder for a
-    descendant of class_id that led to the writing of this test method.
-
-    kind specifies whether the test methods should test positive instances or not; the default
-    behavior is to test positive instances, which results in a call to assertTrue. If kind is set
-    to "negative", then we are testing negative instances, which results in a call to assertFalse.
-
-    @param class_id:
-    @param recognizer:
-    @return:
-    """
-    assert kind in {"positive", "negative"}
-    code_string = f'''
-    def test_{class_id}(self) -> None:
-        """Tests {kind} instances for class {class_id}.'''
-    if base_id:
-        if "excluded" in base_id:
-            code_string += f" {class_id} is a descendant of {base_id}."
-        else:
-            code_string += f" {class_id} is an ancestor of {base_id}."
-    code_string += f'''"""
-        print(
-            self._testMethodName.join("[]"), "testing", len(self.positive), "graphs", end=" "
-        )
-        sys.stdout.flush()
-        
-        # looping over enumerate so we can print failed instances
-        for num, graph in enumerate(self.positive):
-            self.{["assertFalse", "assertTrue"][kind == "positive"]}(
-                {recognizer.__module__}.{recognizer.__name__}(graph), 
-                "failed on graph number " + str(num) + " / " + str(len(self.positive)) + 
-                " with node set " + str(graph.nodes) + " and edge set " + str(graph.edges)
-            )
-
-        print("done.")\n'''
-
-    return code_string
 
 
 def retrieve_all_classes_with_datasets() -> Dict[str, str]:
@@ -339,6 +303,50 @@ def testable_descendants_of_testable_classes(
                         descendants[m] = class_descendants
 
     return descendants
+
+
+# Code generation ---------------------------------------------------------------------------------
+def test_method(
+        class_id: str, recognizer: Callable, base_id: str = "", kind: str = "positive"
+) -> str:
+    """
+    Returns a test method for the recognizer for class_id. base_id is an optional placeholder for a
+    descendant of class_id that led to the writing of this test method.
+
+    kind specifies whether the test methods should test positive instances or not; the default
+    behavior is to test positive instances, which results in a call to assertTrue. If kind is set
+    to "negative", then we are testing negative instances, which results in a call to assertFalse.
+
+    @param class_id:
+    @param recognizer:
+    @return:
+    """
+    assert kind in {"positive", "negative"}
+    code_string = f'''
+    def test_{class_id}(self) -> None:
+        """Tests {kind} instances for class {class_id}.'''
+    if base_id:
+        if "excluded" in base_id:
+            code_string += f" {class_id} is a descendant of {base_id}."
+        else:
+            code_string += f" {class_id} is an ancestor of {base_id}."
+    code_string += f'''"""
+        print(
+            self._testMethodName.join("[]"), "testing", len(self.positive), "graphs", end=" "
+        )
+        sys.stdout.flush()
+
+        # looping over enumerate so we can print failed instances
+        for num, graph in enumerate(self.positive):
+            self.{["assertFalse", "assertTrue"][kind == "positive"]}(
+                {recognizer.__module__}.{recognizer.__name__}(graph), 
+                "failed on graph number " + str(num) + " / " + str(len(self.positive)) + 
+                " with node set " + str(graph.nodes) + " and edge set " + str(graph.edges)
+            )
+
+        print("done.")\n'''
+
+    return code_string
 
 
 def setupclass_method(class_id: str, path: str) -> str:
@@ -611,6 +619,7 @@ def generate_test_file(
     subprocess.check_output(["ruff", "format", output_file_path])
 
 
+# Cleanup functions -------------------------------------------------------------------------------
 def remove_existing_test_files() -> None:
     """
     Removes all existing test files from TEST_OUTPUT_DIR. This is necessary to ensure that all new
@@ -620,9 +629,8 @@ def remove_existing_test_files() -> None:
     """
     print("Removing previous test files...", end=" ")
     sys.stdout.flush()
-    for filename in os.listdir(TEST_OUTPUT_DIR):
-        if filename.startswith(NAMING_SCHEME[0]) and filename.endswith(NAMING_SCHEME[1] + ".py"):
-            os.remove(os.path.join(TEST_OUTPUT_DIR, filename))
+    for filename in test_files():
+        os.remove(os.path.join(TEST_OUTPUT_DIR, filename))
 
     print("done.")
 
@@ -637,11 +645,10 @@ def remove_useless_test_files() -> None:
     print("Removing useless test files...", end=" ")
     sys.stdout.flush()
     count = 0
-    for filename in os.listdir(TEST_OUTPUT_DIR):
-        if filename.startswith(NAMING_SCHEME[0]) and filename.endswith(NAMING_SCHEME[1] + ".py"):
-            if not class_ids_covered_by_test_file(filename):
-                os.remove(os.path.join(TEST_OUTPUT_DIR, filename))
-                count += 1
+    for filename in test_files():
+        if not class_ids_covered_by_test_file(filename):
+            os.remove(os.path.join(TEST_OUTPUT_DIR, filename))
+            count += 1
 
     print(f"done, removed {count} files.")
 
