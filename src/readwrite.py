@@ -61,8 +61,14 @@ def process_graphs(filename: str, output_type: Callable = UndirectedGraph) -> It
         # read graphs as the readers would, but yield them instead of storing them; binary mode is
         # required by g6 / s6
         with open(filename, "rb") as file:
-            for line in file:
-                yield output_type(NAUTY_READERS[extension](line.strip()))
+            if output_type == null_output:
+                # yield nothing, since we only want to count graphs in this case
+                for line in file:
+                    if line.strip()[0] != ">":  # each line is a graph, except the optional header
+                        yield
+            else:
+                for line in file:
+                    yield output_type(NAUTY_READERS[extension](line.strip()))
 
     elif extension in SUPPORTED_COMPRESSED_FORMATS:
         # compute "original" extension (i.e., the EXT in foo.EXT.GZ)
