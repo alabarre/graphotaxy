@@ -75,9 +75,8 @@ def degree_sequence(graph: nx.Graph | HalfAdjacencyMatrix) -> array:
         return array('b', [0] * number_of_nodes(graph))
 
     degseq = sorted((d for _, d in graph.degree), reverse=True)
-    # print(f"[debug] degree sequence = {degseq}, nodes = {graph.nodes}, edges = {graph.edges}")
 
-    # return array with smallest typecode
+    # return convertex array with smallest typecode
     for tc in NUMERIC_TYPECODES:
         try:
             return array(tc, degseq)
@@ -85,6 +84,18 @@ def degree_sequence(graph: nx.Graph | HalfAdjacencyMatrix) -> array:
             pass
 
     raise OverflowError  # no type was big enough for the elements of the degree sequence
+
+
+@lru_cache(maxsize=None)
+def graph_density(graph: nx.Graph | HalfAdjacencyMatrix) -> float:
+    """
+    Returns the ratio "number of edges" / "number of possible edges".
+
+    :param graph:
+    :return:
+    """
+    n = number_of_nodes(graph)
+    return 2 * number_of_edges(graph) / (n * (n - 1))
 
 
 # ----- Helpers for recognizers -------------------------------------------------------------------

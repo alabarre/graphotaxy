@@ -125,7 +125,7 @@ def is_co_claw_free(graph: nx.Graph) -> bool:
 
     See https://www.graphclasses.org/classes/AUTO_79
 
-    Complexity: O(mn^2) <= O(n^4) (naïve)
+    Complexity of naïve matching: O(n^4)
 
     >>> from networkx import Graph; G=Graph(); G.add_edges_from([(0, 1), (0, 2), (1, 2)]); G.add_node(3)
     >>> is_co_claw_free(G)

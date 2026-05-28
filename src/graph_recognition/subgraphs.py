@@ -250,12 +250,12 @@ class SubgraphMatcher:
                 self._graph_lad_path,
             ]
 
-        output = subprocess.check_output(glasgow_command).decode()
         if use_clique_solver:
             SubgraphMatcher.number_of_calls_to_gcs += 1
         else:
             SubgraphMatcher.number_of_calls_to_gss += 1
 
+        output = subprocess.check_output(glasgow_command).decode()
         return self._truth_mapping[re.findall("status = (false|true)", output)[0]]
 
     def no_match(self, subgraphs: Iterable[str]) -> bool:

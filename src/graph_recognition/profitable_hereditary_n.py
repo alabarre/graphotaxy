@@ -16,12 +16,13 @@ from array import array
 from collections import defaultdict
 from collections.abc import Callable
 from functools import lru_cache
-from itertools import combinations
+from itertools import combinations, chain
 from sys import maxsize
 from typing import Any, Iterable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from networkx import Graph
 from networkx.algorithms.planarity import LRPlanarity  # noqa (not declared in __all__)
 from networkx.generators import line
 from networkx.utils import arbitrary_element
@@ -314,7 +315,81 @@ def my_inverse_line_graph(graph: nx.Graph) -> None:
 
 # Recognizers -------------------------------------------------------------------------------------
 
-# ----- We start with degree-based recognizers, which are likely to be the fastest ones -----------
+# -------------------------------------------------------------------------------------------------
+# 1. Recognizers based on the number of edges or nodes in the graph.
+# -------------------------------------------------------------------------------------------------
+@assign_fisc(["2K_{1}"])
+@assign_class_id("gc_1227")
+@lru_cache(maxsize=None)
+def is_2k1_free(graph: Graph) -> bool:
+    """
+    Returns True iff graph is 2K_{1}-free.
+
+    See https://www.graphclasses.org/classes/gc_1227
+
+    Complexity: O(1) < O(n^2) (naïve)
+
+    :type graph: networkx.Graph
+    """
+    # graph is 2K_1-free iff it is complete
+    return is_complete(graph)
+
+
+@assign_fisc(["K_{2}"])
+@assign_class_id("gc_1247")
+@lru_cache(maxsize=None)
+def is_k2_free(graph: Graph) -> bool:
+    """
+    Returns True iff graph is K_{2}-free.
+
+    See https://www.graphclasses.org/classes/gc_1247
+
+    Complexity: O(1) < O(n^2) (naïve)
+
+    :type graph: networkx.Graph
+    """
+    # graph is K_2-free iff it has no edges
+    return number_of_edges(graph) == 0
+
+
+@assign_fisc(["3K_{1}", "co(P_{3})", "C_{4}"])
+@assign_class_id("gc_1310")
+@lru_cache(maxsize=None)
+def is_3k1_c4_co_p3_free(graph: Graph) -> bool:
+    """
+    Returns True iff graph is (3K_{1}, C_{4}, co(P_{3}))-free.
+
+    See https://www.graphclasses.org/classes/gc_1310
+
+    Complexity: O(1) < O(n^4) (naïve)
+
+    :type graph: networkx.Graph
+    """
+    # A graph is (3K_{1}, C_{4}, co(P_{3}))-free if it has at most one non-edge
+    n = number_of_nodes(graph)
+    return number_of_edges(graph) >= (n * (n - 1)) // 2 - 1
+
+
+@assign_fisc(["P_{3}", "triangle", "2K_{2}"])
+@assign_class_id("gc_1309")
+@lru_cache(maxsize=None)
+def is_gc_1309(graph: Graph) -> bool:
+    """
+    Returns True iff graph is (2K_{2}, P_{3}, triangle)-free.
+
+    See https://www.graphclasses.org/classes/gc_1309
+
+    Complexity: O(1)
+
+    :type graph: networkx.Graph
+    """
+    # a graph is (2K_{2}, P_{3}, triangle)-free if it has at most one edge.
+    return number_of_edges(graph) <= 1
+
+
+# -------------------------------------------------------------------------------------------------
+# 2. Recognizers based on degree sequences.
+# -------------------------------------------------------------------------------------------------
 # The following functions compute the degree sequence, then perform computations in O(1) time.
 @assign_fisc(["3K_{1}", "co(P_{3})"])
 @assign_class_id("gc_1302")
@@ -1957,7 +2032,7 @@ def is_gc_1246(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # a graph is (co(P_{3}), triangle)-free iff it either has no edge or is complete multipartite
+    # a graph is (co(P_{3}), triangle)-free iff it either has no edge or is complete bipartite
     return not number_of_edges(graph) or is_complete_bipartite(graph)
 
 
@@ -2319,6 +2394,16 @@ def is_2k2_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    # trivial cases first:
+    if number_of_nodes(graph) < 4 or number_of_edges(graph) < 2:
+        return True
+
+    # let's try to find a matching in the graph; if that matching induces a disconnected subgraph,
+    # then we have a 2K_{2}
+    matching = nx.maximal_matching(graph)
+    if len(matching) >= 2 and not is_connected(graph.subgraph(chain(*matching))):
+        return False
+
     # if graph has at least two components with at least one edge each, then it contains a 2K_{2}
     # O(m+n)
     nontrivial_ccs = 0
@@ -2327,12 +2412,8 @@ def is_2k2_free(graph: nx.Graph) -> bool:
         if nontrivial_ccs >= 2:
             return False
 
-    # otherwise, go through every edge and remove it with its neighbors; if the resulting graph is
-    # empty, then it is K_{2}-free, and so our graph is 2K_{2}-free
-    # O(m)
+    # otherwise search for the pattern
     return is_h_free(graph, ["2K_{2}"])
-    # faster than:
-    # return is_h_u_k2_free(graph, undecorated_function(is_k2_free))
 
 
 @assign_fisc(

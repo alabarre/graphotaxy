@@ -76,7 +76,7 @@ class GraphAnalyzer:
         self.discarded_due_to_exclusion = 0
         self.discarded_due_to_propagation = 0
         self.discarded_thanks_to_fisc_info = 0
-        self.gss_crashed = False
+        self.gss_crashed = set()
         self.hits_and_misses = {"hits": 0, "misses": 0}
         self.recognizers_that_were_run = set()
         self.num_nodes = 0
@@ -169,7 +169,7 @@ class GraphAnalyzer:
         #   - if G is a member of C, then it not a member of any class D excluded by C, nor is it
         #       a member of any descendant of D
         self.hits_and_misses = {"hits": 0, "misses": 0}
-        self.gss_crashed = False
+        self.gss_crashed.clear()
         # set up the progress bar for graphs
         num_graphs = sum(map(number_of_graphs_in_file, input_files))
         main_pbar = tqdm(
@@ -255,11 +255,11 @@ class GraphAnalyzer:
         :param class_id: the id of the class for which membership must be tested.
         :return:
         """
+        fisc = getattr(recognizer, "fisc", None)
         try:
             # recognize graph and store information for analysis and cache clearing
             # we don't need to run the recognizer at all if one of its forbidden subgraphs is known
             # to appear in the graph
-            fisc = getattr(recognizer, "fisc", None)
             if fisc is not None and any(query_status(graph, subgraph) is True for subgraph in fisc):
                 result = False
                 reason = (f"{recognizer.__name__} not run: result known to be False because of the "
@@ -310,8 +310,10 @@ class GraphAnalyzer:
         except subprocess.CalledProcessError:
             # this exception seems to happen when the graph is too large for GSS
             message = recognizer.__name__ + " crashed"
+            self.recognizers_that_were_run.add(recognizer.__name__)
             classification.set_reason(class_id, message)
-            self.gss_crashed = True
+            if fisc is not None:
+                self.gss_crashed.update(fisc)
 
     def update_classes_stats(self, classification: ClassificationDigraph) -> None:
         """
@@ -550,7 +552,7 @@ class GraphAnalyzer:
         print(
             f"    - {self.hits_and_misses['hits']} cache hits and {self.hits_and_misses['misses']} "
             f"cache misses occurred (so "
-            f"{round(100 * self.hits_and_misses['hits'] / (self.hits_and_misses['hits'] + self.hits_and_misses['misses']), 2)} % "
+            f"{round(100 * self.hits_and_misses['hits'] / max(1, self.hits_and_misses['hits'] + self.hits_and_misses['misses']), 2)} % "
             f"of all calls to recognizers were simple lookups)."
         )
         # information on skipped classes
@@ -598,6 +600,13 @@ class GraphAnalyzer:
             f"    - the Glasgow Subgraph Solver was run {SubgraphMatcher.number_of_calls_to_gss} "
             f"times."
         )
+        if self.gss_crashed:
+            print(
+                f"    - the Glasgow Subgraph or Clique Solver crashed {len(self.gss_crashed)} "
+                f"times; here are the patterns that triggered an issue \n(note that the crash may "
+                f"actually have happened on induced subpatterns): \n"
+                f"          {sorted(self.gss_crashed)}"
+            )
 
         print()
         print(underlined("ISGCI statistics"))

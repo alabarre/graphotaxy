@@ -15,6 +15,7 @@ from array import array
 from collections import defaultdict
 from functools import lru_cache
 from itertools import combinations, takewhile
+from typing import Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -29,7 +30,7 @@ from graph_recognition.misc_algo import (
     is_connected,
     is_h_u_k1_free,
     co_connected_components, complement_as_adj_mat, connected_components, is_regular, is_complete, neighbors,
-    number_of_nodes, number_of_edges,
+    number_of_nodes, number_of_edges, non_neighbors, is_co_connected,
 )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
@@ -441,10 +442,18 @@ def is_locally_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     :param graph:
     :return:
     """
-    for v in graph:
-        subgraph = graph.subgraph(graph[v])
-        # checking size is mandatory: is_chordal crashes on edgeless graphs
-        if number_of_edges(subgraph) and not is_chordal(subgraph):
+    def induces_cycle(subset):
+        """
+        Returns True iff subset induces a cycle in graph.
+
+        :param subset:
+        :return:
+        """
+        sub = graph.subgraph(subset)
+        return is_connected(sub) and set(degree_sequence(sub)) == {2}
+
+    for v, d in graph.degree:
+        if d > 3 and induces_cycle(graph[v]):
             return False
 
     return True
@@ -549,6 +558,7 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     classes = dict()
     non_twins = defaultdict(set)
 
+    # no need to cache this function: we cache the results "by hand"
     def equiv_class_gen(v):
         """
         Returns the equivalence class of vertex v, which are the co-connected components of the
@@ -574,6 +584,19 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         classes[v] = list(undecorated_function(co_connected_components)(graph.subgraph(graph[v])))
         return classes[v]
 
+    @lru_cache(maxsize=None)
+    def get_class_index(u: Hashable, v: Hashable) -> int | None:
+        """
+        Returns the id of the equivalence class of v that contains u.
+
+        :param u:
+        :param v:
+        :return:
+        """
+        for i, s in enumerate(equiv_class_gen(v)):
+            if u in s:
+                return i
+
     def edge_generator():
         """
         Yields the edges of the graph that must be checked for bipartiteness in the original
@@ -583,18 +606,12 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         """
         # instead of examining all edges once, we go through all vertices and examine all their
         # neighbors; in the worst case we examine each edge twice, but we hope to stop processing
-        # the graph earlier that way and compute fewer classes
-        # for u, v in graph.edges():
+        # the graph earlier that way and compute fewer classes than if we just iterate over all
+        # edges
         for u in graph:
-            for v in graph.neighbors(u):
-                for i, s in enumerate(equiv_class_gen(v)):
-                    if u in s:
-                        break
-
-                for j, s in enumerate(equiv_class_gen(u)):
-                    if v in s:
-                        break
-
+            for v in neighbors(graph, u):
+                i = get_class_index(u, v)
+                j = get_class_index(v, u)
                 yield (v, i), (u, j)
 
     return online_is_bipartite(edge_generator())
@@ -869,6 +886,33 @@ def is_co_locally_chordal(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
+    '''
+    # THE FOLLOWING CHARACTERIZATION USES A LOT MORE MEMORY, FIND OUT WHY AND HOW TO ADDRESS IT
+    # probably because I'm not using HalfAdjacencyMatrix
+    
+    # follows the characterization of locally chordal graphs: a graph is CO-locally chordal if the
+    # CO-neighborhood of each vertex never induces a CO-cycle of length > 3
+    def induces_co_cycle(subset):
+        """
+        Returns True iff subset induces a co-cycle in graph.
+
+        :param subset:
+        :return:
+        """
+        sub = graph.subgraph(subset)
+        return undecorated_function(is_co_connected)(sub) and set(undecorated_function(degree_sequence)(sub)) == {number_of_nodes(graph) - 3}
+
+    # co-cycles on 3 elements are allowed, but no larger co-cycle; so the maximum allowed co-degree
+    # is n - 1 -3
+    max_co_degree = number_of_nodes(graph) - 4
+
+    for v, d in graph.degree:
+        if d <= max_co_degree and induces_co_cycle(non_neighbors(graph, v)):
+            return False
+
+    return True
+    '''
+
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
     return all(
