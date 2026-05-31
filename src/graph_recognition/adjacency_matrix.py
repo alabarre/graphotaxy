@@ -39,8 +39,8 @@ class HalfAdjacencyMatrix:
         """
         # we map nodes to integer ids so vertices can be of any hashable type, and we can extract
         # subgraphs more easily
-        #self.node_mapping = bidict()
-        #self.nodes = self.node_mapping.keys()  # for nx algorithms that need to access this field
+        # self.node_mapping = bidict()
+        # self.nodes = self.node_mapping.keys()  # for nx algorithms that need to access this field
         # switching to two structures instead of bidict
         self.node_to_id = dict()
         self.id_to_node = list()
@@ -303,20 +303,6 @@ class HalfAdjacencyMatrix:
         return self.number_of_edges()
 
     # Miscellaneous -------------------------------------------------------------------------------
-    def subgraph(self, nbunch: Iterable[Hashable]) -> Self:
-        """
-        Returns the subgraph induced by nbunch.
-
-        :param nbunch:
-        :return:
-        """
-        nodes = set(nbunch)
-        result = self.__class__()
-        result.add_nodes_from(nodes)
-        # add edges from the original graph whose endpoints are in nodes
-        result.add_edges_from((u, v) for u in nodes for v in nodes.intersection(self.neighbors(u)))
-        return result
-
     @staticmethod
     def is_multigraph() -> bool:
         """
@@ -341,3 +327,93 @@ class HalfAdjacencyMatrix:
         :return:
         """
         return self.num_nodes
+
+    @classmethod
+    def from_graph(cls, graph: Any) -> Self:
+        """
+        Converts a graph into a HalfAdjacencyMatrix. Use this method whenever the graph to convert
+        is already fully available: it is much faster than relying on add_edge / add_edges_from.
+
+        The input graph type is not really "Any"; we only demand that it has a graph.nodes
+        attribute and a graph.edges attribute.
+
+        :param graph:
+        :return:
+        """
+        # this method bypasses the use of add_edge and add_edges_from whose checks are very costly
+        result = cls()
+
+        # copy nodes and build mappings
+        nodes = list(graph.nodes)
+        result.node_to_id = {v: i for i, v in enumerate(nodes)}
+        result.id_to_node = nodes
+        result.nodes = result.node_to_id.keys()
+        result.num_nodes = len(nodes)
+
+        # build a "full" half-adjacency matrix (i.e., the complete lower triangle)
+        result.adj_mat = [bitarray(i + 1) for i in range(result.num_nodes)]
+        for row in result.adj_mat:
+            row.setall(0)
+
+        result.row_lengths = array("I", (i + 1 for i in range(result.num_nodes)))
+
+        # add edges (endpoints sorted by id)
+        result.num_edges = 0
+        for u, v in graph.edges:
+            u_id, v_id = result.node_to_id[u], result.node_to_id[v]
+            if u_id < v_id:
+                u_id, v_id = v_id, u_id
+
+            if not result.adj_mat[u_id][v_id]:
+                result.adj_mat[u_id][v_id] = 1
+                result.num_edges += 1
+
+        return result
+
+    def subgraph(self, nbunch: Iterable[Hashable]) -> Self:
+        """
+        Returns the subgraph induced by nbunch.
+
+        :param nbunch:
+        :return:
+        """
+        # just like in from_graph, we bypass add_edge and add_edges_from for faster results
+        old_nodes = [v for v in nbunch if v in self.node_to_id]
+        k = len(old_nodes)
+
+        result = self.__class__()
+
+        # copy selected nodes and build mappings
+        result.node_to_id = {v: i for i, v in enumerate(old_nodes)}
+        result.id_to_node = old_nodes
+        result.nodes = result.node_to_id.keys()
+        result.num_nodes = k
+
+        # build a "full" half-adjacency matrix (i.e., the complete lower triangle)
+        result.adj_mat = [bitarray(i + 1) for i in range(k)]
+        for row in result.adj_mat:
+            row.setall(0)
+
+        result.row_lengths = array("I", (i + 1 for i in range(k)))
+
+        # add edges (endpoints sorted by id)
+        result.num_edges = 0
+        old_ids = [self.node_to_id[v] for v in old_nodes]
+
+        for new_u_id in range(k):
+            old_u_id = old_ids[new_u_id]
+            dst_row = result.adj_mat[new_u_id]
+
+            for new_v_id in range(new_u_id + 1):
+                old_v_id = old_ids[new_v_id]
+
+                if old_u_id >= old_v_id:
+                    a, b = old_u_id, old_v_id
+                else:
+                    a, b = old_v_id, old_u_id
+
+                if b < self.row_lengths[a] and self.adj_mat[a][b]:
+                    dst_row[new_v_id] = 1
+                    result.num_edges += 1
+
+        return result

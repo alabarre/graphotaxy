@@ -26,7 +26,7 @@ from graph_recognition.fisc_based_recognizers import (
     is_house_free,
     is_gem_free,
 )
-from graph_recognition.misc_algo import is_h_u_2k1_free, complement_as_adj_mat
+from graph_recognition.misc_algo import complement_as_adj_mat
 from graph_recognition.profitable_hereditary_n import (
     is_chordal,
     is_co_bipartite,
@@ -38,7 +38,6 @@ from graph_recognition.profitable_hereditary_n_2 import (
     is_co_gem_free,
     is_c_n_plus_4_u_k_1_free,
 )
-from graph_recognition.profitable_hereditary_n_3 import is_triangle_free
 from graph_recognition.profitable_hereditary_n_4 import (
     is_co_claw_free,
     is_claw_free,
@@ -326,8 +325,7 @@ def is_auto_2131(graph: nx.Graph) -> bool:
     """
     return (
             is_co_chordal(graph)
-            and is_h_u_2k1_free(graph, is_triangle_free)
-            and is_h_free(graph, ["co-4-fan", "co(K_{5} - e)", "H"])
+            and is_h_free(graph, ["K_{3} U 2K_{1}", "co-4-fan", "co(K_{5} - e)", "H"])
             and is_net_free(graph)
     )
 

@@ -75,14 +75,28 @@ def explicit_independent_triplets(graph: nx.Graph) -> Iterator:
     @param graph:
     @return:
     """
-    # we iterate over non-edges {u, v}, and for each non-neighbor w of u, check whether w is also
-    # not connected to v
-    for u, v in nx.non_edges(graph):
-        # careful: we may have w == v, since they are both non-neighbors of u, so we need to
-        # explicitly exclude v
-        for w in BitMap(nx.non_neighbors(graph, u)) - BitMap({v}):
-            if not graph.has_edge(v, w):
-                yield {u, v, w}
+    # to avoid generating the same triplets multiple times, we choose an arbitrary order for the
+    # vertices; we will then only generate triplets u, v, w with u < v < w;
+
+    # first, build an order (we don't use vertices directly in case their types are incomparable)
+    nodes = list(graph)
+    index = {u: i for i, u in enumerate(nodes)}
+
+    # gather for each vertex u its non neighbors with a larger index than u's
+    non_neighbors_after = dict()
+    all_after = {
+        u: {nodes[j] for j in range(index[u] + 1, number_of_nodes(graph))}
+        for u in nodes
+    }
+
+    for u in graph:
+        non_neighbors_after[u] = all_after[u] - set(graph[u])
+
+    for u in graph:
+        for v in non_neighbors_after[u]:
+            # w is after v because non_neighbors_after[v] only contains later vertices
+            for w in non_neighbors_after[u] & non_neighbors_after[v]:
+                yield u, v, w
 
 
 @lru_cache(maxsize=None)

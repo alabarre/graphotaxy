@@ -774,3 +774,21 @@ def number_of_nodes(graph: nx.Graph | HalfAdjacencyMatrix) -> int:
     :return:
     """
     return graph.number_of_nodes()
+
+
+def induces_cycle(graph: nx.Graph, subset: BitMap) -> bool:
+    """
+    Returns True iff subset induces a cycle in graph.
+
+    :param graph:
+    :param subset:
+    :return:
+    """
+    # subset induces a cycle iff every vertex it contains has degree 2 in the corresponding
+    # subgraph and the subgraph is connected; to avoid building the subgraph, we check instead that
+    # each vertex in the subset has two neighbors in the subset, and only after that do we try to
+    # check connectedness
+    if not all(len(neighbors(graph, v) & subset) == 2 for v in subset):
+        return False
+
+    return is_connected(graph.subgraph(subset))

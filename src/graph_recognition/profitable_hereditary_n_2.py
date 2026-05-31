@@ -30,8 +30,7 @@ from graph_recognition.misc_algo import (
     is_connected,
     is_h_u_k1_free,
     co_connected_components, complement_as_adj_mat, connected_components, is_regular, is_complete, neighbors,
-    number_of_nodes, number_of_edges, non_neighbors, is_co_connected,
-)
+    number_of_nodes, number_of_edges, non_neighbors, is_co_connected, induces_cycle, )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
     is_chordal,
@@ -442,18 +441,8 @@ def is_locally_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     :param graph:
     :return:
     """
-    def induces_cycle(subset):
-        """
-        Returns True iff subset induces a cycle in graph.
-
-        :param subset:
-        :return:
-        """
-        sub = graph.subgraph(subset)
-        return is_connected(sub) and set(degree_sequence(sub)) == {2}
-
     for v, d in graph.degree:
-        if d > 3 and induces_cycle(graph[v]):
+        if d > 3 and induces_cycle(graph, neighbors(graph, v)):
             return False
 
     return True
@@ -886,10 +875,10 @@ def is_co_locally_chordal(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    '''
-    # THE FOLLOWING CHARACTERIZATION USES A LOT MORE MEMORY, FIND OUT WHY AND HOW TO ADDRESS IT
-    # probably because I'm not using HalfAdjacencyMatrix
-    
+    # note: conversion is worth it memory-wise on large graphs because we might have to examine
+    # many subgraphs
+    graph = HalfAdjacencyMatrix.from_graph(graph)
+
     # follows the characterization of locally chordal graphs: a graph is CO-locally chordal if the
     # CO-neighborhood of each vertex never induces a CO-cycle of length > 3
     def induces_co_cycle(subset):
@@ -899,25 +888,25 @@ def is_co_locally_chordal(graph: nx.Graph) -> bool:
         :param subset:
         :return:
         """
-        sub = graph.subgraph(subset)
-        return undecorated_function(is_co_connected)(sub) and set(undecorated_function(degree_sequence)(sub)) == {number_of_nodes(graph) - 3}
+        k = len(subset)
+        # subset induces a co-cycle iff every vertex it contains has co-degree 2 in the
+        # corresponding subgraph and the subgraph is co-connected; to avoid building the subgraph,
+        # we check instead that each vertex in the subset has k-1-2 = k-3 neighbors in the subset,
+        # and only after that do we try to check co-connectedness
+        if not all(len(neighbors(graph, v) & subset) == k - 3 for v in subset):
+            return False
 
-    # co-cycles on 3 elements are allowed, but no larger co-cycle; so the maximum allowed co-degree
-    # is n - 1 -3
-    max_co_degree = number_of_nodes(graph) - 4
+        return is_co_connected(graph.subgraph(subset))
+
+    # co-cycles on 3 elements are allowed, but no larger co-cycle; so the co-neighborhood
+    # must have size at least 4, i.e. n - 1 - d(v) >= 4, hence d(v) <= n - 5
+    max_degree = number_of_nodes(graph) - 5
 
     for v, d in graph.degree:
-        if d <= max_co_degree and induces_co_cycle(non_neighbors(graph, v)):
+        if d <= max_degree and induces_co_cycle(non_neighbors(graph, v)):
             return False
 
     return True
-    '''
-
-    # iterate over co-connected components instead of complementing the whole graph, in the hope
-    # that we can thereby stop early
-    return all(
-        is_locally_chordal(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)
-    )
 
 
 @assign_fisc(
@@ -1072,7 +1061,7 @@ def is_auto_1940(graph: nx.Graph) -> bool:
     "X_{12}", "X_{5}", "X_{95}", "X_{96}", "X_{97}", "co(X_{12})", "co(X_{5})", "co(X_{95})",
     "co(X_{96})", "co(X_{97})", "co(claw U triangle)", "claw U triangle", "co-cricket",
     "co-twin-house", "cricket", "twin-house"
-]) # partial fisc, add those excluded by odd anti holes and odd holes
+])  # partial fisc, add those excluded by odd anti holes and odd holes
 @assign_class_id("gc_745")
 @lru_cache(maxsize=None)
 def is_gc_745(graph: nx.Graph) -> bool:
