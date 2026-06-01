@@ -19,7 +19,6 @@ from typing import Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
-from networkx import is_empty
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
@@ -547,7 +546,8 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     classes = dict()
     non_twins = defaultdict(set)
 
-    # no need to cache this function: we cache the results "by hand"
+    # no need to cache this function: we cache the results "by hand", and we have to because we
+    # want to handle twins and non-twins in a particular way
     def equiv_class_gen(v):
         """
         Returns the equivalence class of vertex v, which are the co-connected components of the
@@ -749,7 +749,7 @@ def is_strict_2_threshold(graph: nx.Graph) -> bool:
     t1_subgraph = graph.subgraph({x}.union(graph[x]))
     c_subgraph, t2_subgraph = c_and_t2_subgraphs(t1_subgraph)
 
-    if is_threshold(t1_subgraph) and is_threshold(t2_subgraph) and is_empty(c_subgraph):
+    if not number_of_edges(c_subgraph) and is_threshold(t1_subgraph) and is_threshold(t2_subgraph):
         return True
 
     # Phase 2
@@ -770,7 +770,7 @@ def is_strict_2_threshold(graph: nx.Graph) -> bool:
     # compute c_subgraph and t2_subgraph as before, and return True iff the same tests on all three
     # subgraphs succeed
     c_subgraph, t2_subgraph = c_and_t2_subgraphs(t1_subgraph)
-    return is_threshold(t1_subgraph) and is_threshold(t2_subgraph) and is_empty(c_subgraph)
+    return not number_of_edges(c_subgraph) and is_threshold(t1_subgraph) and is_threshold(t2_subgraph)
 
 
 # -------------------------------------------------------------------------------------------------
@@ -1060,8 +1060,12 @@ def is_auto_1940(graph: nx.Graph) -> bool:
 @assign_fisc([
     "X_{12}", "X_{5}", "X_{95}", "X_{96}", "X_{97}", "co(X_{12})", "co(X_{5})", "co(X_{95})",
     "co(X_{96})", "co(X_{97})", "co(claw U triangle)", "claw U triangle", "co-cricket",
-    "co-twin-house", "cricket", "twin-house"
-])  # partial fisc, add those excluded by odd anti holes and odd holes
+    "co-twin-house", "cricket", "twin-house",
+    # odd holes
+    "C_{5}", "C_{7}",
+    # odd anti-holes
+    "co(C_{5})", "co(C_{7})",
+])  # partial fisc
 @assign_class_id("gc_745")
 @lru_cache(maxsize=None)
 def is_gc_745(graph: nx.Graph) -> bool:

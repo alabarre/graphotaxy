@@ -343,30 +343,16 @@ class HalfAdjacencyMatrix:
         # this method bypasses the use of add_edge and add_edges_from whose checks are very costly
         result = cls()
 
-        # copy nodes and build mappings
-        nodes = list(graph.nodes)
-        result.node_to_id = {v: i for i, v in enumerate(nodes)}
-        result.id_to_node = nodes
+        # copy nodes, build mappings and allocate matrix
+        result.id_to_node = list(graph.nodes)
+        result.node_to_id = {v: i for i, v in enumerate(result.id_to_node)}
         result.nodes = result.node_to_id.keys()
-        result.num_nodes = len(nodes)
-
-        # build a "full" half-adjacency matrix (i.e., the complete lower triangle)
-        result.adj_mat = [bitarray(i + 1) for i in range(result.num_nodes)]
-        for row in result.adj_mat:
-            row.setall(0)
-
-        result.row_lengths = array("I", (i + 1 for i in range(result.num_nodes)))
+        result.num_nodes = len(result.nodes)
+        result.allocate_full_matrix()
 
         # add edges (endpoints sorted by id)
         result.num_edges = 0
-        for u, v in graph.edges:
-            u_id, v_id = result.node_to_id[u], result.node_to_id[v]
-            if u_id < v_id:
-                u_id, v_id = v_id, u_id
-
-            if not result.adj_mat[u_id][v_id]:
-                result.adj_mat[u_id][v_id] = 1
-                result.num_edges += 1
+        result.add_edges_from_without_check(graph.edges)
 
         return result
 
@@ -388,13 +374,7 @@ class HalfAdjacencyMatrix:
         result.id_to_node = old_nodes
         result.nodes = result.node_to_id.keys()
         result.num_nodes = k
-
-        # build a "full" half-adjacency matrix (i.e., the complete lower triangle)
-        result.adj_mat = [bitarray(i + 1) for i in range(k)]
-        for row in result.adj_mat:
-            row.setall(0)
-
-        result.row_lengths = array("I", (i + 1 for i in range(k)))
+        result.allocate_full_matrix()
 
         # add edges (endpoints sorted by id)
         result.num_edges = 0
@@ -417,3 +397,32 @@ class HalfAdjacencyMatrix:
                     result.num_edges += 1
 
         return result
+
+    def allocate_full_matrix(self):
+        """
+        Build a "full" half-adjacency matrix (i.e., the complete lower triangle).
+
+        :return:
+        """
+        self.adj_mat = [bitarray(i + 1) for i in range(self.num_nodes)]
+        for row in self.adj_mat:
+            row.setall(0)
+
+        self.row_lengths = array("I", (i + 1 for i in range(self.num_nodes)))
+
+    def add_edges_from_without_check(self, ebunch: Iterable):
+        """
+        Adds edges from ebunch to the graph without checking that the rows are long enough. Only
+        use this function if you are certain that the full lower triangle has been allocated.
+        
+        :param ebunch: 
+        :return: 
+        """
+        for u, v in ebunch:
+            u_id, v_id = self.node_to_id[u], self.node_to_id[v]
+            if u_id < v_id:
+                u_id, v_id = v_id, u_id
+
+            if not self.adj_mat[u_id][v_id]:
+                self.adj_mat[u_id][v_id] = 1
+                self.num_edges += 1

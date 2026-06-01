@@ -23,7 +23,7 @@ from graph_recognition.misc_algo import (
     empty_graph_by_removing_vertices,
     is_connected,
     degree_sequence, co_connected_components, complement_as_adj_mat, number_of_common_neighbors, common_neighbors,
-    connected_components, number_of_nodes,
+    connected_components, number_of_nodes, non_neighbors,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
@@ -85,12 +85,12 @@ def explicit_independent_triplets(graph: nx.Graph) -> Iterator:
     # gather for each vertex u its non neighbors with a larger index than u's
     non_neighbors_after = dict()
     all_after = {
-        u: {nodes[j] for j in range(index[u] + 1, number_of_nodes(graph))}
+        u: BitMap({nodes[j] for j in range(index[u] + 1, number_of_nodes(graph))})
         for u in nodes
     }
 
     for u in graph:
-        non_neighbors_after[u] = all_after[u] - set(graph[u])
+        non_neighbors_after[u] = all_after[u] - BitMap(graph[u])
 
     for u in graph:
         for v in non_neighbors_after[u]:
@@ -257,8 +257,8 @@ def is_modular(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # alternative characterization that yields a faster recognition
-    # algorithm: connected, triangle free, and pseudo-modular
+    # alternative characterization that yields a faster recognition algorithm: connected,
+    # triangle free, and pseudo-modular
     return is_connected(graph) and is_triangle_free(graph) and is_pseudo_modular(graph)
 
 
@@ -399,7 +399,7 @@ def is_pseudo_modular(graph: nx.Graph) -> bool:
         # for u in set(graph) - {v, w}:
         # u is at distance >= 2 of both v and w iff it's not adjacent to either
         # of them
-        for u in set(nx.non_neighbors(graph, v)) & set(nx.non_neighbors(graph, w)):
+        for u in non_neighbors(graph, v) & non_neighbors(graph, w):
             # skip if u not equidistant from v and w or not at distance >= 2
             k = distance(graph, frozenset([u, v]))
             if k < 2 or distance(graph, frozenset([u, w])) != k:
@@ -418,7 +418,7 @@ def is_pseudo_modular(graph: nx.Graph) -> bool:
             # for u in set(graph) - {v, w}:
             # u is at distance >= 2 of both v and w iff it's not adjacent to either
             # of them
-            for u in set(nx.non_neighbors(graph, v)) & set(nx.non_neighbors(graph, w)):
+            for u in non_neighbors(graph, v) & non_neighbors(graph, w):
                 # skip if u not equidistant from v and w or not at distance >= 2
                 k = distance(graph, frozenset([u, v]))
                 if k < 2 or distance(graph, frozenset([u, w])) != k:
@@ -476,7 +476,7 @@ def is_interval_regular(graph: nx.Graph) -> bool:
     return True
 
 
-# @assign_inherited_fisc()  # DON'T: condition below is a "or", not an "and"
+# @assign_inherited_fisc()  # DON'T: condition below is an "or", not an "and"
 @assign_class_id("gc_247")
 @lru_cache(maxsize=None)
 def is_interval_or_co_interval(graph: nx.Graph) -> bool:

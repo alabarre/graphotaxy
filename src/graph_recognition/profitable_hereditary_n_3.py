@@ -87,7 +87,7 @@ def is_gc_1308(graph: nx.Graph) -> bool:
     return is_gc_1312(graph) and is_3k1_free(graph)
 
 
-@assign_fisc(["triangle", "K_{1,5}"])
+@assign_inherited_fisc(["triangle", "K_{1,5}"])
 @assign_class_id("gc_921")
 @lru_cache(maxsize=None)
 def is_gc_921(graph: nx.Graph) -> bool:
