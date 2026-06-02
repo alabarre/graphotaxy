@@ -223,7 +223,9 @@ class SubgraphMatcher:
         # * 3) if none of the above worked, call the solver                                       *
         # *****************************************************************************************
         # use the clique solver if the pattern is K_{?}
-        use_clique_solver = smallgraph_name[:3] == "K_{" and smallgraph_name[4:] == "}"
+        # note: as advised by Ciaran, I'm temporarily disabling the clique solver because it seems
+        # to crash on large graphs; will restore when the bug is fixed
+        use_clique_solver = False # smallgraph_name[:3] == "K_{" and smallgraph_name[4:] == "}"
         solver_name = "glasgow_clique_solver" if use_clique_solver else "glasgow_subgraph_solver"
         solver_path = _path_to_solver(solver_name)
         if use_clique_solver:
@@ -244,6 +246,9 @@ class SubgraphMatcher:
                 "--format",
                 "lad",
                 "--induced",
+                # the flag below prevents the solver from calling the clique solver, which is the
+                # default behavior
+                "--no-clique-detection",
                 # "--no-nds",
                 # "--no-supplementals",
                 path_to_pattern_lad,
