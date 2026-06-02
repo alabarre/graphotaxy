@@ -43,6 +43,7 @@ import graph_recognition.profitable_hereditary_n_4
 import graph_recognition.recognizers_n_9
 import graph_recognition.recognizers_n
 import graph_recognition.recognizers_exponential
+from graph_recognition import fisc_based_recognizers
 from readwrite import process_graphs
 
 
@@ -232,7 +233,7 @@ class Test_gc_1299_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.recognizers_n_10.is_b_perfect_and_chordal(graph),
+                fisc_based_recognizers.is_b_perfect_and_chordal(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "
@@ -888,7 +889,7 @@ class Test_gc_1299_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.recognizers_n_10.is_probe_interval_and_tree(graph),
+                fisc_based_recognizers.is_probe_interval_and_tree(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "

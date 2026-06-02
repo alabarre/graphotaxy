@@ -36,12 +36,12 @@ from graph_recognition.profitable_hereditary_n import (
     is_p3_triangle_free,
     is_split,
     is_p3_free,
-    is_2k2_free, is_forest, is_chordal,
+    is_2k2_free, is_forest, is_chordal, is_tree,
 )
 from graph_recognition.profitable_hereditary_n_2 import (
     is_co_diamond_free,
     is_co_paw_free,
-    is_co_gem_free,
+    is_co_gem_free, is_co_t3_co_cycle_free,
 )
 from graph_recognition.profitable_hereditary_n_3 import (
     is_3k1_free,
@@ -6294,6 +6294,62 @@ def is_gc_1365(graph: nx.Graph) -> bool:
 
 
 # All recognizers for patterns on at most 10 vertices ---------------------------------------------
+@assign_inherited_fisc()
+@assign_class_id("gc_620")
+@lru_cache(maxsize=None)
+def is_probe_interval_and_tree(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_620
+
+    @param graph:
+    @return:
+    """
+    # NOTE: nothing constrains the graph to be connected, so we should test whether it's a forest,
+    # but ISGCI seems to implicitly assume connectedness
+    return is_tree(graph) and is_h_free(graph, ["T_{3}", "X_{81}"])
+
+
+@assign_inherited_fisc()
+@assign_class_id("gc_1004")
+@lru_cache(maxsize=None)
+def is_b_perfect_and_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_1004
+
+    @param graph:
+    @return:
+    """
+    return is_chordal(graph) and is_p5_free(graph) and is_h_free(
+        graph,
+        [
+            "3P_{3}",
+            "P_{3} U P_{4}",
+            "X_{102}",
+            "X_{180}",
+            "X_{181}",
+            "X_{182}",
+            "X_{183}",
+            "co(A)",
+        ],
+    )
+
+
+@assign_inherited_fisc()
+@assign_class_id("AUTO_2101")
+@lru_cache(maxsize=None)
+def is_co_t3_co_x_81_co_cycle_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2101.html
+
+    @param graph:
+    @return:
+    """
+    return is_co_t3_co_cycle_free(graph) and is_h_free(graph, ["co(X_{81})"])
+
+
 @assign_class_id("gc_1002")
 @lru_cache(maxsize=None)
 def is_gc_1002(graph: nx.Graph) -> bool:

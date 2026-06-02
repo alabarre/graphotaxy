@@ -29,7 +29,7 @@ from graph_recognition.profitable_hereditary_n import (
     is_planar,
     is_cograph,
 )
-from graph_recognition.recognizers_n_10 import is_b_perfect_and_chordal
+from graph_recognition.fisc_based_recognizers import is_b_perfect_and_chordal
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,

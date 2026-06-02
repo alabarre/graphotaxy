@@ -32,7 +32,7 @@ import graph_recognition.profitable_hereditary_constant
 import graph_recognition.recognizers_n_10
 import graph_recognition.fisc_based_recognizers
 import graph_recognition.profitable_hereditary_n_3
-from graph_recognition import profitable_hereditary_n
+from graph_recognition import profitable_hereditary_n, fisc_based_recognizers, profitable_hereditary_n_2
 from readwrite import process_graphs
 
 
@@ -805,7 +805,7 @@ class Test_gc_1241_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.recognizers_n_10.is_co_t3_co_x_81_co_cycle_free(
+                fisc_based_recognizers.is_co_t3_co_x_81_co_cycle_free(
                     graph
                 ),
                 "failed on graph number "
@@ -888,7 +888,7 @@ class Test_gc_1241_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.recognizers_n_10.is_co_t3_co_cycle_free(graph),
+                profitable_hereditary_n_2.is_co_t3_co_cycle_free(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "

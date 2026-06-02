@@ -39,7 +39,7 @@ from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_planar,
     is_cubic,
-    is_2k2_free, is_mock_threshold, is_co_bipartite,
+    is_2k2_free, is_mock_threshold, is_co_bipartite, is_lobster,
 )
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
@@ -195,6 +195,7 @@ def is_co_paw_free(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     # co-paw = K_1 U P_3, so graph is co-paw-free iff graph - v U N(v) is P_3-free for all choices of v
+    # return is_h_free(graph, ["co-paw"])  # mem usage of GSS to high for large graphs
     return is_h_u_k1_free(graph, is_p3_free)
 
 
@@ -1080,6 +1081,22 @@ def is_gc_745(graph: nx.Graph) -> bool:
     return (
             is_bipartite(graph) or is_co_bipartite(graph) or
             is_line_graph_of_bipartite_graph(graph) or is_co_line_graph_of_bipartite_graph(graph)
+    )
+
+
+# TODO assign_fisc
+@assign_class_id("AUTO_2255")
+@lru_cache(maxsize=None)
+def is_co_t3_co_cycle_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2255
+
+    @param graph:
+    @return:
+    """
+    return all(
+        is_lobster(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)
     )
 
 

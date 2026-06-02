@@ -33,6 +33,7 @@ import graph_recognition.recognizers_n
 import graph_recognition.fisc_based_recognizers
 import graph_recognition.recognizers_n_4
 import graph_recognition.profitable_hereditary_n_3
+from graph_recognition import fisc_based_recognizers
 from readwrite import process_graphs
 
 
@@ -195,7 +196,7 @@ class Test_gc_1101_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertFalse(
-                graph_recognition.recognizers_n_10.is_probe_interval_and_tree(graph),
+                fisc_based_recognizers.is_probe_interval_and_tree(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "

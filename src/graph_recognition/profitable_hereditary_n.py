@@ -44,7 +44,6 @@ from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
     assign_fisc, assign_inherited_fisc, )
-from graph_recognition.subgraphs import is_h_free
 
 
 # Auxiliary functions -----------------------------------------------------------------------------
@@ -2158,7 +2157,7 @@ def is_caterpillar(graph: nx.Graph) -> bool:
 @assign_fisc(["T_{3}", "triangle", "C_{4}", "C_{5}", "C_{6}", "C_{7}", "C_{8}"])
 @assign_class_id("gc_1341")
 @lru_cache(maxsize=None)
-def is_lobster(graph: nx.Graph) -> bool:
+def is_lobster(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     A lobster is a graph such that when we delete its leaves, we obtain a caterpillar.
 
@@ -2195,7 +2194,6 @@ def is_cograph(graph: nx.Graph) -> bool:
     """
     # an empty graph is necessarily P_{4}-free: catch case to prevent to_cotree from raising an
     # exception
-    # note: currently to_cotree does not accept other types than nx.Graph
     return not graph or to_cotree(graph) is not None
 
 
@@ -2386,6 +2384,9 @@ def is_2k2_free(graph: nx.Graph) -> bool:
 
     Complexity: O(m+n) < O(n^4) (naïve)
 
+    Note: complexity is actually O(n^4), but right now moving to fics_based_recognizers or
+    recognizers_n_4 creates circular dependencies issues.
+
     >>> import networkx as nx
     >>> is_2k2_free(nx.path_graph(4))
     True
@@ -2413,7 +2414,12 @@ def is_2k2_free(graph: nx.Graph) -> bool:
             return False
 
     # otherwise search for the pattern
-    return is_h_free(graph, ["2K_{2}"])
+    for (a,b), (c, d) in combinations(graph.edges, 2):
+        if not graph.has_edge(a, c) and not graph.has_edge(a, d) and not graph.has_edge(b, c) and not graph.has_edge(b, d):
+            return False
+    return True
+    # turns out to be much faster and less memory-hungry than GSS on large graphs
+    # return is_h_free(graph, ["2K_{2}"])
 
 
 @assign_fisc(
