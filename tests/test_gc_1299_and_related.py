@@ -3482,7 +3482,7 @@ class Test_gc_1299_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.recognizers_n_11.is_cnplus4_x_59_longhorn_free(graph),
+                fisc_based_recognizers.is_cnplus4_x_59_longhorn_free(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "
@@ -5714,7 +5714,7 @@ class Test_gc_1299_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.recognizers_n_9.is3_k_3_cnplus4_free(graph),
+                fisc_based_recognizers.is3_k_3_cnplus4_free(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "

@@ -38,6 +38,7 @@ import graph_recognition.profitable_hereditary_n_2
 import graph_recognition.recognizers_exponential
 import graph_recognition.recognizers_n_4
 import graph_recognition.profitable_hereditary_n_3
+from graph_recognition import fisc_based_recognizers
 from readwrite import process_graphs
 
 
@@ -3764,7 +3765,7 @@ class Test_gc_525_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.recognizers_n_11.is_domination_perfect_and_planar(
+                fisc_based_recognizers.is_domination_perfect_and_planar(
                     graph
                 ),
                 "failed on graph number "

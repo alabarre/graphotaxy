@@ -36,12 +36,12 @@ from graph_recognition.profitable_hereditary_n import (
     is_p3_triangle_free,
     is_split,
     is_p3_free,
-    is_2k2_free, is_forest, is_chordal, is_tree,
+    is_2k2_free, is_forest, is_chordal, is_tree, is_planar,
 )
 from graph_recognition.profitable_hereditary_n_2 import (
     is_co_diamond_free,
     is_co_paw_free,
-    is_co_gem_free, is_co_t3_co_cycle_free,
+    is_co_gem_free, is_co_t3_co_cycle_free, is_co_chordal,
 )
 from graph_recognition.profitable_hereditary_n_3 import (
     is_3k1_free,
@@ -5853,6 +5853,34 @@ def is_gc_798(graph: nx.Graph) -> bool:
 
 
 # All recognizers for patterns on at most 9 vertices ----------------------------------------------
+@assign_inherited_fisc()
+@assign_class_id("gc_663")
+@lru_cache(maxsize=None)
+def is3_k_3_cnplus4_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_663
+
+    @param graph:
+    @return:
+    """
+    return is_chordal(graph) and is_h_free(graph, ["3K_{3}"])
+
+
+@assign_inherited_fisc()
+@assign_class_id("AUTO_2108")
+@lru_cache(maxsize=None)
+def is_k333_co_cnplus4_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2108.html
+
+    @param graph:
+    @return:
+    """
+    return is_co_chordal(graph) and is_h_free(graph, ["K_{3,3,3}"])
+
+
 @assign_class_id("AUTO_2398")
 @lru_cache(maxsize=None)
 def is_auto_2398(graph: nx.Graph) -> bool:
@@ -6434,6 +6462,48 @@ def is_auto_2248(graph: nx.Graph) -> bool:
 
 
 # All recognizers for patterns on at most 11 vertices ---------------------------------------------
+@assign_inherited_fisc()
+@assign_class_id("gc_554")
+@lru_cache(maxsize=None)
+def is_domination_perfect_and_planar(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_554
+
+    @param graph:
+    @return:
+    """
+    return is_planar(graph) and is_gc_550(graph)
+
+
+@assign_inherited_fisc()
+@assign_class_id("gc_562")
+@lru_cache(maxsize=None)
+def is_cnplus4_x_59_longhorn_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_562.html
+
+    @param graph:
+    @return:
+    """
+    return is_chordal(graph) and is_h_free(graph, ["longhorn", "X_{59}"])
+
+
+@assign_inherited_fisc()
+@assign_class_id("AUTO_2093")
+@lru_cache(maxsize=None)
+def is_co_cnplus4_co_x_59_co_longhorn_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2093
+
+    @param graph:
+    @return:
+    """
+    return is_co_chordal(graph) and is_h_free(graph, ["co-longhorn", "co(X_{59})"])
+
+
 @assign_fisc([
     "net",
     "X_{42}",

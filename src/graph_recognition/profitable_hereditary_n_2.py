@@ -14,11 +14,12 @@ import os
 from array import array
 from collections import defaultdict
 from functools import lru_cache
-from itertools import combinations, takewhile
+from itertools import combinations, takewhile, product
 from typing import Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from networkx.classes import non_edges
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
@@ -208,20 +209,16 @@ def is_co_diamond_free(graph: nx.Graph) -> bool:
 
     See https://www.graphclasses.org/classes/AUTO_77
 
-    Complexity: O(n^2) < O(n^4) (naïve)
+    Complexity: O(n^4).
 
     :type graph: networkx.Graph
     """
-    # note: cannot move yet to fisc_based_recognizers because of circular import issues
-    return is_h_free(graph, ["co-diamond"])
-    # note: tried this, but it's much slower:
-    # improved algorithm: G is co-diamond-free iff G - ({u, v} U N(u) U N(v)) is 2K_{1}-free for
-    # every edge {u, v}
-    # nodes = set(graph)
-    # return all(
-    #     undecorated_function(is_2k1_free)(graph.subgraph(nodes - set.union({u, v}, graph[u], graph[v])))
-    #     for u, v in graph.edges
-    # )
+    # this naïve search outperforms the Glasgow Subgraph Solver on large graphs
+    for (a, b), (c, d) in product(graph.edges, non_edges(graph)):
+        if (not graph.has_edge(a, c) and not graph.has_edge(a, d) and not graph.has_edge(b, c)
+                and not graph.has_edge(b, d)):
+            return False
+    return True
 
 
 @assign_fisc(["co-gem"])

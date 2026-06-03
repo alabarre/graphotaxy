@@ -14,63 +14,13 @@ from itertools import combinations
 import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.fisc_based_recognizers import is_gc_550
 from graph_recognition.misc_algo import number_of_edges
-from graph_recognition.profitable_hereditary_n import (
-    is_chordal,
-    is_planar,
-)
-from graph_recognition.profitable_hereditary_n_2 import is_co_chordal
 from graph_recognition.recognizers_utils import (
     assign_class_id,
-    current_module_recognizers, assign_inherited_fisc,
-)
-from graph_recognition.subgraphs import is_h_free
+    current_module_recognizers, )
 
 
 # Recognizers -------------------------------------------------------------------------------------
-@assign_inherited_fisc()
-@assign_class_id("gc_562")
-@lru_cache(maxsize=None)
-def is_cnplus4_x_59_longhorn_free(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_562.html
-
-    @param graph:
-    @return:
-    """
-    return is_chordal(graph) and is_h_free(graph, ["longhorn", "X_{59}"])
-
-
-@assign_inherited_fisc()
-@assign_class_id("gc_554")
-@lru_cache(maxsize=None)
-def is_domination_perfect_and_planar(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/gc_554
-
-    @param graph:
-    @return:
-    """
-    return is_planar(graph) and is_gc_550(graph)
-
-
-@assign_inherited_fisc()
-@assign_class_id("AUTO_2093")
-@lru_cache(maxsize=None)
-def is_co_cnplus4_co_x_59_co_longhorn_free(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/AUTO_2093
-
-    @param graph:
-    @return:
-    """
-    return is_co_chordal(graph) and is_h_free(graph, ["co-longhorn", "co(X_{59})"])
-
-
 @assign_class_id("gc_749")
 @lru_cache(maxsize=None)
 def is_maximal_clique_irreducible(graph: nx.Graph) -> bool:
