@@ -40,13 +40,12 @@ from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_planar,
     is_cubic,
-    is_2k2_free, is_mock_threshold, is_co_bipartite, is_lobster,
+    is_2k2_free, is_mock_threshold, is_co_bipartite, is_lobster, is_caterpillar,
 )
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
     assign_fisc, undecorated_function, assign_inherited_fisc, )
-from graph_recognition.subgraphs import is_h_free
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -1081,7 +1080,23 @@ def is_gc_745(graph: nx.Graph) -> bool:
     )
 
 
-# TODO assign_fisc
+@assign_fisc(["co(T_{2})", "3K_{1}", "co(C_{4})", "co(C_{5})", "co(C_{6})", "co(C_{7})", "co(C_{8})"])
+@assign_class_id("AUTO_2136")
+@lru_cache(maxsize=None)
+def is_co_t2_co_cycle_free(graph: nx.Graph) -> bool:
+    """
+
+
+
+    @param graph:
+    @return:
+    """
+    return all(
+        is_caterpillar(complement_as_adj_mat(graph, cc)) for cc in co_connected_components(graph)
+    )
+
+
+@assign_fisc(["co(T_{3})", "3K_{1}", "co(C_{4})", "co(C_{5})", "co(C_{6})", "co(C_{7})", "co(C_{8})"])
 @assign_class_id("AUTO_2255")
 @lru_cache(maxsize=None)
 def is_co_t3_co_cycle_free(graph: nx.Graph) -> bool:

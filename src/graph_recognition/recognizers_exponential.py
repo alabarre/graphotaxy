@@ -8,13 +8,15 @@ This file contains recognizers with a worst-case exponential running time.
 # ----- Standard imports --------------------------------------------------------------------------
 import os
 from functools import lru_cache
+from typing import Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from pysat.solvers import Cadical153
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.fisc_based_recognizers import is_bull_free, is_diamond_free, is_gc_180, is_gc_574, is_net_free, \
-    is_e_free
+    is_e_free, is_p5_bull_free, is_p6_free
 from graph_recognition.misc_algo import complement
 from graph_recognition.profitable_hereditary_n import is_planar, is_line, is_bipartite, is_cograph, is_chordal, \
     is_co_bipartite, is_2k2_free
@@ -94,17 +96,34 @@ def is_odd_hole_free(graph: nx.Graph) -> bool:
     )
 
 
+@assign_inherited_fisc()
+@assign_class_id("gc_938")
 @lru_cache(maxsize=None)
-@assign_class_id("gc_968")
-def is_s3_co_3k2_co_e_odd_hole_free(graph: nx.Graph) -> bool:
+def is_gc_938(graph: nx.Graph) -> bool:
     """
 
-    https://www.graphclasses.org/classes/gc_968.html
+    @param graph:
+    @return:
+    """
+    return is_h_free(
+        graph, [
+            "K_{4}", "S_{3}", "X_{36}", "co(C_{7})", "co(X_{175})", "co(X_{176})", "co(X_{42})",
+            "antenna", "co-claw", "net"
+        ]
+    ) and is_odd_hole_free(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("gc_843")
+def is_anti_hole_bull_odd_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_843.html
 
     :param graph:
     :return:
     """
-    return is_h_free(graph, ["S_{3}", "co(3K_{2})", "co-E"]) and is_odd_hole_free(graph)
+    return is_anti_hole_free(graph) and is_bull_free(graph) and is_odd_hole_free(graph)
 
 
 @lru_cache(maxsize=None)
@@ -132,6 +151,19 @@ def is_auto_766(graph: nx.Graph) -> bool:
     """
     return is_s3_co_3k2_co_e_odd_hole_free(graph) and is_h_free(graph, ["co(P_{2} U P_{4})"]) and is_odd_anti_hole_free(
         graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_1489")
+def is_p5_bull_odd_anti_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_1489.html
+
+    :param graph:
+    :return:
+    """
+    return is_p5_bull_free(graph) and is_odd_anti_hole_free(graph)
 
 
 @assign_fisc(["C_{5}", "C_{7}"])
@@ -398,6 +430,21 @@ def is_even_anti_hole_free(graph: nx.Graph):
     return is_even_hole_free(complement(graph))
 
 
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_2581")
+def is_auto_2581(graph: nx.Graph):
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2581
+
+    :param graph:
+    :return:
+    """
+    return is_co_bipartite(graph) and is_h_free(
+        graph, ["co(T_{2})", "co(X_{205})", "co(X_{206})", "co(X_{207})", "co(X_{208})"]
+    ) and is_even_anti_hole_free(graph)
+
+
 @assign_inherited_fisc()
 @lru_cache(maxsize=None)
 @assign_class_id("AUTO_2839")
@@ -411,6 +458,21 @@ def is_3k2_e_p2up4_net_odd_anti_hole_odd_hole_free(graph: nx.Graph) -> bool:
     :return:
     """
     return is_p2up4_free(graph) and is_3k2_e_net_odd_anti_hole_free(graph) and is_odd_hole_free(graph)
+
+
+@assign_inherited_fisc()
+@lru_cache(maxsize=None)
+@assign_class_id("gc_969")
+def is_gc_969(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_969
+
+
+    :param graph:
+    :return:
+    """
+    return is_line(graph) and is_s3_co_3k2_co_e_odd_hole_free(graph)
 
 
 @lru_cache(maxsize=None)
@@ -739,6 +801,85 @@ def is_co_x_37_co_diamond_even_anti_cycle_free(graph: nx.Graph) -> bool:
     :return:
     """
     return is_co_diamond_free(graph) and is_h_free(graph, ["co(X_{37})"]) and is_even_anti_cycle_free(graph)
+
+
+# 3-colorable classes -----------------------------------------------------------------------------
+@lru_cache(maxsize=None)
+@assign_class_id("gc_453")
+def is_tripartite(graph: nx.Graph) -> bool:
+    """
+    A graph is tripartite iff it can be partitioned in 3 independent sets.
+
+    https://www.graphclasses.org/classes/gc_453
+
+    :param graph:
+    :return:
+    """
+
+    def vertex_color(vertex: int, color: int) -> int:
+        """
+        Returns an id for the assignment of color to vertex.
+
+        :param color:
+        :param vertex:
+        :return:
+        """
+        return 3 * vertex + color + 1
+
+    with Cadical153() as s:
+        for v in graph:
+            # vertex v receives at least one color in {0, 1, 2}
+            s.add_clause([vertex_color(v, 0), vertex_color(v, 1), vertex_color(v, 2)])
+            # vertex v receives at most one color in {0, 1, 2}
+            s.add_clause([-vertex_color(v, 0), -vertex_color(v, 1)])
+            s.add_clause([-vertex_color(v, 0), -vertex_color(v, 2)])
+            s.add_clause([-vertex_color(v, 1), -vertex_color(v, 2)])
+
+        for u, v in graph.edges:
+            for c in range(3):
+                # adjacent vertices u and v cannot receive the same color
+                s.add_clause([-vertex_color(u, c), -vertex_color(v, c)])
+
+        return s.solve()
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("gc_639")
+def is_p6_free_and_tripartite(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_639
+
+    :param graph:
+    :return:
+    """
+    return is_p6_free(graph) and is_tripartite(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_749")
+def is_claw_odd_anti_hole_free_and_tripartite(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_749
+
+    :param graph:
+    :return:
+    """
+    return is_claw_odd_anti_hole_free(graph) and is_tripartite(graph)
+
+
+@lru_cache(maxsize=None)
+@assign_class_id("AUTO_751")
+def is_claw_odd_hole_free_and_tripartite(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_751
+
+    :param graph:
+    :return:
+    """
+    return is_claw_odd_hole_free(graph) and is_tripartite(graph)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

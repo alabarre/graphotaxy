@@ -35,7 +35,7 @@ def knows(class_ids: Iterable[str]) -> None:
 
     >>> knows(["gc_1362", "gc_66", "gc_2"])
     gc_1362: found recognizer is_2_edge_connected in graph_recognition.recognizers_n
-    gc_66  : no recognizer available
+    gc_66  : found recognizer is_gc_1325 in graph_recognition.recognizers_exponential
     gc_2   : found recognizer is_gc_1 in graph_recognition.profitable_hereditary_n_4
 
     """
@@ -72,7 +72,6 @@ def knows(class_ids: Iterable[str]) -> None:
                 f"{_id.ljust(longest_name_length)}: found recognizer {function.__name__} in "
                 f"{function.__module__}"
             )
-            break
 
         except KeyError:
             print(f"{_id.ljust(longest_name_length)}: no recognizer available")
@@ -99,7 +98,13 @@ def print_capabilities() -> None:
         f"({round(100 * len(analyzer.recognizers) / len(equivs), 2)} % coverage)"
     )
     print("\nThe classes with the following ids can be recognized:\n")
-    for class_id in sorted(analyzer.recognizers):
+    for class_id in sorted(
+            (name for name in analyzer.recognizers if name[0] == "A"),
+            key=lambda cid: int(cid.split('_')[1])
+    ) + sorted(
+        (name for name in analyzer.recognizers if name[0] == "g"),
+        key=lambda cid: int(cid.split('_')[1])
+    ):
         print(f"    - {class_id}")
 
 

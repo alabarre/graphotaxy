@@ -2123,7 +2123,7 @@ def is_gc_1314(graph: nx.Graph) -> bool:
 @assign_fisc(["T_{2}", "triangle", "C_{4}", "C_{5}", "C_{6}", "C_{7}", "C_{8}"])
 @assign_class_id("gc_784")
 @lru_cache(maxsize=None)
-def is_caterpillar(graph: nx.Graph) -> bool:
+def is_caterpillar(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     A caterpillar is a tree that has a dominating path.
 

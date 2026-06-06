@@ -70,10 +70,19 @@ def explicit_independent_triplets(graph: nx.Graph) -> Iterator:
 
     >>> test = nx.path_graph(5)
     >>> list(explicit_independent_triplets(test))
-    [{0, 2, 4}, {0, 2, 4}]
+    [(0, 2, 4)]
 
     @param graph:
     @return:
+    """
+    """
+    # note: I'd like to use this, but it yields many duplicates: all permutations of the vertices 
+    # of a single match are reported
+    co_triangle = nx.empty_graph(3)
+    matcher = nx.isomorphism.GraphMatcher(graph, co_triangle)
+    for match in matcher.subgraph_isomorphisms_iter():
+        yield set(match)
+
     """
     # to avoid generating the same triplets multiple times, we choose an arbitrary order for the
     # vertices; we will then only generate triplets u, v, w with u < v < w;

@@ -24,7 +24,7 @@ from graph_recognition.fisc_based_recognizers import (
     is_co_domino_free,
     is_p5_free,
     is_house_free,
-    is_gem_free,
+    is_gem_free, is_p6_free,
 )
 from graph_recognition.misc_algo import complement_as_adj_mat
 from graph_recognition.profitable_hereditary_n import (
@@ -45,6 +45,7 @@ from graph_recognition.profitable_hereditary_n_4 import (
     is_anti_hole_free,
 )
 from graph_recognition.recognizers_n import is_2_vertex_connected
+from graph_recognition.recognizers_n_5 import is_p5_anti_hole_free
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
@@ -564,6 +565,19 @@ def is_auto_2107(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return is_co_chordal(graph) and is_h_free(graph, ["K_{3,3}"])
+
+
+@assign_inherited_fisc()
+@assign_class_id("AUTO_907")
+@lru_cache(maxsize=None)
+def is_p5_p6_anti_hole_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_907
+
+    :type graph: networkx.Graph
+    """
+    return is_p5_anti_hole_free(graph) and is_p6_free(graph)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

@@ -565,9 +565,12 @@ def explicit_triangles(graph: nx.Graph) -> Iterator[set]:
     @param graph:
     @return:
     """
-    for u, v in graph.edges:
+    # we order vertices to avoid duplicated triangles; for each edge, examine the common neighbors
+    # of its endpoints
+    for u, v in map(sorted, graph.edges):
         for w in nx.common_neighbors(graph, u, v):
-            yield {u, v, w}
+            if v < w:
+                yield {u, v, w}
 
 
 def enumerate_all_p4s(graph: nx.Graph) -> Generator:
