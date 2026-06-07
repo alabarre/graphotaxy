@@ -40,7 +40,6 @@ from graph_recognition.profitable_hereditary_n import (
     is_planar_and_maximum_degree_3, is_co_maximum_degree_4,
 )
 from graph_recognition.profitable_hereditary_n_2 import (
-    is_co_diamond_free,
     is_co_paw_free,
     is_co_gem_free, is_co_t3_co_cycle_free, is_co_chordal,
 )
@@ -59,7 +58,7 @@ from graph_recognition.profitable_hereditary_n_4 import (
     is_k4_free,
     is_4k1_free,
     is_anti_hole_free,
-    is_hole_free,
+    is_hole_free, is_co_diamond_free,
 )
 from graph_recognition.profitable_hereditary_n_5 import is_2p3_free, is_k2_u_k3_free
 from graph_recognition.recognizers_utils import (

@@ -14,12 +14,11 @@ import os
 from array import array
 from collections import defaultdict
 from functools import lru_cache
-from itertools import combinations, takewhile, product
+from itertools import combinations, takewhile
 from typing import Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
-from networkx.classes import non_edges
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
@@ -197,27 +196,6 @@ def is_co_paw_free(graph: nx.Graph) -> bool:
     # co-paw = K_1 U P_3, so graph is co-paw-free iff graph - v U N(v) is P_3-free for all choices of v
     # return is_h_free(graph, ["co-paw"])  # mem usage of GSS to high for large graphs
     return is_h_u_k1_free(graph, is_p3_free)
-
-
-@assign_fisc(["co-diamond"])
-@assign_class_id("AUTO_77")
-@lru_cache(maxsize=None)
-def is_co_diamond_free(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is co-diamond-free.
-
-    See https://www.graphclasses.org/classes/AUTO_77
-
-    Complexity: O(n^4).
-
-    :type graph: networkx.Graph
-    """
-    # this naïve search outperforms the Glasgow Subgraph Solver on large graphs
-    for (a, b), (c, d) in product(graph.edges, non_edges(graph)):
-        if (not graph.has_edge(a, c) and not graph.has_edge(a, d) and not graph.has_edge(b, c)
-                and not graph.has_edge(b, d)):
-            return False
-    return True
 
 
 @assign_fisc(["co-gem"])
@@ -616,18 +594,6 @@ def is_chordal_and_comparability(graph: nx.Graph) -> bool:
     return is_chordal(graph) and is_comparability(graph)
 
 
-@assign_inherited_fisc()
-@assign_class_id("AUTO_2774")
-@lru_cache(maxsize=None)
-def is_co_chordal_and_co_diamond_free(graph: nx.Graph) -> bool:
-    """
-
-    @param graph:
-    @return:
-    """
-    return is_co_diamond_free(graph) and is_co_chordal(graph)
-
-
 # equivalence with https://www.graphclasses.org/classes/gc_615.html yields this partial fisc:
 @assign_fisc(
     [
@@ -1016,42 +982,25 @@ def is_c_n_plus_4_u_k_1_free(graph: nx.Graph) -> bool:
     return all(is_chordal(graph.subgraph(nodes - {v}.union(graph[v]))) for v in graph)
 
 
-@assign_inherited_fisc()
-@assign_class_id("AUTO_1939")
+@assign_fisc(
+    [
+        "butterfly",  # co(C_4 U K_1)
+        "W_{5}",  # co(C_5 U K_1)
+        "X_{108}",  # co(C_7 U K_1)
+    ]
+)  # partial fisc, ISGCI doesn't know all co(C_{n+4} U K_{1})-free graphs
 @lru_cache(maxsize=None)
-def is_p4_co_diamond_co_paw_free(graph: nx.Graph) -> bool:
+def is_co_c_n_plus_4_u_k_1_free(graph: nx.Graph) -> bool:
     """
-    Returns True iff graph is (P_{4}, co-diamond, co-paw)-free.
+    Returns True iff graph is co(Cn+4 ∪ K1)-free. Not a class in itself, but used to define several
+    other classes.
 
-    See https://www.graphclasses.org/classes/AUTO_1939
-
-    Complexity: O(n^2) < O(n^4) (naïve)
-
-    :type graph: networkx.Graph
-    """
-    return is_cograph(graph) and is_co_paw_free(graph) and is_co_diamond_free(graph)
-
-
-@assign_inherited_fisc()
-@assign_class_id("AUTO_1940")
-@lru_cache(maxsize=None)
-def is_auto_1940(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is (2K_{2}, P_{4}, co-diamond, co-paw)-free.
-
-    See https://www.graphclasses.org/classes/AUTO_1940
-
-    Complexity: O(n^2) < O(n^4) (naïve)
+    Complexity: O(n^2).
 
     @param graph:
     @return:
     """
-    return (
-            is_cograph(graph)
-            and is_2k2_free(graph)
-            and is_co_diamond_free(graph)
-            and is_co_paw_free(graph)
-    )
+    return is_c_n_plus_4_u_k_1_free(complement_as_adj_mat(graph))
 
 
 @assign_fisc([

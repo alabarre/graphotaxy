@@ -638,15 +638,16 @@ def is_probe_co_bipartite(graph: nx.Graph) -> bool:
         return False
 
     # otherwise, find each maximal complete subgraph C of T(co(G))
+    graph_copy = graph.copy()
     for maximal_clique in nx.find_cliques(t_co_g):  # noqa (unexpected type HalfAdjacencyMatrix)
         # cliques in co(G) are independent sets in G; let's build the corresponding edge set
         edge_set = list(combinations(maximal_clique, 2))
         # verify if co(G) − E(C) is bipartite [if so, return True according to their Lemma 2 page
         # 189] as above, verifying whether co(G) − E(C) is bipartite is equivalent to checking
         # whether G U E(C) is co-bipartite
-        graph.add_edges_from(edge_set)
-        retval = is_co_bipartite(graph)
-        graph.remove_edges_from(edge_set)
+        graph_copy.add_edges_from(edge_set)
+        retval = is_co_bipartite(graph_copy)
+        graph_copy.remove_edges_from(edge_set)
         if retval:
             return True
 

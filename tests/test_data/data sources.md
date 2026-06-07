@@ -635,3 +635,7 @@ converted all "s files" from Andries Brouwer's datasets: https://aeb.win.tue.nl/
 Just run nauty-dretog file > file.g6
 
 
+## tripartite=gc_453
+
+for i in {1..10}; do nauty-geng -cl $i | nauty-pickg -N3 > connected-tripartite-$i.g6; done 
+

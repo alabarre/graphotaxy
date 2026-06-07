@@ -92,33 +92,6 @@ class Test_gc_1193_and_related(unittest.TestCase):
         print("done.")
 
     # Generated tests for ancestors of base class gc_1193 not yet covered by other tests:
-    def test_gc_1192(self) -> None:
-        """Tests positive instances for class gc_1192. gc_1192 is an ancestor of gc_1193."""
-        print(
-            self._testMethodName.join("[]"),
-            "testing",
-            len(self.positive),
-            "graphs",
-            end=" ",
-        )
-        sys.stdout.flush()
-
-        # looping over enumerate so we can print failed instances
-        for num, graph in enumerate(self.positive):
-            self.assertTrue(
-                graph_recognition.recognizers_n_4.is_rectagraph(graph),
-                "failed on graph number "
-                + str(num)
-                + " / "
-                + str(len(self.positive))
-                + " with node set "
-                + str(graph.nodes)
-                + " and edge set "
-                + str(graph.edges),
-            )
-
-        print("done.")
-
     def test_gc_1191(self) -> None:
         """Tests positive instances for class gc_1191. gc_1191 is an ancestor of gc_1193."""
         print(
@@ -134,6 +107,33 @@ class Test_gc_1193_and_related(unittest.TestCase):
         for num, graph in enumerate(self.positive):
             self.assertTrue(
                 graph_recognition.recognizers_n_4.is_02_graph(graph),
+                "failed on graph number "
+                + str(num)
+                + " / "
+                + str(len(self.positive))
+                + " with node set "
+                + str(graph.nodes)
+                + " and edge set "
+                + str(graph.edges),
+            )
+
+        print("done.")
+
+    def test_gc_1192(self) -> None:
+        """Tests positive instances for class gc_1192. gc_1192 is an ancestor of gc_1193."""
+        print(
+            self._testMethodName.join("[]"),
+            "testing",
+            len(self.positive),
+            "graphs",
+            end=" ",
+        )
+        sys.stdout.flush()
+
+        # looping over enumerate so we can print failed instances
+        for num, graph in enumerate(self.positive):
+            self.assertTrue(
+                graph_recognition.recognizers_n_4.is_rectagraph(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "

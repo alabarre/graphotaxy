@@ -795,3 +795,18 @@ def induces_cycle(graph: nx.Graph, subset: BitMap) -> bool:
         return False
 
     return is_connected(graph.subgraph(subset))
+
+
+@lru_cache(maxsize=None)
+def degeneracy(graph: nx.Graph) -> int:
+    """
+    Returns the degeneracy of the graph, i.e., the smallest value k for which every subgraph in the
+    graph has a vertex of degree k. See https://en.wikipedia.org/wiki/Degeneracy_(graph_theory) for
+    more information.
+
+    Complexity: O(m+n).
+
+    :param graph:
+    :return:
+    """
+    return max(nx.core_number(graph).values(), default=0)  # default to 0 if dict empty

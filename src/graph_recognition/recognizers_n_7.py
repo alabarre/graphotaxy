@@ -34,7 +34,7 @@ from graph_recognition.profitable_hereditary_n import (
 from graph_recognition.profitable_hereditary_n_2 import (
     is_co_chordal,
     is_c_n_plus_4_u_k_1_free,
-    is_co_line,
+    is_co_line, is_co_c_n_plus_4_u_k_1_free, is_co_paw_free,
 )
 from graph_recognition.profitable_hereditary_n_3 import is_paw_free, is_triangle_free
 from graph_recognition.profitable_hereditary_n_4 import (
@@ -42,6 +42,7 @@ from graph_recognition.profitable_hereditary_n_4 import (
     is_co_claw_free,
     is_hole_free,
 )
+from graph_recognition.profitable_hereditary_n_5 import is_k2_u_k3_free
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
@@ -494,6 +495,26 @@ def is_circular_arc_and_paw_free(graph: nx.Graph) -> bool:
 
 
 @assign_inherited_fisc()
+@assign_class_id("AUTO_2146")
+@lru_cache(maxsize=None)
+def is_co_circular_arc_and_paw_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_2146
+
+    @param graph:
+    @return:
+    """
+    # this algo uses https://www.graphclasses.org/classes/gc_856.html instead
+    return (
+            is_co_c_n_plus_4_u_k_1_free(graph)
+            and is_co_paw_free(graph)
+            and is_k2_u_k3_free(graph)
+            and is_h_free(graph, ["co(T_{2})", "X_{90}", "co-domino", "co-twin-C_{5}"])
+    )
+
+
+@assign_inherited_fisc()
 @assign_class_id("gc_534")
 @lru_cache(maxsize=None)
 def is_hereditary_welsh_powell_perfect(graph: nx.Graph) -> bool:
@@ -522,10 +543,6 @@ def is_hereditary_welsh_powell_perfect(graph: nx.Graph) -> bool:
             "antenna",
         ],
     )
-
-
-
-
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

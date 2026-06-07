@@ -36,7 +36,7 @@ from graph_recognition.misc_algo import (
     degree_sequence,
     is_connected,
     co_connected_components, NUMERIC_TYPECODES, all_vertices_are_int, connected_components, neighbors, number_of_nodes,
-    number_of_edges,
+    number_of_edges, degeneracy,
 )
 from graph_recognition.online_algo import online_is_forest, online_is_bipartite
 from graph_recognition.recognizers_n import is_2_vertex_connected
@@ -2382,10 +2382,10 @@ def is_2k2_free(graph: nx.Graph) -> bool:
 
     See https://www.graphclasses.org/classes/gc_394
 
-    Complexity: O(m+n) < O(n^4) (naïve)
+    Complexity: O(m^2) <= O(n^4) (naïve)
 
-    Note: complexity is actually O(n^4), but right now moving to fics_based_recognizers or
-    recognizers_n_4 creates circular dependencies issues.
+    Note: right now moving to fics_based_recognizers or recognizers_n_4 creates circular
+    dependencies issues.
 
     >>> import networkx as nx
     >>> is_2k2_free(nx.path_graph(4))
@@ -2415,7 +2415,7 @@ def is_2k2_free(graph: nx.Graph) -> bool:
 
     # otherwise search for the pattern
     for (a,b), (c, d) in combinations(graph.edges, 2):
-        if not graph.has_edge(a, c) and not graph.has_edge(a, d) and not graph.has_edge(b, c) and not graph.has_edge(b, d):
+        if len({a, b, c, d}) == 4 and not graph.has_edge(a, c) and not graph.has_edge(a, d) and not graph.has_edge(b, c) and not graph.has_edge(b, d):
             return False
     return True
     # turns out to be much faster and less memory-hungry than GSS on large graphs
@@ -2743,6 +2743,10 @@ def is_planar(graph: nx.Graph) -> bool:
     if n >= 3 and m > 3 * n - 6 or degree_sequence(graph)[-1] > 5:
         return False
 
+    # every planar graph has degeneracy <= 5 (https://en.wikipedia.org/wiki/Degeneracy_(graph_theory))
+    if degeneracy(graph) > 5:
+        return False
+
     # the first element of check_planarity's return value is the answer
     return MyLRPlanarity(graph).lr_planarity(graph) is not None  # nx.check_planarity(graph)[0]
 
@@ -2786,6 +2790,10 @@ def is_outerplanar(graph: nx.Graph) -> bool:
 
     # avoid work if graph has too many edges
     if number_of_edges(graph) > 2 * number_of_nodes(graph) - 3:
+        return False
+
+    # every outerplanar graph has degeneracy <= 2 (https://doi.org/10.4153%2FCJM-1970-125-1)
+    if degeneracy(graph) > 2:
         return False
 
     # add a new vertex and connect it to all other vertices; G is outerplanar

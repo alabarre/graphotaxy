@@ -21,7 +21,8 @@ from graph_recognition.misc_algo import common_neighbors, complement_as_adj_mat,
 from graph_recognition.profitable_hereditary_n import (
     is_p3_free, is_bipartite,
 )
-from graph_recognition.profitable_hereditary_n_2 import is_co_diamond_free, is_comparability
+from graph_recognition.profitable_hereditary_n_2 import is_comparability
+from graph_recognition.profitable_hereditary_n_4 import is_co_diamond_free
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
