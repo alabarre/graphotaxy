@@ -14,9 +14,10 @@ from itertools import combinations
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 from networkx.utils.misc import arbitrary_element
-from pyroaring import BitMap
 
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.domination import dominates
+from graph_recognition.fisc_based_recognizers import is_b_perfect_and_chordal
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     complement,
@@ -29,7 +30,6 @@ from graph_recognition.profitable_hereditary_n import (
     is_planar,
     is_cograph,
 )
-from graph_recognition.fisc_based_recognizers import is_b_perfect_and_chordal
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
@@ -82,18 +82,19 @@ def is_apex(graph: nx.Graph) -> bool:
 
 # not an actual ISGCI class
 @lru_cache(maxsize=None)
-def has_star_cutset(graph: nx.Graph) -> bool:
+def has_star_cutset(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """Returns True if graph has a star-cutset, False otherwise.
 
     https://doi.org/10.1016/0095-8956(85)90049-8
 
-    :param _complement:
     :type graph: nx.Graph
     @param graph:
-    @param _complement:
     """
     if is_complete(graph):
         return False
+
+    if not isinstance(graph, HalfAdjacencyMatrix):
+        graph = HalfAdjacencyMatrix.from_graph(graph)  # to avoid memory issues below on large graphs
 
     # See https://doi.org/10.1016/0095-8956(85)90049-8, Theorem 1 page 192: G
     # has a star-cutset if and only if at least one of two properties hold
@@ -105,7 +106,7 @@ def has_star_cutset(graph: nx.Graph) -> bool:
 
     # testing property 2: G has at least two nonadjacent vertices (this holds because of our test
     # at the beginning) and it has adjacent vertices v, w such that w dominates v
-    if any(dominates(graph, w, v) for v, w in graph.edges):
+    if any(dominates(graph, w, v) or dominates(graph, v, w) for v, w in graph.edges()):
         return True
 
     return False
@@ -161,7 +162,7 @@ def is_unbreakable(graph: nx.Graph) -> bool:
     if is_cograph(graph):
         return False
 
-    return not has_star_cutset(graph) and not has_star_cutset(complement(graph))
+    return not has_star_cutset(graph) and not has_star_cutset(complement_as_adj_mat(graph))
 
 
 @assign_class_id("gc_195")

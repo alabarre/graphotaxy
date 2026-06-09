@@ -13,12 +13,13 @@ from typing import Any, Iterable
 # ----- Third-party imports -----------------------------------------------------------------------
 from networkx import Graph
 
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import degree_sequence, number_of_nodes, number_of_edges
 
 
 @lru_cache(maxsize=None)
-def dominates(graph: Graph, a: Any, b: Any) -> bool:
+def dominates(graph: Graph | HalfAdjacencyMatrix, a: Any, b: Any) -> bool:
     """
     Returns True iff a dominates b, i.e. if the neighborhood of a contains the neighborhood of
     b (excluding a).
