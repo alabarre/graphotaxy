@@ -12,10 +12,11 @@ from typing import Any, Iterable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 from networkx import Graph
+from pyroaring import BitMap
 
-from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.misc_algo import degree_sequence, number_of_nodes, number_of_edges
+from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
+from graph_recognition.misc_algo import degree_sequence, number_of_nodes, number_of_edges, neighbors
 
 
 @lru_cache(maxsize=None)
@@ -28,7 +29,7 @@ def dominates(graph: Graph | HalfAdjacencyMatrix, a: Any, b: Any) -> bool:
     :param a:
     :type graph: Graph
     """
-    return set(graph[b]) - {a} <= set(graph[a])
+    return neighbors(graph, b) - BitMap({a}) <= neighbors(graph, a)
 
 
 @lru_cache(maxsize=None)

@@ -206,7 +206,7 @@ def complement_as_adj_mat(graph: nx.Graph, nodes=None) -> HalfAdjacencyMatrix:
     return compl
 
 
-@lru_cache(maxsize=None)
+#@lru_cache(maxsize=None)
 def common_neighbors(graph: nx.Graph | HalfAdjacencyMatrix, u: Any, v: Any):
     """
     Returns the common neighbors of u and v in graph.
@@ -216,7 +216,7 @@ def common_neighbors(graph: nx.Graph | HalfAdjacencyMatrix, u: Any, v: Any):
     :param v:
     :return:
     """
-    return nx.common_neighbors(graph, u, v)
+    return neighbors(graph, u) & neighbors(graph, v)
 
 
 @lru_cache(maxsize=None)
@@ -229,7 +229,7 @@ def number_of_common_neighbors(graph: nx.Graph, u: Any, v: Any) -> int:
     :param v:
     :return:
     """
-    return sum(1 for _ in common_neighbors(graph, u, v))
+    return len(common_neighbors(graph, u, v))
 
 
 @lru_cache(maxsize=None)
@@ -720,8 +720,9 @@ def connected_components(graph: nx.Graph | HalfAdjacencyMatrix):
             seen.update(c)
             yield c
 
-
-@lru_cache(maxsize=None)
+# this seems to increase memory consumption a lot for large graphs without speeding things up, I'm
+# disabling it for now
+#@lru_cache(maxsize=None)
 def neighbors(graph: nx.Graph | HalfAdjacencyMatrix, x: Any) -> BitMap:
     """
     Returns the neighbors of x in graph as a BitMap.
