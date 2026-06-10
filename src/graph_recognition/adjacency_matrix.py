@@ -132,9 +132,8 @@ class HalfAdjacencyMatrix:
 
         # gather neighbors of type 1)
         v_id = self.node_to_id[v]
-        for pos, val in enumerate(self.adj_mat[v_id]):
-            if val:
-                yield self.id_to_node[pos]
+        for pos in self.adj_mat[v_id].search(1):
+            yield self.id_to_node[pos]
 
         # gather neighbors of type 2)
         for row_idx in range(v_id + 1, self.num_nodes):
@@ -250,9 +249,8 @@ class HalfAdjacencyMatrix:
         :return:
         """
         for u in range(len(self.adj_mat)):
-            for v, val in enumerate(self.adj_mat[u]):
-                if val:
-                    yield self.id_to_node[u], self.id_to_node[v]
+            for v in self.adj_mat[u].search(1):
+                yield self.id_to_node[u], self.id_to_node[v]
 
     def has_edge(self, u: Hashable, v: Hashable) -> bool:
         """
