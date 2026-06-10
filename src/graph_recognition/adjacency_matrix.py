@@ -152,8 +152,6 @@ class HalfAdjacencyMatrix:
         :param v:
         :return:
         """
-        # assert v in self.node_mapping, f"error: node {v} not in {self.node_mapping}" # BUG ICI
-        # print(f"[debug] v = {v}, nodes = {set(self.node_mapping)}")
         for non_n in set(self.node_to_id).difference(self.neighbors(v)).difference({v}):
             yield non_n
 
