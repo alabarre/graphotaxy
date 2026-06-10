@@ -8,7 +8,6 @@ This file contains recognizers with a worst-case exponential running time.
 # ----- Standard imports --------------------------------------------------------------------------
 import os
 from functools import lru_cache
-from typing import Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
