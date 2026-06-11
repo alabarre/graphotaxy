@@ -8,6 +8,7 @@ This file contains recognizers with a worst-case exponential running time.
 # ----- Standard imports --------------------------------------------------------------------------
 import os
 from functools import lru_cache
+from itertools import combinations
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -16,7 +17,7 @@ from pysat.solvers import Cadical153
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.fisc_based_recognizers import is_bull_free, is_diamond_free, is_gc_180, is_gc_574, is_net_free, \
     is_e_free, is_p5_bull_free, is_p6_free
-from graph_recognition.misc_algo import complement, degeneracy
+from graph_recognition.misc_algo import complement, degeneracy, number_of_edges
 from graph_recognition.profitable_hereditary_n import is_planar, is_line, is_bipartite, is_cograph, is_chordal, \
     is_co_bipartite, is_2k2_free
 from graph_recognition.profitable_hereditary_n_2 import is_comparability, is_co_paw_free, \
@@ -883,6 +884,52 @@ def is_claw_odd_hole_free_and_tripartite(graph: nx.Graph) -> bool:
     :return:
     """
     return is_claw_odd_hole_free(graph) and is_tripartite(graph)
+
+
+@assign_class_id("gc_749")
+@lru_cache(maxsize=None)
+def is_maximal_clique_irreducible(graph: nx.Graph) -> bool:
+    """
+    A graph G is maximal clique irreducible if every maximal clique in G contains an edge that is
+    not contained in any other maximal clique.
+
+    https://www.graphclasses.org/classes/gc_749
+
+    Complexity: exponential in the worst case because of nx.find_cliques; after at most m + 1
+    generated cliques, the additional processing is O(m^2 n^2) <= O(n^6).
+
+    :param graph:
+    :return:
+    """
+    if not graph.edges:
+        return True
+
+    # naïve algorithm: first, compute all maximal cliques. If there are more than the number of
+    # edges, then at least one edge appears in more than one clique, so we can return False
+    # I don't know the complexity of nx.find_cliques; we can only claim that we will not read more
+    # than m elements from its result.
+    max_clique_edges = list()
+    m = number_of_edges(graph)
+    for k, clique in enumerate(nx.find_cliques(graph), 1):
+        if k > m:
+            return False
+        max_clique_edges.append(set(map(frozenset, combinations(clique, 2))))
+
+    # map every clique onto a set of edges that no other clique may contain; to achieve that, we
+    # examine clique i, and discard from it all edges that appear in other cliques
+    # for each clique, discard from its edge set all edges in all other cliques
+    for i, edges in enumerate(max_clique_edges):
+        unique_edges = edges.copy()
+        for j, other_edges in enumerate(max_clique_edges):
+            if j != i:
+                unique_edges.difference_update(other_edges)
+
+            # if at any point the set of unique edges is empty, then current clique has no edge
+            # that appears only in it, so the property is False
+            if not unique_edges:
+                return False
+
+    return True
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

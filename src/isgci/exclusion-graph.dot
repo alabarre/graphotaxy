@@ -31,10 +31,6 @@ digraph G {
     gc_342 -> gc_1362
     gc_1362 -> gc_342
 
-    // trees are not 2-vertex-connected
-    gc_342 -> gc_771
-    gc_771 -> gc_342
-
     // trivial: no tree is k-regular for any k >= 3
     gc_342 -> gc_1099 // k >= 3
     gc_1099 -> gc_342 // k >= 3

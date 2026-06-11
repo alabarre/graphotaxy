@@ -37,6 +37,7 @@ import graph_recognition.recognizers_n_5
 import graph_recognition.recognizers_exponential
 import graph_recognition.recognizers_n_11
 import graph_recognition.recognizers_n_7
+from graph_recognition import recognizers_exponential
 from readwrite import process_graphs
 
 
@@ -861,7 +862,7 @@ class Test_gc_525_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.recognizers_n_11.is_maximal_clique_irreducible(graph),
+                recognizers_exponential.is_maximal_clique_irreducible(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "
