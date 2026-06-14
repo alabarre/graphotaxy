@@ -1545,7 +1545,7 @@ def is_co_maximum_degree_4(graph: nx.Graph) -> bool:
 )  # partial fisc: graph is cycle-free
 @assign_class_id("gc_342")
 @lru_cache(maxsize=None)
-def is_tree(graph: nx.Graph) -> bool:
+def is_tree(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     Returns True iff graph is a tree.
 

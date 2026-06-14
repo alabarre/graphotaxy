@@ -102,7 +102,7 @@ def graph_density(graph: nx.Graph | HalfAdjacencyMatrix) -> float:
 # The following functions behave exactly as recognizers, except they do not correspond to classes
 # in ISGCI (hence the lack of @assign_class_id or @assign_fisc).
 @lru_cache(maxsize=None)
-def is_complete(graph: nx.Graph) -> bool:
+def is_complete(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     """
     Returns True if graph is complete, False otherwise.
 
@@ -198,11 +198,15 @@ def complement_as_adj_mat(graph: nx.Graph, nodes=None) -> HalfAdjacencyMatrix:
     """
     compl = HalfAdjacencyMatrix()
     if nodes is None:
-        compl.add_nodes_from(graph)
-        compl.add_edges_from(nx.non_edges(graph))
+        compl.copy_nodes_and_build_mappings(graph)
+        compl.allocate_full_matrix()
+        compl.add_edges_from_without_check(nx.non_edges(graph))
     else:
-        compl.add_nodes_from(nodes)
-        compl.add_edges_from((u, v) for u, v in combinations(nodes, 2) if not graph.has_edge(u, v))
+        compl.copy_nodes_and_build_mappings(nodes)
+        compl.allocate_full_matrix()
+        compl.add_edges_from_without_check(
+            (u, v) for u, v in combinations(nodes, 2) if not graph.has_edge(u, v)
+        )
     return compl
 
 

@@ -324,6 +324,20 @@ class HalfAdjacencyMatrix:
         """
         return self.num_nodes
 
+    def copy_nodes_and_build_mappings(self, nodes: Any):
+        """
+        Copies nodes from graph and builds the necessary mappings.
+
+        The input graph type is not really "Any"; we only demand that it has a graph.nodes
+        attribute.
+
+        :return:
+        """
+        self.id_to_node = list(nodes)
+        self.node_to_id = {v: i for i, v in enumerate(self.id_to_node)}
+        self.nodes = self.node_to_id.keys()
+        self.num_nodes = len(self.nodes)
+
     @classmethod
     def from_graph(cls, graph: Any) -> Self:
         """
@@ -340,10 +354,7 @@ class HalfAdjacencyMatrix:
         result = cls()
 
         # copy nodes, build mappings and allocate matrix
-        result.id_to_node = list(graph.nodes)
-        result.node_to_id = {v: i for i, v in enumerate(result.id_to_node)}
-        result.nodes = result.node_to_id.keys()
-        result.num_nodes = len(result.nodes)
+        result.copy_nodes_and_build_mappings(graph.nodes)
         result.allocate_full_matrix()
 
         # add edges (endpoints sorted by id)
