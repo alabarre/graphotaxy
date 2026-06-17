@@ -9,6 +9,7 @@ O(n^3) algorithms.
 import os
 from functools import lru_cache
 from itertools import combinations, chain, product
+from math import inf, isfinite
 from typing import Any, Iterator
 
 # ----- Third-party imports -----------------------------------------------------------------------
@@ -23,7 +24,7 @@ from graph_recognition.misc_algo import (
     empty_graph_by_removing_vertices,
     is_connected,
     degree_sequence, co_connected_components, complement_as_adj_mat, number_of_common_neighbors, common_neighbors,
-    connected_components, number_of_nodes, non_neighbors,
+    connected_components, number_of_nodes, non_neighbors, neighbors,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
@@ -519,8 +520,11 @@ def distance(graph: nx.Graph, pair: frozenset) -> int:
     :return:
     """
     u, v = pair
-    return int(nx.shortest_path_length(graph, u)[v])
+    try:
+        return int(nx.shortest_path_length(graph, u, v))
 
+    except nx.NetworkXNoPath:
+        return inf
 
 @assign_class_id("gc_222")
 @lru_cache(maxsize=None)
@@ -554,32 +558,40 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
     @return:
     """
     # using definition 2
-    # 1) check the triangle condition
-    # examine all triplets u, v, w with 1 = d(v,w) ...
-    for u, (v, w) in product(graph, graph.edges):
-        # ... and d(u, v) == d(u, w) > 1
-        if u not in {v, w} and distance(graph, frozenset([u, v])) == distance(graph, frozenset([u, w])) > 1:
-            if all(
-                    distance(graph, frozenset([u, x])) != distance(graph, frozenset([u, v])) - 1
-                    for x in common_neighbors(graph, v, w)
-            ):
-                return False
+    for u in graph:
+        dist = nx.single_source_shortest_path_length(graph, u)
 
-    # 2) check the quadrangle condition
-    for u, v, w, z in combinations(graph, 4):
-        if graph.has_edge(v, z) and graph.has_edge(w, z) and distance(
-                graph, frozenset([u, v])) == distance(graph, frozenset([u, w])) == distance(
-            graph, frozenset([u, z])
-        ) - 1:
-            if all(
-                    distance(graph, frozenset([u, x])) != distance(graph, frozenset([u, v])) - 1
-                    for x in set(common_neighbors(graph, v, w)) - {u}
-            ):
-                return False
+        # Triangle condition:
+        # for every edge vw with d(u,v)=d(u,w)>1, v and w have a common neighbor
+        # one step closer to u.
+        for v, w in graph.edges:
+            duv = dist.get(v, inf)
+            duw = dist.get(w, inf)
 
-    # nothing failed
+            if duv == duw and duv > 1:
+                if all(dist.get(x, inf) != duv - 1 for x in common_neighbors(graph, v, w)):
+                    return False
+
+        # Quadrangle condition:
+        # for every z and two neighbors v,w of z with
+        # d(u,v)=d(u,w)=d(u,z)-1, v and w have a common neighbor
+        # one step closer to u.
+        for z in graph:
+            duz = dist.get(z, inf)
+
+            if duz <= 1 or duz == inf:
+                continue
+
+            candidates = [
+                v for v in neighbors(graph, z)
+                if dist.get(v, inf) == duz - 1
+            ]
+
+            for v, w in combinations(candidates, 2):
+                if all(dist.get(x, inf) != duz - 2 for x in common_neighbors(graph, v, w)):
+                    return False
+
     return True
-
 
 @assign_class_id("gc_1267")
 @lru_cache(maxsize=None)

@@ -186,7 +186,7 @@ class HalfAdjacencyMatrix:
         """
         # note: I would yield, but some networkx algorithms have lines like "if len(G[n]) == 0", so
         # we need to return something that can support len()
-        return {x for x in self.neighbors(v)}
+        return set(self.neighbors(v))
 
     def __len__(self) -> int:
         """
