@@ -149,7 +149,8 @@ class SubgraphMatcher:
 
         # O(1) verifications ----------------------------------------------------------------------
         # if graph has fewer vertices or edges than pattern, then it cannot contain the pattern
-        if number_of_nodes(self._graph) < number_of_nodes(pattern) or number_of_edges(self._graph) < number_of_edges(pattern):
+        if number_of_nodes(self._graph) < number_of_nodes(pattern) or number_of_edges(self._graph) < number_of_edges(
+                pattern):
             return False
 
         # if graph's max degree is smaller than pattern's, then it cannot contain the pattern
@@ -229,7 +230,7 @@ class SubgraphMatcher:
         # use the clique solver if the pattern is K_{?}
         # note: as advised by Ciaran, I'm temporarily disabling the clique solver because it seems
         # to crash on large graphs; will restore when the bug is fixed
-        use_clique_solver = False # smallgraph_name[:3] == "K_{" and smallgraph_name[4:] == "}"
+        use_clique_solver = False  # smallgraph_name[:3] == "K_{" and smallgraph_name[4:] == "}"
         solver_name = "glasgow_clique_solver" if use_clique_solver else "glasgow_subgraph_solver"
         solver_path = _path_to_solver(solver_name)
         if use_clique_solver:
@@ -434,6 +435,19 @@ class SubgraphMatcher:
         """
         return self._checked_subgraphs[subgraph]
 
+    def cleanup(self) -> None:
+        """
+        Removes unnecessary files and objects associated to the SubgraphMatcher.
+
+        :return:
+        """
+        if self._graph_lad_path:
+            try:
+                os.remove(self._graph_lad_path)
+            except FileNotFoundError:
+                pass
+            self._graph_lad_path = ""
+
 
 # Functions ---------------------------------------------------------------------------------------
 # ----- Private functions -------------------------------------------------------------------------
@@ -502,8 +516,10 @@ def clear_subgraph_cache(graph: nx.Graph) -> None:
     """
     # note: this function normally belongs in cache_utils, but I want to keep __MATCHERS private so
     # it will remain here
-    if graph in __MATCHERS:  # mandatory check: we may not have called is_h_free at all
-        del __MATCHERS[graph]
+    matcher = __MATCHERS.pop(graph, None)
+    # mandatory check: we may not have called is_h_free at all
+    if matcher is not None:
+        matcher.cleanup()
 
 
 def query_status(graph: nx.Graph, subgraph: str) -> int:
