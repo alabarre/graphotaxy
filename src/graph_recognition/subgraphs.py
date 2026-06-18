@@ -160,6 +160,9 @@ class SubgraphMatcher:
         # O(m+n) verifications --------------------------------------------------------------------
         # looking for an independent set takes a long time; if we find a large enough one, then we
         # don't need to explicitly look for it
+        # note: we know that the largest independent set in ISGCI is 7K_{1}, which explains both
+        # the following test and the cutoff value. If we ever need to store sets with more than 9
+        # vertices, the test will need to change.
         if smallgraph_name[1:] == "K_{1}":
             mis_size = len(maximal_independent_set(self._graph, cutoff=7))
             if mis_size >= int(smallgraph_name[0]):
@@ -265,8 +268,17 @@ class SubgraphMatcher:
         else:
             SubgraphMatcher.number_of_calls_to_gss += 1
 
-        output = subprocess.check_output(glasgow_command).decode()
-        return self._truth_mapping[re.findall("status = (false|true)", output)[0]]
+        output = subprocess.check_output(glasgow_command, stderr=subprocess.STDOUT).decode()
+        match = re.search(r"status = (false|true)", output)
+        if match is None:
+            raise RuntimeError(
+                "Could not parse Glasgow Subgraph Solver output:\n"
+                f"Command: {' '.join(glasgow_command)}\n"
+                f"Output:\n{output}"
+            )
+
+        return self._truth_mapping[match.group(1)]
+
 
     def no_match(self, subgraphs: Iterable[str]) -> bool:
         """
