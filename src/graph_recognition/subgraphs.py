@@ -65,7 +65,16 @@ for i, function in enumerate(functions_to_cache):
 # a dictionary mapping graphs to SubgraphMatcher instances; since SubgraphMatcher.__init__ requires
 # a graph as parameter, we cannot make __MATCHERS a defaultdict
 __MATCHERS = dict()
+_INCLUSION_GRAPH = smallgraph_inclusion_graph()
+_ANCESTORS = {
+    pattern: nx.ancestors(_INCLUSION_GRAPH, pattern)
+    for pattern in _INCLUSION_GRAPH
+}
 
+_DESCENDANTS = {
+    pattern: nx.descendants(_INCLUSION_GRAPH, pattern)
+    for pattern in _INCLUSION_GRAPH
+}
 
 # Classes -----------------------------------------------------------------------------------------
 class SubgraphMatcher:
@@ -86,7 +95,6 @@ class SubgraphMatcher:
         for k, graphbunch in all_smallgraphs_by_order().items()
         for graph in graphbunch
     }
-    inclusion_graph = smallgraph_inclusion_graph()
     _temp_dir = TemporaryDirectory()
 
     # the following variables are only used for statistics
@@ -340,11 +348,11 @@ class SubgraphMatcher:
         @param value:
         @param pattern_bunch:
         """
-        other_patterns = [nx.ancestors, nx.descendants][value]
+        other_patterns = [_ANCESTORS, _DESCENDANTS][value]
         for pattern in pattern_bunch:
             self._checked_subgraphs[pattern] = value
             if value != self._unknown_status:
-                for other_class in other_patterns(SubgraphMatcher.inclusion_graph, pattern):
+                for other_class in other_patterns[pattern]:
                     self._checked_subgraphs[other_class] = value
 
     def contained_subgraphs(self) -> Set[str]:
@@ -382,7 +390,7 @@ class SubgraphMatcher:
             raise ValueError("restriction must be 'maximal' or 'minimal'")
 
         # make sure every pattern has been checked
-        for pattern in SubgraphMatcher.inclusion_graph:
+        for pattern in _INCLUSION_GRAPH:
             self.no_match([pattern])
 
         # set up the basis (all matched or all missing subgraphs)
@@ -407,7 +415,7 @@ class SubgraphMatcher:
             for subgraph in basis
             if all(
                 other not in basis
-                for other in graph_relation(SubgraphMatcher.inclusion_graph, subgraph)
+                for other in graph_relation(_INCLUSION_GRAPH, subgraph)
             )
                and SubgraphMatcher.smallgraph_names_and_orders[subgraph] <= number_of_nodes(self._graph)
         }
