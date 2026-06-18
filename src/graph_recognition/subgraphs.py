@@ -35,7 +35,6 @@ import os.path
 import re
 import shutil
 import subprocess
-from itertools import filterfalse
 from pathlib import Path
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 from typing import Iterable, Set
@@ -279,7 +278,6 @@ class SubgraphMatcher:
 
         return self._truth_mapping[match.group(1)]
 
-
     def no_match(self, subgraphs: Iterable[str]) -> bool:
         """
         Returns True iff none of the input subgraphs appear as induced subgraphs of the input
@@ -435,7 +433,11 @@ class SubgraphMatcher:
 
         :return:
         """
-        return set(filterfalse(self._checked_subgraphs.get, self._checked_subgraphs))
+        return {
+            g
+            for g, status in self._checked_subgraphs.items()
+            if status is False
+        }
 
     def get_status(self, subgraph: str) -> int:
         """
