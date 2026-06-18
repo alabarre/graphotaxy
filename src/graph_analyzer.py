@@ -24,6 +24,7 @@ from copy import deepcopy
 from importlib import import_module
 from itertools import chain
 from os import listdir
+from time import perf_counter
 from typing import Callable, Iterable, Set, List
 
 # ----- Third-party imports -----------------------------------------------------------------------
@@ -91,6 +92,11 @@ class GraphAnalyzer:
         self.number_of_recognizers = 0
         self.setup_recognizers()
 
+        # benchmarking ----------------------------------------------------------------------------
+        self.timing_breakdown = defaultdict(float)
+
+
+
     # Methods related to recognizers --------------------------------------------------------------
     def get_recognizer(self, class_id: str) -> Callable:
         """
@@ -135,11 +141,11 @@ class GraphAnalyzer:
         # 1) profitable classes, i.e. classes that have a FISC but can be recognized faster than by
         #    using a naïve algorithm
         modules = ["profitable_hereditary_constant", "profitable_hereditary_n"]
-        profitable_modules = [f"profitable_hereditary_n_{i}" for i in range(2, 7)]
-        modules.extend(profitable_modules)
+        modules.extend([f"profitable_hereditary_n_{i}" for i in range(2, 7)])
 
         # 2) FISC-based recognizers, which may involve calls to the Glasgow subgraph solver
-        modules.extend(["fisc_based_recognizers"])
+        modules.extend([f"fisc_based_recognizers_n_{i}" for i in range(4, 12)])
+        modules.append("fisc_based_recognizers_n_13")
 
         # 3) and then recognizers that run in O(n), O(n^2), ... time
         nonprofitable_modules = ["recognizers_n"] + [f"recognizers_n_{i}" for i in range(2, 12)]
@@ -233,6 +239,39 @@ class GraphAnalyzer:
             clear_subgraph_cache(graph)  # everything related to subgraph matching
             clear_function_caches(other_caches_to_clear)  # and all other cached functions
             self.active_progress_bars.pop()
+            '''
+            # BENCHMARKING VERSION:
+            t0 = perf_counter()
+
+            self.update_classes_stats(self.classification)
+            t1 = perf_counter()
+
+            if self.gss_crashed:
+                print("[WARNING] the glasgow subgraph or clique solver crashed")
+
+            self.num_graphs += 1
+
+            # the corresponding cached data is no longer needed, so we clear the caches of:
+            hits, misses = clear_function_caches(called_recognizers)  # all called recognizers
+            t2 = perf_counter()
+
+            self.hits_and_misses["hits"] += hits
+            self.hits_and_misses["misses"] += misses
+
+            clear_subgraph_cache(graph)  # everything related to subgraph matching
+            t3 = perf_counter()
+
+            clear_function_caches(other_caches_to_clear)  # and all other cached functions
+            t4 = perf_counter()
+
+            self.active_progress_bars.pop()
+
+            self.timing_breakdown["stats_update"] += t1 - t0
+            self.timing_breakdown["recognizer_cache_clear"] += t2 - t1
+            self.timing_breakdown["subgraph_cache_clear"] += t3 - t2
+            self.timing_breakdown["other_cache_clear"] += t4 - t3
+            self.timing_breakdown["post_graph_total"] += t4 - t0
+            '''
 
         self.stop_refresh = True
 
@@ -615,3 +654,11 @@ class GraphAnalyzer:
             print(f"- {key}: {val}")
 
         print()
+        '''
+        # BENCHMARKING
+        print("Timing breakdown")
+        print("----------------")
+        for key, value in self.timing_breakdown.items():
+            print(f"- {key}: {value:.2f} s")
+        print()
+        '''

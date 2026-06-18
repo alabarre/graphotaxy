@@ -15,8 +15,10 @@ import networkx as nx
 from pysat.solvers import Cadical153
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.fisc_based_recognizers import is_bull_free, is_diamond_free, is_gc_180, is_gc_574, is_net_free, \
-    is_e_free, is_p5_bull_free, is_p6_free
+from graph_recognition.fisc_based_recognizers_n_5 import is_bull_free, is_diamond_free, is_gc_180, is_gc_574, \
+    is_p5_bull_free
+from graph_recognition.fisc_based_recognizers_n_6 import is_net_free, \
+    is_e_free, is_p6_free
 from graph_recognition.misc_algo import complement, degeneracy, number_of_edges
 from graph_recognition.profitable_hereditary_n import is_planar, is_line, is_bipartite, is_cograph, is_chordal, \
     is_co_bipartite, is_2k2_free

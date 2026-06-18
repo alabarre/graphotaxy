@@ -17,7 +17,8 @@ from functools import lru_cache
 import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.fisc_based_recognizers import is_house_free, is_p6_free
+from graph_recognition.fisc_based_recognizers_n_5 import is_house_free
+from graph_recognition.fisc_based_recognizers_n_6 import is_p6_free
 from graph_recognition.profitable_hereditary_n_4 import is_hole_free
 from graph_recognition.recognizers_utils import (
     current_module_recognizers, assign_inherited_fisc, assign_class_id,

@@ -188,6 +188,10 @@ class SubgraphMatcher:
         # if subgraph belongs to graph, then so do all its induced subgraphs; therefore, we first
         # recurse on all induced subgraphs sorted by increasing sizes; if any of them is missing,
         # then the pattern does not appear in the graph
+        # NOTE: we get diminishing returns when the number of graphs to analyze is large, so I'm
+        # commenting this for now. In the future, I might want to use this heuristic only on
+        # datasets with "few" and / or "large" graphs.
+        '''
         for subpattern in sorted(
                 nx.descendants(SubgraphMatcher.inclusion_graph, smallgraph_name),
                 key=SubgraphMatcher.smallgraph_names_and_orders.get
@@ -200,7 +204,7 @@ class SubgraphMatcher:
             # noinspection PySimplifyBooleanCheck
             if self._checked_subgraphs[subpattern] is False:
                 return False
-
+        '''
         # 2b) try profitable hereditary recognizers but only O(m+n) ones
         # NOTE: the same trick could be applied to more profitable recognizers, but at some point
         # we reach diminishing returns. Experimentally, so far, I've only been convinced by the

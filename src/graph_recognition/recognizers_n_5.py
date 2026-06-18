@@ -18,7 +18,7 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.directed_graph import DirectedGraph
-from graph_recognition.fisc_based_recognizers import (
+from graph_recognition.fisc_based_recognizers_n_5 import (
     is_p5_bull_free,
     is_gc_917,
     is_gc_574,

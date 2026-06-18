@@ -36,7 +36,7 @@ import graph_recognition.profitable_hereditary_n_4
 import graph_recognition.recognizers_n_5
 import graph_recognition.profitable_hereditary_n
 import graph_recognition.recognizers_n_7
-from graph_recognition import profitable_hereditary_n_4
+from graph_recognition import profitable_hereditary_n_4, recognizers_n_10
 from readwrite import process_graphs
 
 
@@ -1233,7 +1233,7 @@ class Test_gc_1247_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.recognizers_n_2.is_co_b_perfect_and_chordal(graph),
+                recognizers_n_10.is_co_b_perfect_and_chordal(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "

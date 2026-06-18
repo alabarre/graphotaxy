@@ -820,3 +820,5 @@ def degeneracy(graph: nx.Graph) -> int:
     :return:
     """
     return max(nx.core_number(graph).values(), default=0)  # default to 0 if dict empty
+
+

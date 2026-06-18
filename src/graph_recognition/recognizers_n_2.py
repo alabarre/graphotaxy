@@ -17,13 +17,11 @@ from networkx.utils.misc import arbitrary_element
 
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.domination import dominates
-from graph_recognition.fisc_based_recognizers import is_b_perfect_and_chordal
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
-    complement,
     number_of_common_neighbors,
     degree_sequence,
-    is_connected, is_co_connected, co_connected_components, is_regular, neighbors, is_complete, number_of_nodes,
+    is_connected, is_co_connected, is_regular, neighbors, is_complete, number_of_nodes,
     number_of_edges, complement_as_adj_mat, non_neighbors,
 )
 from graph_recognition.profitable_hereditary_n import (
@@ -221,24 +219,6 @@ def is_minimally_imperfect(graph: nx.Graph) -> bool:
 # should stay at the end of the file in the hope that they are not actually needed until we figure
 # out a way to bypass the computation of the complement.
 # -------------------------------------------------------------------------------------------------
-@assign_class_id("AUTO_3856")
-@lru_cache(maxsize=None)
-def is_co_b_perfect_and_chordal(graph: nx.Graph) -> bool:
-    """
-
-    https://www.graphclasses.org/classes/AUTO_3856.html
-
-    @param graph:
-    @return:
-    """
-    # iterate over co-connected components instead of complementing the whole graph, in the hope
-    # that we can thereby stop early
-    # note: complement_as_adj_mat not usable yet: a call to is_cograph is involved, which does not
-    # accept anything other than a networkx.Graph
-    return all(
-        is_b_perfect_and_chordal(complement(graph.subgraph(cc)))
-        for cc in co_connected_components(graph)
-    )
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

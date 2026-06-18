@@ -14,15 +14,21 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
-from graph_recognition.fisc_based_recognizers import (
+from graph_recognition.fisc_based_recognizers_n_4 import (
+    is_diamond_free,
+)
+from graph_recognition.fisc_based_recognizers_n_5 import (
+    is_k23_free,
+)
+from graph_recognition.fisc_based_recognizers_n_6 import (
+    is_net_free, is_s3_free
+)
+
+from graph_recognition.fisc_based_recognizers_n_7 import (
     is_gc_972,
     is_p7_free,
     is_co_p7_free,
     is_gc_1276,
-    is_net_free,
-    is_s3_free,
-    is_k23_free,
-    is_diamond_free,
 )
 from graph_recognition.misc_algo import is_h_u_2k1_free, complement_as_adj_mat
 from graph_recognition.profitable_hereditary_n import (
