@@ -195,7 +195,10 @@ class GraphAnalyzer:
         # finally, start the analysis
         # set up a thread to refresh progress bars when nothing seems to be happening
         threading.Thread(target=self._auto_refresh, daemon=True).start()
-        for graph in main_pbar:
+        # freezing input graphs to ensure we don't experience unexpected behavior: graphs are not
+        # supposed to change, and this is critical because all recognizers (and many other
+        # functions) use lru_cache
+        for graph in map(nx.freeze, main_pbar):
             # update graph stats
             self.num_nodes += number_of_nodes(graph)
             self.num_edges += number_of_edges(graph)
