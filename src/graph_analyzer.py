@@ -36,7 +36,8 @@ from cache_utils import clear_function_caches, get_cached_non_recognizers
 from classification_digraph import ClassificationDigraph
 from graph_recognition.misc_algo import number_of_nodes, number_of_edges
 from graph_recognition.recognizers_utils import undecorated_function
-from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings, clear_subgraph_cache, query_status
+from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings, clear_subgraph_cache, query_status, \
+    clear_all_subgraph_caches
 from isgci.isgci_base import (
     isgci_equivalences,
     BASE_CLASS_URL,
@@ -216,65 +217,69 @@ class GraphAnalyzer:
             self.active_progress_bars.append(pbar)
 
             called_recognizers = set()
-            for class_id, function in pbar:
-                pbar.set_description("".join(["    ", BASE_CLASS_URL, class_id, " "]))
-                if self.classification.has_open_node(class_id):
-                    if class_id in self.blacklisted:
-                        self.classification.set_reason(class_id, "user blacklisted this class")
-                    else:
-                        self.recognize_graph_and_propagate_results(
-                            graph,
-                            function,
-                            called_recognizers,
-                            self.classification,
-                            class_id,
-                        )
+            try:
+                for class_id, function in pbar:
+                    pbar.set_description("".join(["    ", BASE_CLASS_URL, class_id, " "]))
+                    if self.classification.has_open_node(class_id):
+                        if class_id in self.blacklisted:
+                            self.classification.set_reason(class_id, "user blacklisted this class")
+                        else:
+                            self.recognize_graph_and_propagate_results(
+                                graph,
+                                function,
+                                called_recognizers,
+                                self.classification,
+                                class_id,
+                            )
 
-            # current graph has been classified, update stats:
-            self.update_classes_stats(self.classification)
-            if self.gss_crashed:
-                print("[WARNING] the glasgow subgraph or clique solver crashed")
-            self.num_graphs += 1
-            # the corresponding cached data is no longer needed, so we clear the caches of:
-            hits, misses = clear_function_caches(called_recognizers)  # all called recognizers
-            self.hits_and_misses["hits"] += hits
-            self.hits_and_misses["misses"] += misses
-            clear_subgraph_cache(graph)  # everything related to subgraph matching
-            clear_function_caches(other_caches_to_clear)  # and all other cached functions
-            self.active_progress_bars.pop()
-            '''
-            # BENCHMARKING VERSION:
-            t0 = perf_counter()
+                # current graph has been classified, update stats:
+                self.update_classes_stats(self.classification)
+                if self.gss_crashed:
+                    print("[WARNING] the glasgow subgraph or clique solver crashed")
+                self.num_graphs += 1
 
-            self.update_classes_stats(self.classification)
-            t1 = perf_counter()
-
-            if self.gss_crashed:
-                print("[WARNING] the glasgow subgraph or clique solver crashed")
-
-            self.num_graphs += 1
-
-            # the corresponding cached data is no longer needed, so we clear the caches of:
-            hits, misses = clear_function_caches(called_recognizers)  # all called recognizers
-            t2 = perf_counter()
-
-            self.hits_and_misses["hits"] += hits
-            self.hits_and_misses["misses"] += misses
-
-            clear_subgraph_cache(graph)  # everything related to subgraph matching
-            t3 = perf_counter()
-
-            clear_function_caches(other_caches_to_clear)  # and all other cached functions
-            t4 = perf_counter()
-
-            self.active_progress_bars.pop()
-
-            self.timing_breakdown["stats_update"] += t1 - t0
-            self.timing_breakdown["recognizer_cache_clear"] += t2 - t1
-            self.timing_breakdown["subgraph_cache_clear"] += t3 - t2
-            self.timing_breakdown["other_cache_clear"] += t4 - t3
-            self.timing_breakdown["post_graph_total"] += t4 - t0
-            '''
+            finally:
+                # the corresponding cached data is no longer needed, so we clear the caches of:
+                hits, misses = clear_function_caches(called_recognizers)  # all called recognizers
+                self.hits_and_misses["hits"] += hits
+                self.hits_and_misses["misses"] += misses
+                # clear_subgraph_cache(graph)  # everything related to subgraph matching
+                clear_all_subgraph_caches()   # everything related to subgraph matching
+                clear_function_caches(other_caches_to_clear)  # and all other cached functions
+                self.active_progress_bars.pop()
+                '''
+                # BENCHMARKING VERSION:
+                t0 = perf_counter()
+    
+                self.update_classes_stats(self.classification)
+                t1 = perf_counter()
+    
+                if self.gss_crashed:
+                    print("[WARNING] the glasgow subgraph or clique solver crashed")
+    
+                self.num_graphs += 1
+    
+                # the corresponding cached data is no longer needed, so we clear the caches of:
+                hits, misses = clear_function_caches(called_recognizers)  # all called recognizers
+                t2 = perf_counter()
+    
+                self.hits_and_misses["hits"] += hits
+                self.hits_and_misses["misses"] += misses
+    
+                clear_subgraph_cache(graph)  # everything related to subgraph matching
+                t3 = perf_counter()
+    
+                clear_function_caches(other_caches_to_clear)  # and all other cached functions
+                t4 = perf_counter()
+    
+                self.active_progress_bars.pop()
+    
+                self.timing_breakdown["stats_update"] += t1 - t0
+                self.timing_breakdown["recognizer_cache_clear"] += t2 - t1
+                self.timing_breakdown["subgraph_cache_clear"] += t3 - t2
+                self.timing_breakdown["other_cache_clear"] += t4 - t3
+                self.timing_breakdown["post_graph_total"] += t4 - t0
+                '''
 
         self.stop_refresh = True
 

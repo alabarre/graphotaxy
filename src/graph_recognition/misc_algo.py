@@ -87,6 +87,26 @@ def degree_sequence(graph: nx.Graph | HalfAdjacencyMatrix) -> array:
 
 
 @lru_cache(maxsize=None)
+def codegree_sequence(graph: nx.Graph | HalfAdjacencyMatrix) -> array:
+    """
+
+    :param graph:
+    :return:
+    """
+    ds = degree_sequence(graph)
+    n = number_of_nodes(graph)
+
+    # return convertex array with smallest typecode
+    for tc in NUMERIC_TYPECODES:
+        try:
+            return array(tc, (n - 1 - d for d in ds))
+        except OverflowError:
+            pass
+
+    raise OverflowError  # no type was big enough for the elements of the degree sequence
+
+
+@lru_cache(maxsize=None)
 def graph_density(graph: nx.Graph | HalfAdjacencyMatrix) -> float:
     """
     Returns the ratio "number of edges" / "number of possible edges".
@@ -820,5 +840,3 @@ def degeneracy(graph: nx.Graph) -> int:
     :return:
     """
     return max(nx.core_number(graph).values(), default=0)  # default to 0 if dict empty
-
-

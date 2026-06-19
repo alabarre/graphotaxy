@@ -46,20 +46,12 @@ import networkx as nx
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.graph_formats import nx_graph_to_lad_file, lad_file_to_nx_graph, half_adj_mat_to_lad_file
 from graph_recognition.misc_algo import degree_sequence, maximal_independent_set, number_of_nodes, number_of_edges, \
-    is_complete
-from graph_recognition.recognizers_utils import cached_function
+    is_complete, codegree_sequence
+from graph_recognition.profitable_hereditary_n import is_bipartite
 from graph_recognition.smallgraphs import (
     all_smallgraphs_by_order,
     smallgraph_inclusion_graph,
 )
-
-# Cache selected imported functions ---------------------------------------------------------------
-functions_to_cache = [
-    nx.ancestors,
-    nx.descendants,
-]
-for i, function in enumerate(functions_to_cache):
-    functions_to_cache[i] = cached_function(function)
 
 # Global variables --------------------------------------------------------------------------------
 # a dictionary mapping graphs to SubgraphMatcher instances; since SubgraphMatcher.__init__ requires
@@ -75,6 +67,7 @@ _DESCENDANTS = {
     pattern: nx.descendants(_INCLUSION_GRAPH, pattern)
     for pattern in _INCLUSION_GRAPH
 }
+
 
 # Classes -----------------------------------------------------------------------------------------
 class SubgraphMatcher:
@@ -120,7 +113,7 @@ class SubgraphMatcher:
 
         # write graph to LAD file for further queries, so we translate it only once
         self._graph_lad_path = ""
-        with NamedTemporaryFile(prefix=SubgraphMatcher._temp_dir.name + os.sep, delete=False) as output:
+        with NamedTemporaryFile(dir=SubgraphMatcher._temp_dir.name, delete=False) as output:
             self._graph_lad_path = output.name
             if isinstance(graph, nx.Graph):
                 nx_graph_to_lad_file(graph, self._graph_lad_path)
@@ -155,15 +148,35 @@ class SubgraphMatcher:
         # *****************************************************************************************
 
         # O(1) verifications ----------------------------------------------------------------------
+        g_n = number_of_nodes(self._graph)
+        p_n = number_of_nodes(pattern)
+        g_m = number_of_edges(self._graph)
+        p_m = number_of_edges(pattern)
+
         # if graph has fewer vertices or edges than pattern, then it cannot contain the pattern
-        if number_of_nodes(self._graph) < number_of_nodes(pattern) or number_of_edges(self._graph) < number_of_edges(
-                pattern):
+        if g_n < p_n or g_m < p_m:
+            return False
+
+        # if graph doesn't have enough non-edges, then it cannot contain the pattern either
+        g_non_edges = g_n * (g_n - 1) // 2 - g_m
+        p_non_edges = p_n * (p_n - 1) // 2 - p_m
+
+        if g_non_edges < p_non_edges:
             return False
 
         # if graph's max degree is smaller than pattern's, then it cannot contain the pattern
         if pattern.degree and degree_sequence(pattern)[0] > self._graph_max_degree:
             return False
 
+        if pattern.degree and p_n - 1 - degree_sequence(pattern)[-1] > g_n - 1 - self._graph_min_degree:
+            return False
+
+        # necessary condition:
+        # the i-th largest degree of pattern cannot exceed the i-th largest degree of graph
+        if any(dp > dg for dp, dg in zip(degree_sequence(pattern), degree_sequence(self._graph))):
+            return False
+        if any(cp > cg for cp, cg in zip(codegree_sequence(pattern), codegree_sequence(self._graph))):
+            return False
         # O(m+n) verifications --------------------------------------------------------------------
         # looking for an independent set takes a long time; if we find a large enough one, then we
         # don't need to explicitly look for it
@@ -227,6 +240,8 @@ class SubgraphMatcher:
         # I've been turning this on and off for a while and cannot decide whether to include it;
         # I'm giving up on it for now because for large graphs we spend ages in this part of the
         # code
+        if is_bipartite(self._graph) and not is_bipartite(pattern):
+            return False
         '''
         if any(
                 recognizer(self._graph) and not recognizer(pattern)
@@ -313,6 +328,8 @@ class SubgraphMatcher:
                 graph for graph in subgraphs
                 if self._checked_subgraphs[graph] == self._unknown_status
             },
+            #key=self.sum_gain
+            #key=self.guaranteed_gain
             key=SubgraphMatcher.smallgraph_names_and_orders.get,
         )
 
@@ -471,6 +488,46 @@ class SubgraphMatcher:
             self._graph_lad_path = ""
 
 
+    # Various policies can be tried when deciding in which order given patterns should be tested. A
+    # natural choice is to sort them by increasing size, which is the current behavior. Another choice
+    # would be to base our choices on the "gains" that a pattern will yield, which loosely speaking
+    # refers to the minimum number of patterns that the answer will lead to skipping. The funtions
+    # below are intended to test those policies
+    def guaranteed_gain(self, pattern: str) -> int:
+        """
+
+        :param pattern:
+        :return:
+        """
+        a = sum(
+            self._checked_subgraphs[g] == self._unknown_status
+            for g in _ANCESTORS[pattern]
+        )
+        d = sum(
+            self._checked_subgraphs[g] == self._unknown_status
+            for g in _DESCENDANTS[pattern]
+        )
+
+        return min(a, d)
+
+    def sum_gain(self, pattern: str) -> int:
+        """
+
+        :param pattern:
+        :return:
+        """
+        a = sum(
+            self._checked_subgraphs[g] == self._unknown_status
+            for g in _ANCESTORS[pattern]
+        )
+        d = sum(
+            self._checked_subgraphs[g] == self._unknown_status
+            for g in _DESCENDANTS[pattern]
+        )
+
+        return a + d
+
+
 # Functions ---------------------------------------------------------------------------------------
 # ----- Private functions -------------------------------------------------------------------------
 def _dispatch_findings(graph: nx.Graph, subgraphs: Iterable[str], value: bool) -> None:
@@ -543,6 +600,12 @@ def clear_subgraph_cache(graph: nx.Graph) -> None:
     if matcher is not None:
         matcher.cleanup()
 
+
+def clear_all_subgraph_caches() -> None:
+    for matcher in __MATCHERS.values():
+        matcher.cleanup()
+
+    __MATCHERS.clear()
 
 def query_status(graph: nx.Graph, subgraph: str) -> int:
     """
