@@ -80,6 +80,9 @@ def is_forest(graph: nx.Graph) -> bool:
     if len(graph) == 0:
         return True
 
+    if number_of_edges(graph) > number_of_nodes(graph) - 1:
+        return False
+
     return all(
         len(c) - 1 == number_of_edges(c) for c in map(graph.subgraph, connected_components(graph))
     )
@@ -2701,6 +2704,11 @@ def is_cactus(graph: nx.Graph) -> bool:
     if number_of_nodes(graph) < 4:
         return True
 
+    # since cycles must be edge disjoint, if graph is a cactus graph, then every cycle contributes
+    # one edge more than what is allowed in a tree; therefore, we cannot have more than 2n-2 edges
+    if number_of_edges(graph) > 2 * number_of_nodes(graph) - 2:
+        return False
+
     if not is_connected(graph):
         return False
 
@@ -2744,8 +2752,11 @@ def is_planar(graph: nx.Graph) -> bool:
         return False
 
     # every planar graph has degeneracy <= 5 (https://en.wikipedia.org/wiki/Degeneracy_(graph_theory))
+    ''' 
+    # commenting for now: really time-consuming on huge graphs
     if degeneracy(graph) > 5:
         return False
+    '''
 
     # the first element of check_planarity's return value is the answer
     return MyLRPlanarity(graph).lr_planarity(graph) is not None  # nx.check_planarity(graph)[0]

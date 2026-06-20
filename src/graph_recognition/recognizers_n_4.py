@@ -285,7 +285,7 @@ def is_p4_brittle(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     # for each P_{4} (abcd) we have a clause (a or d) equivalent to (not a => d)
     for p4 in enumerate_all_p4s(graph):
         # we have a P_{4}, extract a and d and build clause
-        a, d = {v for v, deg in graph.subgraph(p4).degree if deg == 1}
+        a, d = [v for v in p4 if sum(graph.has_edge(v, u) for u in p4 if u != v) == 1]
         implication_graph.add_edge(Not(a), d)
 
     # for each edge (ab) we have a clause (not a or not b) equivalent to (a => not b)

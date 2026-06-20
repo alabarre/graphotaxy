@@ -89,6 +89,8 @@ def degree_sequence(graph: nx.Graph | HalfAdjacencyMatrix) -> array:
 @lru_cache(maxsize=None)
 def codegree_sequence(graph: nx.Graph | HalfAdjacencyMatrix) -> array:
     """
+    Returns the co-degree sequence of the graph, i.e. the sequence (n - 1 - d(v)) for every vertex
+    v, sorted increasingly.
 
     :param graph:
     :return:

@@ -168,6 +168,7 @@ class SubgraphMatcher:
         if pattern.degree and degree_sequence(pattern)[0] > self._graph_max_degree:
             return False
 
+        # if graph's max codegree is smaller than pattern's, then it cannot contain the pattern
         if pattern.degree and p_n - 1 - degree_sequence(pattern)[-1] > g_n - 1 - self._graph_min_degree:
             return False
 
@@ -175,8 +176,10 @@ class SubgraphMatcher:
         # the i-th largest degree of pattern cannot exceed the i-th largest degree of graph
         if any(dp > dg for dp, dg in zip(degree_sequence(pattern), degree_sequence(self._graph))):
             return False
+
         if any(cp > cg for cp, cg in zip(codegree_sequence(pattern), codegree_sequence(self._graph))):
             return False
+
         # O(m+n) verifications --------------------------------------------------------------------
         # looking for an independent set takes a long time; if we find a large enough one, then we
         # don't need to explicitly look for it

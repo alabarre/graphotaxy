@@ -95,7 +95,11 @@ class GraphAnalyzer:
 
         # benchmarking ----------------------------------------------------------------------------
         self.timing_breakdown = defaultdict(float)
-
+        self.recognizer_timing = defaultdict(lambda: {
+            "calls": 0,
+            "total": 0.0,
+            "max": 0.0,
+        })
 
 
     # Methods related to recognizers --------------------------------------------------------------
@@ -224,6 +228,8 @@ class GraphAnalyzer:
                         if class_id in self.blacklisted:
                             self.classification.set_reason(class_id, "user blacklisted this class")
                         else:
+                            t0 = perf_counter()
+
                             self.recognize_graph_and_propagate_results(
                                 graph,
                                 function,
@@ -231,6 +237,12 @@ class GraphAnalyzer:
                                 self.classification,
                                 class_id,
                             )
+
+                            elapsed = perf_counter() - t0
+                            stats = self.recognizer_timing[class_id]
+                            stats["calls"] += 1
+                            stats["total"] += elapsed
+                            stats["max"] = max(stats["max"], elapsed)
 
                 # current graph has been classified, update stats:
                 self.update_classes_stats(self.classification)
@@ -246,40 +258,7 @@ class GraphAnalyzer:
                 # clear_subgraph_cache(graph)  # everything related to subgraph matching
                 clear_all_subgraph_caches()   # everything related to subgraph matching
                 clear_function_caches(other_caches_to_clear)  # and all other cached functions
-                self.active_progress_bars.pop()
-                '''
-                # BENCHMARKING VERSION:
-                t0 = perf_counter()
-    
-                self.update_classes_stats(self.classification)
-                t1 = perf_counter()
-    
-                if self.gss_crashed:
-                    print("[WARNING] the glasgow subgraph or clique solver crashed")
-    
-                self.num_graphs += 1
-    
-                # the corresponding cached data is no longer needed, so we clear the caches of:
-                hits, misses = clear_function_caches(called_recognizers)  # all called recognizers
-                t2 = perf_counter()
-    
-                self.hits_and_misses["hits"] += hits
-                self.hits_and_misses["misses"] += misses
-    
-                clear_subgraph_cache(graph)  # everything related to subgraph matching
-                t3 = perf_counter()
-    
-                clear_function_caches(other_caches_to_clear)  # and all other cached functions
-                t4 = perf_counter()
-    
-                self.active_progress_bars.pop()
-    
-                self.timing_breakdown["stats_update"] += t1 - t0
-                self.timing_breakdown["recognizer_cache_clear"] += t2 - t1
-                self.timing_breakdown["subgraph_cache_clear"] += t3 - t2
-                self.timing_breakdown["other_cache_clear"] += t4 - t3
-                self.timing_breakdown["post_graph_total"] += t4 - t0
-                '''
+                self.active_progress_bars.pop().close()
 
         self.stop_refresh = True
 
@@ -670,3 +649,19 @@ class GraphAnalyzer:
             print(f"- {key}: {value:.2f} s")
         print()
         '''
+        print(underlined("Slowest recognizers"))
+        print(f"{'class':<12} {'calls':>8} {'total':>12} {'mean':>12} {'max':>12}")
+
+        for class_id, stats in sorted(
+                self.recognizer_timing.items(),
+                key=lambda item: item[1]["total"],
+                reverse=True,
+        )[:10]:
+            calls = stats["calls"]
+            total = stats["total"]
+            mean = total / calls if calls else 0.0
+            max_time = stats["max"]
+
+            print(f"{class_id:<12} {calls:>8} {total:>12.2f} {mean:>12.4f} {max_time:>12.2f}")
+
+        print()
