@@ -842,3 +842,18 @@ def degeneracy(graph: nx.Graph) -> int:
     :return:
     """
     return max(nx.core_number(graph).values(), default=0)  # default to 0 if dict empty
+
+
+def induced_subgraph_degrees(graph: nx.Graph, vertices: Iterable) -> dict:
+    """
+    Returns the degrees of vertices in the subgraph they induce in graph, avoiding the expensive
+    call to graph.subgraph
+
+    :param graph:
+    :param vertices:
+    :return:
+    """
+    return {
+        v: sum(1 for u in vertices if u != v and graph.has_edge(u, v))
+        for v in vertices
+    }

@@ -845,7 +845,7 @@ def is_weakly_bridged(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    return is_weakly_modular(graph) and is_c4_free(graph)
+    return is_c4_free(graph) and is_weakly_modular(graph)
 
 
 # -------------------------------------------------------------------------------------------------

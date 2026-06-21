@@ -8,7 +8,6 @@ O(n^5) algorithms.
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import os
-from array import array
 from functools import lru_cache
 from itertools import combinations
 from typing import Iterable, Hashable
@@ -40,9 +39,8 @@ from graph_recognition.misc_algo import (
     is_h_u_k2_free,
     is_odd_co_clique_free,
     explicit_triangles,
-    degree_sequence,
     empty_graph_by_removing_vertices,
-    enumerate_all_p4s, number_of_nodes,
+    enumerate_all_p4s, number_of_nodes, common_neighbors, induced_subgraph_degrees,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_complete_bipartite,
@@ -497,31 +495,14 @@ def is_hh_free(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_cograph_contraction(graph: nx.Graph) -> bool:
     """
-    The following definitions are equivalent:
+    A graph G is a cograph contraction iff it has a clique Q such that every induced P4 in G has a
+    midpoint in Q and every induced P5 in the complement of G has both endpoints in Q.
 
-    1) A cograph contraction is formed from a cograph by contracting some disjoint independent sets
-       and then creating a join between all contracted vertices.
-    2) A graph G is a cograph contraction iff it has a clique Q such that every induced P4 in G has
-       a midpoint in Q and every induced P5 in the complement of G has both endpoints in Q.
-
+    https://www.graphclasses.org/classes/gc_154.html
 
     :param graph:
     :return:
     """
-    house_degseq = array("b", [3, 3, 2, 2, 2])
-
-    def induce_house(vertices: Iterable[Hashable]) -> bool:
-        """
-        Returns True if vertices induce a house (= co(P_5)) in graph, False otherwise.
-
-        :param vertices:
-        :return:
-        """
-        # the only two 5-vertex graphs with degree sequence [3, 3, 2, 2, 2] are the house and
-        # K_{2, 3}, but only the latter is bipartite
-        subgraph = graph.subgraph(vertices)
-        return degree_sequence(subgraph) == house_degseq and not is_bipartite(subgraph)
-
     # algorithm from https://onlinelibrary.wiley.com/doi/abs/10.1002/(SICI)1097-0118(199904)30:4%3C309::AID-JGT5%3E3.0.CO;2-5 p 312
     implication_graph = DirectedGraph()
     # for all non-edges (a, b), build a clause (not a or not b) equivalent to (a => not b)
@@ -530,25 +511,41 @@ def is_cograph_contraction(graph: nx.Graph) -> bool:
     # for each P_4 (a, b, c, d), add clause (b or c)  equivalent to (not b => c)
     # in order to go through fewer subsets, don't examine every 4-subset of vertices; instead,
     # examine all pairs of edges
-    p4_degseq = array("b", [2, 2, 1, 1])
-    for e, f in combinations(graph.edges, 2):
-        p4_candidates = set(e + f)
-        if (
-                len(p4_candidates) == 4
-                and degree_sequence(graph.subgraph(p4_candidates)) == p4_degseq
-        ):
-            # we have a P_{4}, extract b and c and build clause
-            b, c = {v for v, deg in graph.subgraph(p4_candidates).degree if deg == 1}
-            implication_graph.add_edge(Not(b), c)
+    for p4 in enumerate_all_p4s(graph):
+        degrees = induced_subgraph_degrees(graph, p4)
+        b, c = [v for v, deg in degrees.items() if deg == 2]
+        implication_graph.add_edge(Not(b), c)
 
     # co-P5 condition
-    for co_p5_candidates in combinations(graph, 5):
-        if induce_house(co_p5_candidates):
-            # we have a co(P_5), extract its midpoints and build clauses (b or b) equivalent to
-            # (not b => b) and (d or d) equivalent to (not d => d)
-            b, d = {v for v, deg in graph.subgraph(co_p5_candidates).degree if deg == 3}
-            implication_graph.add_edge(Not(b), b)
-            implication_graph.add_edge(Not(d), d)
+
+    # instead of examining all 5-tuples of vertices that might induce a house (= co(P_5)), we
+    # examine all edges under the assumption that they might connect the only two degree-3 vertices
+    # of the house we are trying to identify, then try to complete the rest of the pattern.
+    # there is no need to use bipartiteness to distinguish between house and K_{2,3} (the only
+    # other graph with the same degree sequence): this is implicitly done when we look for common
+    # neighbors of b and d below (in a K_{2, 3}, that number would be 0).
+    for b, d in graph.edges:
+        common = tuple(common_neighbors(graph, b, d))
+
+        # in a house, b and d have three common neighbors
+        if len(common) >= 3:
+            for x, y, z in combinations(common, 3):
+                vertices = (b, d, x, y, z)
+
+                # compute the exact degree of b and d in the subgraph induced by vertices
+                deg_b = sum(1 for u in vertices if u != b and graph.has_edge(b, u))
+                deg_d = sum(1 for u in vertices if u != d and graph.has_edge(d, u))
+
+                if deg_b == 3 and deg_d == 3:
+                    # compute the degree of the other vertices in the induced subgraph
+                    degs = sorted(
+                        sum(1 for u in vertices if u != v and graph.has_edge(v, u))
+                        for v in (x, y, z)
+                    )
+
+                    if degs == [2, 2, 2]:
+                        implication_graph.add_edge(Not(b), b)
+                        implication_graph.add_edge(Not(d), d)
 
     return satisfiable(implication_graph)
 
