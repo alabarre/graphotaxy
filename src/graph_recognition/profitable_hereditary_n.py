@@ -2153,13 +2153,13 @@ def is_caterpillar(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         return True
 
     # returns True iff subgraph induced by all nonleaves is a path
-    pruned_graph = graph.subgraph(n for n, d in graph.degree if d != 1)
+    non_leaves = {n for n, d in graph.degree if d != 1}
 
     # note: nx.is_path does not recognize paths ... so we check that pruned_graph is a tree with
     # degree sequence 2, 2, ... 2, 1, 1
-    return degree_sequence(pruned_graph) == array(
-        "Q", [2] * (number_of_nodes(pruned_graph) - 2) + [1, 1]
-    ) and is_tree(pruned_graph)
+    return sorted(
+        induced_subgraph_degrees(graph, non_leaves).values(), reverse=True
+    ) == [2] * (len(non_leaves) - 2) + [1, 1] and is_tree(graph.subgraph(non_leaves))
 
 
 # partial fisc: graph is cycle-free
