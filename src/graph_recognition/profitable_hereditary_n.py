@@ -1603,7 +1603,7 @@ def is_3k1_p3_free(graph: nx.Graph) -> bool:
     is_disjoint_union_of_2_cliques = True
     for i, cc in enumerate(connected_components(graph), 1):
         # too many components or found non-clique -> abort
-        if i > 2 or not is_complete(graph.subgraph(cc)):
+        if i > 2 or set(induced_subgraph_degrees(graph, cc).values()) != {len(cc) - 1}:
             is_disjoint_union_of_2_cliques = False
             break
 
