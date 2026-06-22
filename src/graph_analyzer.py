@@ -665,7 +665,10 @@ class GraphAnalyzer:
             mean = total / calls if calls else 0.0
             max_time = stats["max"]
 
-            print(f"{class_id:<12} {calls:>8} {total:>12.2f} {mean:>12.4f} {max_time:>12.2f} {'.'.join([self.recognizers[class_id].__module__, self.recognizers[class_id].__name__])}")
+            print(
+                f"{class_id:<12} {calls:>8} {total:>12.2f} {mean:>12.4f} {max_time:>12.2f} "
+                f"{'.'.join([self.recognizers[class_id].__module__, self.recognizers[class_id].__name__])}"
+            )
 
         print()
 

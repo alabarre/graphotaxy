@@ -246,7 +246,7 @@ def is_circular_arc_and_co_bipartite(graph: nx.Graph) -> bool:
         :return:
         """
         # connect each pair of edges that induce a C_4 in the original graph
-        c4_degseq = array('b', [2, 2, 2, 2])
+        c4_degseq = [2, 2, 2, 2]
         for e, f in combinations(graph.edges(), 2):
             endpoints = set(e + f)
             if len(endpoints) == 4 and list(induced_subgraph_degrees(graph, endpoints).values()) == c4_degseq:
