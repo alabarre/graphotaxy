@@ -199,12 +199,12 @@ def is_almost_claw_free(graph: nx.Graph) -> bool:
     """
     # extract all claw centers, checking independence as we go along
     claw_centers = set()
-    claw_deg_seq = array('b', [3, 1, 1, 1])
 
     for center in graph:
-        for triplet in map(frozenset, combinations(graph[center], 3)):
-            # if subgraph is a claw, record center and check the other properties
-            if sorted(induced_subgraph_degrees(graph, triplet | {center}).values(), reverse=True) == claw_deg_seq:
+        for a, b, c in combinations(graph[center], 3):
+            # since a, b, c are neighbors of center, we have an induced claw iff a, b, c are
+            # pairwise non-adjacent
+            if not graph.has_edge(a, b) and not graph.has_edge(a, c) and not graph.has_edge(b, c):
                 # check whether subgraph induced by the center's neighbors has a dominating set of
                 # size <= 2
                 if not has_dominating_set_of_size_at_most_2(graph.subgraph(graph[center])):
