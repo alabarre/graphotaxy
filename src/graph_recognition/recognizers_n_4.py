@@ -20,7 +20,6 @@ from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.directed_graph import DirectedGraph
 from graph_recognition.domination import has_dominating_set_of_size_at_most_2
 from graph_recognition.misc_algo import (
-    degree_sequence,
     complement,
     empty_graph_by_removing_vertices,
     is_connected,
@@ -204,9 +203,8 @@ def is_almost_claw_free(graph: nx.Graph) -> bool:
 
     for center in graph:
         for triplet in combinations(graph[center], 3):
-            current_subgraph = graph.subgraph(triplet + (center,))
             # if subgraph is a claw, record center and check the other properties
-            if degree_sequence(current_subgraph) == claw_deg_seq:
+            if sorted(induced_subgraph_degrees(graph, triplet + (center,)), reverse=True) == claw_deg_seq:
                 # check whether subgraph induced by the center's neighbors has a dominating set of
                 # size <= 2
                 if not has_dominating_set_of_size_at_most_2(graph.subgraph(graph[center])):
