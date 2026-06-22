@@ -7,7 +7,6 @@ O(n^4) algorithms.
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import os
-from array import array
 from collections.abc import Hashable
 from functools import lru_cache
 from itertools import combinations

@@ -9,7 +9,7 @@ O(n^3) algorithms.
 import os
 from functools import lru_cache
 from itertools import combinations, chain, product
-from math import inf, isfinite
+from math import inf
 from typing import Any, Iterator
 
 # ----- Third-party imports -----------------------------------------------------------------------
@@ -26,6 +26,7 @@ from graph_recognition.misc_algo import (
     degree_sequence, co_connected_components, complement_as_adj_mat, number_of_common_neighbors, common_neighbors,
     connected_components, number_of_nodes, non_neighbors, neighbors,
 )
+from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
     is_bipartite,
@@ -526,6 +527,7 @@ def distance(graph: nx.Graph, pair: frozenset) -> int:
     except nx.NetworkXNoPath:
         return inf
 
+
 @assign_class_id("gc_222")
 @lru_cache(maxsize=None)
 def is_weakly_modular(graph: nx.Graph) -> bool:
@@ -578,20 +580,15 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
         # one step closer to u.
         for z in graph:
             duz = dist.get(z, inf)
+            if duz not in {0, inf}:
+                candidates = {v for v in neighbors(graph, z) if dist.get(v, inf) == duz - 1}
 
-            if duz <= 1 or duz == inf:
-                continue
-
-            candidates = [
-                v for v in neighbors(graph, z)
-                if dist.get(v, inf) == duz - 1
-            ]
-
-            for v, w in combinations(candidates, 2):
-                if all(dist.get(x, inf) != duz - 2 for x in common_neighbors(graph, v, w)):
-                    return False
+                for v, w in combinations(candidates, 2):
+                    if all(dist.get(x, inf) != duz - 2 for x in common_neighbors(graph, v, w)):
+                        return False
 
     return True
+
 
 @assign_class_id("gc_1267")
 @lru_cache(maxsize=None)
@@ -615,43 +612,46 @@ def is_probe_co_bipartite(graph: nx.Graph) -> bool:
     if is_co_bipartite(graph):
         return True
 
-    # The algorithm comes from https://dmtcs.episciences.org/2122/pdf, page 190 and runs in O(n^3)
-    # time if G is co-triangle-free (i.e. 3K_1-free)
+    # we are going to check the co-bipartiteness of many graphs below, so better do it online; here
+    # is the function that will generate the non-edges we need:
+    def co_edges_except(forbidden_edges: set[frozenset]):
+        """
+        Generates the edges of co(G), except those in forbidden_edges.
+        """
+        for x, y in nx.non_edges(graph):
+            if frozenset((x, y)) not in forbidden_edges:
+                yield x, y
+
+    # The algorithm below comes from https://dmtcs.episciences.org/2122/pdf, page 190 and runs in
+    # O(n^3) time if G is co-triangle-free (i.e. 3K_1-free)
     if is_3k1_free(graph):
-        # then check if for some non-edge e of G whether co(G) − e is bipartite (i.e., whether
-        # G U e is co-bipartite); G is probe 2-clique iff there is such an edge (Lemma 1 p 189)
-        graph_copy = graph.copy()
+        # then check if for some non-edge e of G whether co(G) − e is bipartite; G is probe
+        # 2-clique iff there is such an edge (Lemma 1 p 189)
         for u, v in nx.non_edges(graph):
-            graph_copy.add_edge(u, v)
-            retval = is_co_bipartite(graph_copy)
-            graph_copy.remove_edge(u, v)
-            if retval:
+            if online_is_bipartite(co_edges_except({frozenset((u, v))})):
                 return True
 
         return False
 
     # construct T(co(G)), the spanning subgraph of co(G) (or G) whose edge set contains precisely
     # the edges that are contained in some co-triangle of G
+    # to avoid enumerating all independent triplets, we traverse all non-edges of the graph, and
+    # keep only those whose endpoints have a common non-neighbor
+    nodes = BitMap(graph)
+    co_neighbors = {u: nodes - neighbors(graph, u) - BitMap({u}) for u in graph}
+
     t_co_g = HalfAdjacencyMatrix()
-    for co_triangle in explicit_independent_triplets(graph):
-        t_co_g.add_edges_from(combinations(co_triangle, 2))
+    for u, v in nx.non_edges(graph):
+        if co_neighbors[u] & co_neighbors[v]:
+            t_co_g.add_edge(u, v)
 
     # if T(co(G)) is not a split graph, then G is not probe 2-clique
     if not is_split(t_co_g):
         return False
 
-    # otherwise, find each maximal complete subgraph C of T(co(G))
-    graph_copy = graph.copy()
     for maximal_clique in nx.find_cliques(t_co_g):  # noqa (unexpected type HalfAdjacencyMatrix)
-        # cliques in co(G) are independent sets in G; let's build the corresponding edge set
-        edge_set = list(combinations(maximal_clique, 2))
-        # verify if co(G) − E(C) is bipartite [if so, return True according to their Lemma 2 page
-        # 189] as above, verifying whether co(G) − E(C) is bipartite is equivalent to checking
-        # whether G U E(C) is co-bipartite
-        graph_copy.add_edges_from(edge_set)
-        retval = is_co_bipartite(graph_copy)
-        graph_copy.remove_edges_from(edge_set)
-        if retval:
+        # check whether co(G) - the edges of maximal_clique
+        if online_is_bipartite(co_edges_except({frozenset(edge) for edge in combinations(maximal_clique, 2)})):
             return True
 
     return False
