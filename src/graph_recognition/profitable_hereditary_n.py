@@ -1580,7 +1580,10 @@ def is_p3_free(graph: nx.Graph) -> bool:
     """
     # equivalent to https://www.graphclasses.org/classes/gc_1237.html :
     # a graph is a cluster graph iff it is a disjoint union of cliques
-    return all(is_complete(graph.subgraph(cc)) for cc in connected_components(graph))
+    return all(
+        set(induced_subgraph_degrees(graph, cc).values()) == {len(cc) - 1}
+        for cc in connected_components(graph)
+    )
 
 
 @assign_fisc(["P_{3}", "3K_{1}"])
@@ -2417,8 +2420,10 @@ def is_2k2_free(graph: nx.Graph) -> bool:
             return False
 
     # otherwise search for the pattern
-    for (a,b), (c, d) in combinations(graph.edges, 2):
-        if len({a, b, c, d}) == 4 and not graph.has_edge(a, c) and not graph.has_edge(a, d) and not graph.has_edge(b, c) and not graph.has_edge(b, d):
+    for (a, b), (c, d) in combinations(graph.edges, 2):
+        if len({a, b, c, d}) == 4 and not graph.has_edge(a, c) and not graph.has_edge(a, d) and not graph.has_edge(b,
+                                                                                                                   c) and not graph.has_edge(
+                b, d):
             return False
     return True
     # turns out to be much faster and less memory-hungry than GSS on large graphs
