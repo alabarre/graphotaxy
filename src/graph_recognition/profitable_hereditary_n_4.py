@@ -11,7 +11,6 @@ Recognizers in this file have running time O(n^4).
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import os
-from array import array
 from collections import defaultdict
 from functools import lru_cache
 from itertools import combinations, product
@@ -25,7 +24,7 @@ from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     number_of_common_neighbors,
     degree_sequence,
-    co_connected_components, complement_as_adj_mat, number_of_edges, )
+    co_connected_components, complement_as_adj_mat, number_of_edges, induced_subgraph_degrees, )
 from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_cograph,
@@ -702,12 +701,12 @@ def is_diamond_co_diamond_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # co-diamond: for each non edge, go through all edges, and check degree
-    # sequence of induced subgraph
+    # co-diamond: for each non edge, go through all edges, and check degree sequence of induced
+    # subgraph
     #                     diamond       co-diamond
-    forbidden_deg_seqs = (array("b", [3, 3, 2, 2]), array("b", [1, 1, 0, 0]))
+    forbidden_deg_seqs = ([3, 3, 2, 2], [1, 1, 0, 0])
     return all(
-        degree_sequence(graph.subgraph(set(e + f))) not in forbidden_deg_seqs
+        sorted(induced_subgraph_degrees(graph, set(e+f)), reverse=True) not in forbidden_deg_seqs
         for e in nx.non_edges(graph)
         for f in graph.edges
     )
