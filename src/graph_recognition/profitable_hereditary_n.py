@@ -142,7 +142,7 @@ def is_disjoint_union_of_edgeless_graph_and_single_other(
 
 
 # @lru_cache(maxsize=None) # don't: arrays are not hashable
-def is_split_degree_sequence(degseq: array) -> bool:
+def is_split_degree_sequence(degseq: array | list) -> bool:
     """
     Returns True iff the given degree sequence is that of a split graph, False otherwise. The
     degree sequence must be sorted decreasingly.

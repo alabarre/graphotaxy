@@ -204,7 +204,7 @@ def is_almost_claw_free(graph: nx.Graph) -> bool:
     for center in graph:
         for triplet in combinations(graph[center], 3):
             # if subgraph is a claw, record center and check the other properties
-            if sorted(induced_subgraph_degrees(graph, triplet + (center,)), reverse=True) == claw_deg_seq:
+            if sorted(induced_subgraph_degrees(graph, triplet + (center,)).values(), reverse=True) == claw_deg_seq:
                 # check whether subgraph induced by the center's neighbors has a dominating set of
                 # size <= 2
                 if not has_dominating_set_of_size_at_most_2(graph.subgraph(graph[center])):
@@ -249,7 +249,7 @@ def is_circular_arc_and_co_bipartite(graph: nx.Graph) -> bool:
         c4_degseq = array('b', [2, 2, 2, 2])
         for e, f in combinations(graph.edges(), 2):
             endpoints = set(e + f)
-            if len(endpoints) == 4 and list(induced_subgraph_degrees(graph, endpoints)) == c4_degseq:
+            if len(endpoints) == 4 and list(induced_subgraph_degrees(graph, endpoints).values()) == c4_degseq:
                 yield e, f
 
     return online_is_bipartite(edge_generator())

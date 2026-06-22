@@ -29,7 +29,7 @@ from graph_recognition.misc_algo import (
     is_connected,
     is_h_u_k1_free,
     co_connected_components, complement_as_adj_mat, connected_components, is_regular, is_complete, neighbors,
-    number_of_nodes, number_of_edges, non_neighbors, is_co_connected, induces_cycle, )
+    number_of_nodes, number_of_edges, non_neighbors, is_co_connected, induces_cycle, induced_subgraph_degrees, )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
     is_chordal,
@@ -39,7 +39,7 @@ from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_planar,
     is_cubic,
-    is_2k2_free, is_mock_threshold, is_co_bipartite, is_lobster, is_caterpillar,
+    is_2k2_free, is_mock_threshold, is_co_bipartite, is_lobster, is_caterpillar, is_split_degree_sequence,
 )
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
@@ -134,7 +134,10 @@ def is_locally_split(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    return all(is_split(graph.subgraph(graph[v])) for v in graph)
+    return all(
+        is_split_degree_sequence(sorted(induced_subgraph_degrees(graph, graph[v]).values(), reverse=True))
+        for v in graph
+    )
 
 
 @assign_fisc(
