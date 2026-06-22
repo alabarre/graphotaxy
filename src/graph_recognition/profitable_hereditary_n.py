@@ -36,7 +36,7 @@ from graph_recognition.misc_algo import (
     degree_sequence,
     is_connected,
     co_connected_components, NUMERIC_TYPECODES, all_vertices_are_int, connected_components, neighbors, number_of_nodes,
-    number_of_edges, degeneracy,
+    number_of_edges, degeneracy, induced_subgraph_degrees,
 )
 from graph_recognition.online_algo import online_is_forest, online_is_bipartite
 from graph_recognition.recognizers_n import is_2_vertex_connected
@@ -2714,8 +2714,7 @@ def is_cactus(graph: nx.Graph) -> bool:
 
     # every biconnected component must be a cycle or a single edge
     return all(
-        degree_sequence(graph.subgraph(bc))
-        in (array("b", [1, 1]), array("b", [2] * len(bc)))
+        list(induced_subgraph_degrees(graph, bc).values()) in ([1, 1], [2] * len(bc))
         for bc in nx.biconnected_components(graph)
     )
 
