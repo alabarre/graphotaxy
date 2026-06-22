@@ -73,21 +73,21 @@ _DESCENDANTS = {
 _PATTERN_STATS = dict()
 
 
-def query_pattern_property(pattern: nx.Graph, property: Callable):
+def _query_pattern_property(pattern: nx.Graph, _property: Callable):
     """
     Returns the cached property of the given pattern. Computes it beforehand if it is missing.
 
     :param pattern:
-    :param property:
+    :param _property:
     :return:
     """
     if pattern not in _PATTERN_STATS:
         _PATTERN_STATS[pattern] = dict()
 
-    if property not in _PATTERN_STATS[pattern]:
-        _PATTERN_STATS[pattern][property] = property(pattern)
+    if _property not in _PATTERN_STATS[pattern]:
+        _PATTERN_STATS[pattern][_property] = _property(pattern)
 
-    return _PATTERN_STATS[pattern][property]
+    return _PATTERN_STATS[pattern][_property]
 
 
 # Classes -----------------------------------------------------------------------------------------
@@ -170,11 +170,9 @@ class SubgraphMatcher:
 
         # O(1) verifications ----------------------------------------------------------------------
         g_n = number_of_nodes(self._graph)
-        # p_n = number_of_nodes(pattern)
-        p_n = query_pattern_property(pattern, number_of_nodes)
+        p_n = _query_pattern_property(pattern, number_of_nodes)
         g_m = number_of_edges(self._graph)
-        # p_m = number_of_edges(pattern)
-        p_m = query_pattern_property(pattern, number_of_edges)
+        p_m = _query_pattern_property(pattern, number_of_edges)
 
         # if graph has fewer vertices or edges than pattern, then it cannot contain the pattern
         if g_n < p_n or g_m < p_m:
@@ -188,7 +186,7 @@ class SubgraphMatcher:
             return False
 
         # if graph's max degree is smaller than pattern's, then it cannot contain the pattern
-        pattern_ds = query_pattern_property(pattern, degree_sequence)
+        pattern_ds = _query_pattern_property(pattern, degree_sequence)
         if pattern.degree and pattern_ds[0] > self._graph_max_degree:
             return False
 
@@ -201,7 +199,7 @@ class SubgraphMatcher:
         if any(dp > dg for dp, dg in zip(pattern_ds, degree_sequence(self._graph))):
             return False
 
-        pattern_cods = query_pattern_property(pattern, codegree_sequence)
+        pattern_cods = _query_pattern_property(pattern, codegree_sequence)
         if any(cp > cg for cp, cg in zip(pattern_cods, codegree_sequence(self._graph))):
             return False
 
@@ -268,7 +266,7 @@ class SubgraphMatcher:
         # I've been turning this on and off for a while and cannot decide whether to include it;
         # I'm giving up on it for now because for large graphs we spend ages in this part of the
         # code
-        if is_bipartite(self._graph) and not query_pattern_property(pattern, is_bipartite):
+        if is_bipartite(self._graph) and not _query_pattern_property(pattern, is_bipartite):
             return False
         '''
         if any(

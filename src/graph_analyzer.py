@@ -36,7 +36,7 @@ from cache_utils import clear_function_caches, get_cached_non_recognizers
 from classification_digraph import ClassificationDigraph
 from graph_recognition.misc_algo import number_of_nodes, number_of_edges
 from graph_recognition.recognizers_utils import undecorated_function
-from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings, clear_subgraph_cache, query_status, \
+from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings, query_status, \
     clear_all_subgraph_caches
 from isgci.isgci_base import (
     isgci_equivalences,
@@ -101,6 +101,8 @@ class GraphAnalyzer:
             "max": 0.0,
         })
 
+        # testing ---------------------------------------------------------------------------------
+        self.propagate_recognition_results = True
 
     # Methods related to recognizers --------------------------------------------------------------
     def get_recognizer(self, class_id: str) -> Callable:
@@ -256,7 +258,7 @@ class GraphAnalyzer:
                 self.hits_and_misses["hits"] += hits
                 self.hits_and_misses["misses"] += misses
                 # clear_subgraph_cache(graph)  # everything related to subgraph matching
-                clear_all_subgraph_caches()   # everything related to subgraph matching
+                clear_all_subgraph_caches()  # everything related to subgraph matching
                 clear_function_caches(other_caches_to_clear)  # and all other cached functions
                 self.active_progress_bars.pop().close()
 
@@ -298,9 +300,10 @@ class GraphAnalyzer:
                 reason = f"{recognizer.__name__} returns {result}"
 
             # use membership information to propagate the results to superclasses or subclasses
-            self.discarded_due_to_propagation += len(
-                classification.label_and_propagate(class_id, result, reason)
-            )
+            if self.propagate_recognition_results:
+                self.discarded_due_to_propagation += len(
+                    classification.label_and_propagate(class_id, result, reason)
+                )
             # additional propagations can be achieved if graph is a member of the given class
             if result:
                 # if graph is a member of class and the recognizer has a FISC, then no subgraph in
@@ -665,3 +668,12 @@ class GraphAnalyzer:
             print(f"{class_id:<12} {calls:>8} {total:>12.2f} {mean:>12.4f} {max_time:>12.2f}")
 
         print()
+
+    def disable_class_propagations(self) -> None:
+        """
+        Disables propagations that occur whenever a graph is recognized (default: False).
+
+        :param value:
+        :return:
+        """
+        self.propagate_recognition_results = False

@@ -204,6 +204,19 @@ def main() -> None:
              "polynomial time, due to the lack of an implemented recognizer",
     )
 
+    debug_bench_options = parser.add_argument_group(
+        "debug and benchmarking options",
+        description="The following options are intended for debugging and benchmarking purposes. "
+                    "End users should not have any interest in them and are discouraged from "
+                    "using them.",
+    )
+    debug_bench_options.add_argument(
+        "--disable-class-propagations",
+        action="store_true",
+        help="disables propagations that occur whenever a graph is recognized (default: False). "
+             "WARNING: the classification results will be empty if you use this option",
+    )
+
     if len(sys.argv) == 1:
         parser.print_help()
         parser.exit()
@@ -266,6 +279,9 @@ def main() -> None:
 
     if args.skip:
         analyzer.blacklist(args.skip)
+
+    if args.disable_class_propagations:
+        analyzer.disable_class_propagations()
 
     analyzer.run_classification(args.input)
     print()
