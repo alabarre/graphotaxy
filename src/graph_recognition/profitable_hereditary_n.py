@@ -1582,7 +1582,7 @@ def is_p3_free(graph: nx.Graph) -> bool:
     # a graph is a cluster graph iff it is a disjoint union of cliques
     return all(
         set(induced_subgraph_degrees(graph, cc).values()) == {len(cc) - 1}
-        for cc in connected_components(graph)
+        for cc in map(frozenset, connected_components(graph))
     )
 
 
@@ -1601,7 +1601,7 @@ def is_3k1_p3_free(graph: nx.Graph) -> bool:
     """
     # a graph is (3K_{1}, P_{3})-free iff it is the disjoint union of two complete graphs
     is_disjoint_union_of_2_cliques = True
-    for i, cc in enumerate(connected_components(graph), 1):
+    for i, cc in enumerate(map(frozenset, connected_components(graph)), 1):
         # too many components or found non-clique -> abort
         if i > 2 or set(induced_subgraph_degrees(graph, cc).values()) != {len(cc) - 1}:
             is_disjoint_union_of_2_cliques = False
@@ -2121,7 +2121,7 @@ def is_gc_1314(graph: nx.Graph) -> bool:
     # A graph with n vertices is (2K_{2}, 3K_{1}, C_{4}, P_{4})-free if it contains a complete
     # graph on at least n−1 vertices.
     # so we simply iterate over each vertex v, and check whether G - {v} is complete
-    all_vertices = set(graph.nodes)
+    all_vertices = frozenset(graph.nodes)
     n = len(all_vertices)
     return n == 1 or any(
         set(induced_subgraph_degrees(graph, all_vertices - {v}).values()) == {n-2} for v in graph
@@ -2153,7 +2153,7 @@ def is_caterpillar(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         return True
 
     # returns True iff subgraph induced by all nonleaves is a path
-    non_leaves = {n for n, d in graph.degree if d != 1}
+    non_leaves = frozenset(n for n, d in graph.degree if d != 1)
 
     # note: nx.is_path does not recognize paths ... so we check that pruned_graph is a tree with
     # degree sequence 2, 2, ... 2, 1, 1
@@ -2723,7 +2723,7 @@ def is_cactus(graph: nx.Graph) -> bool:
     # every biconnected component must be a cycle or a single edge
     return all(
         list(induced_subgraph_degrees(graph, bc).values()) in ([1, 1], [2] * len(bc))
-        for bc in nx.biconnected_components(graph)
+        for bc in map(frozenset, nx.biconnected_components(graph))
     )
 
 

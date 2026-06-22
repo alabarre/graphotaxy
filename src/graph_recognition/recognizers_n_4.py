@@ -202,9 +202,9 @@ def is_almost_claw_free(graph: nx.Graph) -> bool:
     claw_deg_seq = array('b', [3, 1, 1, 1])
 
     for center in graph:
-        for triplet in combinations(graph[center], 3):
+        for triplet in map(frozenset, combinations(graph[center], 3)):
             # if subgraph is a claw, record center and check the other properties
-            if sorted(induced_subgraph_degrees(graph, triplet + (center,)).values(), reverse=True) == claw_deg_seq:
+            if sorted(induced_subgraph_degrees(graph, triplet | {center}).values(), reverse=True) == claw_deg_seq:
                 # check whether subgraph induced by the center's neighbors has a dominating set of
                 # size <= 2
                 if not has_dominating_set_of_size_at_most_2(graph.subgraph(graph[center])):
@@ -237,7 +237,6 @@ def is_circular_arc_and_co_bipartite(graph: nx.Graph) -> bool:
     if not is_co_bipartite(graph):
         return False
 
-    # online version:
     def edge_generator():
         """
         Yields the edges of the graph that must be checked for bipartiteness in the original
@@ -246,10 +245,9 @@ def is_circular_arc_and_co_bipartite(graph: nx.Graph) -> bool:
         :return:
         """
         # connect each pair of edges that induce a C_4 in the original graph
-        c4_degseq = [2, 2, 2, 2]
         for e, f in combinations(graph.edges(), 2):
-            endpoints = set(e + f)
-            if len(endpoints) == 4 and list(induced_subgraph_degrees(graph, endpoints).values()) == c4_degseq:
+            endpoints = frozenset(e + f)
+            if len(endpoints) == 4 and set(induced_subgraph_degrees(graph, endpoints).values()) == {2}:
                 yield e, f
 
     return online_is_bipartite(edge_generator())

@@ -135,7 +135,7 @@ def is_locally_split(graph: nx.Graph) -> bool:
     :return:
     """
     return all(
-        is_split_degree_sequence(sorted(induced_subgraph_degrees(graph, graph[v]).values(), reverse=True))
+        is_split_degree_sequence(sorted(induced_subgraph_degrees(graph, frozenset(graph[v])).values(), reverse=True))
         for v in graph
     )
 

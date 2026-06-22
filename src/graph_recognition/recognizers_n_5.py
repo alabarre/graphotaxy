@@ -511,7 +511,7 @@ def is_cograph_contraction(graph: nx.Graph) -> bool:
     # for each P_4 (a, b, c, d), add clause (b or c)  equivalent to (not b => c)
     # in order to go through fewer subsets, don't examine every 4-subset of vertices; instead,
     # examine all pairs of edges
-    for p4 in enumerate_all_p4s(graph):
+    for p4 in map(frozenset, enumerate_all_p4s(graph)):
         degrees = induced_subgraph_degrees(graph, p4)
         b, c = [v for v, deg in degrees.items() if deg == 2]
         implication_graph.add_edge(Not(b), c)
@@ -608,9 +608,9 @@ def vertex_is_soft(graph: nx.Graph, v: Hashable) -> bool:
     # for P_4s to the subgraph induced by those vertices
     subgraph = graph.subgraph(nx.bfs_tree(graph, v, depth_limit=3))
     is_endpoint, is_midpoint = False, False
-    for p4 in enumerate_all_p4s(subgraph):
+    for p4 in map(frozenset, enumerate_all_p4s(subgraph)):
         # extract endpoints, and check whether v is a midpoint or an endpoint of the current P_4
-        endpoints = {v for v, deg in subgraph.subgraph(p4).degree if deg == 1}
+        endpoints = {v for v, deg in induced_subgraph_degrees(graph, p4).items() if deg == 1}
         if v in endpoints:
             is_endpoint = True
         elif v in p4:

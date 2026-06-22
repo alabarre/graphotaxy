@@ -323,13 +323,11 @@ def empty_graph_by_removing_vertices(graph: nx.Graph, criterion: Callable) -> bo
     :param graph:
     :return:
     """
-    nodes = set(graph)
-    new_graph = graph.subgraph(nodes)
-    while nodes:
+    new_graph = graph.copy()
+    while new_graph:
         for v in new_graph:
             if criterion(new_graph, v):
-                nodes.remove(v)
-                new_graph = new_graph.subgraph(nodes)
+                new_graph.remove_node(v)
                 break
 
         else:  # no satisfying vertex was found, quit early
@@ -843,8 +841,8 @@ def degeneracy(graph: nx.Graph) -> int:
     """
     return max(nx.core_number(graph).values(), default=0)  # default to 0 if dict empty
 
-
-def induced_subgraph_degrees(graph: nx.Graph, vertices: Iterable) -> dict:
+@lru_cache(maxsize=None)
+def induced_subgraph_degrees(graph: nx.Graph, vertices: frozenset) -> dict:
     """
     Returns the degrees of vertices in the subgraph they induce in graph, avoiding the expensive
     call to graph.subgraph

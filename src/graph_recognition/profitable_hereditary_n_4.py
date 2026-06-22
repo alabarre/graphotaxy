@@ -706,7 +706,8 @@ def is_diamond_co_diamond_free(graph: nx.Graph) -> bool:
     #                     diamond       co-diamond
     forbidden_deg_seqs = ([3, 3, 2, 2], [1, 1, 0, 0])
     return all(
-        sorted(induced_subgraph_degrees(graph, set(e+f)).values(), reverse=True) not in forbidden_deg_seqs
+        sorted(induced_subgraph_degrees(graph, frozenset(e+f)).values(), reverse=True)
+        not in forbidden_deg_seqs
         for e in nx.non_edges(graph)
         for f in graph.edges
     )
