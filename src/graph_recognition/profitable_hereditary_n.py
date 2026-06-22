@@ -2122,7 +2122,10 @@ def is_gc_1314(graph: nx.Graph) -> bool:
     # graph on at least n−1 vertices.
     # so we simply iterate over each vertex v, and check whether G - {v} is complete
     all_vertices = set(graph.nodes)
-    return any(is_complete(graph.subgraph(all_vertices - {v})) for v in graph.nodes)
+    n = len(all_vertices)
+    return n == 1 or any(
+        set(induced_subgraph_degrees(graph, all_vertices - {v}).values()) == {n-2} for v in graph
+    )
 
 
 # partial fisc: graph is cycle-free
