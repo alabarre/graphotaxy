@@ -653,7 +653,7 @@ class GraphAnalyzer:
         print()
         '''
         print(underlined("Slowest recognizers"))
-        print(f"{'class':<12} {'calls':>8} {'total':>12} {'mean':>12} {'max':>12}")
+        print(f"{'class':<12} {'calls':>8} {'total':>12} {'mean':>12} {'max':>12} {'location':<12}")
 
         for class_id, stats in sorted(
                 self.recognizer_timing.items(),
@@ -665,7 +665,7 @@ class GraphAnalyzer:
             mean = total / calls if calls else 0.0
             max_time = stats["max"]
 
-            print(f"{class_id:<12} {calls:>8} {total:>12.2f} {mean:>12.4f} {max_time:>12.2f}")
+            print(f"{class_id:<12} {calls:>8} {total:>12.2f} {mean:>12.4f} {max_time:>12.2f} {'.'.join([self.recognizers[class_id].__module__, self.recognizers[class_id].__name__])}")
 
         print()
 
