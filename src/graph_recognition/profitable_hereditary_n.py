@@ -2118,6 +2118,10 @@ def is_gc_1314(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    # profitable check: if graph is not even P_{4}-free, no need to check the rest
+    if not is_cograph(graph):
+        return False
+
     # A graph with n vertices is (2K_{2}, 3K_{1}, C_{4}, P_{4})-free if it contains a complete
     # graph on at least n−1 vertices.
     # so we simply iterate over each vertex v, and check whether G - {v} is complete

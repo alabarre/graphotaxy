@@ -14,6 +14,7 @@ from itertools import combinations
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 from networkx.utils.misc import arbitrary_element
+from pyroaring import BitMap
 
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.domination import dominates
@@ -71,9 +72,9 @@ def is_apex(graph: nx.Graph) -> bool:
 
     # the removal of a higher degree node has a better chance of yielding a planar graph, so let's
     # try those first
-    previous_nodes = set(graph.nodes)
+    previous_nodes = BitMap(graph.nodes)
     return any(
-        is_planar(graph.subgraph(previous_nodes.difference({v})))
+        is_planar(graph.subgraph(previous_nodes - BitMap({v})))
         for v in sorted(graph.nodes, key=graph.degree, reverse=True)
     )
 

@@ -601,7 +601,7 @@ def explicit_triangles(graph: nx.Graph) -> Iterator[set]:
                 yield {u, v, w}
 
 
-def enumerate_all_p4s(graph: nx.Graph) -> Generator:
+def enumerate_all_p4s(graph: nx.Graph | HalfAdjacencyMatrix) -> Generator:
     """
     Generates all induced paths of length 4 in a graph as sets of 4 vertices.
 

@@ -68,7 +68,7 @@ class SymbolicNegation:
         return -hash(self.negation)
 
 
-def Not(x: SymbolicNegation) -> SymbolicNegation:  # noqa (name should be lowercase)
+def Not(x: SymbolicNegation) -> Hashable | SymbolicNegation:  # noqa (name should be lowercase)
     return x.negate() if isinstance(x, SymbolicNegation) else SymbolicNegation(x)
 
 

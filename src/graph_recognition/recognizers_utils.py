@@ -40,10 +40,10 @@ import ast
 import os
 import sys
 from collections import OrderedDict
-from functools import lru_cache
+from functools import lru_cache, update_wrapper
 from importlib import import_module
 from inspect import isgeneratorfunction, getsource, getmodule
-from types import ModuleType
+from types import ModuleType, SimpleNamespace
 from typing import Callable, Iterable, Set
 
 
@@ -173,7 +173,9 @@ def get_fisc(module_name: str, function_name: str) -> Set[str]:
 
     return set()
 
+
 __func_names_to_mods = dict()
+
 
 @lru_cache(maxsize=None)
 def update_func_names_to_mods(module: ModuleType) -> None:
@@ -353,3 +355,33 @@ def undecorated_function(function: Callable) -> Callable:
     while hasattr(func, "__wrapped__"):
         func = func.__wrapped__
     return func
+
+
+def disable_lru_cache(function: Callable):
+    """
+    Returns a version of func without caching but preserving the lru_cache API.
+
+    :param function:
+    :return:
+    """
+    try:
+        original = undecorated_function(function)
+    except AttributeError:
+        return function
+
+    update_wrapper(original, function)
+    original.__dict__.update(function.__dict__)
+
+    original.cache_clear = lambda: None
+    original.cache_info = lambda: SimpleNamespace(
+        hits=0,
+        misses=0,
+        maxsize=None,
+        currsize=0,
+    )
+    original.cache_parameters = lambda: {
+        "maxsize": None,
+        "typed": False,
+    }
+
+    return original

@@ -216,6 +216,11 @@ def main() -> None:
         help="disables propagations that occur whenever a graph is recognized (default: False). "
              "WARNING: the classification results will be empty if you use this option",
     )
+    debug_bench_options.add_argument(
+        "--disable-recognizer-caches",
+        action="store_true",
+        help="disables all recognizer caches (so the same result will be computed multiple times)",
+    )
 
     if len(sys.argv) == 1:
         parser.print_help()
@@ -282,6 +287,9 @@ def main() -> None:
 
     if args.disable_class_propagations:
         analyzer.disable_class_propagations()
+
+    if args.disable_recognizer_caches:
+        analyzer.disable_recognizer_caches()
 
     analyzer.run_classification(args.input)
     print()

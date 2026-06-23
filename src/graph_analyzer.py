@@ -35,7 +35,7 @@ from tqdm import tqdm
 from cache_utils import clear_function_caches, get_cached_non_recognizers
 from classification_digraph import ClassificationDigraph
 from graph_recognition.misc_algo import number_of_nodes, number_of_edges
-from graph_recognition.recognizers_utils import undecorated_function
+from graph_recognition.recognizers_utils import undecorated_function, disable_lru_cache
 from graph_recognition.subgraphs import SubgraphMatcher, _dispatch_findings, query_status, \
     clear_all_subgraph_caches
 from isgci.isgci_base import (
@@ -56,6 +56,10 @@ class GraphAnalyzer:
         """
         Initializes all data structures.
         """
+        # testing ---------------------------------------------------------------------------------
+        self.propagate_recognition_results = True
+        self.disable_reco_caches = False
+
         # data related to a modified behavior GraphAnalyzer ---------------------------------------
         self.blacklisted = set()
         self.scope = set()
@@ -101,8 +105,6 @@ class GraphAnalyzer:
             "max": 0.0,
         })
 
-        # testing ---------------------------------------------------------------------------------
-        self.propagate_recognition_results = True
 
     # Methods related to recognizers --------------------------------------------------------------
     def get_recognizer(self, class_id: str) -> Callable:
@@ -134,6 +136,10 @@ class GraphAnalyzer:
                 f"be replaced with {new_recognizer.__name__} from module "
                 f"{new_recognizer.__module__}"
             )
+
+        if self.disable_reco_caches:
+            recognizer = disable_lru_cache(recognizer)
+
         self.recognizers[class_id] = recognizer
         self.recognizers.update({eq_id: recognizer for _, eq_id in self.equivalences[class_id]})
 
@@ -676,7 +682,14 @@ class GraphAnalyzer:
         """
         Disables propagations that occur whenever a graph is recognized (default: False).
 
-        :param value:
         :return:
         """
         self.propagate_recognition_results = False
+
+    def disable_recognizer_caches(self) -> None:
+        """
+        Disables all recognizer caches (default: False).
+
+        :return:
+        """
+        self.disable_reco_caches = True

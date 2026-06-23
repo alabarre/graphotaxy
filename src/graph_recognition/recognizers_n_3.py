@@ -276,6 +276,10 @@ def is_median(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
+    # see ISGCI: median < modular < bipartite
+    if not is_bipartite(graph):
+        return False
+
     for cc in connected_components(graph):
         for x, y, z in combinations(cc, 3):
             int_x_y = vertices_on_shortest_paths_between(graph, frozenset([x, y]))
@@ -483,6 +487,8 @@ def is_interval_regular(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_interval_or_co_interval(graph: nx.Graph) -> bool:
     """
+
+    https://www.graphclasses.org/classes/gc_247
 
     @param graph:
     @return:
