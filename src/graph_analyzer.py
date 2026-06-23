@@ -59,6 +59,7 @@ class GraphAnalyzer:
         # testing ---------------------------------------------------------------------------------
         self.propagate_recognition_results = True
         self.disable_reco_caches = False
+        self.sort_recognizers_by_id = False
 
         # data related to a modified behavior GraphAnalyzer ---------------------------------------
         self.blacklisted = set()
@@ -104,7 +105,6 @@ class GraphAnalyzer:
             "total": 0.0,
             "max": 0.0,
         })
-
 
     # Methods related to recognizers --------------------------------------------------------------
     def get_recognizer(self, class_id: str) -> Callable:
@@ -219,12 +219,21 @@ class GraphAnalyzer:
             # create classification for current graph
             self.classification = deepcopy(self.prototype_classification_digraph)
             # set up the progress bar for the classification of the current graph
-            pbar = tqdm(
-                self.recognizers.items(),
-                desc="  Running recognizers",
-                leave=False,
-                unit=" recognizer",
-            )
+            if self.sort_recognizers_by_id:
+                pbar = tqdm(
+                    sorted(self.recognizers.items()),
+                    desc="  Running recognizers",
+                    leave=False,
+                    unit=" recognizer",
+                )
+
+            else:
+                pbar = tqdm(
+                    self.recognizers.items(),
+                    desc="  Running recognizers",
+                    leave=False,
+                    unit=" recognizer",
+                )
 
             self.active_progress_bars.append(pbar)
 
@@ -693,3 +702,11 @@ class GraphAnalyzer:
         :return:
         """
         self.disable_reco_caches = True
+
+    def order_recognizers_by_class_id(self) -> None:
+        """
+        Runs recognizers ordered by class id (default: False).
+
+        :return:
+        """
+        self.sort_recognizers_by_id = True

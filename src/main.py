@@ -221,6 +221,12 @@ def main() -> None:
         action="store_true",
         help="disables all recognizer caches (so the same result will be computed multiple times)",
     )
+    debug_bench_options.add_argument(
+        "--disable-smart-order",
+        action="store_true",
+        help="sorts recognizers by id instead of by complexity",
+    )
+
 
     if len(sys.argv) == 1:
         parser.print_help()
@@ -290,6 +296,9 @@ def main() -> None:
 
     if args.disable_recognizer_caches:
         analyzer.disable_recognizer_caches()
+
+    if args.disable_smart_order:
+        analyzer.order_recognizers_by_class_id()
 
     analyzer.run_classification(args.input)
     print()
