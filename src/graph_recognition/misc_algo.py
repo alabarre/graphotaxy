@@ -352,7 +352,7 @@ def is_connected(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     :return:
     """
     n = len(graph)
-    return n and len(next(connected_components(graph))) == n
+    return n != 0 and len(next(connected_components(graph))) == n
 
 
 @lru_cache(maxsize=None)

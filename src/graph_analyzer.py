@@ -667,14 +667,15 @@ class GraphAnalyzer:
             print(f"- {key}: {value:.2f} s")
         print()
         '''
-        print(underlined("Slowest recognizers"))
+        rank_limit = 10
+        print(underlined(f"{rank_limit} slowest recognizers"))
         print(f"{'class':<12} {'calls':>8} {'total':>12} {'mean':>12} {'max':>12} {'location':<12}")
 
         for class_id, stats in sorted(
                 self.recognizer_timing.items(),
                 key=lambda item: item[1]["total"],
                 reverse=True,
-        )[:10]:
+        )[:rank_limit]:
             calls = stats["calls"]
             total = stats["total"]
             mean = total / calls if calls else 0.0

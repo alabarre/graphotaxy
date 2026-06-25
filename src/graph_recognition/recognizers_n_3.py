@@ -565,32 +565,43 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # using definition 2
+    # the recognition algorithm is based on definition 2 in the docstring
+    # since we will be using neighborhoods a lot and decided not to cache the neighbors function,
+    # we build our own cache here:
+    adj = {v: neighbors(graph, v) for v in graph}
+
     for u in graph:
         dist = nx.single_source_shortest_path_length(graph, u)
 
-        # Triangle condition:
-        # for every edge vw with d(u,v)=d(u,w)>1, v and w have a common neighbor
-        # one step closer to u.
-        for v, w in graph.edges:
-            duv = dist.get(v, inf)
-            duw = dist.get(w, inf)
+        # Triangle condition: for every edge vw with d(u, v) = d(u, w) > 1, v and w have a common
+        # neighbor one step closer to u
 
-            if duv == duw and duv > 1:
-                if all(dist.get(x, inf) != duv - 1 for x in common_neighbors(graph, v, w)):
-                    return False
+        # if d(u, v) = d(u, w) as required, then we only need to scan edges whose endpoints are in
+        # the same BFS layer, not all edges. Let us build the appropriate structure:
+        #'''
+        layers = dict()
+        for v, d in dist.items():
+            layers.setdefault(d, BitMap()).add(v)
 
-        # Quadrangle condition:
-        # for every z and two neighbors v,w of z with
-        # d(u,v)=d(u,w)=d(u,z)-1, v and w have a common neighbor
-        # one step closer to u.
+        for d, layer in layers.items():
+            if d > 1:
+                for v in layer:
+                    for w in adj[v] & layer:
+                        # order endpoints lexicographically to avoid testing each edge twice
+                        if w > v and all(dist.get(x, inf) != d - 1 for x in adj[v] & adj[w]):
+                            return False
+
+        # Quadrangle condition: for every z and two neighbors v, w of z with
+        # d(u, v) = d(u, w) = d(u, z) - 1, v and w have a common neighbor one step closer to u
         for z in graph:
             duz = dist.get(z, inf)
+
             if duz not in {0, inf}:
-                candidates = {v for v in neighbors(graph, z) if dist.get(v, inf) == duz - 1}
+                candidates = adj[z] & layers[duz - 1]
+                target_dist = duz - 2
 
                 for v, w in combinations(candidates, 2):
-                    if all(dist.get(x, inf) != duz - 2 for x in common_neighbors(graph, v, w)):
+                    if all(dist.get(x, inf) != target_dist for x in adj[v] & adj[w]):
                         return False
 
     return True
