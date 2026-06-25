@@ -651,6 +651,32 @@ def enumerate_all_p4_endpoints(graph: nx.Graph | HalfAdjacencyMatrix) -> Generat
                 yield x, y
 
 
+def enumerate_all_p4_midpoints(graph: nx.Graph | HalfAdjacencyMatrix) -> Generator:
+    """
+    Generates the midpoints of all induced paths of length 4 in a graph.
+
+    :param graph:
+    :return:
+    """
+    # cache neighbors to avoid recomputations
+    adj = {v: neighbors(graph, v) for v in graph}
+
+    # iterate over every edge {u, v}, and examine all combinations of neighbors of u and v; {u, v}
+    # is considered the middle edge of a candidate P_4
+    for u, v in graph.edges():
+        # keep only neighbors of u that are not neighbors of v (and conversely) to reduce the
+        # number of elements below
+        n_u = adj[u] - adj[v]
+        n_v = adj[v] - adj[u]
+        n_u.remove(v)
+        n_v.remove(u)
+
+        for x in n_u:
+            if n_v & BitMap(non_neighbors(graph, x)):
+                yield u, v
+                break  # avoid returning u, v more than once
+
+
 def twins(graph: nx.Graph) -> DefaultDict[Any, set]:
     """
     Returns a partition of the vertices into twins. Twins are vertices whose neighborhoods

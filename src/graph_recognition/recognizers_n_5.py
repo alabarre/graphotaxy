@@ -40,7 +40,8 @@ from graph_recognition.misc_algo import (
     is_odd_co_clique_free,
     explicit_triangles,
     empty_graph_by_removing_vertices,
-    enumerate_all_p4s, number_of_nodes, common_neighbors, induced_subgraph_degrees,
+    enumerate_all_p4s, number_of_nodes, common_neighbors, induced_subgraph_degrees, enumerate_all_p4_midpoints,
+    neighbors,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_complete_bipartite,
@@ -511,9 +512,9 @@ def is_cograph_contraction(graph: nx.Graph) -> bool:
     # for each P_4 (a, b, c, d), add clause (b or c)  equivalent to (not b => c)
     # in order to go through fewer subsets, don't examine every 4-subset of vertices; instead,
     # examine all pairs of edges
-    for p4 in map(frozenset, enumerate_all_p4s(graph)):
-        degrees = induced_subgraph_degrees(graph, p4)
-        b, c = [v for v, deg in degrees.items() if deg == 2]
+    for b, c in enumerate_all_p4_midpoints(graph):
+        #degrees = induced_subgraph_degrees(graph, p4)
+        #b, c = [v for v, deg in degrees.items() if deg == 2]
         implication_graph.add_edge(Not(b), c)
 
     # co-P5 condition
@@ -525,28 +526,27 @@ def is_cograph_contraction(graph: nx.Graph) -> bool:
     # other graph with the same degree sequence): this is implicitly done when we look for common
     # neighbors of b and d below (in a K_{2, 3}, that number would be 0).
     for b, d in graph.edges:
-        common = tuple(common_neighbors(graph, b, d))
+        found_house = False
 
-        # in a house, b and d have three common neighbors
-        if len(common) >= 3:
-            for x, y, z in combinations(common, 3):
-                vertices = (b, d, x, y, z)
+        for top in common_neighbors(graph, b, d):
+            left = neighbors(graph, b) - neighbors(graph, d) - neighbors(graph, top)
+            right = neighbors(graph, d) - neighbors(graph, b) - neighbors(graph, top)
 
-                # compute the exact degree of b and d in the subgraph induced by vertices
-                deg_b = sum(1 for u in vertices if u != b and graph.has_edge(b, u))
-                deg_d = sum(1 for u in vertices if u != d and graph.has_edge(d, u))
+            left.discard(d)
+            left.discard(top)
+            right.discard(b)
+            right.discard(top)
 
-                if deg_b == 3 and deg_d == 3:
-                    # compute the degree of the other vertices in the induced subgraph
-                    degs = sorted(
-                        sum(1 for u in vertices if u != v and graph.has_edge(v, u))
-                        for v in (x, y, z)
-                    )
+            for x in left:
+                if neighbors(graph, x) & right:
+                    implication_graph.add_edge(Not(b), b)
+                    implication_graph.add_edge(Not(d), d)
+                    found_house = True
+                    break
 
-                    if degs == [2, 2, 2]:
-                        implication_graph.add_edge(Not(b), b)
-                        implication_graph.add_edge(Not(d), d)
-
+            if found_house:
+                break
+        
     return satisfiable(implication_graph)
 
 
