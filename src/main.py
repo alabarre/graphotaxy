@@ -226,7 +226,12 @@ def main() -> None:
         action="store_true",
         help="sorts recognizers by id instead of by complexity",
     )
-
+    debug_bench_options.add_argument(
+        "--disable-fisc-propagations",
+        action="store_true",
+        help="disables propagations that take place whenever an induced subgraph is found (not) "
+             "to appear in an input graph (default: False)",
+    )
 
     if len(sys.argv) == 1:
         parser.print_help()
@@ -299,6 +304,10 @@ def main() -> None:
 
     if args.disable_smart_order:
         analyzer.order_recognizers_by_class_id()
+
+    if args.disable_fisc_propagations:
+        import graph_recognition.subgraphs
+        graph_recognition.subgraphs.disable_fisc_propagations()
 
     analyzer.run_classification(args.input)
     print()

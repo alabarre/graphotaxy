@@ -72,23 +72,8 @@ _DESCENDANTS = {
 # function caches to avoid losing information whenever they are cleared
 _PATTERN_STATS = dict()
 
-
-def _query_pattern_property(pattern: nx.Graph, _property: Callable):
-    """
-    Returns the cached property of the given pattern. Computes it beforehand if it is missing.
-
-    :param pattern:
-    :param _property:
-    :return:
-    """
-    if pattern not in _PATTERN_STATS:
-        _PATTERN_STATS[pattern] = dict()
-
-    if _property not in _PATTERN_STATS[pattern]:
-        _PATTERN_STATS[pattern][_property] = _property(pattern)
-
-    return _PATTERN_STATS[pattern][_property]
-
+# this variable allows us to disable propagations that are carried out in SubgraphMatcher
+_DISABLE_FISC_PROPAGATIONS = False
 
 # Classes -----------------------------------------------------------------------------------------
 class SubgraphMatcher:
@@ -393,8 +378,10 @@ class SubgraphMatcher:
         """
         other_patterns = [_ANCESTORS, _DESCENDANTS][value]
         for pattern in pattern_bunch:
+            # sets the given value
             self._checked_subgraphs[pattern] = value
-            if value != self._unknown_status:
+            # propagate the results
+            if value != self._unknown_status and not _DISABLE_FISC_PROPAGATIONS:
                 for other_class in other_patterns[pattern]:
                     self._checked_subgraphs[other_class] = value
 
@@ -646,3 +633,33 @@ def query_status(graph: nx.Graph, subgraph: str) -> int:
         return SubgraphMatcher._unknown_status
 
     return __MATCHERS[graph].get_status(subgraph)
+
+
+def disable_fisc_propagations() -> None:
+    """
+    Disables propagations that take place whenever an induced subgraph is found (not) to appear in
+    an input graph (default: False)",
+
+    :return:
+    """
+    global _DISABLE_FISC_PROPAGATIONS
+    _DISABLE_FISC_PROPAGATIONS = True
+
+
+
+# Private functions -------------------------------------------------------------------------------
+def _query_pattern_property(pattern: nx.Graph, _property: Callable):
+    """
+    Returns the cached property of the given pattern. Computes it beforehand if it is missing.
+
+    :param pattern:
+    :param _property:
+    :return:
+    """
+    if pattern not in _PATTERN_STATS:
+        _PATTERN_STATS[pattern] = dict()
+
+    if _property not in _PATTERN_STATS[pattern]:
+        _PATTERN_STATS[pattern][_property] = _property(pattern)
+
+    return _PATTERN_STATS[pattern][_property]

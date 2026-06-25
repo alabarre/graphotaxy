@@ -75,6 +75,21 @@ The following options are available. Many of them require knowing the ISGCI id o
                         in addition to each recognized class, print its descendants, if any, which have not been identified
     - `--todo`:                show the classes that have not been identified, although recognizable in polynomial time, due to the lack of an implemented
                         recognizer
+                        
+                        
+Additional options have been added with the sole purpose of running benchmarks. If you are curious, you can try them out, but they will only result in an (sometimes dramatically) increased running time:
+
+- debug and benchmarking options:
+  - `--disable-class-propagations`:
+                        disables propagations that occur whenever a graph is recognized (default: False). WARNING: the classification results will be empty if you use this
+                        option
+  - `--disable-recognizer-caches`:
+                        disables all recognizer caches (so the same result will be computed multiple times)
+  - `--disable-smart-order`:
+                        sorts recognizers by id instead of by complexity
+  - `--disable-fisc-propagations`:
+                        disables propagations that take place whenever an induced subgraph is found (not) to appear in an input graph (default: False)
+
 
 ---
 
@@ -150,3 +165,5 @@ The authors are not responsible for misuse of third-party software.
 
 A paper describing graphotaxy will be submitted soon.
 A BibTeX entry will be added upon publication.
+
+If you want to get a bird's eye view of the system in the meantime, you can [check out the slides](https://csd11.si/slides/02_05_Labarre.pdf) for the talk I gave at [Computers in Scientific Discovery 11](https://csd11.si/). 
