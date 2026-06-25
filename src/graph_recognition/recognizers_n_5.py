@@ -9,11 +9,11 @@ O(n^5) algorithms.
 # ----- Standard imports --------------------------------------------------------------------------
 import os
 from functools import lru_cache
-from itertools import combinations
 from typing import Iterable, Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from pyroaring import BitMap
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.directed_graph import DirectedGraph
@@ -41,7 +41,7 @@ from graph_recognition.misc_algo import (
     explicit_triangles,
     empty_graph_by_removing_vertices,
     enumerate_all_p4s, number_of_nodes, common_neighbors, induced_subgraph_degrees, enumerate_all_p4_midpoints,
-    neighbors,
+    neighbors, non_neighbors,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_complete_bipartite,
@@ -513,8 +513,8 @@ def is_cograph_contraction(graph: nx.Graph) -> bool:
     # in order to go through fewer subsets, don't examine every 4-subset of vertices; instead,
     # examine all pairs of edges
     for b, c in enumerate_all_p4_midpoints(graph):
-        #degrees = induced_subgraph_degrees(graph, p4)
-        #b, c = [v for v, deg in degrees.items() if deg == 2]
+        # degrees = induced_subgraph_degrees(graph, p4)
+        # b, c = [v for v, deg in degrees.items() if deg == 2]
         implication_graph.add_edge(Not(b), c)
 
     # co-P5 condition
@@ -546,7 +546,7 @@ def is_cograph_contraction(graph: nx.Graph) -> bool:
 
             if found_house:
                 break
-        
+
     return satisfiable(implication_graph)
 
 
@@ -604,23 +604,46 @@ def vertex_is_soft(graph: nx.Graph, v: Hashable) -> bool:
     :param v:
     :return:
     """
-    # since a P_4 that contains v is made of vertices at distance <= 3 from v, restrict our search
-    # for P_4s to the subgraph induced by those vertices
-    subgraph = graph.subgraph(nx.bfs_tree(graph, v, depth_limit=3))
-    is_endpoint, is_midpoint = False, False
-    for p4 in map(frozenset, enumerate_all_p4s(subgraph)):
-        # extract endpoints, and check whether v is a midpoint or an endpoint of the current P_4
-        endpoints = {v for v, deg in induced_subgraph_degrees(graph, p4).items() if deg == 1}
-        if v in endpoints:
-            is_endpoint = True
-        elif v in p4:
-            is_midpoint = True
+    adj = {u: neighbors(graph, u) for u in graph}
 
-        # if at any point v is both, then it is not soft
-        if is_endpoint and is_midpoint:
-            return False
+    is_endpoint = False
+    is_midpoint = False
 
-    return not is_endpoint or not is_midpoint
+    # v as midpoint: x - v - u - y
+    for u in adj[v]:
+        left = adj[v] - adj[u]
+        right = adj[u] - adj[v]
+
+        left.remove(u)
+        right.remove(v)
+
+        for x in left:
+            if right & BitMap(non_neighbors(graph, x)):
+                is_midpoint = True
+                break
+
+        if is_midpoint:
+            break
+
+    # v as endpoint: v - a - b - c
+    for a in adj[v]:
+        # b must be adjacent to a but not to v
+        for b in adj[a] - adj[v]:
+            if b == v:
+                continue
+
+            # c must be adjacent to b, not adjacent to a, and not adjacent to v
+            candidates = adj[b] - adj[a] - adj[v]
+            candidates.discard(a)
+
+            if candidates:
+                is_endpoint = True
+                break
+
+        if is_endpoint:
+            break
+
+    return not (is_endpoint and is_midpoint)
 
 
 @assign_class_id("gc_10")
