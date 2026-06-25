@@ -608,7 +608,8 @@ def enumerate_all_p4s(graph: nx.Graph | HalfAdjacencyMatrix) -> Generator:
     :param graph:
     :return:
     """
-    # iterate over every edge {u, v}, and examine all combinations of neighbors of u and v
+    # iterate over every edge {u, v}, and examine all combinations of neighbors of u and v; {u, v}
+    # is considered the middle edge of a candidate P_4
     for u, v in graph.edges():
         # keep only neighbors of u that are not neighbors of v (and conversely) to reduce the
         # number of elements in the product below
@@ -622,6 +623,32 @@ def enumerate_all_p4s(graph: nx.Graph | HalfAdjacencyMatrix) -> Generator:
             p4_candidates = {x, u, y, v}
             if sum(graph.has_edge(a, b) for a, b in combinations(p4_candidates, 2)) == 3:
                 yield p4_candidates
+
+
+def enumerate_all_p4_endpoints(graph: nx.Graph | HalfAdjacencyMatrix) -> Generator:
+    """
+    Generates the endpoints of all induced paths of length 4 in a graph.
+
+    :param graph:
+    :return:
+    """
+    # cache neighbors to avoid recomputations
+    adj = {v: neighbors(graph, v) for v in graph}
+
+    # iterate over every edge {u, v}, and examine all combinations of neighbors of u and v; {u, v}
+    # is considered the middle edge of a candidate P_4
+    for u, v in graph.edges():
+        # keep only neighbors of u that are not neighbors of v (and conversely) to reduce the
+        # number of elements below
+        n_u = adj[u] - adj[v]
+        n_v = adj[v] - adj[u]
+        n_u.remove(v)
+        n_v.remove(u)
+
+        for x in n_u:
+            non_neighbors_x = BitMap(non_neighbors(graph, x))
+            for y in n_v & non_neighbors_x:
+                yield x, y
 
 
 def twins(graph: nx.Graph) -> DefaultDict[Any, set]:

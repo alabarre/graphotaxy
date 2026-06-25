@@ -24,6 +24,7 @@ from graph_recognition.misc_algo import (
     is_connected,
     enumerate_all_p4s,
     co_connected_components, number_of_common_neighbors, complement_as_adj_mat, induced_subgraph_degrees,
+    enumerate_all_p4_endpoints,
 )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
@@ -278,9 +279,9 @@ def is_p4_brittle(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     # algorithm from https://doi.org/10.1016/S0012-365X(99)00300-3, p 204
     implication_graph = DirectedGraph()
     # for each P_{4} (abcd) we have a clause (a or d) equivalent to (not a => d)
-    for p4 in enumerate_all_p4s(graph):
+    for a, d in enumerate_all_p4_endpoints(graph):
         # we have a P_{4}, extract a and d and build clause
-        a, d = [v for v in p4 if sum(graph.has_edge(v, u) for u in p4 if u != v) == 1]
+        #a, d = [v for v in p4 if sum(graph.has_edge(v, u) for u in p4 if u != v) == 1]
         implication_graph.add_edge(Not(a), d)
 
     # for each edge (ab) we have a clause (not a or not b) equivalent to (a => not b)
