@@ -23,12 +23,13 @@ import networkx
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 from networkx import non_edges
+from pyroaring import BitMap
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     is_h_u_k1_free,
-    complement_as_adj_mat, degree_sequence, number_of_edges, )
+    complement_as_adj_mat, degree_sequence, number_of_edges, neighbors, )
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
     is_forest, is_2k2_free, )
@@ -293,13 +294,25 @@ def is_co_diamond_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # this naïve search outperforms the Glasgow Subgraph Solver on large graphs
-    for (a, b), (c, d) in product(graph.edges, non_edges(graph)):
-        if (not graph.has_edge(a, c) and not graph.has_edge(a, d) and not graph.has_edge(b, c)
-                and not graph.has_edge(b, d)):
-            return False
-    return True
+    nodes = BitMap(graph)
+    adj = {v: neighbors(graph, v) for v in graph}
 
+    # a co-diamond is an edge a-b and two independent vertices x and y, so let's search all edges
+    for a, b in graph.edges:
+        # consider all their common non-neighbors
+        common_non_neighbors = nodes - adj[a] - adj[b]
+        common_non_neighbors.discard(a)
+        common_non_neighbors.discard(b)
+
+        # we need at least 2 non-neighbors
+        if len(common_non_neighbors) >= 2:
+            # for each common non-neighbor x, check if it has a non-neighbor y that is also
+            # non-adjacent to a and b
+            for x in common_non_neighbors:
+                if common_non_neighbors - adj[x] - BitMap([x]):
+                    return False
+
+    return True
 
 @assign_inherited_fisc()
 @assign_class_id("AUTO_1939")

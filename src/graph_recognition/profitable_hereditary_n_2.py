@@ -896,9 +896,11 @@ def is_co_line_graph_of_bipartite_graph(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
+
     # iterate over co-connected components instead of complementing the whole graph, in the hope
     # that we can thereby stop early
-    # note: complement_as_adj_mat not yet usable here
+    # note: complement_as_adj_mat not yet usable here:
+    # 'HalfAdjacencyMatrix' object has no attribute '_adj'
     return all(
         is_line_graph_of_bipartite_graph(complement(graph.subgraph(cc)))
         for cc in co_connected_components(graph)
