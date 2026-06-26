@@ -81,6 +81,21 @@ def is_k_clique_free(graph: nx.Graph, k: int) -> bool:
 # Recognizers -------------------------------------------------------------------------------------
 
 # All recognizers for patterns on at most 5 vertices ----------------------------------------------
+@assign_inherited_fisc()
+@assign_class_id("AUTO_1482")
+@lru_cache(maxsize=None)
+def is_auto_1482(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is (K_{2} U K_{3}, co-diamond)-free.
+
+    See https://www.graphclasses.org/classes/AUTO_1482
+
+    Complexity of naïve matching: O(n^5)
+    :type graph: networkx.Graph
+    """
+    return is_co_diamond_free(graph) and is_k2_u_k3_free(graph)
+
+
 @assign_fisc(["P"])
 @assign_class_id("gc_814")
 @lru_cache(maxsize=None)

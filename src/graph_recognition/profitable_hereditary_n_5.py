@@ -16,14 +16,12 @@ from functools import lru_cache
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
-from graph_recognition.fisc_based_recognizers_n_5 import is_k2_u_k3_free
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import common_neighbors, complement_as_adj_mat, co_connected_components
 from graph_recognition.profitable_hereditary_n import (
     is_p3_free, is_bipartite,
 )
 from graph_recognition.profitable_hereditary_n_2 import is_comparability
-from graph_recognition.profitable_hereditary_n_4 import is_co_diamond_free
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
@@ -66,21 +64,6 @@ def is_2p3_free(graph: nx.Graph) -> bool:
                 return False
 
     return True
-
-
-@assign_inherited_fisc()
-@assign_class_id("AUTO_1482")
-@lru_cache(maxsize=None)
-def is_auto_1482(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is (K_{2} U K_{3}, co-diamond)-free.
-
-    See https://www.graphclasses.org/classes/AUTO_1482
-
-    Complexity of naïve matching: O(n^5)
-    :type graph: networkx.Graph
-    """
-    return is_co_diamond_free(graph) and is_k2_u_k3_free(graph)
 
 
 # @assign_inherited_fisc() # DON'T: results would be wrong (combinations of "or", not "and")
