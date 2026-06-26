@@ -31,7 +31,7 @@ from graph_recognition.fisc_based_recognizers_n_5 import (
     is_bull_free,
     is_fork_free,
     is_gc_628,
-    is_k14_free, is_xc_10_free, is_chordal_and_gem_free,
+    is_k14_free, is_xc_10_free, is_chordal_and_gem_free, is_k2_u_k3_free,
 )
 from graph_recognition.misc_algo import (
     empty_graph_by_removing_edges_and_incident_edges,
@@ -63,7 +63,6 @@ from graph_recognition.profitable_hereditary_n_4 import (
     is_anti_hole_free,
     is_co_claw_free,
 )
-from graph_recognition.profitable_hereditary_n_5 import is_k2_u_k3_free
 from graph_recognition.recognizers_n_3 import is_weakly_modular
 from graph_recognition.recognizers_n_4 import is_almost_claw_free
 from graph_recognition.recognizers_utils import (

@@ -23,7 +23,7 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.fisc_based_recognizers_n_5 import is_p5_free, is_k23_free, is_k14_free, is_gc_268, \
-    is_k_clique_free
+    is_k_clique_free, is_k2_u_k3_free
 from graph_recognition.fisc_based_recognizers_n_6 import is_p6_free
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
@@ -43,7 +43,6 @@ from graph_recognition.profitable_hereditary_n_4 import (
     is_anti_hole_free,
     is_hole_free, is_co_diamond_free,
 )
-from graph_recognition.profitable_hereditary_n_5 import is_k2_u_k3_free
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,

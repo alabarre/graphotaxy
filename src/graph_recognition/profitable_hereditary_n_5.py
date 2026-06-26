@@ -16,6 +16,7 @@ from functools import lru_cache
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+from graph_recognition.fisc_based_recognizers_n_5 import is_k2_u_k3_free
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import common_neighbors, complement_as_adj_mat, co_connected_components
 from graph_recognition.profitable_hereditary_n import (
@@ -65,24 +66,6 @@ def is_2p3_free(graph: nx.Graph) -> bool:
                 return False
 
     return True
-
-
-@assign_fisc(["K_{2} U K_{3}"])
-@assign_class_id("gc_456")
-@lru_cache(maxsize=None)
-def is_k2_u_k3_free(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is K_{2} U K_{3}-free.
-
-    See https://www.graphclasses.org/classes/gc_456
-
-    Complexity of naïve matching: O(n^5)
-    :type graph: networkx.Graph
-    """
-    # note: cannot move to fisc_based_recognizers due to circular import issues
-    return is_h_free(graph, ["K_{2} U K_{3}"])
-    # faster than:
-    # return is_h_u_k2_free(graph, is_triangle_free)
 
 
 @assign_inherited_fisc()

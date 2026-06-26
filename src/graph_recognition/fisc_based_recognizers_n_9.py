@@ -22,7 +22,8 @@ from functools import lru_cache
 import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.fisc_based_recognizers_n_5 import is_p5_free, is_k23_free, is_c5_free, is_gem_free, is_house_free
+from graph_recognition.fisc_based_recognizers_n_5 import is_p5_free, is_k23_free, is_c5_free, is_gem_free, \
+    is_house_free, is_k2_u_k3_free
 from graph_recognition.profitable_hereditary_n import (
     is_2k2_free, is_chordal, )
 from graph_recognition.profitable_hereditary_n_2 import (
@@ -38,7 +39,6 @@ from graph_recognition.profitable_hereditary_n_4 import (
     is_claw_free,
     is_c4_free,
 )
-from graph_recognition.profitable_hereditary_n_5 import is_k2_u_k3_free
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,

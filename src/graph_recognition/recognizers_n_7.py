@@ -18,7 +18,7 @@ from graph_recognition.fisc_based_recognizers_n_4 import (
     is_diamond_free,
 )
 from graph_recognition.fisc_based_recognizers_n_5 import (
-    is_k23_free,
+    is_k23_free, is_k2_u_k3_free,
 )
 from graph_recognition.fisc_based_recognizers_n_6 import (
     is_net_free, is_s3_free
@@ -48,7 +48,6 @@ from graph_recognition.profitable_hereditary_n_4 import (
     is_co_claw_free,
     is_hole_free,
 )
-from graph_recognition.profitable_hereditary_n_5 import is_k2_u_k3_free
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,

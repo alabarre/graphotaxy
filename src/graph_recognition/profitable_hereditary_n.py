@@ -2128,7 +2128,7 @@ def is_gc_1314(graph: nx.Graph) -> bool:
     all_vertices = frozenset(graph.nodes)
     n = len(all_vertices)
     return n == 1 or any(
-        set(induced_subgraph_degrees(graph, all_vertices - {v}).values()) == {n-2} for v in graph
+        set(induced_subgraph_degrees(graph, all_vertices - {v}).values()) == {n - 2} for v in graph
     )
 
 
@@ -2384,57 +2384,6 @@ def is_xc11_odd_cycle_free(graph: nx.Graph) -> bool:
     @return:
     """
     return is_maximum_degree_4(graph) and is_bipartite(graph)
-
-
-@assign_fisc(["2K_{2}"])
-@assign_class_id("gc_394")
-@lru_cache(maxsize=None)
-def is_2k2_free(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is 2K_{2}-free.
-
-    See https://www.graphclasses.org/classes/gc_394
-
-    Complexity: O(m^2) <= O(n^4) (naïve)
-
-    Note: right now moving to fics_based_recognizers or recognizers_n_4 creates circular
-    dependencies issues.
-
-    >>> import networkx as nx
-    >>> is_2k2_free(nx.path_graph(4))
-    True
-    >>> is_2k2_free(nx.path_graph(5))
-    False
-
-    :type graph: networkx.Graph
-    """
-    # trivial cases first:
-    if number_of_nodes(graph) < 4 or number_of_edges(graph) < 2:
-        return True
-
-    # let's try to find a matching in the graph; if that matching induces a disconnected subgraph,
-    # then we have a 2K_{2}
-    matching = nx.maximal_matching(graph)
-    if len(matching) >= 2 and not is_connected(graph.subgraph(chain(*matching))):
-        return False
-
-    # if graph has at least two components with at least one edge each, then it contains a 2K_{2}
-    # O(m+n)
-    nontrivial_ccs = 0
-    for cc in connected_components(graph):
-        nontrivial_ccs += len(cc) > 1
-        if nontrivial_ccs >= 2:
-            return False
-
-    # otherwise search for the pattern
-    for (a, b), (c, d) in combinations(graph.edges, 2):
-        if len({a, b, c, d}) == 4 and not graph.has_edge(a, c) and not graph.has_edge(a, d) and not graph.has_edge(b,
-                                                                                                                   c) and not graph.has_edge(
-                b, d):
-            return False
-    return True
-    # turns out to be much faster and less memory-hungry than GSS on large graphs
-    # return is_h_free(graph, ["2K_{2}"])
 
 
 @assign_fisc(
@@ -3088,6 +3037,61 @@ def is_star_convex(graph: nx.Graph) -> bool:
         return True
 
     return False
+
+
+# The following recognizers have higher complexity than this file allows, but cannot be moved yet
+# due to the circular dependencies they would create. Therefore, I'm temporarily placing them at
+# the end of this file in the hope they will not be run.
+@assign_fisc(["2K_{2}"])
+@assign_class_id("gc_394")
+@lru_cache(maxsize=None)
+def is_2k2_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is 2K_{2}-free.
+
+    See https://www.graphclasses.org/classes/gc_394
+
+    Complexity: O(m^2) <= O(n^4) (naïve)
+
+    Note: right now moving to fics_based_recognizers or recognizers_n_4 creates circular
+    dependencies issues.
+
+    >>> import networkx as nx
+    >>> is_2k2_free(nx.path_graph(4))
+    True
+    >>> is_2k2_free(nx.path_graph(5))
+    False
+
+    :type graph: networkx.Graph
+    """
+    # trivial cases first:
+    if number_of_nodes(graph) < 4 or number_of_edges(graph) < 2:
+        return True
+
+    # let's try to find a matching in the graph; if that matching induces a disconnected subgraph,
+    # then we have a 2K_{2}
+    matching = nx.maximal_matching(graph)
+    if len(matching) >= 2 and not is_connected(graph.subgraph(chain(*matching))):
+        return False
+
+    # if graph has at least two components with at least one edge each, then it contains a 2K_{2}
+    # O(m+n)
+    nontrivial_ccs = 0
+    for cc in connected_components(graph):
+        nontrivial_ccs += len(cc) > 1
+        if nontrivial_ccs >= 2:
+            return False
+
+    # otherwise search for the pattern
+    for (a, b), (c, d) in combinations(graph.edges, 2):
+        if (len({a, b, c, d}) == 4 and not graph.has_edge(a, c) and not graph.has_edge(a, d)
+                and not graph.has_edge(b, c) and not graph.has_edge(b, d)
+        ):
+            return False
+
+    return True
+    # turns out to be much faster and less memory-hungry than GSS on large graphs
+    # return is_h_free(graph, ["2K_{2}"])
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

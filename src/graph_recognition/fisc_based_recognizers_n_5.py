@@ -46,7 +46,6 @@ from graph_recognition.profitable_hereditary_n_4 import (
     is_4k1_free,
     is_co_diamond_free,
 )
-from graph_recognition.profitable_hereditary_n_5 import is_k2_u_k3_free
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
@@ -182,6 +181,22 @@ def is_co_k14_free(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return is_h_free(graph, ["co(K_{1,4})"])
+
+
+@assign_fisc(["K_{2} U K_{3}"])
+@assign_class_id("gc_456")
+@lru_cache(maxsize=None)
+def is_k2_u_k3_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is K_{2} U K_{3}-free.
+
+    See https://www.graphclasses.org/classes/gc_456
+
+    Complexity of naïve matching: O(n^5)
+    
+    :type graph: networkx.Graph
+    """
+    return is_h_free(graph, ["K_{2} U K_{3}"])
 
 
 @assign_fisc(["co-fork"])

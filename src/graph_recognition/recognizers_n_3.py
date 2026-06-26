@@ -45,8 +45,7 @@ from graph_recognition.profitable_hereditary_n_3 import (
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
-    cached_function, assign_inherited_fisc,
-)
+    cached_function, assign_inherited_fisc, )
 
 # Cache imported functions that are not already cached -------------------------------------------
 __functions_to_cache = [
@@ -231,12 +230,13 @@ def is_dismantlable(graph: nx.Graph) -> bool:
     # version
     new_graph = graph.copy()
 
-    num_nodes = len(new_graph)
-    while num_nodes > 1:
+    # note: this looks like a good use for empty_graph_by_removing_vertices, but the callable we
+    # feed it expects exactly two arguments, which is why we don't use it here
+    while n > 1:
         for u, v in combinations(new_graph, 2):
             if dominates(new_graph, u, v):
                 new_graph.remove_node(v)
-                num_nodes -= 1
+                n -= 1
                 break
         else:
             return False
