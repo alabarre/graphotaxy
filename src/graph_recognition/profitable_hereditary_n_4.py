@@ -13,15 +13,16 @@ Recognizers in this file have running time O(n^4).
 import os
 from collections import defaultdict
 from functools import lru_cache
-from itertools import combinations, product
+from itertools import combinations
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
-from networkx import connected_components, non_edges
+from networkx import connected_components
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
-from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free, is_4k1_free, is_co_claw_free, is_claw_free
+from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free, is_4k1_free, is_co_claw_free, is_claw_free, \
+    is_co_diamond_free
 from graph_recognition.misc_algo import (
     number_of_common_neighbors,
     co_connected_components, complement_as_adj_mat, induced_subgraph_degrees, )
@@ -770,27 +771,6 @@ def is_anti_hole_free(graph: nx.Graph) -> bool:
     )
 
 
-@assign_fisc(["co-diamond"])
-@assign_class_id("AUTO_77")
-@lru_cache(maxsize=None)
-def is_co_diamond_free(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is co-diamond-free.
-
-    See https://www.graphclasses.org/classes/AUTO_77
-
-    Complexity: O(n^4).
-
-    :type graph: networkx.Graph
-    """
-    # this naïve search outperforms the Glasgow Subgraph Solver on large graphs
-    for (a, b), (c, d) in product(graph.edges, non_edges(graph)):
-        if (not graph.has_edge(a, c) and not graph.has_edge(a, d) and not graph.has_edge(b, c)
-                and not graph.has_edge(b, d)):
-            return False
-    return True
-
-
 @assign_inherited_fisc()
 @assign_class_id("AUTO_2774")
 @lru_cache(maxsize=None)
@@ -801,22 +781,6 @@ def is_co_chordal_and_co_diamond_free(graph: nx.Graph) -> bool:
     @return:
     """
     return is_co_diamond_free(graph) and is_co_chordal(graph)
-
-
-@assign_inherited_fisc()
-@assign_class_id("AUTO_1939")
-@lru_cache(maxsize=None)
-def is_p4_co_diamond_co_paw_free(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is (P_{4}, co-diamond, co-paw)-free.
-
-    See https://www.graphclasses.org/classes/AUTO_1939
-
-    Complexity: O(n^2) < O(n^4) (naïve)
-
-    :type graph: networkx.Graph
-    """
-    return is_cograph(graph) and is_co_paw_free(graph) and is_co_diamond_free(graph)
 
 
 @assign_inherited_fisc()

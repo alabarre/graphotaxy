@@ -17,10 +17,12 @@ usually much faster.
 # ----- Standard imports --------------------------------------------------------------------------
 import os
 from functools import lru_cache
+from itertools import product
 
 import networkx
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from networkx import non_edges
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
@@ -30,6 +32,7 @@ from graph_recognition.misc_algo import (
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
     is_forest, )
+from graph_recognition.profitable_hereditary_n_2 import is_co_paw_free
 from graph_recognition.profitable_hereditary_n_3 import (
     is_paw_free,
 )
@@ -275,6 +278,42 @@ def is_claw_free(graph: nx.Graph) -> bool:
     """
     # no way around it: check membership
     return is_h_free(graph, ["claw"])
+
+
+@assign_fisc(["co-diamond"])
+@assign_class_id("AUTO_77")
+@lru_cache(maxsize=None)
+def is_co_diamond_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is co-diamond-free.
+
+    See https://www.graphclasses.org/classes/AUTO_77
+
+    Complexity: O(m^2) <= O(n^4).
+
+    :type graph: networkx.Graph
+    """
+    # this naïve search outperforms the Glasgow Subgraph Solver on large graphs
+    for (a, b), (c, d) in product(graph.edges, non_edges(graph)):
+        if (not graph.has_edge(a, c) and not graph.has_edge(a, d) and not graph.has_edge(b, c)
+                and not graph.has_edge(b, d)):
+            return False
+    return True
+
+@assign_inherited_fisc()
+@assign_class_id("AUTO_1939")
+@lru_cache(maxsize=None)
+def is_p4_co_diamond_co_paw_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is (P_{4}, co-diamond, co-paw)-free.
+
+    See https://www.graphclasses.org/classes/AUTO_1939
+
+    Complexity: O(m^2) <= O(n^4) (naïve)
+
+    :type graph: networkx.Graph
+    """
+    return is_cograph(graph) and is_co_paw_free(graph) and is_co_diamond_free(graph)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------
