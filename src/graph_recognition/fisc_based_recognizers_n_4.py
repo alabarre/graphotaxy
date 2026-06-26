@@ -32,9 +32,6 @@ from graph_recognition.profitable_hereditary_n import (
 from graph_recognition.profitable_hereditary_n_3 import (
     is_paw_free,
 )
-from graph_recognition.profitable_hereditary_n_4 import (
-    is_c4_free,
-)
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
@@ -60,6 +57,25 @@ def is_diamond_free(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return is_h_free(graph, ["diamond"])
+
+
+@assign_fisc(["C_{4}"])
+@assign_class_id("gc_360")
+@lru_cache(maxsize=None)
+def is_c4_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is C_{4}-free.
+
+    See https://www.graphclasses.org/classes/gc_360
+
+    Complexity: O(m^2) <= O(n^4) (naïve)
+
+    :type graph: networkx.Graph
+    """
+    if nx.girth(graph) > 4:
+        return True
+
+    return is_h_free(graph, ["C_{4}"])
 
 
 @assign_fisc(["diamond", "C_{4}"])

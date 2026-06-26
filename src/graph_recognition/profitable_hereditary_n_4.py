@@ -21,6 +21,7 @@ from networkx import connected_components, non_edges
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
+from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free
 from graph_recognition.misc_algo import (
     number_of_common_neighbors,
     degree_sequence,
@@ -463,26 +464,6 @@ def is_gc_508(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return is_claw_free(graph) and is_2k2_free(graph)
-
-
-@assign_fisc(["C_{4}"])
-@assign_class_id("gc_360")
-@lru_cache(maxsize=None)
-def is_c4_free(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is C_{4}-free.
-
-    See https://www.graphclasses.org/classes/gc_360
-
-    Complexity: O(m^2) <= O(n^4) (naïve)
-
-    :type graph: networkx.Graph
-    """
-    # note: cannot move function to fisc_based_recognizers due to circular import issues
-    if nx.girth(graph) > 4:
-        return True
-
-    return is_h_free(graph, ["C_{4}"])
 
 
 @assign_inherited_fisc()

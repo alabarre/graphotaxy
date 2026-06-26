@@ -37,8 +37,8 @@ from graph_recognition.profitable_hereditary_n_3 import (
 from graph_recognition.profitable_hereditary_n_4 import (
     is_co_claw_free,
     is_claw_free,
-    is_c4_free,
 )
+from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
