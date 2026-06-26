@@ -1580,6 +1580,8 @@ def is_p3_free(graph: nx.Graph) -> bool:
     """
     # equivalent to https://www.graphclasses.org/classes/gc_1237.html :
     # a graph is a cluster graph iff it is a disjoint union of cliques
+    
+    # very profitable filter on large graphs:
     if is_connected(graph):
         return is_complete(graph)
 

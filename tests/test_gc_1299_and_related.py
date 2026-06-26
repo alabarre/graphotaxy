@@ -39,7 +39,7 @@ import graph_recognition.recognizers_n
 import graph_recognition.recognizers_n_5
 import graph_recognition.profitable_hereditary_n
 import graph_recognition.recognizers_n_7
-from graph_recognition import fisc_based_recognizers_n_4, fisc_based_recognizers_n_6
+from graph_recognition import fisc_based_recognizers_n_4, fisc_based_recognizers_n_6, profitable_hereditary_n_3
 from readwrite import process_graphs
 
 
@@ -2141,7 +2141,7 @@ class Test_gc_1299_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.profitable_hereditary_n_2.is_co_paw_free(graph),
+                profitable_hereditary_n_3.is_co_paw_free(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "

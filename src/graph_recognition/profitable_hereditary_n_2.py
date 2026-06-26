@@ -34,7 +34,6 @@ from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
     is_chordal,
     is_split,
-    is_p3_free,
     is_cograph,
     is_bipartite,
     is_planar,
@@ -181,24 +180,6 @@ def is_gc_578(graph: nx.Graph) -> bool:
     """
     # equivalent to Dilworth 2 https://www.graphclasses.org/classes/gc_335.html
     return is_dilworth_k(graph, 2)
-
-
-@assign_fisc(["co-paw"])
-@assign_class_id("gc_915")
-@lru_cache(maxsize=None)
-def is_co_paw_free(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is co-paw-free.
-
-    See https://www.graphclasses.org/classes/gc_915
-
-    Complexity: O(n^2) < O(n^4) (naïve)
-
-    :type graph: networkx.Graph
-    """
-    # co-paw = K_1 U P_3, so graph is co-paw-free iff graph - v U N(v) is P_3-free for all choices of v
-    # return is_h_free(graph, ["co-paw"])  # mem usage of GSS to high for large graphs
-    return is_h_u_k1_free(graph, is_p3_free)
 
 
 @assign_fisc(["co-gem"])

@@ -17,13 +17,14 @@ from typing import Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from pyroaring import BitMap
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     is_connected,
     co_connected_components, complement_as_adj_mat, connected_components, number_of_nodes, number_of_edges,
-    non_neighbors,
+    non_neighbors, neighbors,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_gc_1312,
@@ -39,7 +40,6 @@ from graph_recognition.profitable_hereditary_n import (
     is_maximum_degree_7,
     is_split,
 )
-from graph_recognition.profitable_hereditary_n_2 import is_co_paw_free
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
@@ -701,6 +701,46 @@ def is_co_locally_bipartite(graph: nx.Graph) -> bool:
         for cc in co_connected_components(graph)
     )
 
+@assign_fisc(["co-paw"])
+@assign_class_id("gc_915")
+@lru_cache(maxsize=None)
+def is_co_paw_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is co-paw-free.
+
+    See https://www.graphclasses.org/classes/gc_915
+
+    Complexity: O(n^3) < O(n^4) (naïve)
+
+    :type graph: networkx.Graph
+    """
+    # co-paw = K_1 U P_3, so graph is co-paw-free iff graph - v U N(v) is P_3-free for all choices of v
+    # tried and failed approaches:
+    # return is_h_free(graph, ["co-paw"])  # mem usage of GSS too high for large graphs
+    # return is_h_u_k1_free(graph, is_p3_free)  # much too slow
+
+    # other approach: naïve search for a P_3 and a vertex independent from that P_3
+    adj = {v: neighbors(graph, v) for v in graph}
+    vertices = BitMap(graph)
+
+    # let's look for a P_3 of the form a-b-c
+    for b in graph:
+        # every neighbor of b can be an "a"
+        for a in adj[b]:
+            # every other neighbor of b independent from "a" can be a "c"
+            for c in adj[b] & non_neighbors(graph, a):
+                # order vertices to avoid counting twice
+                if c > a:
+                    # is there a vertex independent from a-b-c ?
+                    witnesses = vertices - adj[a] - adj[b] - adj[c]
+                    witnesses.discard(a)
+                    witnesses.discard(b)
+                    witnesses.discard(c)
+
+                    if witnesses:
+                        return False
+
+    return True
 
 # This code segment must always be at the END of a recognizer file --------------------------------
 RECOGNIZERS = current_module_recognizers(

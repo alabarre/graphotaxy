@@ -32,13 +32,12 @@ from graph_recognition.profitable_hereditary_n import (
     is_cograph,
     is_2k2_free, is_chordal, )
 from graph_recognition.profitable_hereditary_n_2 import (
-    is_co_paw_free,
     is_co_gem_free, )
 from graph_recognition.profitable_hereditary_n_3 import (
     is_3k1_free,
     is_triangle_free,
     is_paw_free,
-    is_co_p3_free, )
+    is_co_p3_free, is_co_paw_free, )
 from graph_recognition.profitable_hereditary_n_4 import (
     is_k4_free,
 )

@@ -39,7 +39,6 @@ from graph_recognition.profitable_hereditary_n import (
 from graph_recognition.profitable_hereditary_n_2 import (
     is_comparability,
     is_co_chordal,
-    is_co_paw_free,
 )
 from graph_recognition.profitable_hereditary_n_3 import (
     is_triangle_free,
@@ -49,7 +48,7 @@ from graph_recognition.profitable_hereditary_n_3 import (
     is_paw_free,
     is_locally_connected,
     is_claw_diamond_free,
-    is_co_p3_free,
+    is_co_p3_free, is_co_paw_free,
 )
 from graph_recognition.recognizers_n_3 import is_weakly_modular
 from graph_recognition.recognizers_utils import (

@@ -40,9 +40,8 @@ from graph_recognition.profitable_hereditary_n import (
 from graph_recognition.profitable_hereditary_n_2 import (
     is_co_chordal,
     is_c_n_plus_4_u_k_1_free,
-    is_co_line, is_co_c_n_plus_4_u_k_1_free, is_co_paw_free,
-)
-from graph_recognition.profitable_hereditary_n_3 import is_paw_free, is_triangle_free
+    is_co_line, is_co_c_n_plus_4_u_k_1_free, )
+from graph_recognition.profitable_hereditary_n_3 import is_paw_free, is_triangle_free, is_co_paw_free
 from graph_recognition.profitable_hereditary_n_4 import (
     is_hole_free,
 )

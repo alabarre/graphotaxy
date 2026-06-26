@@ -32,9 +32,9 @@ from graph_recognition.misc_algo import (
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
     is_forest, is_2k2_free, )
-from graph_recognition.profitable_hereditary_n_2 import is_co_paw_free, is_co_chordal, is_co_gem_free
+from graph_recognition.profitable_hereditary_n_2 import is_co_chordal, is_co_gem_free
 from graph_recognition.profitable_hereditary_n_3 import (
-    is_paw_free,
+    is_paw_free, is_co_paw_free,
 )
 from graph_recognition.recognizers_utils import (
     assign_class_id,
