@@ -31,7 +31,7 @@ from graph_recognition.misc_algo import (
     complement_as_adj_mat, degree_sequence, number_of_edges, )
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
-    is_forest, )
+    is_forest, is_2k2_free, )
 from graph_recognition.profitable_hereditary_n_2 import is_co_paw_free
 from graph_recognition.profitable_hereditary_n_3 import (
     is_paw_free,
@@ -300,6 +300,7 @@ def is_co_diamond_free(graph: nx.Graph) -> bool:
             return False
     return True
 
+
 @assign_inherited_fisc()
 @assign_class_id("AUTO_1939")
 @lru_cache(maxsize=None)
@@ -314,6 +315,28 @@ def is_p4_co_diamond_co_paw_free(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return is_cograph(graph) and is_co_paw_free(graph) and is_co_diamond_free(graph)
+
+
+@assign_inherited_fisc()
+@assign_class_id("AUTO_1940")
+@lru_cache(maxsize=None)
+def is_auto_1940(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is (2K_{2}, P_{4}, co-diamond, co-paw)-free.
+
+    See https://www.graphclasses.org/classes/AUTO_1940
+
+    Complexity: O(m^2) <= O(n^4) (naïve)
+
+    @param graph:
+    @return:
+    """
+    return (
+            is_cograph(graph)
+            and is_co_paw_free(graph)
+            and is_2k2_free(graph)
+            and is_co_diamond_free(graph)
+    )
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

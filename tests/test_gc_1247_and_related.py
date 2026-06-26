@@ -338,7 +338,7 @@ class Test_gc_1247_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                profitable_hereditary_n_4.is_auto_1940(graph),
+                fisc_based_recognizers_n_4.is_auto_1940(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "

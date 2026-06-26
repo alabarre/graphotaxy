@@ -783,28 +783,6 @@ def is_co_chordal_and_co_diamond_free(graph: nx.Graph) -> bool:
     return is_co_diamond_free(graph) and is_co_chordal(graph)
 
 
-@assign_inherited_fisc()
-@assign_class_id("AUTO_1940")
-@lru_cache(maxsize=None)
-def is_auto_1940(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is (2K_{2}, P_{4}, co-diamond, co-paw)-free.
-
-    See https://www.graphclasses.org/classes/AUTO_1940
-
-    Complexity: O(n^2) < O(n^4) (naïve)
-
-    @param graph:
-    @return:
-    """
-    return (
-            is_cograph(graph)
-            and is_2k2_free(graph)
-            and is_co_diamond_free(graph)
-            and is_co_paw_free(graph)
-    )
-
-
 # This code segment must always be at the END of a recognizer file --------------------------------
 RECOGNIZERS = current_module_recognizers(
     ".".join(
