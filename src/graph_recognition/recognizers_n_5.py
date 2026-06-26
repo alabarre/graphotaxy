@@ -58,11 +58,10 @@ from graph_recognition.profitable_hereditary_n_3 import (
     is_locally_connected,
 )
 from graph_recognition.profitable_hereditary_n_4 import (
-    is_claw_free,
     is_hole_free,
     is_anti_hole_free,
-    is_co_claw_free,
 )
+from graph_recognition.fisc_based_recognizers_n_4 import is_co_claw_free, is_claw_free
 from graph_recognition.recognizers_n_3 import is_weakly_modular
 from graph_recognition.recognizers_n_4 import is_almost_claw_free
 from graph_recognition.recognizers_utils import (

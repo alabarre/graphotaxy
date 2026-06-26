@@ -25,8 +25,8 @@ import networkx as nx
 from graph_recognition.fisc_based_recognizers_n_5 import is_p5_free, is_house_free
 from graph_recognition.profitable_hereditary_n_4 import (
     is_k4_free,
-    is_4k1_free,
 )
+from graph_recognition.fisc_based_recognizers_n_4 import is_4k1_free
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,

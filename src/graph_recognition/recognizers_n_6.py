@@ -37,11 +37,10 @@ from graph_recognition.profitable_hereditary_n_2 import (
     is_c_n_plus_4_u_k_1_free,
 )
 from graph_recognition.profitable_hereditary_n_4 import (
-    is_co_claw_free,
-    is_claw_free,
     is_hole_free,
     is_anti_hole_free,
 )
+from graph_recognition.fisc_based_recognizers_n_4 import is_co_claw_free, is_claw_free
 from graph_recognition.recognizers_n import is_2_vertex_connected
 from graph_recognition.recognizers_n_5 import is_p5_anti_hole_free
 from graph_recognition.recognizers_utils import (

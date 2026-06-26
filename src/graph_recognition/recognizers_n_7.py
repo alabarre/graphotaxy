@@ -15,7 +15,7 @@ import networkx as nx
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.fisc_based_recognizers_n_4 import (
-    is_diamond_free,
+    is_diamond_free, is_co_claw_free, is_claw_free,
 )
 from graph_recognition.fisc_based_recognizers_n_5 import (
     is_k23_free, is_k2_u_k3_free,
@@ -44,8 +44,6 @@ from graph_recognition.profitable_hereditary_n_2 import (
 )
 from graph_recognition.profitable_hereditary_n_3 import is_paw_free, is_triangle_free
 from graph_recognition.profitable_hereditary_n_4 import (
-    is_claw_free,
-    is_co_claw_free,
     is_hole_free,
 )
 from graph_recognition.recognizers_utils import (

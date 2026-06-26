@@ -18,14 +18,16 @@ usually much faster.
 import os
 from functools import lru_cache
 
+import networkx
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from networkx import Graph
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     is_h_u_k1_free,
-    complement_as_adj_mat, )
+    complement_as_adj_mat, degree_sequence, number_of_edges, )
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
     is_forest, )
@@ -43,6 +45,20 @@ from graph_recognition.subgraphs import is_h_free
 # Recognizers -------------------------------------------------------------------------------------
 
 # All recognizers for patterns on at most 4 vertices ----------------------------------------------
+@assign_class_id("gc_674")
+@lru_cache(maxsize=None)
+def is_4k1_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is 4K_{1}-free.
+
+    See https://www.graphclasses.org/classes/gc_674
+
+    Complexity of naïve matching: O(n^4)
+    :type graph: networkx.Graph
+    """
+    return is_h_free(graph, ["4K_{1}"])  # is_even_co_clique_free(graph, 4)
+
+
 @assign_fisc(["diamond"])
 @assign_class_id("gc_441")
 @lru_cache(maxsize=None)
@@ -192,6 +208,74 @@ def is_cnplus3_u_k1_co_diamond_co_paw_free(graph: nx.Graph) -> bool:
     """
     return is_cnplus3_u_k1_diamond_paw_free(complement_as_adj_mat(graph))
 
+
+@assign_inherited_fisc()
+@assign_class_id("AUTO_1479")
+@lru_cache(maxsize=None)
+def is_auto_1479(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is (4K_{1}, P_{4})-free.
+
+    See https://www.graphclasses.org/classes/AUTO_1479
+
+    Complexity of naïve matching: O(n^4)
+    :type graph: networkx.Graph
+    """
+    return is_cograph(graph) and is_4k1_free(graph)
+
+
+@assign_fisc(["co-claw"])
+@assign_class_id("AUTO_79")
+@lru_cache(maxsize=None)
+def is_co_claw_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is co-claw-free.
+
+    See https://www.graphclasses.org/classes/AUTO_79
+
+    Complexity of naïve matching: O(n^4)
+
+    >>> from networkx import Graph; G=Graph(); G.add_edges_from([(0, 1), (0, 2), (1, 2)]); G.add_node(3)
+    >>> is_co_claw_free(G)
+    False
+
+    :type graph: networkx.Graph
+    """
+    return is_h_free(graph, ["co-claw"])
+
+
+@assign_fisc(["claw"])
+@assign_class_id("gc_62")
+@lru_cache(maxsize=None)
+def is_claw_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is claw-free.
+
+    See https://www.graphclasses.org/classes/gc_62
+
+    Complexity of naïve matching: O(n^4)
+
+    :type graph: networkx.Graph
+    """
+    # in a claw-free graph the maximum degree is 2 * sqrt(|E|)
+    # (see https://doi.org/10.1016/S0020-0190(00)00047-8)
+    if graph and degree_sequence(graph)[0] > 2 * number_of_edges(graph) ** 0.5:
+        return False
+
+    # note: commenting the trick below, issues getting it to work with HalfAdjacencyMatrix
+    """
+    # every claw-free graph of even order has a perfect matching
+    # https://www.combinatorics.org/ojs/index.php/eljc/article/download/v13i1r59/pdf/, thm. 5 p. 4
+    # Note: they don't mention connectedness in this quoted result, but obviously it is required:
+    # otherwise, we can simply add singletons, which by definition cannot be paired
+    if is_connected(graph) and not number_of_nodes(graph) % 2 and not is_perfect_matching(
+            graph, maximum_matching(graph)
+    ):
+        return False
+
+    """
+    # no way around it: check membership
+    return is_h_free(graph, ["claw"])
 
 # This code segment must always be at the END of a recognizer file --------------------------------
 RECOGNIZERS = current_module_recognizers(

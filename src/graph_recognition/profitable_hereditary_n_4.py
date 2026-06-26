@@ -21,11 +21,10 @@ from networkx import connected_components, non_edges
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
-from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free
+from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free, is_4k1_free, is_co_claw_free, is_claw_free
 from graph_recognition.misc_algo import (
     number_of_common_neighbors,
-    degree_sequence,
-    co_connected_components, complement_as_adj_mat, number_of_edges, induced_subgraph_degrees, )
+    co_connected_components, complement_as_adj_mat, induced_subgraph_degrees, )
 from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_cograph,
@@ -113,60 +112,6 @@ def is_xc_13_free(graph: nx.Graph) -> bool:
     :return:
     """
     return all(number_of_common_neighbors(graph, u, v) <= 2 for u, v in combinations(graph, 2))
-
-
-@assign_fisc(["co-claw"])
-@assign_class_id("AUTO_79")
-@lru_cache(maxsize=None)
-def is_co_claw_free(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is co-claw-free.
-
-    See https://www.graphclasses.org/classes/AUTO_79
-
-    Complexity of naïve matching: O(n^4)
-
-    >>> from networkx import Graph; G=Graph(); G.add_edges_from([(0, 1), (0, 2), (1, 2)]); G.add_node(3)
-    >>> is_co_claw_free(G)
-    False
-
-    :type graph: networkx.Graph
-    """
-    return is_h_free(graph, ["co-claw"])
-
-
-@assign_fisc(["claw"])
-@assign_class_id("gc_62")
-@lru_cache(maxsize=None)
-def is_claw_free(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is claw-free.
-
-    See https://www.graphclasses.org/classes/gc_62
-
-    Complexity of naïve matching: O(n^4)
-
-    :type graph: networkx.Graph
-    """
-    # in a claw-free graph the maximum degree is 2 * sqrt(|E|)
-    # (see https://doi.org/10.1016/S0020-0190(00)00047-8)
-    if graph and degree_sequence(graph)[0] > 2 * number_of_edges(graph) ** 0.5:
-        return False
-
-    # note: commenting the trick below, issues getting it to work with HalfAdjacencyMatrix
-    """
-    # every claw-free graph of even order has a perfect matching
-    # https://www.combinatorics.org/ojs/index.php/eljc/article/download/v13i1r59/pdf/, thm. 5 p. 4
-    # Note: they don't mention connectedness in this quoted result, but obviously it is required:
-    # otherwise, we can simply add singletons, which by definition cannot be paired
-    if is_connected(graph) and not number_of_nodes(graph) % 2 and not is_perfect_matching(
-            graph, maximum_matching(graph)
-    ):
-        return False
-
-    """
-    # no way around it: check membership
-    return is_h_free(graph, ["claw"])
 
 
 @assign_fisc(
@@ -572,36 +517,6 @@ def is_gc_1232(graph: nx.Graph) -> bool:
     return is_claw_diamond_free(graph) and is_c4_free(graph)
 
 
-# note: cannot move to fisc_based_recognizers because of circular import issues
-@assign_class_id("gc_674")
-@lru_cache(maxsize=None)
-def is_4k1_free(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is 4K_{1}-free.
-
-    See https://www.graphclasses.org/classes/gc_674
-
-    Complexity of naïve matching: O(n^4)
-    :type graph: networkx.Graph
-    """
-    return is_h_free(graph, ["4K_{1}"])  # is_even_co_clique_free(graph, 4)
-
-
-@assign_inherited_fisc()
-@assign_class_id("AUTO_1479")
-@lru_cache(maxsize=None)
-def is_auto_1479(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is (4K_{1}, P_{4})-free.
-
-    See https://www.graphclasses.org/classes/AUTO_1479
-
-    Complexity of naïve matching: O(n^4)
-    :type graph: networkx.Graph
-    """
-    return is_cograph(graph) and is_4k1_free(graph)
-
-
 @assign_inherited_fisc()
 @assign_class_id("AUTO_1449")
 @lru_cache(maxsize=None)
@@ -687,7 +602,7 @@ def is_diamond_co_diamond_free(graph: nx.Graph) -> bool:
     #                     diamond       co-diamond
     forbidden_deg_seqs = ([3, 3, 2, 2], [1, 1, 0, 0])
     return all(
-        sorted(induced_subgraph_degrees(graph, frozenset(e+f)).values(), reverse=True)
+        sorted(induced_subgraph_degrees(graph, frozenset(e + f)).values(), reverse=True)
         not in forbidden_deg_seqs
         for e in nx.non_edges(graph)
         for f in graph.edges
