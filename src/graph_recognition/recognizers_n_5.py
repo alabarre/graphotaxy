@@ -40,7 +40,7 @@ from graph_recognition.misc_algo import (
     is_odd_co_clique_free,
     explicit_triangles,
     empty_graph_by_removing_vertices,
-    enumerate_all_p4s, number_of_nodes, common_neighbors, induced_subgraph_degrees, enumerate_all_p4_midpoints,
+    number_of_nodes, common_neighbors, induced_subgraph_degrees, enumerate_all_p4_midpoints,
     neighbors, non_neighbors,
 )
 from graph_recognition.profitable_hereditary_n import (
@@ -50,7 +50,7 @@ from graph_recognition.profitable_hereditary_n import (
     is_planar,
     is_co_bipartite,
     is_p3_free,
-    is_split,
+    is_split_degree_sequence,
 )
 from graph_recognition.profitable_hereditary_n_2 import is_co_chordal, is_co_gem_free
 from graph_recognition.profitable_hereditary_n_3 import (
@@ -663,8 +663,9 @@ def is_brittle(graph: nx.Graph) -> bool:
 
 
 @lru_cache(maxsize=None)
-def vertex_neighbourhood_induces_split_graph(graph: nx.Graph, v: Hashable) -> bool:
+def vertex_neighborhood_induces_split_graph(graph: nx.Graph, v: Hashable) -> bool:
     """
+    Returns True if the neighborhood of v induces a split graph, False otherwise.
 
     Complexity: O(deg(v))
 
@@ -672,10 +673,10 @@ def vertex_neighbourhood_induces_split_graph(graph: nx.Graph, v: Hashable) -> bo
     :type graph: networkx.Graph
     :param graph:
     :return:
-    @param graph:
-    @param v:
     """
-    return is_split(graph.subgraph(graph[v]))
+    return is_split_degree_sequence(
+        sorted(induced_subgraph_degrees(graph, frozenset(graph[v])).values(), reverse=True)
+    )
 
 
 @assign_class_id("gc_608")
@@ -691,7 +692,7 @@ def is_split_neighbourhood(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    return empty_graph_by_removing_vertices(graph, vertex_neighbourhood_induces_split_graph)
+    return empty_graph_by_removing_vertices(graph, vertex_neighborhood_induces_split_graph)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------
