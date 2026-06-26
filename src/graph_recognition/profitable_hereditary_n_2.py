@@ -211,6 +211,7 @@ def is_co_gem_free(graph: nx.Graph) -> bool:
     See https://www.graphclasses.org/classes/gc_423
 
     Complexity: O(n^2) < O(n^5) (naïve)
+
     :type graph: networkx.Graph
     """
     # if graph has no P_{4}, then it has no P_{4} U K_{1}
@@ -226,6 +227,10 @@ def is_co_gem_free(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_co_chordal_and_co_gem_free(graph: nx.Graph) -> bool:
     """
+
+    See https://www.graphclasses.org/classes/AUTO_2778
+
+    Complexity: O(n^2) < O(n^5) (naïve)
 
     @param graph:
     @return:
@@ -247,18 +252,6 @@ def is_chordal_or_co_chordal(graph: nx.Graph) -> bool:
         return True
 
     return is_chordal(graph) or is_co_chordal(graph)
-
-
-@assign_inherited_fisc()
-@assign_class_id("gc_1290")
-@lru_cache(maxsize=None)
-def is_bipartite_and_mock_threshold(graph: nx.Graph) -> bool:
-    """
-
-    @param graph:
-    @return:
-    """
-    return is_bipartite(graph) and is_mock_threshold(graph)
 
 
 # not profitable, but needed by a profitable class so included here to avoid circular import issues

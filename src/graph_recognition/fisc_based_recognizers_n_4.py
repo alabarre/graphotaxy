@@ -21,7 +21,6 @@ from functools import lru_cache
 import networkx
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
-from networkx import Graph
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
@@ -276,6 +275,7 @@ def is_claw_free(graph: nx.Graph) -> bool:
     """
     # no way around it: check membership
     return is_h_free(graph, ["claw"])
+
 
 # This code segment must always be at the END of a recognizer file --------------------------------
 RECOGNIZERS = current_module_recognizers(

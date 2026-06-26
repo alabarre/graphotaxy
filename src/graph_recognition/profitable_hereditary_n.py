@@ -1909,6 +1909,22 @@ def is_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
     return True
 
+@assign_inherited_fisc()
+@assign_class_id("gc_1290")
+@lru_cache(maxsize=None)
+def is_bipartite_and_mock_threshold(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/gc_1290
+
+
+    Complexity: O(m+n) < O(n^10) (naïve).
+
+    @param graph:
+    @return:
+    """
+    return is_bipartite(graph) and is_mock_threshold(graph)
+
 
 @assign_fisc(["C_{5}", "co-butterfly", "co-diamond", "triangle"])
 @assign_class_id("gc_685")

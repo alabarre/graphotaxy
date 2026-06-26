@@ -41,20 +41,34 @@ from graph_recognition.profitable_hereditary_n_3 import (
 )
 from graph_recognition.profitable_hereditary_n_4 import (
     is_k4_free,
-    is_co_diamond_free,
+    is_co_diamond_free, is_hole_free,
 )
 from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free, is_4k1_free, is_co_claw_free, is_claw_free
 from graph_recognition.profitable_hereditary_n_5 import is_2p3_free
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
-    assign_fisc, )
+    assign_fisc, assign_inherited_fisc, )
 from graph_recognition.subgraphs import is_h_free
 
 
 # Recognizers -------------------------------------------------------------------------------------
 
 # All recognizers for patterns on at most 6 vertices ----------------------------------------------
+@assign_inherited_fisc()
+@assign_class_id("AUTO_3450")
+@lru_cache(maxsize=None)
+def is_p6_hole_house_free(graph: nx.Graph) -> bool:
+    """
+
+    https://www.graphclasses.org/classes/AUTO_3450.html
+
+    :param graph:
+    :return:
+    """
+    return is_hole_free(graph) and is_house_free(graph) and is_p6_free(graph)
+
+
 @assign_fisc(["K_{6}"])
 @assign_class_id("gc_1344")
 @lru_cache(maxsize=None)
