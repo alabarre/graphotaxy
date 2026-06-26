@@ -40,7 +40,6 @@ from graph_recognition.profitable_hereditary_n_2 import (
     is_comparability,
     is_co_chordal,
     is_co_paw_free,
-    is_co_gem_free,
 )
 from graph_recognition.profitable_hereditary_n_3 import (
     is_triangle_free,
@@ -716,18 +715,6 @@ def is_co_xc11_claw_diamond_free(graph: nx.Graph) -> bool:
     @return:
     """
     return is_co_maximum_degree_4(graph) and is_auto_1467(graph)
-
-
-@assign_inherited_fisc()
-@assign_class_id("AUTO_2768")
-@lru_cache(maxsize=None)
-def is_co_cnplus4_co_claw_co_gem_free(graph: nx.Graph) -> bool:
-    """
-
-    @param graph:
-    @return:
-    """
-    return is_co_chordal(graph) and is_co_gem_free(graph) and is_co_claw_free(graph)
 
 
 @assign_inherited_fisc()

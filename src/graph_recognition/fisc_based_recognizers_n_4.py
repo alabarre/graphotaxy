@@ -32,7 +32,7 @@ from graph_recognition.misc_algo import (
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
     is_forest, is_2k2_free, )
-from graph_recognition.profitable_hereditary_n_2 import is_co_paw_free
+from graph_recognition.profitable_hereditary_n_2 import is_co_paw_free, is_co_chordal, is_co_gem_free
 from graph_recognition.profitable_hereditary_n_3 import (
     is_paw_free,
 )
@@ -337,6 +337,18 @@ def is_auto_1940(graph: nx.Graph) -> bool:
             and is_2k2_free(graph)
             and is_co_diamond_free(graph)
     )
+
+
+@assign_inherited_fisc()
+@assign_class_id("AUTO_2768")
+@lru_cache(maxsize=None)
+def is_co_cnplus4_co_claw_co_gem_free(graph: nx.Graph) -> bool:
+    """
+
+    @param graph:
+    @return:
+    """
+    return is_co_chordal(graph) and is_co_gem_free(graph) and is_co_claw_free(graph)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------
