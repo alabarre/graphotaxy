@@ -182,9 +182,7 @@ def is_interval_regular_of_diameter_2(graph: nx.Graph) -> bool:
     if not is_connected(graph):
         return False
 
-    return all(
-        number_of_common_neighbors(graph, u, v) == 2 for u, v in nx.non_edges(graph)
-    )
+    return all(number_of_common_neighbors(graph, u, v) == 2 for u, v in nx.non_edges(graph))
 
 
 @assign_class_id("gc_173")
@@ -658,9 +656,11 @@ def is_probe_co_bipartite(graph: nx.Graph) -> bool:
     co_neighbors = {u: nodes - neighbors(graph, u) - BitMap({u}) for u in graph}
 
     t_co_g = HalfAdjacencyMatrix()
-    for u, v in nx.non_edges(graph):
-        if co_neighbors[u] & co_neighbors[v]:
-            t_co_g.add_edge(u, v)
+    t_co_g.add_nodes_from(graph.nodes())
+    t_co_g.allocate_full_matrix()
+    t_co_g.add_edges_from_without_check(
+        (u, v) for u, v in nx.non_edges(graph) if co_neighbors[u] & co_neighbors[v]
+    )
 
     # if T(co(G)) is not a split graph, then G is not probe 2-clique
     if not is_split(t_co_g):
@@ -668,7 +668,9 @@ def is_probe_co_bipartite(graph: nx.Graph) -> bool:
 
     for maximal_clique in nx.find_cliques(t_co_g):  # noqa (unexpected type HalfAdjacencyMatrix)
         # check whether co(G) - the edges of maximal_clique
-        if online_is_bipartite(co_edges_except({frozenset(edge) for edge in combinations(maximal_clique, 2)})):
+        if len(maximal_clique) >= 2 and online_is_bipartite(
+                co_edges_except({frozenset(edge) for edge in combinations(maximal_clique, 2)})
+        ):
             return True
 
     return False

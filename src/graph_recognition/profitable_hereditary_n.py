@@ -36,7 +36,7 @@ from graph_recognition.misc_algo import (
     degree_sequence,
     is_connected,
     co_connected_components, NUMERIC_TYPECODES, all_vertices_are_int, connected_components, neighbors, number_of_nodes,
-    number_of_edges, degeneracy, induced_subgraph_degrees,
+    number_of_edges, degeneracy, induced_subgraph_degrees, non_neighbors,
 )
 from graph_recognition.online_algo import online_is_forest, online_is_bipartite
 from graph_recognition.recognizers_n import is_2_vertex_connected
@@ -1580,7 +1580,7 @@ def is_p3_free(graph: nx.Graph) -> bool:
     """
     # equivalent to https://www.graphclasses.org/classes/gc_1237.html :
     # a graph is a cluster graph iff it is a disjoint union of cliques
-    
+
     # very profitable filter on large graphs:
     if is_connected(graph):
         return is_complete(graph)
@@ -3085,6 +3085,30 @@ def is_2k2_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    if number_of_nodes(graph) < 4 or number_of_edges(graph) < 2:
+        return True
+
+    # If two connected components both contain an edge, we have a 2K2.
+    nontrivial_ccs = 0
+    for cc in connected_components(graph):
+        nontrivial_ccs += len(cc) > 1
+        if nontrivial_ccs >= 2:
+            return False
+
+    adj = {v: neighbors(graph, v) for v in graph}
+
+    for a, b in graph.edges:
+        candidates = non_neighbors(graph, a) & non_neighbors(graph, b)
+
+        if len(candidates) >= 2:
+            # Does G[candidates] contain an edge?
+            for c in candidates:
+                if adj[c] & candidates:
+                    return False
+
+    return True
+
+    """ FORMER VERSION: """
     # trivial cases first:
     if number_of_nodes(graph) < 4 or number_of_edges(graph) < 2:
         return True
