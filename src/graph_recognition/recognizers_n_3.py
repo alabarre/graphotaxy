@@ -667,7 +667,7 @@ def is_probe_co_bipartite(graph: nx.Graph) -> bool:
         return False
 
     for maximal_clique in nx.find_cliques(t_co_g):  # noqa (unexpected type HalfAdjacencyMatrix)
-        # check whether co(G) - the edges of maximal_clique
+        # check whether co(G) - the edges of maximal_clique is bipartite
         if len(maximal_clique) >= 2 and online_is_bipartite(
                 co_edges_except({frozenset(edge) for edge in combinations(maximal_clique, 2)})
         ):

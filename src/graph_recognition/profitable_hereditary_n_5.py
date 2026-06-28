@@ -15,9 +15,10 @@ from functools import lru_cache
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from pyroaring import BitMap
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.misc_algo import common_neighbors, complement_as_adj_mat, co_connected_components
+from graph_recognition.misc_algo import complement_as_adj_mat, co_connected_components, neighbors
 from graph_recognition.profitable_hereditary_n import (
     is_p3_free, is_bipartite,
 )
@@ -47,20 +48,38 @@ def is_2p3_free(graph: nx.Graph) -> bool:
     if is_p3_free(graph):
         return True
 
-    # iterate over P_{3}'s in graph by iterating over all non-edges, and in turn iterating over all
-    # common neighbors of those non-edges
-    all_nodes = set(graph.nodes)
+    nodes = BitMap(graph)
+    adj = {v: neighbors(graph, v) for v in graph}
+
+    def contains_p3(subset: BitMap) -> bool:
+        """
+        Returns True iff G[subset] contains an induced P3.
+        """
+        for center in subset:
+            local_neighbors = adj[center] & subset
+
+            if len(local_neighbors) < 2:
+                continue
+
+            for a in local_neighbors:
+                witnesses = local_neighbors - adj[a]
+                witnesses.discard(a)
+
+                if witnesses:
+                    return True
+
+        return False
+
+    # Enumerate P3s as u-w-v, where u and v are non-adjacent
+    # and w is a common neighbor.
     for u, v in nx.non_edges(graph):
-        for w in common_neighbors(graph, u, v):
-            #  now check whether removing u, v, w and their neighbors yields a P_{3}-free graph
-            if not is_p3_free(
-                    graph.subgraph(
-                        all_nodes
-                        - {u, v, w}.union(
-                            graph.neighbors(u), graph.neighbors(v), graph.neighbors(w)
-                        )
-                    )
-            ):
+        for w in adj[u] & adj[v]:
+            remaining = nodes - adj[u] - adj[v] - adj[w]
+            remaining.discard(u)
+            remaining.discard(v)
+            remaining.discard(w)
+
+            if contains_p3(remaining):
                 return False
 
     return True
