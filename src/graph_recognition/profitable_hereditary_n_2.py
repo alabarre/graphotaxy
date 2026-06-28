@@ -19,6 +19,7 @@ from typing import Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from pyroaring import BitMap
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
@@ -496,7 +497,7 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     #       this information is needed to obtain H's next edge, instead of waiting for the whole
     #       dictionary to be available
     classes = dict()
-    non_twins = defaultdict(set)
+    non_twins = defaultdict(BitMap)
 
     # no need to cache this function: we cache the results "by hand", and we have to because we
     # want to handle twins and non-twins in a particular way
@@ -513,7 +514,7 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
         # computing classes[v] is expensive, so let's first check if v has a twin u for which we
         # have the answer already
-        for u in set(classes).difference(non_twins[v]):
+        for u in BitMap(classes).difference(non_twins[v]):
             if graph[v] == graph[u]:
                 return classes[u]
             else:
@@ -551,9 +552,10 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         # edges
         for u in graph:
             for v in neighbors(graph, u):
-                i = get_class_index(u, v)
-                j = get_class_index(v, u)
-                yield (v, i), (u, j)
+                if u <= v:  # avoid yielding edges twice
+                    i = get_class_index(u, v)
+                    j = get_class_index(v, u)
+                    yield (v, i), (u, j)
 
     return online_is_bipartite(edge_generator())
 

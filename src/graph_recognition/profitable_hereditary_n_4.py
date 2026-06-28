@@ -129,10 +129,9 @@ def is_hole_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     :param graph:
     :return:
     """
-
     # first algorithm in https://www.cs.uoi.gr/~palios/pubs/D5.pdf
     # O(n+m^2) = O(n^4)
-    @lru_cache(maxsize=None)
+    #@lru_cache(maxsize=None)
     def process(a: int, b: int, c: int) -> bool:
         """
         The auxiliary process procedure from https://www.cs.uoi.gr/~palios/pubs/D5.pdf used in the

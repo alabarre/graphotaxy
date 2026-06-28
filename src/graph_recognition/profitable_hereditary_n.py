@@ -17,8 +17,7 @@ from collections import defaultdict
 from collections.abc import Callable
 from functools import lru_cache
 from itertools import combinations, chain
-from sys import maxsize
-from typing import Any, Iterable
+from typing import Any
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -1914,6 +1913,7 @@ def is_bipartite(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
     return True
 
+
 @assign_inherited_fisc()
 @assign_class_id("gc_1290")
 @lru_cache(maxsize=None)
@@ -1988,61 +1988,33 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     @param graph:
     @return:
     """
-    # note: don't try to optimize this function by using BitMaps or other tricks that assume
+    # WARNING: don't try to optimize this function by using BitMaps or other tricks that assume
     # integer vertices: this function is called by is_wing_triangulated, which feeds it a graph
     # whose vertices are not integers
 
-    # the following is basically a copy / paste of networkx.is_chordal, with a few minor changes so
-    # it can be run on a HalfAdjacencyMatrix
+    # the following is an adaptation of networkx.is_chordal, with a few minor changes so it can be
+    # run on a HalfAdjacencyMatrix
     if len(graph) <= 3 or is_complete(graph):
         return True
 
-    def _find_chordality_breaker(s=None, treewidth_bound=maxsize) -> tuple:
-        """
-        Given a graph G, starts a max cardinality search (starting from s if s is given and from an
-        arbitrary node otherwise) trying to find a non-chordal cycle.
+    if len(graph) == 0:
+        raise nx.NetworkXPointlessConcept("Graph has no nodes.")
 
-        If it does find one, it returns (u,v,w) where u,v,w are the three nodes that together with
-        s are involved in the cycle.
+    unnumbered = set(graph)
+    s = arbitrary_element(graph)
+    unnumbered.remove(s)
+    numbered = {s}
+    while unnumbered:
+        v = max(unnumbered, key=lambda x: len(numbered.intersection(graph[x])))
+        unnumbered.remove(v)
+        numbered.add(v)
+        clique_wanna_be = numbered.intersection(graph[v])
 
-        It ignores any self loops.
-        """
-        if len(graph) == 0:
-            raise nx.NetworkXPointlessConcept("Graph has no nodes.")
-        unnumbered = set(graph)
-        if s is None:
-            s = arbitrary_element(graph)
-        unnumbered.remove(s)
-        numbered = {s}
-        current_treewidth = -1
-        while unnumbered:  # and current_treewidth <= treewidth_bound:
-            v = _max_cardinality_node(unnumbered, numbered)
-            unnumbered.remove(v)
-            numbered.add(v)
-            clique_wanna_be = numbered.intersection(graph[v])
+        # if graph is not complete, then we'll find a missing edge here
+        if any(not graph.has_edge(u, w) for u, w in combinations(clique_wanna_be, 2)):
+            return False
 
-            # if graph is not complete, then we'll find a missing edge here
-            for u, w in combinations(clique_wanna_be, 2):
-                if not graph.has_edge(u, w):
-                    return u, v, w
-
-            # The graph seems to be chordal by now. We update the treewidth
-            current_treewidth = max(current_treewidth, len(clique_wanna_be))
-            if current_treewidth > treewidth_bound:
-                raise nx.NetworkXTreewidthBoundExceeded(
-                    f"treewidth_bound exceeded: {current_treewidth}"
-                )
-
-        return ()
-
-    def _max_cardinality_node(choices: Iterable, wanna_connect: set) -> int:
-        """
-        Returns a node in choices with the most connections in graph to nodes in wanna_connect.
-        """
-        return max(choices, key=lambda x: len(wanna_connect.intersection(graph[x])))
-
-    result = len(_find_chordality_breaker()) == 0
-    return result
+    return True
 
 
 @assign_fisc(["triangle", "co(P_{3})"])
