@@ -1992,29 +1992,51 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     # integer vertices: this function is called by is_wing_triangulated, which feeds it a graph
     # whose vertices are not integers
 
-    # the following is an adaptation of networkx.is_chordal, with a few minor changes so it can be
-    # run on a HalfAdjacencyMatrix
     if len(graph) <= 3 or is_complete(graph):
         return True
 
     if len(graph) == 0:
         raise nx.NetworkXPointlessConcept("Graph has no nodes.")
 
-    unnumbered = set(graph)
+    # the following is an adaptation of networkx.is_chordal, with the following changes:
+    #   - compatible with HalfAdjacencyMatrix
+    #   - discarded everything related to treewidth
+    #   - return True / False instead of a chordality breaker
+    #   - cached / updated intersection sizes instead of recomputing them from scratch
     s = arbitrary_element(graph)
+    unnumbered = set(graph)
     unnumbered.remove(s)
-    numbered = {s}
-    while unnumbered:
-        v = max(unnumbered, key=lambda x: len(numbered.intersection(graph[x])))
-        unnumbered.remove(v)
-        numbered.add(v)
-        clique_wanna_be = numbered.intersection(graph[v])
 
-        # if graph is not complete, then we'll find a missing edge here
+    # weight[x] = |N(x) ∩ numbered|
+    weight = {x: 0 for x in graph}
+
+    # numbered_neighbors[x] = N(x) ∩ numbered
+    numbered_neighbors = {x: set() for x in graph}
+
+    # initially, only s is numbered
+    for x in graph[s]:
+        if x in unnumbered:
+            weight[x] = 1
+            numbered_neighbors[x].add(s)
+
+    while unnumbered:
+        # same choice as maximum cardinality search:
+        # choose an unnumbered vertex with the largest number of numbered neighbors.
+        v = max(unnumbered, key=weight.__getitem__)
+        unnumbered.remove(v)
+        clique_wanna_be = numbered_neighbors[v]
         if any(not graph.has_edge(u, w) for u, w in combinations(clique_wanna_be, 2)):
             return False
 
+        # v becomes numbered: only its still-unnumbered neighbors gain one numbered neighbor
+        numbered_neighbors.pop(v)  # no longer needed
+        for x in graph[v]:
+            if x in unnumbered:
+                weight[x] += 1
+                numbered_neighbors[x].add(v)
+
     return True
+
 
 
 @assign_fisc(["triangle", "co(P_{3})"])
