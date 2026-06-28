@@ -22,7 +22,7 @@ from networkx import connected_components
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free, is_4k1_free, is_co_claw_free, is_claw_free, \
-    is_co_diamond_free
+    is_co_diamond_free, is_k4_free
 from graph_recognition.misc_algo import (
     number_of_common_neighbors,
     co_connected_components, complement_as_adj_mat, induced_subgraph_degrees, )
@@ -56,7 +56,6 @@ from graph_recognition.recognizers_utils import (
     assign_class_id,
     assign_fisc, assign_inherited_fisc,
 )
-from graph_recognition.subgraphs import is_h_free
 
 
 # Auxiliary functions -----------------------------------------------------------------------------
@@ -129,9 +128,10 @@ def is_hole_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     :param graph:
     :return:
     """
+
     # first algorithm in https://www.cs.uoi.gr/~palios/pubs/D5.pdf
     # O(n+m^2) = O(n^4)
-    #@lru_cache(maxsize=None)
+    # @lru_cache(maxsize=None)
     def process(a: int, b: int, c: int) -> bool:
         """
         The auxiliary process procedure from https://www.cs.uoi.gr/~palios/pubs/D5.pdf used in the
@@ -410,21 +410,6 @@ def is_gc_508(graph: nx.Graph) -> bool:
 
 
 @assign_inherited_fisc()
-@assign_class_id("AUTO_1500")
-@lru_cache(maxsize=None)
-def is_auto_1500(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is (C_{4}, co-claw)-free.
-
-    See https://www.graphclasses.org/classes/AUTO_1500
-
-    Complexity of naïve matching: O(n^4)
-    :type graph: networkx.Graph
-    """
-    return is_co_claw_free(graph) and is_c4_free(graph)
-
-
-@assign_inherited_fisc()
 @assign_class_id("gc_911")
 @lru_cache(maxsize=None)
 def is_gc_911(graph: nx.Graph) -> bool:
@@ -548,38 +533,6 @@ def is_auto_1501(graph: nx.Graph) -> bool:
             and is_co_claw_free(graph)
             and is_4k1_free(graph)
     )
-
-
-@assign_fisc(["K_{4}"])
-@assign_class_id("gc_455")
-@lru_cache(maxsize=None)
-def is_k4_free(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is K_{4}-free.
-
-    See https://www.graphclasses.org/classes/gc_455
-
-    Complexity of naïve matching: O(n^4)
-
-    :type graph: networkx.Graph
-    """
-    return is_h_free(graph, ["K_{4}"])
-
-
-@assign_inherited_fisc()
-@assign_class_id("gc_1367")
-@lru_cache(maxsize=None)
-def is_k4_free_and_planar(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is K_{4}-free and planar.
-
-    See https://www.graphclasses.org/classes/gc_1367
-
-    Complexity of naïve matching: O(n^4)
-
-    :type graph: networkx.Graph
-    """
-    return is_planar(graph) and is_k4_free(graph)
 
 
 @assign_fisc(["diamond", "co-diamond"])

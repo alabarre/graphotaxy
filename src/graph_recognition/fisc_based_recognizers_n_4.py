@@ -17,12 +17,10 @@ usually much faster.
 # ----- Standard imports --------------------------------------------------------------------------
 import os
 from functools import lru_cache
-from itertools import product
 
 import networkx
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
-from networkx import non_edges
 from pyroaring import BitMap
 
 # ----- My imports --------------------------------------------------------------------------------
@@ -32,7 +30,7 @@ from graph_recognition.misc_algo import (
     complement_as_adj_mat, degree_sequence, number_of_edges, neighbors, )
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
-    is_forest, is_2k2_free, )
+    is_forest, is_2k2_free, is_planar, )
 from graph_recognition.profitable_hereditary_n_2 import is_co_chordal, is_co_gem_free
 from graph_recognition.profitable_hereditary_n_3 import (
     is_paw_free, is_co_paw_free,
@@ -314,6 +312,7 @@ def is_co_diamond_free(graph: nx.Graph) -> bool:
 
     return True
 
+
 @assign_inherited_fisc()
 @assign_class_id("AUTO_1939")
 @lru_cache(maxsize=None)
@@ -362,6 +361,53 @@ def is_co_cnplus4_co_claw_co_gem_free(graph: nx.Graph) -> bool:
     @return:
     """
     return is_co_chordal(graph) and is_co_gem_free(graph) and is_co_claw_free(graph)
+
+
+@assign_inherited_fisc()
+@assign_class_id("AUTO_1500")
+@lru_cache(maxsize=None)
+def is_auto_1500(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is (C_{4}, co-claw)-free.
+
+    See https://www.graphclasses.org/classes/AUTO_1500
+
+    Complexity of naïve matching: O(n^4)
+    :type graph: networkx.Graph
+    """
+    return is_co_claw_free(graph) and is_c4_free(graph)
+
+
+@assign_fisc(["K_{4}"])
+@assign_class_id("gc_455")
+@lru_cache(maxsize=None)
+def is_k4_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is K_{4}-free.
+
+    See https://www.graphclasses.org/classes/gc_455
+
+    Complexity of naïve matching: O(n^4)
+
+    :type graph: networkx.Graph
+    """
+    return is_h_free(graph, ["K_{4}"])
+
+
+@assign_inherited_fisc()
+@assign_class_id("gc_1367")
+@lru_cache(maxsize=None)
+def is_k4_free_and_planar(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is K_{4}-free and planar.
+
+    See https://www.graphclasses.org/classes/gc_1367
+
+    Complexity of naïve matching: O(n^4)
+
+    :type graph: networkx.Graph
+    """
+    return is_planar(graph) and is_k4_free(graph)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

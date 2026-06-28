@@ -1329,7 +1329,7 @@ class Test_gc_525_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.profitable_hereditary_n_4.is_k4_free(graph),
+                fisc_based_recognizers_n_4.is_k4_free(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "
@@ -3793,7 +3793,7 @@ class Test_gc_525_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.profitable_hereditary_n_4.is_k4_free_and_planar(
+                fisc_based_recognizers_n_4.is_k4_free_and_planar(
                     graph
                 ),
                 "failed on graph number "
