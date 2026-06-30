@@ -25,6 +25,7 @@ from networkx import Graph
 from networkx.algorithms.planarity import LRPlanarity  # noqa (not declared in __all__)
 from networkx.generators import line
 from networkx.utils import arbitrary_element
+from pyroaring import BitMap
 from tralda.cograph import to_cotree
 
 # ----- My imports --------------------------------------------------------------------------------
@@ -1979,19 +1980,19 @@ def is_2_bounded_bipartite(graph: nx.Graph) -> bool:
 @assign_fisc(["C_{8}", "co(C_{5})", "C_{5}", "C_{7}", "C_{4}", "C_{6}"])
 @assign_class_id("gc_32")
 @lru_cache(maxsize=None)
-def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
+def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix, internal_type: Callable=BitMap) -> bool:
     """
     A graph is chordal if every cycle of length at least 4 it contains has a chord.
 
     https://www.graphclasses.org/classes/gc_32.html
 
     @param graph:
+    @param internal_type: the type to use for some of the internal data structures that this
+    recognizer uses. The best option is the default BitMap, but it's only usable if vertices are
+    integers. If that's not the case (see e.g. recognizer is_wing_triangulated), the next best
+    choice is internal_type=set
     @return:
     """
-    # WARNING: don't try to optimize this function by using BitMaps or other tricks that assume
-    # integer vertices: this function is called by is_wing_triangulated, which feeds it a graph
-    # whose vertices are not integers
-
     if len(graph) <= 3 or is_complete(graph):
         return True
 
@@ -2004,14 +2005,14 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     #   - return True / False instead of a chordality breaker
     #   - cached / updated intersection sizes instead of recomputing them from scratch
     s = arbitrary_element(graph)
-    unnumbered = set(graph)
+    unnumbered = internal_type(graph)
     unnumbered.remove(s)
 
     # weight[x] = |N(x) ∩ numbered|
     weight = {x: 0 for x in graph}
 
     # numbered_neighbors[x] = N(x) ∩ numbered
-    numbered_neighbors = {x: set() for x in graph}
+    numbered_neighbors = {x: internal_type() for x in graph}
 
     # initially, only s is numbered
     for x in graph[s]:

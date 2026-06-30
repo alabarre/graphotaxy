@@ -18,11 +18,11 @@ import networkx as nx
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.directed_graph import DirectedGraph
 from graph_recognition.domination import has_dominating_set_of_size_at_most_2
+from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free, is_4k1_free, is_k4_free
 from graph_recognition.misc_algo import (
     complement,
     empty_graph_by_removing_vertices,
     is_connected,
-    enumerate_all_p4s,
     co_connected_components, number_of_common_neighbors, complement_as_adj_mat, induced_subgraph_degrees,
     enumerate_all_p4_endpoints,
 )
@@ -41,7 +41,6 @@ from graph_recognition.profitable_hereditary_n_2 import (
 from graph_recognition.profitable_hereditary_n_3 import (
     is_triangle_free,
 )
-from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free, is_4k1_free, is_k4_free
 from graph_recognition.recognizers_n_7 import is_hereditary_welsh_powell_perfect
 from graph_recognition.recognizers_utils import (
     assign_class_id,

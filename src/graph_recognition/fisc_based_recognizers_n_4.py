@@ -138,9 +138,9 @@ def is_gc_1376(graph: nx.Graph) -> bool:
     """
     return (
             is_cograph(graph)
+            and is_paw_free(graph)
             and is_c4_free(graph)
             and is_diamond_free(graph)
-            and is_paw_free(graph)
     )
 
 

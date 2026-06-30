@@ -84,7 +84,7 @@ def is_wing_triangulated(graph: nx.Graph) -> bool:
 
     # check wing_graph's chordality (preemptively return True for empty graphs, as nx.is_chordal
     # crashes on those)
-    return not wing_graph or is_chordal(wing_graph)
+    return not wing_graph or is_chordal(wing_graph, internal_type=set)
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------
