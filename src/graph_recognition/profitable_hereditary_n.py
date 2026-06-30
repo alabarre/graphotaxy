@@ -16,7 +16,7 @@ from array import array
 from collections import defaultdict
 from collections.abc import Callable
 from functools import lru_cache
-from itertools import combinations, chain
+from itertools import combinations
 from typing import Any
 
 # ----- Third-party imports -----------------------------------------------------------------------
@@ -1980,7 +1980,7 @@ def is_2_bounded_bipartite(graph: nx.Graph) -> bool:
 @assign_fisc(["C_{8}", "co(C_{5})", "C_{5}", "C_{7}", "C_{4}", "C_{6}"])
 @assign_class_id("gc_32")
 @lru_cache(maxsize=None)
-def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix, internal_type: Callable=BitMap) -> bool:
+def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix, internal_type: Callable = BitMap) -> bool:
     """
     A graph is chordal if every cycle of length at least 4 it contains has a chord.
 
@@ -2037,7 +2037,6 @@ def is_chordal(graph: nx.Graph | HalfAdjacencyMatrix, internal_type: Callable=Bi
                 numbered_neighbors[x].add(v)
 
     return True
-
 
 
 @assign_fisc(["triangle", "co(P_{3})"])
@@ -2103,6 +2102,10 @@ def is_quasi_threshold(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    # profitable check: if graph is not even P_{4}-free, no need to check the rest
+    if not is_cograph(graph):
+        return False
+
     # this is the linear-time algorithm listed as Algorithm QT in
     # https://doi.org/10.1016/0166-218X(96)00094-7 (page 251)
     indegree = defaultdict(int)
@@ -2602,9 +2605,6 @@ def is_mock_threshold(graph: nx.Graph) -> bool:
     # the graph is empty iff all vertices were retrieved
     return len(retrieved) == number_of_nodes(graph)
 
-    # NOTE: the following one-liner also works, but is slower as the graph's size increases
-    # return empty_graph_by_removing_vertices(graph, vertex_has_degree_or_codegree_at_most_1)
-
 
 @assign_fisc(["co(C_{4})", "co(C_{6})", "co(C_{7})", "co(C_{8})", "co(C_{5})", "3K_{1}"])
 @assign_class_id("AUTO_2511")
@@ -3102,36 +3102,6 @@ def is_2k2_free(graph: nx.Graph) -> bool:
                     return False
 
     return True
-
-    """ FORMER VERSION: """
-    # trivial cases first:
-    if number_of_nodes(graph) < 4 or number_of_edges(graph) < 2:
-        return True
-
-    # let's try to find a matching in the graph; if that matching induces a disconnected subgraph,
-    # then we have a 2K_{2}
-    matching = nx.maximal_matching(graph)
-    if len(matching) >= 2 and not is_connected(graph.subgraph(chain(*matching))):
-        return False
-
-    # if graph has at least two components with at least one edge each, then it contains a 2K_{2}
-    # O(m+n)
-    nontrivial_ccs = 0
-    for cc in connected_components(graph):
-        nontrivial_ccs += len(cc) > 1
-        if nontrivial_ccs >= 2:
-            return False
-
-    # otherwise search for the pattern
-    for (a, b), (c, d) in combinations(graph.edges, 2):
-        if (len({a, b, c, d}) == 4 and not graph.has_edge(a, c) and not graph.has_edge(a, d)
-                and not graph.has_edge(b, c) and not graph.has_edge(b, d)
-        ):
-            return False
-
-    return True
-    # turns out to be much faster and less memory-hungry than GSS on large graphs
-    # return is_h_free(graph, ["2K_{2}"])
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

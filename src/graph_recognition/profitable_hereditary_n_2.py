@@ -498,6 +498,7 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     #       dictionary to be available
     classes = dict()
     non_twins = defaultdict(BitMap)
+    twins = defaultdict(BitMap)
 
     # no need to cache this function: we cache the results "by hand", and we have to because we
     # want to handle twins and non-twins in a particular way
@@ -515,7 +516,12 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         # computing classes[v] is expensive, so let's first check if v has a twin u for which we
         # have the answer already
         for u in BitMap(classes).difference(non_twins[v]):
+            if u in twins[v]:
+                return classes[u]
+
             if graph[v] == graph[u]:
+                twins[v].add(u)
+                twins[u].add(v)
                 return classes[u]
             else:
                 non_twins[v].add(u)
@@ -550,8 +556,12 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         # neighbors; in the worst case we examine each edge twice, but we hope to stop processing
         # the graph earlier that way and compute fewer classes than if we just iterate over all
         # edges
-        for u in graph:
-            for v in neighbors(graph, u):
+
+        # since get_class_index calls equiv_class_gen which in turn has to build subgraphs induced
+        # by neighborhoods, we process vertices by increasing degree; the resulting calls are
+        # faster, and we hope that we never get to process large sugbgraphs
+        for u in (x for x, _ in sorted(graph.degree, key=lambda pair: pair[-1])):
+            for v in sorted(neighbors(graph, u), key=graph.degree):
                 if u <= v:  # avoid yielding edges twice
                     i = get_class_index(u, v)
                     j = get_class_index(v, u)
