@@ -24,7 +24,7 @@ from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     is_connected,
     co_connected_components, complement_as_adj_mat, connected_components, number_of_nodes, number_of_edges,
-    non_neighbors, neighbors,
+    non_neighbors, neighbors, vertices_by_increasing_degree,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_gc_1312,
@@ -574,7 +574,11 @@ def is_locally_connected(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    return all(is_connected(graph.subgraph(graph[v])) for v in graph)
+    # naïve algorithm, except we process vertices by increasing degree in the hope that we can
+    # stop early without having to process the largest subgraphs
+    return all(
+        is_connected(graph.subgraph(graph[v])) for v in vertices_by_increasing_degree(graph)
+    )
 
 
 @assign_inherited_fisc()

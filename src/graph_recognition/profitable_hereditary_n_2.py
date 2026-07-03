@@ -30,7 +30,8 @@ from graph_recognition.misc_algo import (
     is_connected,
     is_h_u_k1_free,
     co_connected_components, complement_as_adj_mat, connected_components, is_regular, is_complete, neighbors,
-    number_of_nodes, number_of_edges, non_neighbors, is_co_connected, induces_cycle, induced_subgraph_degrees, )
+    number_of_nodes, number_of_edges, non_neighbors, is_co_connected, induces_cycle, induced_subgraph_degrees,
+    vertices_by_increasing_degree, )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
     is_chordal,
@@ -559,9 +560,9 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
         # since get_class_index calls equiv_class_gen which in turn has to build subgraphs induced
         # by neighborhoods, we process vertices by increasing degree; the resulting calls are
-        # faster, and we hope that we never get to process large sugbgraphs
-        for u in (x for x, _ in sorted(graph.degree, key=lambda pair: pair[-1])):
-            for v in sorted(neighbors(graph, u), key=graph.degree):
+        # faster, and we hope that we never get to process large subgraphs
+        for u in vertices_by_increasing_degree(graph):
+            for v in neighbors(graph, u):
                 if u <= v:  # avoid yielding edges twice
                     i = get_class_index(u, v)
                     j = get_class_index(v, u)

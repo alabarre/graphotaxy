@@ -135,11 +135,11 @@ def vertex_is_d(graph: nx.Graph, x: Any) -> bool:
         y and z are comparable
     note: i'm assuming "for any" means "every"
     """
-    neighbors = set(graph[x])
+    x_neighbors = neighbors(graph, x)
     # check that every edge disjoint from N(x) consists of comparable endpoints
     for y, z in graph.edges:
         # check that endpoints are not neighbors of x
-        if y in neighbors or z in neighbors:
+        if y in x_neighbors or z in x_neighbors:
             continue
 
         # check that y and z are comparable
@@ -576,7 +576,6 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
 
         # if d(u, v) = d(u, w) as required, then we only need to scan edges whose endpoints are in
         # the same BFS layer, not all edges. Let us build the appropriate structure:
-        #'''
         layers = dict()
         for v, d in dist.items():
             layers.setdefault(d, BitMap()).add(v)

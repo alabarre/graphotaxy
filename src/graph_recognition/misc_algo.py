@@ -906,3 +906,13 @@ def induced_subgraph_degrees(graph: nx.Graph, vertices: frozenset) -> dict:
     :return:
     """
     return {v: sum(1 for u in vertices if u != v and graph.has_edge(u, v)) for v in vertices}
+
+
+def vertices_by_increasing_degree(graph: nx.Graph | HalfAdjacencyMatrix):
+    """
+    Generates vertices by increasing degree.
+
+    :param graph:
+    :return:
+    """
+    yield from (u for u, _ in sorted(graph.degree, key=lambda pair: pair[-1]))

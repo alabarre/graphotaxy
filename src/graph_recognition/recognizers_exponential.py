@@ -7,6 +7,7 @@ This file contains recognizers with a worst-case exponential running time.
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import os
+from collections import defaultdict
 from functools import lru_cache
 from itertools import combinations
 
@@ -18,7 +19,7 @@ from pysat.solvers import Cadical153
 from graph_recognition.fisc_based_recognizers_n_5 import is_bull_free, is_diamond_free, is_gc_180, is_gc_574, \
     is_p5_bull_free
 from graph_recognition.fisc_based_recognizers_n_6 import is_net_free, \
-    is_e_free, is_p6_free
+    is_e_free, is_p6_free, is_c6_free
 from graph_recognition.misc_algo import complement, degeneracy, number_of_edges
 from graph_recognition.profitable_hereditary_n import is_planar, is_line, is_bipartite, is_cograph, is_chordal, \
     is_co_bipartite, is_2k2_free
@@ -51,6 +52,9 @@ def is_even_hole_free(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
+    if not is_c6_free(graph) or not is_h_free(graph, ["C_{8}"]):
+        return False
+
     return is_hole_free(graph) or not any(
         len_c >= 6 and not len_c % 2 for len_c in map(len, nx.chordless_cycles(graph))  # noqa
     )
@@ -430,6 +434,9 @@ def is_even_anti_hole_free(graph: nx.Graph):
     :param graph:
     :return:
     """
+    if not is_h_free(graph, ["co(C_{6})", "co(C_{8})"]):
+        return False
+
     # note: complement_as_adj_mat not usable because of missing attribute graph.adj
     return is_even_hole_free(complement(graph))
 
@@ -718,7 +725,7 @@ def is_line_perfect(graph: nx.Graph) -> bool:
     :return:
     """
     # see https://link.springer.com/article/10.1007/BF01593791: a graph is line perfect iff it has
-    # no odd cycle of size > 3, so this class actually equivalent to odd-hole-free
+    # no odd cycle of size > 3, so this class is actually equivalent to odd-hole-free
     return is_odd_hole_free(graph)
 
 
@@ -907,6 +914,32 @@ def is_maximal_clique_irreducible(graph: nx.Graph) -> bool:
     """
     if not graph.edges:
         return True
+
+    # naïve algorithm: first, compute all maximal cliques. If there are more than the number of
+    # edges, then at least one edge appears in more than one clique, so we can return False
+    # I don't know the complexity of nx.find_cliques; we can only claim that we will not read more
+    # than m elements from its result.
+    cliques = []
+    edge_count = defaultdict(int)
+    m = number_of_edges(graph)
+
+    # process all maximal cliques, and count the number of times each edge appears in a clique
+    for k, clique in enumerate(nx.find_cliques(graph), 1):
+        if k > m:
+            return False
+
+        cliques.append(clique)
+
+        for e in combinations(clique, 2):
+            edge_count[frozenset(e)] += 1
+
+    # go through all maximal cliques again: if we find a clique whose edges are all shared by some
+    # other clique(s), then the condition is False
+    for clique in cliques:
+        if not any(edge_count[frozenset(e)] == 1 for e in combinations(clique, 2)):
+            return False
+
+    return True
 
     # naïve algorithm: first, compute all maximal cliques. If there are more than the number of
     # edges, then at least one edge appears in more than one clique, so we can return False
