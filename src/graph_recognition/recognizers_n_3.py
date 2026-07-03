@@ -396,6 +396,10 @@ def is_pseudo_modular(graph: nx.Graph) -> bool:
     if not is_connected(graph):
         return False
 
+    # pseudo-modular < triangle-free
+    if not is_triangle_free(graph):
+        return False
+
     # let's do this in two steps, should be faster than examining all triplets
     # 1) all v, w at distance 1 (= all edges)
     for v, w in graph.edges:
