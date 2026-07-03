@@ -18,6 +18,7 @@ from itertools import combinations
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 from networkx import connected_components
+from pyroaring import BitMap
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
@@ -25,7 +26,7 @@ from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free, is_4k1_free
     is_co_diamond_free, is_k4_free
 from graph_recognition.misc_algo import (
     number_of_common_neighbors,
-    co_connected_components, complement_as_adj_mat, induced_subgraph_degrees, )
+    induced_subgraph_degrees, non_neighbors, )
 from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_cograph,
@@ -683,13 +684,6 @@ def is_weakly_bridged(graph: nx.Graph) -> bool:
     return is_c4_free(graph) and is_weakly_modular(graph)
 
 
-# -------------------------------------------------------------------------------------------------
-# The following recognizers call another recognizer on the complement of the input graph. Since
-# building the complement can be time- and memory-consuming on large instances, and since
-# recognizers are loaded in the order in which they appear in a recognizer file, those recognizers
-# should stay at the end of the file in the hope that they are not actually needed until we figure
-# out a way to bypass the computation of the complement.
-# -------------------------------------------------------------------------------------------------
 @assign_fisc(
     ["C_{5}", "co(C_{6})", "co(C_{7})", "co(C_{8})"]
 )  # partial fisc derived from complement
@@ -701,14 +695,56 @@ def is_anti_hole_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # iterate over co-connected components instead of complementing the whole graph, in the hope
-    # that we can thereby stop early
-    return all(
-        is_hole_free(complement_as_adj_mat(graph, cc))
-        for cc in co_connected_components(graph)
-    )
+
+    # copy-paste of is_hole_free, modified to work directly on the complement of the graph
+    def process(a: int, b: int, c: int) -> bool:
+        in_path.add(c)
+
+        # neighbors of c in co(G)
+        for d in non_neighbors(graph, c):
+            # non-edges a-d and b-d in co(G), i.e. edges in G
+            if graph.has_edge(a, d) and graph.has_edge(b, d):
+                if d in in_path:
+                    return True
+
+                if (b, c, d) not in not_in_hole:
+                    if process(b, c, d):
+                        return True
+
+        in_path.remove(c)
+        not_in_hole.add((a, b, c))
+        not_in_hole.add((c, b, a))
+
+        return False
+
+    in_path = BitMap()
+    not_in_hole = set()
+
+    for u in graph:
+        in_path.add(u)
+
+        # edges of co(G) = non-edges of G
+        for v, w in nx.non_edges(graph):
+            # co(G).has_edge(u,v) and not co(G).has_edge(u,w)
+            # means: not graph.has_edge(u,v) and graph.has_edge(u,w)
+            if not graph.has_edge(u, v) and graph.has_edge(u, w) and (u, v, w) not in not_in_hole:
+                in_path.add(v)
+                if process(u, v, w):
+                    return False
+                in_path.remove(v)
+
+        in_path.remove(u)
+
+    return True
 
 
+# -------------------------------------------------------------------------------------------------
+# The following recognizers call another recognizer on the complement of the input graph. Since
+# building the complement can be time- and memory-consuming on large instances, and since
+# recognizers are loaded in the order in which they appear in a recognizer file, those recognizers
+# should stay at the end of the file in the hope that they are not actually needed until we figure
+# out a way to bypass the computation of the complement.
+# -------------------------------------------------------------------------------------------------
 @assign_inherited_fisc()
 @assign_class_id("AUTO_2774")
 @lru_cache(maxsize=None)

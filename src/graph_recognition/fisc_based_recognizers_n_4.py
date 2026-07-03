@@ -27,7 +27,7 @@ from pyroaring import BitMap
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     is_h_u_k1_free,
-    complement_as_adj_mat, degree_sequence, number_of_edges, neighbors, )
+    complement_as_adj_mat, degree_sequence, number_of_edges, neighbors, number_of_nodes, )
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
     is_forest, is_2k2_free, is_planar, )
@@ -89,10 +89,26 @@ def is_c4_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    if nx.girth(graph) > 4:
+    # naïve algorithm, but much faster than GSS for large graphs
+    if number_of_nodes(graph) < 4:
         return True
 
-    return is_h_free(graph, ["C_{4}"])
+    adj = {v: neighbors(graph, v) for v in graph}
+
+    for u, v in nx.non_edges(graph):
+        common = adj[u] & adj[v]
+
+        if len(common) >= 2:
+            # look for two non-adjacent common neighbors
+            for x in common:
+                witnesses = common - adj[x]
+                witnesses.discard(x)
+
+                # fond -> there is a C_{4}
+                if witnesses:
+                    return False
+
+    return True
 
 
 @assign_fisc(["diamond", "C_{4}"])
