@@ -36,6 +36,7 @@ from graph_recognition.profitable_hereditary_n_2 import is_co_chordal, is_co_gem
 from graph_recognition.profitable_hereditary_n_3 import (
     is_paw_free, is_co_paw_free,
 )
+from graph_recognition.recognizers_n_3 import explicit_independent_triplets
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
@@ -315,8 +316,12 @@ def is_claw_free(graph: nx.Graph) -> bool:
         return False
 
     """
-    # no way around it: check membership
-    return is_h_free(graph, ["claw"])
+    for u, v, w in explicit_independent_triplets(graph):
+        if neighbors(graph, u) & neighbors(graph, v) & neighbors(graph, w):
+            return False
+    return True
+    # faster than:
+    #return is_h_free(graph, ["claw"])
 
 
 @assign_fisc(["co-diamond"])
