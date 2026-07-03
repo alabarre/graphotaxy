@@ -26,7 +26,7 @@ from graph_recognition.fisc_based_recognizers_n_4 import is_diamond_free, is_c4_
     is_co_claw_free, is_claw_free, is_co_diamond_free, is_k4_free
 from graph_recognition.misc_algo import (
     is_h_u_k1_free,
-    is_h_u_2k1_free, must_contain_a_clique_of_size, degree_sequence,
+    is_h_u_2k1_free, must_contain_a_clique_of_size, degree_sequence, enumerate_all_p4s, neighbors,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
@@ -251,7 +251,12 @@ def is_gem_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["gem"])
+    for a, b, c, d in enumerate_all_p4s(graph):
+        if neighbors(graph, a) & neighbors(graph, b) & neighbors(graph, c) & neighbors(graph, d):
+            return False
+    return True
+    # faster than
+    #return is_h_free(graph, ["gem"])
 
 
 @assign_inherited_fisc()

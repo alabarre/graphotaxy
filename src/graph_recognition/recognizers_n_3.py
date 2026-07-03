@@ -475,10 +475,8 @@ def is_interval_regular(graph: nx.Graph) -> bool:
                 len(_neighbors(u) & int_u_v) != distance(graph, frozenset([u, v])) or
                 len(_neighbors(v) & int_u_v) != distance(graph, frozenset([u, v]))
         ):
-            _neighbors.cache_clear()
             return False
 
-    _neighbors.cache_clear()
     return True
 
 

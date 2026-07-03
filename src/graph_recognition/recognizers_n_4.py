@@ -19,6 +19,7 @@ from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.directed_graph import DirectedGraph
 from graph_recognition.domination import has_dominating_set_of_size_at_most_2
 from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free, is_4k1_free, is_k4_free
+from graph_recognition.fisc_based_recognizers_n_5 import is_gc_871
 from graph_recognition.misc_algo import (
     complement,
     empty_graph_by_removing_vertices,
@@ -157,6 +158,9 @@ def is_pretty(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
+    if is_gc_871(graph):
+        return True
+
     # algo from https://doi.org/10.1002/(SICI)1097-0118(199610)23:2%3C203::AID-JGT11%3E3.0.CO;2-H
     return empty_graph_by_removing_vertices(graph, vertex_is_pretty)
 
