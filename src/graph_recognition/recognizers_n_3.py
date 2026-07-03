@@ -24,7 +24,7 @@ from graph_recognition.misc_algo import (
     empty_graph_by_removing_vertices,
     is_connected,
     degree_sequence, co_connected_components, complement_as_adj_mat, number_of_common_neighbors, common_neighbors,
-    connected_components, number_of_nodes, non_neighbors, neighbors,
+    connected_components, number_of_nodes, non_neighbors, neighbors, vertices_by_increasing_degree,
 )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
@@ -561,12 +561,17 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
+    # weakly modular < triangle-free
+    if not is_triangle_free(graph):
+        return False
+
+
     # the recognition algorithm is based on definition 2 in the docstring
     # since we will be using neighborhoods a lot and decided not to cache the neighbors function,
     # we build our own cache here:
     adj = {v: neighbors(graph, v) for v in graph}
 
-    for u in graph:
+    for u in vertices_by_increasing_degree(graph):
         dist = nx.single_source_shortest_path_length(graph, u)
 
         # Triangle condition: for every edge vw with d(u, v) = d(u, w) > 1, v and w have a common
@@ -588,6 +593,7 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
 
         # Quadrangle condition: for every z and two neighbors v, w of z with
         # d(u, v) = d(u, w) = d(u, z) - 1, v and w have a common neighbor one step closer to u
+        """
         for z in graph:
             duz = dist.get(z, inf)
 
@@ -597,6 +603,22 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
 
                 for v, w in combinations(candidates, 2):
                     if all(dist.get(x, inf) != target_dist for x in adj[v] & adj[w]):
+                        return False
+        """
+
+        # Quadrangle condition
+        for z, duz in dist.items():
+            if duz <= 1:
+                continue
+
+            candidates = adj[z] & layers[duz - 1]
+
+            if len(candidates) >= 2:
+                target_layer = layers[duz - 2]
+                supports = {v: adj[v] & target_layer for v in candidates}
+
+                for v, w in combinations(candidates, 2):
+                    if not supports[v] & supports[w]:
                         return False
 
     return True

@@ -895,7 +895,7 @@ def is_gc_439(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_p5_free(graph) and is_h_free(graph, ["fork"])
+    return is_p5_free(graph) and is_fork_free(graph)
 
 
 @assign_inherited_fisc()
