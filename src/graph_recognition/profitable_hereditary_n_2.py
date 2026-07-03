@@ -501,6 +501,37 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     non_twins = defaultdict(BitMap)
     twins = defaultdict(BitMap)
 
+    def co_connected_components_of_neighborhood(v):
+        """
+        Returns the co-connected components of N(v) in graph.
+
+        :param v:
+        :return:
+        """
+        remaining = neighbors(graph, v).copy()
+        components = []
+
+        while remaining:
+            source = next(iter(remaining))
+            component = BitMap()
+            queue = [source]
+            remaining.remove(source)
+
+            while queue:
+                x = queue.pop()
+                component.add(x)
+
+                # voisins de x dans le complément de G[N(v)]
+                co_nb = remaining - neighbors(graph, x)
+
+                if co_nb:
+                    remaining -= co_nb
+                    queue.extend(co_nb)
+
+            components.append(component)
+
+        return components
+
     # no need to cache this function: we cache the results "by hand", and we have to because we
     # want to handle twins and non-twins in a particular way
     def equiv_class_gen(v):
@@ -530,7 +561,8 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
         # using the non-cached co_connected_components function since we will likely have many
         # subgraphs and the answers will not be reused
-        classes[v] = list(undecorated_function(co_connected_components)(graph.subgraph(graph[v])))
+        # classes[v] = list(undecorated_function(co_connected_components)(graph.subgraph(graph[v])))
+        classes[v] = co_connected_components_of_neighborhood(v)
         return classes[v]
 
     @lru_cache(maxsize=None)
