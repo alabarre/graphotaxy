@@ -399,8 +399,6 @@ def is_pseudo_modular(graph: nx.Graph) -> bool:
     # let's do this in two steps, should be faster than examining all triplets
     # 1) all v, w at distance 1 (= all edges)
     for v, w in graph.edges:
-        # for u in graph:
-        # for u in set(graph) - {v, w}:
         # u is at distance >= 2 of both v and w iff it's not adjacent to either
         # of them
         for u in non_neighbors(graph, v) & non_neighbors(graph, w):

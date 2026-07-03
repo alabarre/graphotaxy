@@ -27,7 +27,8 @@ from pyroaring import BitMap
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     is_h_u_k1_free,
-    complement_as_adj_mat, degree_sequence, number_of_edges, neighbors, number_of_nodes, )
+    complement_as_adj_mat, degree_sequence, number_of_edges, neighbors, number_of_nodes, explicit_triangles,
+    non_neighbors, )
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
     is_forest, is_2k2_free, is_planar, )
@@ -73,7 +74,22 @@ def is_diamond_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["diamond"])
+    if number_of_nodes(graph) < 4 or number_of_edges(graph) < 5:
+        return True
+
+    adj = {v: neighbors(graph, v) for v in graph}
+
+    # search for an edge uv with two common neighbors a, b of these extremities such that ab is
+    # not an edge
+    for u, v in graph.edges():
+        common = adj[u] & adj[v]
+
+        if len(common) >= 2 and any(common - adj[x] - BitMap([x]) for x in common):
+            return False
+
+    return True
+    # much faster than:
+    #return is_h_free(graph, ["diamond"])
 
 
 @assign_fisc(["C_{4}"])
@@ -104,11 +120,13 @@ def is_c4_free(graph: nx.Graph) -> bool:
                 witnesses = common - adj[x]
                 witnesses.discard(x)
 
-                # fond -> there is a C_{4}
+                # found -> there is a C_{4}
                 if witnesses:
                     return False
 
     return True
+    # much faster than:
+    #return is_h_free(graph, ["C_{4}"])
 
 
 @assign_fisc(["diamond", "C_{4}"])
@@ -258,7 +276,13 @@ def is_co_claw_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["co-claw"])
+    for u, v, w in explicit_triangles(graph):
+        if non_neighbors(graph, u) & non_neighbors(graph, v) & non_neighbors(graph, w):
+            return False
+
+    return True
+    # much faster than
+    #return is_h_free(graph, ["co-claw"])
 
 
 @assign_fisc(["claw"])
@@ -407,7 +431,22 @@ def is_k4_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["K_{4}"])
+    if number_of_nodes(graph) < 4 or number_of_edges(graph) < 6:
+        return True
+
+    adj = {v: neighbors(graph, v) for v in graph}
+
+    # search for an edge uv with two common neighbors a, b of these extremities such that ab is
+    # also an edge
+    for u, v in graph.edges():
+        common = adj[u] & adj[v]
+
+        if len(common) >= 2 and any(adj[x] & common for x in common):
+            return False
+
+    return True
+    # much faster than:
+    #return is_h_free(graph, ["K_{4}"])
 
 
 @assign_inherited_fisc()
