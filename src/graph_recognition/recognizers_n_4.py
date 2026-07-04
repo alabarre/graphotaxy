@@ -162,7 +162,7 @@ def is_pretty(graph: nx.Graph) -> bool:
         return True
 
     # algo from https://doi.org/10.1002/(SICI)1097-0118(199610)23:2%3C203::AID-JGT11%3E3.0.CO;2-H
-    return empty_graph_by_removing_vertices(graph, vertex_is_pretty)
+    return empty_graph_by_removing_vertices(graph, vertex_is_pretty, remove_true_twins=True)
 
 
 @assign_inherited_fisc()

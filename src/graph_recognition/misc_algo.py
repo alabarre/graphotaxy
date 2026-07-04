@@ -313,7 +313,7 @@ def empty_graph_by_removing_edges_and_incident_edges(graph: nx.Graph, criterion:
 
 # Functions for recognizing a graph by repeatedly removing vertices -------------------------------
 @lru_cache(maxsize=None)
-def empty_graph_by_removing_vertices(graph: nx.Graph, criterion: Callable) -> bool:
+def empty_graph_by_removing_vertices(graph: nx.Graph, criterion: Callable, remove_true_twins: bool=False) -> bool:
     """
     Empties the graph by repeatedly removing vertices that satisfy the criterion. Returns True if
     all vertices are deleted, False otherwise.
@@ -323,11 +323,36 @@ def empty_graph_by_removing_vertices(graph: nx.Graph, criterion: Callable) -> bo
     :param graph:
     :return:
     """
+
+    def true_twins(graph: nx.Graph | HalfAdjacencyMatrix, v: Hashable) -> BitMap:
+        """
+        Returns the true twin class of v in graph, i.e. all vertices w such that N[w] = N[v].
+        """
+        closed_v = neighbors(graph, v).copy()
+        closed_v.add(v)
+
+        twins = BitMap()
+
+        # A true twin of v must belong to N[v].
+        for w in closed_v:
+            closed_w = neighbors(graph, w).copy()
+            closed_w.add(w)
+
+            if closed_w == closed_v:
+                twins.add(w)
+
+        return twins
+
     new_graph = graph.copy()
     while new_graph:
-        for v in new_graph:
+        print(len(new_graph), new_graph.number_of_edges())
+        for v in vertices_by_increasing_degree(new_graph):
             if criterion(new_graph, v):
-                new_graph.remove_node(v)
+                if remove_true_twins:
+                    nodes_to_remove = true_twins(new_graph, v)
+                else:
+                    nodes_to_remove = {v}
+                new_graph.remove_nodes_from(nodes_to_remove)
                 break
 
         else:  # no satisfying vertex was found, quit early
