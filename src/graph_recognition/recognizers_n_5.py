@@ -17,6 +17,7 @@ from pyroaring import BitMap
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.directed_graph import DirectedGraph
+from graph_recognition.fisc_based_recognizers_n_4 import is_co_claw_free, is_claw_free
 from graph_recognition.fisc_based_recognizers_n_5 import (
     is_p5_bull_free,
     is_gc_917,
@@ -40,7 +41,7 @@ from graph_recognition.misc_algo import (
     is_odd_co_clique_free,
     explicit_triangles,
     empty_graph_by_removing_vertices,
-    number_of_nodes, common_neighbors, induced_subgraph_degrees, enumerate_all_p4_midpoints,
+    common_neighbors, induced_subgraph_degrees, enumerate_all_p4_midpoints,
     neighbors, non_neighbors,
 )
 from graph_recognition.profitable_hereditary_n import (
@@ -61,7 +62,6 @@ from graph_recognition.profitable_hereditary_n_4 import (
     is_hole_free,
     is_anti_hole_free,
 )
-from graph_recognition.fisc_based_recognizers_n_4 import is_co_claw_free, is_claw_free
 from graph_recognition.recognizers_n_3 import is_weakly_modular
 from graph_recognition.recognizers_n_4 import is_almost_claw_free
 from graph_recognition.recognizers_utils import (
@@ -139,28 +139,37 @@ def is_clique_helly(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
+    if is_triangle_free(graph):
+        return True
+
     # easy algorithm from
     # https://www.combinatorics.org/ojs/index.php/eljc/article/download/DS17/pdf/ page 9
+    adj = {v: neighbors(graph, v) for v in graph}
 
     # for each triangle, "extend" it and check whether it contains a universal vertex
     for triangle in explicit_triangles(graph):
+        a, b, c = triangle
         # extend the triangle
-        extended_triangle = set(triangle)
-        # examine all vertices adjacent to the triangle
-        for v in triangle:
-            for x in graph[v]:
-                # add x to the extended triangle if it has at least TWO neighbors in the triangle
-                if len(triangle.intersection(graph[x])) >= 2:
-                    extended_triangle.add(x)
+        extended_triangle = BitMap(triangle)
+        # add vertices adjacent to at least two vertices of the triangle
+        extended_triangle |= adj[a] & adj[b]
+        extended_triangle |= adj[a] & adj[c]
+        extended_triangle |= adj[b] & adj[c]
 
         # look for a universal vertex in the subgraph induced by the extended triangle; i.e., a
         # vertex whose neighborhood is the entire graph. This amounts to verifying whether the
         # largest degree in the subgraph is its order - 1
-        induced_subgraph = graph.subgraph(extended_triangle)
-        if (
-                max(induced_subgraph.degree, key=lambda pair: pair[1])[1]
-                != number_of_nodes(induced_subgraph) - 1
-        ):
+        has_universal = False
+
+        for u in extended_triangle:
+            missing = extended_triangle - adj[u]
+            missing.discard(u)
+
+            if not missing:
+                has_universal = True
+                break
+
+        if not has_universal:
             return False
 
     # the wanted property holds for every triangle, return True
