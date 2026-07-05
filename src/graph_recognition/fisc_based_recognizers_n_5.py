@@ -137,6 +137,10 @@ def is_p_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    # P contains a P_4 as an induced subgraph
+    if is_cograph(graph):
+        return True
+
     return is_h_free(graph, ["P"])
 
 
@@ -153,6 +157,10 @@ def is_co_p_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    # co(P) contains a P_4 as an induced subgraph
+    if is_cograph(graph):
+        return True
+
     return is_h_free(graph, ["co(P)"])
 
 
@@ -220,6 +228,10 @@ def is_co_k14_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    # co(K_{1,4}) = K_4 U K_1
+    if is_k4_free(graph):
+        return True
+
     return is_h_free(graph, ["co(K_{1,4})"])
 
 
@@ -236,6 +248,9 @@ def is_k2_u_k3_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    if is_triangle_free(graph):
+        return True
+
     return is_h_free(graph, ["K_{2} U K_{3}"])
 
 
@@ -252,6 +267,9 @@ def is_co_fork_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    if is_diamond_free(graph):
+        return True
+
     return is_h_free(graph, ["co-fork"])
 
 
@@ -268,6 +286,9 @@ def is_house_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    if is_cograph(graph) or is_triangle_free(graph):
+        return True
+
     return is_h_free(graph, ["house"])
 
 
@@ -284,9 +305,13 @@ def is_gem_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    if is_cograph(graph):
+        return True
+
     for a, b, c, d in enumerate_all_p4s(graph):
         if neighbors(graph, a) & neighbors(graph, b) & neighbors(graph, c) & neighbors(graph, d):
             return False
+
     return True
     # faster than
     # return is_h_free(graph, ["gem"])
@@ -333,6 +358,9 @@ def is_bull_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    if is_cograph(graph) or is_triangle_free(graph):
+        return True
+
     return is_h_free(graph, ["bull"])
 
 
@@ -349,6 +377,9 @@ def is_fork_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    if is_cograph(graph):
+        return True
+
     return is_h_free(graph, ["fork"])
 
 
@@ -381,13 +412,17 @@ def is_auto_1515(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["co-cricket"]) and is_house_free(graph)
+    # all forbidden patterns have an induced triangle
+    if is_triangle_free(graph):
+        return True
+
+    return is_house_free(graph) and is_h_free(graph, ["co-cricket"])
 
 
 @assign_fisc(["K_{5}"])
 @assign_class_id("AUTO_136")
 @lru_cache(maxsize=None)
-def is_auto_136(graph: nx.Graph) -> bool:
+def is_k5_free(graph: nx.Graph) -> bool:
     """
     Returns True iff graph is K_{5}-free.
 
@@ -650,7 +685,7 @@ def is_gc_510(graph: nx.Graph) -> bool:
     return is_co_gem_free(graph) and is_gem_free(graph)
 
 
-@assign_inherited_fisc()
+@assign_fisc(["co-butterfly", "co-claw"])
 @assign_class_id("AUTO_1728")
 @lru_cache(maxsize=None)
 def is_auto_1728(graph: nx.Graph) -> bool:
@@ -888,6 +923,10 @@ def is_gc_871(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
+    # all forbidden patterns have an induced triangle
+    if is_triangle_free(graph):
+        return True
+
     return is_gem_free(graph) and is_h_free(graph, ["butterfly"])
 
 
@@ -948,7 +987,7 @@ def is_house_p2_u_p3_free(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["P_{2} U P_{3}"]) and is_house_free(graph)
+    return is_house_free(graph) and is_h_free(graph, ["P_{2} U P_{3}"])
 
 
 @assign_inherited_fisc()
@@ -963,6 +1002,10 @@ def is_gc_700(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
+    # all forbidden patterns have an induced triangle
+    if is_triangle_free(graph):
+        return True
+
     return is_gem_free(graph) and is_h_free(graph, ["W_{4}"])
 
 
@@ -2049,6 +2092,8 @@ def is_xc_9_free(graph: nx.Graph) -> bool:
 def is_xc_10_free(graph: nx.Graph) -> bool:
     """
     Characterisation found by my xc_unpacker program
+
+    https://www.graphclasses.org/classes/gc_613.html
 
     @param graph:
     @return:
