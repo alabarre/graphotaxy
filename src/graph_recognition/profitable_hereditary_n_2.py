@@ -40,12 +40,12 @@ from graph_recognition.profitable_hereditary_n import (
     is_bipartite,
     is_planar,
     is_cubic,
-    is_2k2_free, is_mock_threshold, is_co_bipartite, is_lobster, is_caterpillar, is_split_degree_sequence,
+    is_mock_threshold, is_co_bipartite, is_lobster, is_caterpillar, is_split_degree_sequence,
 )
 from graph_recognition.recognizers_utils import (
     current_module_recognizers,
     assign_class_id,
-    assign_fisc, undecorated_function, assign_inherited_fisc, )
+    assign_fisc, assign_inherited_fisc, )
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -790,16 +790,6 @@ def is_co_chordal(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # iterate over co-connected components instead of complementing the whole graph, in the hope
-    # that we can thereby stop early
-    # if graph is co-chordal, its complement contains no C_4, C_5, C_6, C_7, C_8, and therefore
-    # the original graph cannot contain the complements of these configurations
-    if not is_2k2_free(graph):
-        return False
-
-    # note: we can still check 'or not is_h_free(graph, ["C_{5}", "co(C_{6})", "co(C_{7})", "co(C_{8})"])'
-    # but that is much slower
-
     # split graphs are both chordal and co-chordal, so let's try that first if it allows us to
     # avoid examining co-connected components
     return is_split(graph) or all(

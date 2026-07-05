@@ -672,6 +672,9 @@ def vertex_neighborhood_induces_split_graph(graph: nx.Graph, v: Hashable) -> boo
     :param graph:
     :return:
     """
+    if len(graph[v]) <= 3:
+        return True
+
     return is_split_degree_sequence(
         sorted(induced_subgraph_degrees(graph, frozenset(graph[v])).values(), reverse=True)
     )

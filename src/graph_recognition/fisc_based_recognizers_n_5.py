@@ -20,13 +20,14 @@ from functools import lru_cache
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
+from pyroaring import BitMap
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.fisc_based_recognizers_n_4 import is_diamond_free, is_c4_diamond_free, is_c4_free, is_4k1_free, \
     is_co_claw_free, is_claw_free, is_co_diamond_free, is_k4_free
 from graph_recognition.misc_algo import (
     is_h_u_k1_free,
-    is_h_u_2k1_free, must_contain_a_clique_of_size, degree_sequence, enumerate_all_p4s, neighbors,
+    is_h_u_2k1_free, must_contain_a_clique_of_size, enumerate_all_p4s, neighbors, number_of_nodes,
 )
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
@@ -56,21 +57,53 @@ def is_k_clique_free(graph: nx.Graph, k: int) -> bool:
     @param k:
     @return:
     """
+    # trivial checks
+    if number_of_nodes(graph) < k:
+        return True
+
     if must_contain_a_clique_of_size(graph, k):
         return False
 
-    # since vertices in a k-clique have degree k-1, restrict our search to vertices of degree at
-    # least k-1
-    ds = degree_sequence(graph)
-    if ds and ds[-1] <= k:  # don't create a useless copy if all vertices already have degree > k
-        graph = graph.subgraph(v for v, d in graph.degree if d > k)
-        # check criterion again, since graph has changed (we can afford it, it takes time O(1))
-        if must_contain_a_clique_of_size(graph, k):
+    # more computationally expensive, but still worthwile
+    if is_triangle_free(graph):
+        return True
+
+    core = nx.core_number(graph)
+    if max(core.values(), default=0) < k - 1:
+        return True
+
+    # naïve search
+    candidates = BitMap(v for v in graph if core[v] >= k - 1)
+    adj = {v: neighbors(graph, v) & candidates for v in candidates}
+
+    def contains_k_clique(cands: BitMap, depth: int) -> bool:
+        """
+        Recursive search for a k-clique.
+
+        :param cands:
+        :param depth:
+        :return:
+        """
+        if depth == k:
+            return True
+
+        if len(cands) < k - depth:
             return False
 
-    # graph is k-clique-free iff the neighborhood of each vertex of degree >= k-1 is
-    # (k-1)-clique-free
-    return is_h_free(graph, ["K_{" + str(k) + "}"])
+        while cands:
+            v = next(iter(cands))
+            cands.remove(v)
+
+            if contains_k_clique(cands & adj[v], depth + 1):
+                return True
+
+        return False
+
+    return not contains_k_clique(candidates, 0)
+
+    # tried alternatives:
+    # return is_h_free(graph, ["K_{" + str(k) + "}"]) # slower than the above
+    # return len(max_weight_clique(graph, weight=None)) < k  # much slower than GSS
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -256,7 +289,7 @@ def is_gem_free(graph: nx.Graph) -> bool:
             return False
     return True
     # faster than
-    #return is_h_free(graph, ["gem"])
+    # return is_h_free(graph, ["gem"])
 
 
 @assign_inherited_fisc()
