@@ -601,7 +601,7 @@ def is_k_1_4_free_and_almost_claw_free_and_locally_connected(graph: nx.Graph) ->
     return is_k14_free(graph) and is_locally_connected(graph) and is_almost_claw_free(graph)
 
 
-@lru_cache(maxsize=None)
+# @lru_cache(maxsize=None)  # don't: graph keeps changing
 def vertex_is_soft(graph: nx.Graph, v: Hashable) -> bool:
     """
     Returns True if either v is not the endpoint of any P_4 in graph, or it is not the midpoint of
@@ -669,7 +669,7 @@ def is_brittle(graph: nx.Graph) -> bool:
     return empty_graph_by_removing_vertices(graph, vertex_is_soft)
 
 
-@lru_cache(maxsize=None)
+# @lru_cache(maxsize=None)  # don't: graph keeps changing
 def vertex_neighborhood_induces_split_graph(graph: nx.Graph, v: Hashable) -> bool:
     """
     Returns True if the neighborhood of v induces a split graph, False otherwise.
@@ -702,7 +702,9 @@ def is_split_neighbourhood(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
-    return empty_graph_by_removing_vertices(graph, vertex_neighborhood_induces_split_graph)
+    return empty_graph_by_removing_vertices(
+        graph, vertex_neighborhood_induces_split_graph, local_neighborhood_cache=True
+    )
 
 
 # This code segment must always be at the END of a recognizer file --------------------------------

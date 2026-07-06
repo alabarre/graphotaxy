@@ -267,9 +267,6 @@ def is_co_fork_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    if is_diamond_free(graph):
-        return True
-
     return is_h_free(graph, ["co-fork"])
 
 
@@ -564,7 +561,7 @@ def is_gc_628(graph: nx.Graph) -> bool:
     return is_diamond_free(graph) and is_k23_free(graph)
 
 
-@assign_inherited_fisc()
+@assign_fisc(["P_{5}", "cricket"])
 @assign_class_id("gc_427")
 @lru_cache(maxsize=None)
 def is_gc_427(graph: nx.Graph) -> bool:
@@ -577,7 +574,7 @@ def is_gc_427(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_p5_free(graph) and is_h_free(graph, ["cricket"])
+    return is_p5_free(graph) and (is_triangle_free(graph) or is_h_free(graph, ["cricket"]))
 
 
 @assign_inherited_fisc()
@@ -598,7 +595,7 @@ def is_gc_402(graph: nx.Graph) -> bool:
 @assign_inherited_fisc()
 @assign_class_id("gc_403")
 @lru_cache(maxsize=None)
-def is_gc_403(graph: nx.Graph) -> bool:
+def is_k_23_p5_free(graph: nx.Graph) -> bool:
     """
     Returns True iff graph is (K_{2, 3}, P_{5})-free.
 

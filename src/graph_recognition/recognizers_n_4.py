@@ -54,7 +54,7 @@ from graph_recognition.two_sat import Not, satisfiable
 
 
 # Auxiliary functions -----------------------------------------------------------------------------
-@lru_cache(maxsize=None)
+# @lru_cache(maxsize=None) # don't: we usually use this function on a graph that keeps changing
 def vertex_is_pretty(graph: nx.Graph, v: Hashable) -> bool:
     """
     A vertex v is pretty if G[N(v)] is (2K_2, P_4)-free.
@@ -162,7 +162,9 @@ def is_pretty(graph: nx.Graph) -> bool:
         return True
 
     # algo from https://doi.org/10.1002/(SICI)1097-0118(199610)23:2%3C203::AID-JGT11%3E3.0.CO;2-H
-    return empty_graph_by_removing_vertices(graph, vertex_is_pretty, remove_true_twins=True)
+    return empty_graph_by_removing_vertices(
+        graph, vertex_is_pretty, remove_true_twins=True, local_neighborhood_cache=True
+    )
 
 
 @assign_inherited_fisc()
@@ -280,7 +282,7 @@ def is_p4_brittle(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     # for each P_{4} (abcd) we have a clause (a or d) equivalent to (not a => d)
     for a, d in enumerate_all_p4_endpoints(graph):
         # we have a P_{4}, extract a and d and build clause
-        #a, d = [v for v in p4 if sum(graph.has_edge(v, u) for u in p4 if u != v) == 1]
+        # a, d = [v for v in p4 if sum(graph.has_edge(v, u) for u in p4 if u != v) == 1]
         implication_graph.add_edge(Not(a), d)
 
     # for each edge (ab) we have a clause (not a or not b) equivalent to (a => not b)

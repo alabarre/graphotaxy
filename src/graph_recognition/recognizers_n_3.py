@@ -10,7 +10,7 @@ import os
 from functools import lru_cache
 from itertools import combinations, chain, product
 from math import inf
-from typing import Any, Iterator
+from typing import Any
 
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
@@ -65,39 +65,6 @@ for i, function in enumerate(__functions_to_cache):
 
 
 # Auxiliary functions ----------------------------------------------------------------------------
-def explicit_independent_triplets(graph: nx.Graph) -> Iterator:
-    """
-    Generates all triplets of pairwise independent vertices in a graph.
-
-    >>> test = nx.path_graph(5)
-    >>> list(explicit_independent_triplets(test))
-    [(0, 2, 4)]
-
-    @param graph:
-    @return:
-    """
-    # to avoid generating the same triplets multiple times, we choose an arbitrary order for the
-    # vertices; we will then only generate triplets u, v, w with u < v < w;
-
-    # first, build an order (we don't use vertices directly in case their types are incomparable)
-    nodes = list(graph)
-    index = {u: i for i, u in enumerate(nodes)}
-
-    # gather for each vertex u its non neighbors with a larger index than u's
-    non_neighbors_after = dict()
-    all_after = {
-        u: BitMap({nodes[j] for j in range(index[u] + 1, number_of_nodes(graph))})
-        for u in nodes
-    }
-
-    for u in graph:
-        non_neighbors_after[u] = all_after[u] - BitMap(graph[u])
-
-    for u in graph:
-        for v in non_neighbors_after[u]:
-            # w is after v because non_neighbors_after[v] only contains later vertices
-            for w in non_neighbors_after[u] & non_neighbors_after[v]:
-                yield u, v, w
 
 
 @lru_cache(maxsize=None)
@@ -119,7 +86,7 @@ def vertices_on_shortest_paths_between(graph: nx.Graph, pair: frozenset) -> BitM
         return BitMap()
 
 
-@lru_cache(maxsize=None)
+# @lru_cache(maxsize=None)  # don't: graph keeps changing
 def vertex_is_d(graph: nx.Graph, x: Any) -> bool:
     """
 

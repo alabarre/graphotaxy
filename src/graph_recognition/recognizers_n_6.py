@@ -12,6 +12,7 @@ from functools import lru_cache
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+from graph_recognition.fisc_based_recognizers_n_4 import is_co_claw_free, is_claw_free, is_c4_free
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.fisc_based_recognizers_n_5 import is_p5_free, is_gem_free, is_house_free
 from graph_recognition.fisc_based_recognizers_n_6 import (
@@ -22,9 +23,9 @@ from graph_recognition.fisc_based_recognizers_n_6 import (
     is_gc_1234,
     is_domino_free,
     is_co_e_free,
-    is_co_domino_free, is_p6_free,
+    is_co_domino_free, is_p6_free, is_co_2p3_free, is_c6_free,
 )
-from graph_recognition.misc_algo import complement_as_adj_mat
+from graph_recognition.misc_algo import complement
 from graph_recognition.profitable_hereditary_n import (
     is_chordal,
     is_co_bipartite,
@@ -40,7 +41,6 @@ from graph_recognition.profitable_hereditary_n_4 import (
     is_hole_free,
     is_anti_hole_free,
 )
-from graph_recognition.fisc_based_recognizers_n_4 import is_co_claw_free, is_claw_free
 from graph_recognition.recognizers_n import is_2_vertex_connected
 from graph_recognition.recognizers_n_5 import is_p5_anti_hole_free
 from graph_recognition.recognizers_utils import (
@@ -131,7 +131,7 @@ def is_k33_k33_plus_e2_p3_cnplus4_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return is_co_chordal(graph) and is_h_free(graph, ["K_{3,3}", "K_{3,3}+e", "co(2P_{3})"])
+    return is_co_chordal(graph) and is_co_2p3_free(graph) and is_h_free(graph, ["K_{3,3}", "K_{3,3}+e"])
 
 
 @assign_inherited_fisc()
@@ -203,7 +203,7 @@ def is_c4_c6_free_and_bipartite(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return is_bipartite(graph) and is_h_free(graph, ["C_{4}", "C_{6}"])
+    return is_bipartite(graph) and is_c4_free(graph) and is_c6_free(graph)
 
 
 @assign_inherited_fisc()
@@ -505,7 +505,8 @@ def is_proper_helly_circular_arc(graph: nx.Graph) -> bool:
             is_c_n_plus_4_u_k_1_free(graph)
             and is_claw_free(graph)
             and is_s3_free(graph)
-            and is_h_free(graph, ["W_{4}", "W_{5}", "co(C_{6})", "net"])
+            and is_net_free(graph)
+            and is_h_free(graph, ["W_{4}", "W_{5}", "co(C_{6})"])
     )
 
 
@@ -519,7 +520,10 @@ def is_co_proper_helly_circular_arc(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return is_proper_helly_circular_arc(complement_as_adj_mat(graph))
+    # note: complement_as_adj_mat not usable here, because tralda complains about:
+    # TypeError: 'dict_keys' object is not callable
+    # this is due to a call to is_s3_free, investigate how it can be fixed
+    return is_proper_helly_circular_arc(complement(graph))
 
 
 @assign_inherited_fisc()

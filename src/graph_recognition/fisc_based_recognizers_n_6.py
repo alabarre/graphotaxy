@@ -25,7 +25,7 @@ from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free, is_4k1_free
     is_co_diamond_free, is_k4_free
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.fisc_based_recognizers_n_5 import is_p5_free, is_c5_free, is_gem_free, is_k23_free, \
-    is_house_free, is_k_clique_free, is_k2_u_k3_free
+    is_house_free, is_k_clique_free, is_k2_u_k3_free, is_co_p_free, is_p_free
 from graph_recognition.misc_algo import (
     is_h_u_k1_free,
     must_contain_an_independent_set_of_size, )
@@ -107,7 +107,7 @@ def is_6k1_free(graph: nx.Graph) -> bool:
 @assign_fisc(["K_{2} U claw"])
 @assign_class_id("gc_735")
 @lru_cache(maxsize=None)
-def is_gc_735(graph: nx.Graph) -> bool:
+def is_k2_u_claw_free(graph: nx.Graph) -> bool:
     """
     Returns True iff graph is K_{2} U claw-free.
 
@@ -117,6 +117,9 @@ def is_gc_735(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    if is_claw_free(graph):
+        return True
+
     return is_h_free(graph, ["K_{2} U claw"])
     # faster than:
     # return is_h_u_k2_free(graph, is_claw_free)
@@ -145,7 +148,7 @@ def is_c6_free(graph: nx.Graph) -> bool:
 
 @assign_class_id("AUTO_224")
 @lru_cache(maxsize=None)
-def is_auto_224(graph: nx.Graph) -> bool:
+def is_co_2p3_free(graph: nx.Graph) -> bool:
     """
     Returns True iff graph is co(2P_{3})-free.
 
@@ -155,6 +158,9 @@ def is_auto_224(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    if is_triangle_free(graph):
+        return True
+
     return is_h_free(graph, ["co(2P_{3})"])
 
 
@@ -169,6 +175,9 @@ def is_co_domino_free(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
+    if is_triangle_free(graph):
+        return True
+
     return is_h_free(graph, ["co-domino"])
 
 
@@ -183,6 +192,9 @@ def is_auto_2123(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
+    if is_triangle_free(graph):
+        return True
+
     return is_h_free(graph, ["co(K_{2} U claw)"])
 
 
@@ -197,6 +209,9 @@ def is_auto_202(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
+    if is_triangle_free(graph):
+        return True
+
     return is_h_free(graph, ["co(P_{2} U P_{4})"])
 
 
@@ -212,6 +227,9 @@ def is_domino_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    if is_cograph(graph):
+        return True
+
     return is_h_free(graph, ["domino"])
 
 
@@ -226,6 +244,9 @@ def is_auto_92(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
+    if is_cograph(graph):
+        return True
+
     return is_h_free(graph, ["co(C_{6})"])
 
 
@@ -240,6 +261,9 @@ def is_e_free(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
+    if is_cograph(graph):
+        return True
+
     return is_h_free(graph, ["E"])
 
 
@@ -272,6 +296,9 @@ def is_s3_free(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
+    if is_cograph(graph):
+        return True
+
     return is_h_free(graph, ["S_{3}"])
 
 
@@ -300,6 +327,9 @@ def is_net_free(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
+    if is_cograph(graph):
+        return True
+
     return is_h_free(graph, ["net"])
 
 
@@ -314,6 +344,9 @@ def is_co_e_free(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
+    if is_cograph(graph):
+        return True
+
     return is_h_free(graph, ["co(E)"])
 
 
@@ -371,7 +404,8 @@ def is_gc_633(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_triangle_free(graph) and is_h_free(graph, ["cross"])
+    # P_4 is an induced subgraph of cross, so it's worth checking it
+    return is_triangle_free(graph) and (is_cograph(graph) or is_h_free(graph, ["cross"]))
 
 
 @assign_class_id("AUTO_1441")
@@ -399,7 +433,11 @@ def is_auto_1511(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["house", "2K_{3}"])
+    # all patterns contain an induced triangle
+    if is_triangle_free(graph):
+        return True
+
+    return is_house_free(graph) and is_h_free(graph, ["2K_{3}"])
 
 
 @assign_class_id("AUTO_1465")
@@ -413,7 +451,7 @@ def is_auto_1465(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["co(P)", "co(E)"])
+    return is_co_p_free(graph) and is_co_e_free(graph)
 
 
 @assign_class_id("gc_1076")
@@ -427,7 +465,7 @@ def is_gc_1076(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_cograph(graph) and is_h_free(graph, ["co(2P_{3})"])
+    return is_cograph(graph) and is_co_2p3_free(graph)
 
 
 @assign_class_id("AUTO_1451")
@@ -441,7 +479,7 @@ def is_auto_1451(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_3k1_free(graph) and is_h_free(graph, ["co(2P_{3})"])
+    return is_3k1_free(graph) and is_co_2p3_free(graph)
 
 
 @assign_class_id("AUTO_1447")
@@ -497,7 +535,7 @@ def is_auto_1477(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_3k1_free(graph) and is_h_free(graph, ["co(E)"])
+    return is_3k1_free(graph) and is_co_e_free(graph)
 
 
 @assign_class_id("AUTO_1445")
@@ -539,7 +577,7 @@ def is_auto_1470(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["house", "C_{6}"])
+    return is_house_free(graph) and is_p6_free(graph)
 
 
 @assign_class_id("AUTO_1767")
@@ -567,7 +605,7 @@ def is_auto_1443(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_c4_free(graph) and is_h_free(graph, ["S_{3}"])
+    return is_c4_free(graph) and is_s3_free(graph)
 
 
 @assign_class_id("gc_922")
@@ -595,7 +633,7 @@ def is_gc_635(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_triangle_free(graph) and is_h_free(graph, ["H"])
+    return is_triangle_free(graph) and (is_cograph(graph) or is_h_free(graph, ["H"]))
 
 
 @assign_class_id("gc_648")
@@ -623,7 +661,7 @@ def is_gc_925(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_triangle_free(graph) and is_gc_735(graph)
+    return is_triangle_free(graph) and is_k2_u_claw_free(graph)
 
 
 @assign_class_id("gc_433")
@@ -637,7 +675,7 @@ def is_gc_433(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["C_{6}", "co(C_{6})"])
+    return is_c6_free(graph) and is_h_free(graph, ["co(C_{6})"])
 
 
 @assign_class_id("gc_373")
@@ -651,7 +689,7 @@ def is_gc_373(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["net", "S_{3}"])
+    return is_net_free(graph) and is_s3_free(graph)
 
 
 @assign_class_id("AUTO_1442")
@@ -665,7 +703,7 @@ def is_auto_1442(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_k4_free(graph) and is_h_free(graph, ["S_{3}"])
+    return is_k4_free(graph) and is_s3_free(graph)
 
 
 @assign_class_id("AUTO_1476")
@@ -679,7 +717,7 @@ def is_auto_1476(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["house", "2K_{3} + e"])
+    return is_house_free(graph) and is_h_free(graph, ["2K_{3} + e"])
 
 
 @assign_class_id("gc_1234")
@@ -707,7 +745,7 @@ def is_gc_1024(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_triangle_free(graph) and is_h_free(graph, ["C_{6}"])
+    return is_triangle_free(graph) and is_c6_free(graph)
 
 
 @assign_class_id("gc_137")
@@ -721,7 +759,7 @@ def is_gc_137(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["claw", "net"])
+    return is_claw_free(graph) and is_net_free(graph)
 
 
 @assign_class_id("gc_927")
@@ -735,7 +773,7 @@ def is_gc_927(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_2k2_free(graph) and is_h_free(graph, ["net"])
+    return is_2k2_free(graph) and is_net_free(graph)
 
 
 @assign_class_id("AUTO_1480")
@@ -749,7 +787,7 @@ def is_auto_1480(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_3k1_free(graph) and is_h_free(graph, ["co-cross"])
+    return is_3k1_free(graph) and (is_cograph(graph) or is_h_free(graph, ["co-cross"]))
 
 
 @assign_class_id("gc_636")
@@ -906,7 +944,7 @@ def is_gc_756(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["P", "E"])
+    return is_p_free(graph) and is_e_free(graph)
 
 
 @assign_class_id("gc_928")
@@ -948,6 +986,10 @@ def is_auto_2102(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
+    # all patterns have an induced 3K_1
+    if is_3k1_free(graph):
+        return True
+
     #      co(W_{4})
     return (
             is_h_u_k1_free(graph, is_2k2_free)
@@ -967,9 +1009,7 @@ def is_auto_1488(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return (
-            is_p5_free(graph) and is_co_gem_free(graph) and is_h_free(graph, ["co-domino"])
-    )
+    return is_p5_free(graph) and is_co_gem_free(graph) and is_co_domino_free(graph)
 
 
 @assign_class_id("AUTO_1490")
@@ -983,7 +1023,7 @@ def is_auto_1490(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["co(A)", "co(P_{6})", "co-domino"])
+    return is_co_p6_free(graph) and is_co_domino_free(graph) and is_h_free(graph, ["co(A)"])
 
 
 @assign_class_id("gc_1074")
@@ -997,7 +1037,7 @@ def is_gc_1074(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_cograph(graph) and is_2k2_free(graph) and is_h_free(graph, ["co(2P_{3})"])
+    return is_cograph(graph) and is_2k2_free(graph) and is_co_2p3_free(graph)
 
 
 @assign_class_id("gc_1279")
@@ -1011,7 +1051,7 @@ def is_gc_1279(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_c4_free(graph) and is_h_free(graph, ["C_{6}", "2P_{3}"])
+    return is_c4_free(graph) and is_c6_free(graph) and is_h_free(graph, ["2P_{3}"])
 
 
 @assign_class_id("gc_355")
@@ -1025,7 +1065,7 @@ def is_gc_355(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["claw", "net", "S_{3}"])
+    return is_claw_free(graph) and is_s3_free(graph) and is_net_free(graph)
 
 
 @assign_class_id("gc_1075")
@@ -1068,7 +1108,7 @@ def is_auto_1821(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_2k2_free(graph) and is_h_free(graph, ["co(C_{6})", "co(2P_{3})"])
+    return is_2k2_free(graph) and is_co_2p3_free(graph) and is_h_free(graph, ["co(C_{6})"])
 
 
 @assign_class_id("AUTO_1530")
@@ -1083,7 +1123,7 @@ def is_auto_1530(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_co_claw_free(graph) and is_h_free(graph, ["net", "S_{3}"])
+    return is_co_claw_free(graph) and is_s3_free(graph) and is_net_free(graph)
 
 
 @assign_class_id("gc_273")
@@ -1098,7 +1138,7 @@ def is_gc_273(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_p6_free(graph) and is_h_free(graph, ["C_{5}", "co(P_{6})"])
+    return is_c5_free(graph) and is_p6_free(graph) and is_h_free(graph, ["co(P_{6})"])
 
 
 @assign_class_id("AUTO_1491")
@@ -1128,7 +1168,7 @@ def is_gc_563(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_p6_free(graph) and is_h_free(graph, ["A", "domino"])
+    return is_p6_free(graph) and is_domino_free(graph) and is_h_free(graph, ["A"])
 
 
 @assign_class_id("AUTO_1514")
@@ -1143,7 +1183,7 @@ def is_auto_1514(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["house", "2K_{3} + e", "co(X_{98})"])
+    return is_house_free(graph) and is_h_free(graph, ["2K_{3} + e", "co(X_{98})"])
 
 
 @assign_class_id("gc_542")
@@ -1173,7 +1213,7 @@ def is_auto_1466(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_p2up4_free(graph) and is_h_free(graph, ["net", "E", "3K_{2}"])
+    return is_p2up4_free(graph) and is_net_free(graph) and is_e_free(graph) and is_h_free(graph, ["3K_{2}"])
 
 
 @assign_class_id("gc_411")
@@ -1188,7 +1228,7 @@ def is_gc_411(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    return is_p5_free(graph) and is_h_free(graph, ["P", "gem", "co(3K_{2})"])
+    return is_p5_free(graph) and is_gem_free(graph) and is_p_free(graph) and is_h_free(graph, ["co(3K_{2})"])
 
 
 @assign_class_id("AUTO_1710")
@@ -1395,8 +1435,8 @@ def is_gc_627(graph: nx.Graph) -> bool:
     """
     return (
             is_cograph(graph)
-            and is_2k2_free(graph)
-            and is_h_free(graph, ["co(2P_{3})", "K_{3,3}", "K_{3,3}+e"])
+            and is_2k2_free(graph) and is_co_2p3_free(graph)
+            and is_h_free(graph, ["K_{3,3}", "K_{3,3}+e"])
     )
 
 
@@ -2092,8 +2132,8 @@ def is_auto_1930(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
 
-    return is_2k2_free(graph) and is_h_free(
-        graph, ["co(2P_{3})", "house", "C_{5}", "co(X_{170})", "A"]
+    return is_2k2_free(graph) and is_co_2p3_free(graph) and is_house_free(graph) and is_c5_free(graph) and is_h_free(
+        graph, ["co(X_{170})", "A"]
     )
 
 

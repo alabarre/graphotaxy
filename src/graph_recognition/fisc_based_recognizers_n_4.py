@@ -28,7 +28,7 @@ from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.misc_algo import (
     is_h_u_k1_free,
     complement_as_adj_mat, degree_sequence, number_of_edges, neighbors, number_of_nodes, explicit_triangles,
-    non_neighbors, )
+    non_neighbors, explicit_independent_triplets, )
 from graph_recognition.profitable_hereditary_n import (
     is_cograph,
     is_forest, is_2k2_free, is_planar, )
@@ -36,7 +36,6 @@ from graph_recognition.profitable_hereditary_n_2 import is_co_chordal, is_co_gem
 from graph_recognition.profitable_hereditary_n_3 import (
     is_paw_free, is_co_paw_free,
 )
-from graph_recognition.recognizers_n_3 import explicit_independent_triplets
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,

@@ -333,7 +333,8 @@ def true_twins(graph: nx.Graph | HalfAdjacencyMatrix, v: Hashable) -> BitMap:
 
 
 @lru_cache(maxsize=None)
-def empty_graph_by_removing_vertices(graph: nx.Graph, criterion: Callable, remove_true_twins: bool = False) -> bool:
+def empty_graph_by_removing_vertices(graph: nx.Graph, criterion: Callable, remove_true_twins: bool = False,
+                                     local_neighborhood_cache: bool = False) -> bool:
     """
     Empties the graph by repeatedly removing vertices that satisfy the criterion. Returns True if
     all vertices are deleted, False otherwise.
@@ -345,14 +346,43 @@ def empty_graph_by_removing_vertices(graph: nx.Graph, criterion: Callable, remov
     :param graph:
     :return:
     """
+    # the structure of this generic algorithm is as follows: keep removing a vertex that satisfies
+    # a given criterion from the (copy of the) graph until it is no longer possible, which happens
+    # either when the graph is empty (-> return True) or when no vertex satisfies the criterion
+    # (-> return False)
     new_graph = graph.copy()
+    status = dict()
     while new_graph:
+        # it turns out that we can expect slightly less work with low-degree vertices, so we start
+        # with those in the hope that the algorithm terminates before we reach the high-degree
+        # vertices
+        # TODO implement heap so we don't need to sort at every iteration
         for v in vertices_by_increasing_degree(new_graph):
-            if criterion(new_graph, v):
+            # test current vertex
+            if v in status:
+                criterion_holds = status[v]
+            else:
+                criterion_holds = criterion(new_graph, v)
+                if local_neighborhood_cache:
+                    status[v] = criterion_holds
+
+            if criterion_holds:
+                # select true twins if required, otherwise just v
                 if remove_true_twins:
                     nodes_to_remove = true_twins(new_graph, v)
                 else:
-                    nodes_to_remove = {v}
+                    nodes_to_remove = BitMap({v})
+
+                # remove from cache vertices whose status must be recomputed
+                if local_neighborhood_cache:
+                    affected = BitMap()
+                    for t in nodes_to_remove:
+                        affected |= neighbors(new_graph, t)
+
+                    for x in affected | nodes_to_remove:
+                        status.pop(x, None)
+
+                # remove selected nodes from graph
                 new_graph.remove_nodes_from(nodes_to_remove)
                 break
 
@@ -942,3 +972,38 @@ def vertices_by_increasing_degree(graph: nx.Graph | HalfAdjacencyMatrix):
     :return:
     """
     yield from (u for u, _ in sorted(graph.degree, key=lambda pair: pair[-1]))
+
+
+def explicit_independent_triplets(graph: nx.Graph) -> Iterator:
+    """
+    Generates all triplets of pairwise independent vertices in a graph.
+
+    >>> test = nx.path_graph(5)
+    >>> list(explicit_independent_triplets(test))
+    [(0, 2, 4)]
+
+    @param graph:
+    @return:
+    """
+    # to avoid generating the same triplets multiple times, we choose an arbitrary order for the
+    # vertices; we will then only generate triplets u, v, w with u < v < w;
+
+    # first, build an order (we don't use vertices directly in case their types are incomparable)
+    nodes = list(graph)
+    index = {u: i for i, u in enumerate(nodes)}
+
+    # gather for each vertex u its non neighbors with a larger index than u's
+    non_neighbors_after = dict()
+    all_after = {
+        u: BitMap({nodes[j] for j in range(index[u] + 1, number_of_nodes(graph))})
+        for u in nodes
+    }
+
+    for u in graph:
+        non_neighbors_after[u] = all_after[u] - BitMap(graph[u])
+
+    for u in graph:
+        for v in non_neighbors_after[u]:
+            # w is after v because non_neighbors_after[v] only contains later vertices
+            for w in non_neighbors_after[u] & non_neighbors_after[v]:
+                yield u, v, w
