@@ -135,6 +135,26 @@ def is_locally_split(graph: nx.Graph) -> bool:
     :param graph:
     :return:
     """
+    adj = {v: neighbors(graph, v) for v in graph}
+
+    for v in sorted(graph, key=lambda x: len(adj[x])):
+        nb = adj[v]
+
+        if len(nb) <= 3:
+            continue
+
+        degrees = sorted(
+            (len(adj[u] & nb) for u in nb),
+            reverse=True,
+        )
+
+        if not is_split_degree_sequence(degrees):
+            return False
+
+    return True
+
+
+
     return all(
         is_split_degree_sequence(sorted(induced_subgraph_degrees(graph, frozenset(graph[v])).values(), reverse=True))
         for v in graph

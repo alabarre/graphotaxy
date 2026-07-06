@@ -1578,17 +1578,25 @@ def is_p3_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
-    # equivalent to https://www.graphclasses.org/classes/gc_1237.html :
-    # a graph is a cluster graph iff it is a disjoint union of cliques
+    degree = dict(graph.degree)
 
-    # very profitable filter on large graphs:
-    if is_connected(graph):
-        return is_complete(graph)
+    # go through all edges u-v: if N(u) \ {v} != N(v) \ {u}, then there exists a vertex w that is
+    # adjacent to only u (or v), and therefore w-u-v (or u-v-w) is a P_3
+    for u, v in graph.edges():
+        # check degrees first; if they differ, no need to examine neighborhoods
+        if degree[u] != degree[v]:
+            return False
 
-    return all(
-        set(induced_subgraph_degrees(graph, cc).values()) == {len(cc) - 1}
-        for cc in map(frozenset, connected_components(graph))
-    )
+        nu = neighbors(graph, u).copy()
+        nv = neighbors(graph, v).copy()
+
+        nu.remove(v)
+        nv.remove(u)
+
+        if nu != nv:
+            return False
+
+    return True
 
 
 @assign_fisc(["P_{3}", "3K_{1}"])
