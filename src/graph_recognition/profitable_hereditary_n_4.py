@@ -11,7 +11,6 @@ Recognizers in this file have running time O(n^4).
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import os
-from collections import defaultdict
 from functools import lru_cache
 from itertools import combinations
 
@@ -129,10 +128,12 @@ def is_hole_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     :param graph:
     :return:
     """
-
     # first algorithm in https://www.cs.uoi.gr/~palios/pubs/D5.pdf
     # O(n+m^2) = O(n^4)
-    # @lru_cache(maxsize=None)
+    in_path = BitMap()
+    not_in_hole = set()
+
+    # @lru_cache(maxsize=None) # don't: additional structures are modified when calling this
     def process(a: int, b: int, c: int) -> bool:
         """
         The auxiliary process procedure from https://www.cs.uoi.gr/~palios/pubs/D5.pdf used in the
@@ -143,33 +144,40 @@ def is_hole_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         :param c:
         :return:
         """
-        in_path[c] = True
-        for d in graph[c]:
-            if not graph.has_edge(a, d) and not graph.has_edge(b, d):
-                if in_path[d]:
-                    return True
-                if not not_in_hole[(b, c, d)]:
-                    if process(b, c, d):
-                        return True
+        in_path.add(c)
 
-        in_path[c] = False
-        not_in_hole[(a, b, c)] = True
-        not_in_hole[(c, b, a)] = True
+        for d in graph[c]:
+            if graph.has_edge(a, d) or graph.has_edge(b, d):
+                continue
+
+            if d in in_path:
+                return True
+
+            if (b, c, d) not in not_in_hole:
+                if process(b, c, d):
+                    return True
+
+        in_path.remove(c)
+        not_in_hole.add((a, b, c))
+        not_in_hole.add((c, b, a))
 
         return False
 
-    in_path = defaultdict(lambda: False)
-    not_in_hole = defaultdict(lambda: False)
     for u in graph:
-        in_path[u] = True
-        for v, w in graph.edges():
-            if graph.has_edge(u, v) and not graph.has_edge(u, w) and not not_in_hole[(u, v, w)]:
-                in_path[v] = True
-                if process(u, v, w):
-                    return False
-                in_path[v] = False
+        in_path.add(u)
+        try:
+            for v, w in graph.edges():
+                if graph.has_edge(u, v) and not graph.has_edge(u, w) and (u, v, w) not in not_in_hole:
+                    in_path.add(v)
 
-        in_path[u] = False
+                    try:
+                        if process(u, v, w):
+                            return False
+                    finally:
+                        in_path.remove(v)
+
+        finally:
+            in_path.discard(u)
 
     return True
 

@@ -1587,9 +1587,7 @@ def is_p3_free(graph: nx.Graph) -> bool:
         if degree[u] != degree[v]:
             return False
 
-        nu = neighbors(graph, u).copy()
-        nv = neighbors(graph, v).copy()
-
+        nu, nv = neighbors(graph, u), neighbors(graph, v)
         nu.remove(v)
         nv.remove(u)
 

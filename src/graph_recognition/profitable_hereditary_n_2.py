@@ -30,8 +30,7 @@ from graph_recognition.misc_algo import (
     is_connected,
     is_h_u_k1_free,
     co_connected_components, complement_as_adj_mat, connected_components, is_regular, is_complete, neighbors,
-    number_of_nodes, number_of_edges, non_neighbors, is_co_connected, induces_cycle, induced_subgraph_degrees,
-    vertices_by_increasing_degree, )
+    number_of_nodes, number_of_edges, non_neighbors, is_co_connected, induces_cycle, vertices_by_increasing_degree, )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
     is_chordal,
@@ -152,13 +151,6 @@ def is_locally_split(graph: nx.Graph) -> bool:
             return False
 
     return True
-
-
-
-    return all(
-        is_split_degree_sequence(sorted(induced_subgraph_degrees(graph, frozenset(graph[v])).values(), reverse=True))
-        for v in graph
-    )
 
 
 @assign_fisc(
