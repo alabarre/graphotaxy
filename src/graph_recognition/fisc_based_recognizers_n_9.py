@@ -23,9 +23,9 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.fisc_based_recognizers_n_5 import is_p5_free, is_k23_free, is_c5_free, is_gem_free, \
-    is_house_free, is_k2_u_k3_free
+    is_house_free, is_k2_u_k3_free, is_p_free, is_co_p_free
 from graph_recognition.profitable_hereditary_n import (
-    is_2k2_free, is_chordal, )
+    is_2k2_free, is_chordal, is_cograph, )
 from graph_recognition.profitable_hereditary_n_2 import (
     is_co_gem_free, is_co_chordal,
 )
@@ -33,14 +33,32 @@ from graph_recognition.profitable_hereditary_n_3 import (
     is_3k1_free,
     is_triangle_free,
 )
-from graph_recognition.fisc_based_recognizers_n_6 import is_p2up4_free
+from graph_recognition.fisc_based_recognizers_n_6 import is_p2up4_free, is_domino_free
 from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free, is_co_claw_free, is_claw_free
 from graph_recognition.recognizers_utils import (
     assign_class_id,
     current_module_recognizers,
-    assign_inherited_fisc,
+    assign_inherited_fisc, assign_fisc,
 )
 from graph_recognition.subgraphs import is_h_free
+
+
+# Auxiliary functions -----------------------------------------------------------------------------
+# The following classes are not in ISGCI, but are used in several recognizers in this file.
+@assign_fisc(["X_{91}"])
+@lru_cache(maxsize=None)
+def is_x91_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is X_{91}-free.
+
+    See https://www.graphclasses.org/smallgraphs.html#X91
+
+    Complexity of naïve matching: O(n^9)
+
+    :type graph: networkx.Graph
+    """
+    # X_{91} contains P_4's and a triangle, so it's worth checking them first
+    return is_cograph(graph) and is_triangle_free(graph) and is_h_free(graph, ["X_{91}"])
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -99,7 +117,7 @@ def is_gc_811(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^9)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["P", "star_{1,2,5}"])
+    return is_p_free(graph) and is_h_free(graph, ["star_{1,2,5}"])
 
 
 @assign_class_id("AUTO_2141")
@@ -113,7 +131,7 @@ def is_auto_2141(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^9)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["co(P)", "co-star_{1,2,5}"])
+    return is_co_p_free(graph) and is_h_free(graph, ["co-star_{1,2,5}"])
 
 
 @assign_class_id("gc_1214")
@@ -127,7 +145,7 @@ def is_gc_1214(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^9)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["claw", "X_{91}"])
+    return is_claw_free(graph) and is_x91_free(graph)
 
 
 @assign_class_id("AUTO_2113")
@@ -159,7 +177,7 @@ def is_gc_692(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^9)
     :type graph: networkx.Graph
     """
-    return is_claw_free(graph) and is_c4_free(graph) and is_h_free(graph, ["X_{91}"])
+    return is_claw_free(graph) and is_c4_free(graph) and is_x91_free(graph)
 
 
 @assign_class_id("gc_698")
@@ -173,8 +191,8 @@ def is_gc_698(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^9)
     :type graph: networkx.Graph
     """
-    return is_triangle_free(graph) and is_h_free(
-        graph, ["C_{5}", "X_{18}", "K_{3,3}-e", "domino", "T_{2}", "X_{94}"]
+    return is_triangle_free(graph) and is_c5_free(graph) and is_domino_free(graph) and is_h_free(
+        graph, ["X_{18}", "K_{3,3}-e", "T_{2}", "X_{94}"]
     )
 
 

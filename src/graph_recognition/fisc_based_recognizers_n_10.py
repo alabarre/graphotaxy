@@ -26,7 +26,7 @@ from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.fisc_based_recognizers_n_5 import is_p5_free
 from graph_recognition.fisc_based_recognizers_n_6 import is_p6_free
 from graph_recognition.profitable_hereditary_n import (
-    is_chordal, is_tree, )
+    is_chordal, is_tree, is_cograph, )
 from graph_recognition.profitable_hereditary_n_2 import (
     is_co_t3_co_cycle_free, )
 from graph_recognition.recognizers_utils import (
@@ -53,7 +53,7 @@ def is_probe_interval_and_tree(graph: nx.Graph) -> bool:
     """
     # NOTE: nothing constrains the graph to be connected, so we should test whether it's a forest,
     # but ISGCI seems to implicitly assume connectedness
-    return is_tree(graph) and is_h_free(graph, ["T_{3}", "X_{81}"])
+    return is_tree(graph) and is_cograph(graph) and is_h_free(graph, ["T_{3}", "X_{81}"])
 
 
 @assign_inherited_fisc()

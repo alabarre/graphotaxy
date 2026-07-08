@@ -47,7 +47,7 @@ from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.graph_formats import nx_graph_to_lad_file, lad_file_to_nx_graph, half_adj_mat_to_lad_file
 from graph_recognition.misc_algo import degree_sequence, maximal_independent_set, number_of_nodes, number_of_edges, \
     is_complete, codegree_sequence
-from graph_recognition.profitable_hereditary_n import is_bipartite
+from graph_recognition.profitable_hereditary_n import is_bipartite, is_cograph
 from graph_recognition.smallgraphs import (
     all_smallgraphs_by_order,
     smallgraph_inclusion_graph,
@@ -240,26 +240,20 @@ class SubgraphMatcher:
             if self._checked_subgraphs[subpattern] is False:
                 return False
         '''
-        # 2b) try profitable hereditary recognizers but only O(m+n) ones
-        # NOTE: the same trick could be applied to more profitable recognizers, but at some point
-        # we reach diminishing returns. Experimentally, so far, I've only been convinced by the
-        # improved running times we obtain with linear time algorithms, which is why I'm not going
-        # higher than that in complexity. Remember that the point of using ISGCI inclusion
-        # relationships is to avoid running expensive algorithms, and we will lose that benefit at
-        # some point if we lose sight of that.
+        # 2b) try profitable hereditary recognizers but only O(m+n) ones: we look for necessary
+        # conditions that the pattern and the graph must satisfy in order for the graph to contain
+        # the pattern.
+        for recognizer in (is_bipartite, is_cograph):
+            if not _query_pattern_property(pattern, recognizer) and recognizer(self._graph):
+                return False
 
-        # I've been turning this on and off for a while and cannot decide whether to include it;
-        # I'm giving up on it for now because for large graphs we spend ages in this part of the
-        # code
-        if is_bipartite(self._graph) and not _query_pattern_property(pattern, is_bipartite):
-            return False
-        '''
-        if any(
-                recognizer(self._graph) and not recognizer(pattern)
-                for recognizer in graph_recognition.profitable_hereditary_n.RECOGNIZERS.values()
-        ):
-            return False
-        '''
+        # NOTE: while in theory the same process could apply to more profitable recognizers with
+        # the same complexity, at some point we reach diminishing returns. Experimentally, so far,
+        # only is_bipartite and is_cograph have proved useful in reducing the running times on
+        # large graphs: even other linear-time recognizers might not be worth running. Bear in mind
+        # also that the point of using ISGCI inclusion relationships is to avoid running expensive
+        # algorithms, and we will lose that benefit at some point if we lose sight of that.
+
         # *****************************************************************************************
         # * 3) if none of the above worked, call the solver                                       *
         # *****************************************************************************************

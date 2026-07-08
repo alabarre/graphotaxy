@@ -22,7 +22,7 @@ from functools import lru_cache
 import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
-from graph_recognition.fisc_based_recognizers_n_5 import is_p5_free, is_k23_free, is_k14_free, is_c5_free
+from graph_recognition.fisc_based_recognizers_n_5 import is_p5_free, is_k23_free, is_k14_free, is_c5_free, is_co_p_free
 from graph_recognition.fisc_based_recognizers_n_6 import is_p6_free, is_e_free, is_p2up4_free
 from graph_recognition.fisc_based_recognizers_n_7 import is_p7_free, is_co_p7_free
 from graph_recognition.misc_algo import (
@@ -70,7 +70,7 @@ def is_auto_2142(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^8)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["co(P)", "co-star_{1,2,4}"])
+    return is_co_p_free(graph) and is_h_free(graph, ["co-star_{1,2,4}"])
 
 
 @assign_class_id("AUTO_2124")
@@ -84,7 +84,7 @@ def is_auto_2124(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^8)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["co(P)", "co(P_{8})"])
+    return is_co_p_free(graph) and is_h_free(graph, ["co(P_{8})"])
 
 
 @assign_class_id("gc_588")
@@ -98,6 +98,10 @@ def is_gc_588(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^8)
     :type graph: networkx.Graph
     """
+    # both patterns have an induced P_4
+    if is_cograph(graph):
+        return True
+
     return is_h_free(graph, ["X_{79}", "X_{80}"])
 
 

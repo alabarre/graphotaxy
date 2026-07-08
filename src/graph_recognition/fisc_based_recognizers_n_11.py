@@ -23,7 +23,7 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.profitable_hereditary_n import (
-    is_chordal, is_planar, )
+    is_chordal, is_planar, is_cograph, )
 from graph_recognition.profitable_hereditary_n_2 import (
     is_co_chordal,
 )
@@ -63,7 +63,7 @@ def is_cnplus4_x_59_longhorn_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return is_chordal(graph) and is_h_free(graph, ["longhorn", "X_{59}"])
+    return is_chordal(graph) and is_cograph(graph) and is_h_free(graph, ["longhorn", "X_{59}"])
 
 
 @assign_inherited_fisc()
