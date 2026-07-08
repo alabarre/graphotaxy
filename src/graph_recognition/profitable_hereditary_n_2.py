@@ -242,7 +242,7 @@ def is_chordal_or_co_chordal(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # split graphs are both chordal and co-chordal
+    # split graphs are both chordal AND co-chordal, and recognition is much cheaper
     if is_split(graph):
         return True
 
@@ -533,7 +533,7 @@ def is_comparability(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
                 x = queue.pop()
                 component.add(x)
 
-                # voisins de x dans le complément de G[N(v)]
+                # neighbors of x in co(G[N(v)])
                 co_nb = remaining - neighbors(graph, x)
 
                 if co_nb:

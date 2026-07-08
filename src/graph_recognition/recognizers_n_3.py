@@ -24,8 +24,7 @@ from graph_recognition.misc_algo import (
     empty_graph_by_removing_vertices,
     is_connected,
     degree_sequence, co_connected_components, complement_as_adj_mat, number_of_common_neighbors, common_neighbors,
-    connected_components, number_of_nodes, non_neighbors, neighbors, vertices_by_increasing_degree,
-)
+    connected_components, number_of_nodes, non_neighbors, neighbors, vertices_by_increasing_degree, )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
     is_planar,
@@ -178,7 +177,8 @@ def is_dismantlable(graph: nx.Graph) -> bool:
     @return:
     """
     n = number_of_nodes(graph)
-    if n == 1:
+
+    if n <= 1:
         return True
 
     # special cases, see bottom of page 478 in  https://doi.org/10.4153/CMB-1994-069-6
@@ -188,23 +188,58 @@ def is_dismantlable(graph: nx.Graph) -> bool:
     if degree_sequence(graph)[0] == n - 1 or is_tree(graph):
         return True
 
-    if n >= 2 and is_connected(graph) and is_chordal(graph):
+    if is_connected(graph) and is_chordal(graph):
         return True
 
-    # nonrecursive version; to avoid creating a lot of new subgraphs, copy graph into a disposable
-    # version
-    new_graph = graph.copy()
+    adj = {v: neighbors(graph, v) for v in graph}
+    alive = BitMap(graph)
+
+    def dominates_alive(u, v) -> bool:
+        """
+        Checks whether u dominates v. Restricts the search for neighbors to "alive" vertices.
+
+        :param u:
+        :param v:
+        :return:
+        """
+        # u dominates v iff N[v] ⊆ N[u] ∪ {u}
+        # open-neighborhood version:
+        nv = adj[v] & alive
+        nu = adj[u] & alive
+
+        # remove u from N(v), because u may dominate v even though u∉N(u)
+        nv.discard(u)
+
+        return not (nv - nu)
 
     # note: this looks like a good use for empty_graph_by_removing_vertices, but the callable we
     # feed it expects exactly two arguments, which is why we don't use it here
-    while n > 1:
-        for u, v in combinations(new_graph, 2):
-            if dominates(new_graph, u, v):
-                new_graph.remove_node(v)
-                n -= 1
+    while len(alive) > 1:
+        removed = None
+        alive_by_degree = sorted(alive, key=lambda x: len(adj[x] & alive))
+
+        for b in alive_by_degree:
+            nb = adj[b] & alive
+
+            for a in alive:
+                if a == b:
+                    continue
+
+                # cheap necessary degree test
+                if len(nb) - (1 if a in nb else 0) > len(adj[a] & alive):
+                    continue
+
+                if dominates_alive(a, b):
+                    removed = b
+                    break
+
+            if removed is not None:
                 break
-        else:
+
+        if removed is None:
             return False
+
+        alive.remove(removed)
 
     return True
 
@@ -533,7 +568,6 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
     # weakly modular < triangle-free
     if not is_triangle_free(graph):
         return False
-
 
     # the recognition algorithm is based on definition 2 in the docstring
     # since we will be using neighborhoods a lot and decided not to cache the neighbors function,
