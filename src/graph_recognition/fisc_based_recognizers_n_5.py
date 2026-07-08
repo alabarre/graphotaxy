@@ -267,6 +267,9 @@ def is_co_fork_free(graph: nx.Graph) -> bool:
 
     :type graph: networkx.Graph
     """
+    if is_cograph(graph):
+        return True
+
     return is_h_free(graph, ["co-fork"])
 
 
@@ -1078,7 +1081,7 @@ def is_gc_438(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["fork", "co(P)"])
+    return is_fork_free(graph) and is_co_p_free(graph)
 
 
 @assign_fisc(["fork", "bull"])
@@ -1093,7 +1096,7 @@ def is_gc_397(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["fork", "bull"])
+    return is_fork_free(graph) and is_bull_free(graph)
 
 
 @assign_inherited_fisc()
@@ -1123,7 +1126,7 @@ def is_auto_1523(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_co_claw_free(graph) and is_h_free(graph, ["house"])
+    return is_co_claw_free(graph) and is_house_free(graph)
 
 
 @assign_inherited_fisc()
@@ -1378,7 +1381,7 @@ def is_gc_404(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_p5_free(graph) and is_k23_free(graph) and is_h_free(graph, ["P"])
+    return is_p5_free(graph) and is_k23_free(graph) and is_p_free(graph)
 
 
 @assign_inherited_fisc(["butterfly"])
@@ -1422,7 +1425,7 @@ def is_gc_475(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["fork", "bull", "gem"])
+    return is_bull_free(graph) and is_gem_free(graph) and is_fork_free(graph)
 
 
 @assign_class_id("AUTO_1504")
@@ -1520,7 +1523,7 @@ def is_gc_474(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["gem", "fork", "co(P)"])
+    return is_gem_free(graph) and is_fork_free(graph) and is_co_p_free(graph)
 
 
 @assign_class_id("gc_429")
@@ -1567,7 +1570,7 @@ def is_gc_180(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["claw", "W_{4}", "gem"])
+    return is_claw_free(graph) and is_gem_free(graph) and is_h_free(graph, ["W_{4}"])
 
 
 @assign_class_id("gc_516")
@@ -1581,7 +1584,7 @@ def is_gc_516(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_p5_free(graph) and is_h_free(graph, ["gem", "co(P)"])
+    return is_gem_free(graph) and is_p5_free(graph) and is_co_p_free(graph)
 
 
 @assign_class_id("AUTO_1503")
@@ -1740,7 +1743,7 @@ def is_gc_420(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_p5_free(graph) and is_k14_free(graph) and is_h_free(graph, ["P", "fork"])
+    return is_p5_free(graph) and is_k14_free(graph) and is_p_free(graph) and is_fork_free(graph)
 
 
 @assign_class_id("gc_917")
@@ -1754,7 +1757,7 @@ def is_gc_917(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_c4_diamond_free(graph) and is_h_free(graph, ["K_{4}", "C_{5}"])
+    return is_c4_diamond_free(graph) and is_k4_free(graph) and is_c5_free(graph)
 
 
 @assign_class_id("gc_1303")
@@ -1768,7 +1771,7 @@ def is_gc_1303(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_3k1_free(graph) and is_h_free(graph, ["diamond", "C_{5}", "butterfly"])
+    return is_3k1_free(graph) and is_diamond_free(graph) and is_c5_free(graph) and is_h_free(graph, ["butterfly"])
 
 
 @assign_class_id("AUTO_1450")
@@ -1786,7 +1789,7 @@ def is_auto_1450(graph: nx.Graph) -> bool:
             is_2k2_free(graph)
             and is_4k1_free(graph)
             and is_co_diamond_free(graph)
-            and is_h_free(graph, ["C_{5}"])
+            and is_c5_free(graph)
     )
 
 
@@ -1839,7 +1842,7 @@ def is_gc_224(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_p5_free(graph) and is_h_free(graph, ["P", "C_{5}", "house"])
+    return is_p5_free(graph) and is_p_free(graph) and is_c5_free(graph) and is_house_free(graph)
 
 
 @assign_class_id("gc_421")
@@ -1853,7 +1856,7 @@ def is_gc_421(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_gem_free(graph) and is_h_free(graph, ["fork", "butterfly", "co(P)"])
+    return is_gem_free(graph) and is_fork_free(graph) and is_p_free(graph) and is_h_free(graph, ["butterfly"])
 
 
 @assign_class_id("gc_520")
@@ -1867,7 +1870,7 @@ def is_gc_520(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_co_gem_free(graph) and is_h_free(graph, ["C_{5}", "bull", "gem"])
+    return is_co_gem_free(graph) and is_gem_free(graph) and is_bull_free(graph) and is_c5_free(graph)
 
 
 @assign_class_id("AUTO_1517")
@@ -1881,7 +1884,7 @@ def is_auto_1517(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_co_k14_free(graph) and is_h_free(graph, ["co-fork", "house", "co(P)"])
+    return is_co_k14_free(graph) and is_co_fork_free(graph) and is_house_free(graph) and is_co_p_free(graph)
 
 
 @assign_class_id("gc_511")
@@ -1895,7 +1898,8 @@ def is_gc_511(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_p5_free(graph) and is_h_free(graph, ["C_{5}", "house", "P", "co(P)"])
+    return (is_p5_free(graph) and is_c5_free(graph) and is_house_free(graph) and
+            is_p_free(graph) and is_co_p_free(graph))
 
 
 @assign_class_id("gc_189")
@@ -1909,9 +1913,8 @@ def is_gc_189(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_p5_free(graph) and is_h_free(
-        graph, ["house", "P", "co(P)", "fork", "co-fork"]
-    )
+    return (is_p5_free(graph) and is_house_free(graph) and is_p_free(graph) and is_co_p_free(graph)
+            and is_fork_free(graph) and is_co_fork_free(graph))
 
 
 @assign_class_id("gc_512")
@@ -1928,7 +1931,7 @@ def is_gc_512(graph: nx.Graph) -> bool:
     return (
             is_co_gem_free(graph)
             and is_p5_free(graph)
-            and is_h_free(graph, ["C_{5}", "co(P)", "fork", "co-fork"])
+            and is_c5_free(graph) and is_co_p_free(graph) and is_fork_free(graph) and is_co_fork_free(graph)
     )
 
 
@@ -1943,7 +1946,9 @@ def is_auto_1498(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["C_{5}", "house", "P", "gem", "fork", "co-fork"])
+    return (is_c5_free(graph) and is_house_free(graph) and is_p_free(graph) and
+            is_gem_free(graph) and is_fork_free(graph) and is_co_fork_free(graph)
+            )
 
 
 @assign_class_id("gc_24")
@@ -1958,9 +1963,8 @@ def is_gc_24(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_p5_free(graph) and is_h_free(
-        graph, ["C_{5}", "house", "P", "co(P)", "fork", "co-fork"]
-    )
+    return is_p5_free(graph) and is_c5_free(graph) and is_house_free(graph) and is_p_free(graph) and is_co_p_free(
+        graph) and is_fork_free(graph) and is_co_fork_free(graph)
 
 
 @assign_class_id("AUTO_1497")
@@ -1974,7 +1978,10 @@ def is_auto_1497(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_h_free(graph, ["C_{5}", "house", "P", "co(P)", "gem", "bull", "co-fork"])
+    return (is_c5_free(graph) and is_house_free(graph) and
+            is_p_free(graph) and is_co_p_free(graph) and
+            is_gem_free(graph) and is_bull_free(graph) and
+            is_co_fork_free(graph))
 
 
 @assign_class_id("gc_513")
@@ -1991,7 +1998,8 @@ def is_gc_513(graph: nx.Graph) -> bool:
     return (
             is_co_gem_free(graph)
             and is_p5_free(graph)
-            and is_h_free(graph, ["C_{5}", "P", "co(P)", "fork", "bull"])
+            and is_c5_free(graph) and is_p_free(graph) and
+            is_co_p_free(graph) and is_fork_free(graph) and is_bull_free(graph)
     )
 
 
@@ -2007,14 +2015,13 @@ def is_gc_1359(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^5)
     :type graph: networkx.Graph
     """
-    return is_h_free(
+    return is_bull_free(graph) and is_h_free(
         graph,
         [
             "K_{3} U 2K_{1}",
             "dart",
             "co-dart",
             "co-cricket",
-            "bull",
             "co(K_{3} U 2K_{1})",
             "cricket",
         ],
@@ -2037,16 +2044,14 @@ def is_gc_502(graph: nx.Graph) -> bool:
             is_p5_free(graph)
             and is_k2_u_k3_free(graph)
             and is_k23_free(graph)
+            and is_c5_free(graph)
+            and is_p_free(graph) and is_co_p_free(graph)
+            and is_fork_free(graph) and is_co_fork_free(graph)
             and is_house_p2_u_p3_free(graph)
             and is_h_free(
         graph,
         [
-            "C_{5}",
             "co(P_{2} U P_{3})",
-            "P",
-            "co(P)",
-            "fork",
-            "co-fork",
         ],
     )
     )
@@ -2070,14 +2075,12 @@ def is_xc_9_free(graph: nx.Graph) -> bool:
             and is_k2_u_k3_free(graph)
             and is_k23_free(graph)
             and is_house_p2_u_p3_free(graph)
+            and is_p_free(graph) and is_co_p_free(graph)
+            and is_fork_free(graph) and is_co_fork_free(graph)
             and is_h_free(
         graph,
         [
-            "P",
-            "co(P)",
             "co(P_{2} U P_{3})",
-            "co-fork",
-            "fork",
         ],
     )
     )

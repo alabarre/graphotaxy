@@ -23,7 +23,7 @@ import networkx as nx
 
 # ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.fisc_based_recognizers_n_5 import is_p5_free, is_k23_free, is_k14_free, is_c5_free
-from graph_recognition.fisc_based_recognizers_n_6 import is_p6_free, is_e_free
+from graph_recognition.fisc_based_recognizers_n_6 import is_p6_free, is_e_free, is_p2up4_free
 from graph_recognition.fisc_based_recognizers_n_7 import is_p7_free, is_co_p7_free
 from graph_recognition.misc_algo import (
     is_h_u_k1_free,
@@ -45,7 +45,6 @@ from graph_recognition.profitable_hereditary_n_3 import (
     is_3k1_free,
     is_triangle_free,
     is_girth_at_least_9,
-    is_p2up4_free,
     is_co_p3_free, is_claw_diamond_free,
 )
 from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free, is_co_claw_free, is_claw_free, is_co_diamond_free

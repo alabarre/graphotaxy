@@ -45,7 +45,6 @@ from graph_recognition.recognizers_utils import (
     assign_class_id,
     assign_fisc, assign_inherited_fisc,
 )
-from graph_recognition.subgraphs import is_h_free
 
 
 # Recognizers -------------------------------------------------------------------------------------
@@ -321,25 +320,6 @@ def my_is_at_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     return True
 
 
-@assign_fisc(["P_{2} U P_{4}"])
-@assign_class_id("gc_930")
-@lru_cache(maxsize=None)
-def is_p2up4_free(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is P_{2} U P_{4}-free.
-
-    See https://www.graphclasses.org/classes/gc_930
-
-    Complexity: O(n^3) < O(n^6) (naïve)
-
-    :type graph: networkx.Graph
-    """
-    return is_cograph(graph) or is_h_free(
-        graph,
-        ["P_{2} U P_{4}"]
-    )  # faster than is_h_u_k2_free(graph, is_cograph) on large graphs
-
-
 @assign_fisc(["triangle", "P_{4}"])
 @assign_class_id("gc_1270")
 @lru_cache(maxsize=None)
@@ -354,22 +334,6 @@ def is_gc_1270(graph: nx.Graph) -> bool:
     :type graph: networkx.Graph
     """
     return is_cograph(graph) and is_triangle_free(graph)
-
-
-@assign_fisc(["triangle", "P_{2} U P_{4}"])
-@assign_class_id("gc_923")
-@lru_cache(maxsize=None)
-def is_gc_923(graph: nx.Graph) -> bool:
-    """
-    Returns True iff graph is (P_{2} U P_{4}, triangle)-free.
-
-    See https://www.graphclasses.org/classes/gc_923
-
-    Complexity: O(n^3) < O(n^6) (naïve)
-
-    :type graph: networkx.Graph
-    """
-    return is_triangle_free(graph) and is_p2up4_free(graph)
 
 
 @assign_fisc(["triangle", "C_{4}", "C_{5}", "C_{6}", "C_{7}", "C_{8}"])

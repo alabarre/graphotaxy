@@ -21,9 +21,9 @@ from functools import lru_cache
 # ----- Third-party imports -----------------------------------------------------------------------
 import networkx as nx
 
+# ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.fisc_based_recognizers_n_4 import is_c4_free, is_4k1_free, is_co_claw_free, is_claw_free, \
     is_co_diamond_free, is_k4_free
-# ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.fisc_based_recognizers_n_5 import is_p5_free, is_c5_free, is_gem_free, is_k23_free, \
     is_house_free, is_k_clique_free, is_k2_u_k3_free, is_co_p_free, is_p_free
 from graph_recognition.misc_algo import (
@@ -39,7 +39,6 @@ from graph_recognition.profitable_hereditary_n_2 import (
 from graph_recognition.profitable_hereditary_n_3 import (
     is_3k1_free,
     is_triangle_free,
-    is_p2up4_free,
 )
 from graph_recognition.profitable_hereditary_n_4 import (
     is_hole_free,
@@ -67,6 +66,41 @@ def is_p6_hole_house_free(graph: nx.Graph) -> bool:
     :return:
     """
     return is_hole_free(graph) and is_house_free(graph) and is_p6_free(graph)
+
+
+@assign_fisc(["P_{2} U P_{4}"])
+@assign_class_id("gc_930")
+@lru_cache(maxsize=None)
+def is_p2up4_free(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is P_{2} U P_{4}-free.
+
+    See https://www.graphclasses.org/classes/gc_930
+
+    Complexity: O(n^6) (naïve)
+
+    :type graph: networkx.Graph
+    """
+    return is_cograph(graph) or is_h_free(
+        graph,
+        ["P_{2} U P_{4}"]
+    )  # faster than is_h_u_k2_free(graph, is_cograph) on large graphs
+
+
+@assign_fisc(["triangle", "P_{2} U P_{4}"])
+@assign_class_id("gc_923")
+@lru_cache(maxsize=None)
+def is_gc_923(graph: nx.Graph) -> bool:
+    """
+    Returns True iff graph is (P_{2} U P_{4}, triangle)-free.
+
+    See https://www.graphclasses.org/classes/gc_923
+
+    Complexity: O(n^6) (naïve)
+
+    :type graph: networkx.Graph
+    """
+    return is_triangle_free(graph) and is_p2up4_free(graph)
 
 
 @assign_fisc(["K_{6}"])
