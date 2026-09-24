@@ -14,7 +14,7 @@ import os
 from array import array
 from collections import defaultdict
 from functools import lru_cache
-from itertools import combinations, takewhile
+from itertools import takewhile
 from typing import Hashable
 
 # ----- Third-party imports -----------------------------------------------------------------------
@@ -94,30 +94,80 @@ def is_threshold(graph: nx.Graph) -> bool:
 @lru_cache(maxsize=None)
 def is_dilworth_k(graph: nx.Graph, k: int) -> bool:
     """
-    Two vertices x and y are said to be comparable if either N(y) <= N[x] or N(x) <= N[y]. The
-    Dilworth number of a graph is the largest number of pairwise incomparable vertices of the
-    graph. A graph is Dilworth k if it has Dilworth number k.
+    Returns True iff graph has Dilworth number at most k.
 
-    :type graph: nx.Graph
+    The vicinal preorder is defined by
+
+        u <= v  iff  N(u) <= N[v].
+
+    The Dilworth number is the maximum size of a set of pairwise incomparable
+    vertices.
+
+    :param graph:
     :param k:
     :return:
     """
-    if not number_of_edges(graph):
+    vertices = list(graph)
+
+    # Open neighborhoods
+    neighborhoods = {u: set(graph[u]) for u in vertices}
+
+    def leq(u, v):
+        # N(u) <= N[v]
+        return neighborhoods[u] <= neighborhoods[v] | {v}
+
+    # Quotient the preorder by equivalence:
+    # u ~ v iff u <= v and v <= u
+    representatives = []
+    classes = []
+
+    for u in vertices:
+        for i, r in enumerate(representatives):
+            if leq(u, r) and leq(r, u):
+                classes[i].append(u)
+                break
+        else:
+            representatives.append(u)
+            classes.append([u])
+
+    n_classes = len(representatives)
+
+    if n_classes <= k:
         return True
 
-    count = 0
+    # Bipartite graph associated with the strict partial order on equivalence classes.
+    #
+    # Left copy:  ("L", i)
+    # Right copy: ("R", i)
+    #
+    # Add i -> j iff class i is strictly below class j.
+    bipartite = nx.Graph()
 
-    # for each pair of vertices, test whether they are incomparable;
-    for u, v in combinations(graph, 2):
-        n_u, n_v = set(graph[u]), set(graph[v])
-        # check whether u and v are incomparable
-        count += not (n_u <= n_v.difference({u}) or n_v <= n_u.difference({v}))
+    left = [("L", i) for i in range(n_classes)]
+    right = [("R", i) for i in range(n_classes)]
 
-        # if the count exceeds k at some point, then graph is NOT Dilworth k
-        if count > k:
-            return False
+    bipartite.add_nodes_from(left, bipartite=0)
+    bipartite.add_nodes_from(right, bipartite=1)
 
-    return count == k
+    for i, u in enumerate(representatives):
+        for j, v in enumerate(representatives):
+            if i != j and leq(u, v):
+                bipartite.add_edge(("L", i), ("R", j))
+
+    matching = nx.algorithms.bipartite.maximum_matching(
+        bipartite,
+        top_nodes=left,
+    )
+
+    # matching contains each matched edge twice
+    matching_size = len(matching) // 2
+
+    # Dilworth's theorem:
+    # width = minimum number of chains in a partition
+    #       = number of poset elements - maximum matching size
+    width = n_classes - matching_size
+
+    return width <= k
 
 
 @assign_fisc(["W_{4}", "butterfly", "W_{5}"])
