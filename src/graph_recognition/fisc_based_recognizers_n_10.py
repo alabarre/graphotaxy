@@ -53,7 +53,7 @@ def is_probe_interval_and_tree(graph: nx.Graph) -> bool:
     """
     # NOTE: nothing constrains the graph to be connected, so we should test whether it's a forest,
     # but ISGCI seems to implicitly assume connectedness
-    return is_tree(graph) and is_cograph(graph) and is_h_free(graph, ["T_{3}", "X_{81}"])
+    return is_tree(graph) and is_h_free(graph, ["T_{3}", "X_{81}"])
 
 
 @assign_inherited_fisc()
