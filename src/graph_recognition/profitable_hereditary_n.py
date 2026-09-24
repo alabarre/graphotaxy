@@ -2184,6 +2184,10 @@ def is_caterpillar(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     # returns True iff subgraph induced by all nonleaves is a path
     non_leaves = frozenset(n for n, d in graph.degree if d != 1)
 
+    # A single non-leaf is a (degenerate) dominating path; this covers P_3 and stars.
+    if len(non_leaves) <= 1:
+        return True
+    
     # note: nx.is_path does not recognize paths ... so we check that pruned_graph is a tree with
     # degree sequence 2, 2, ... 2, 1, 1
     return sorted(
