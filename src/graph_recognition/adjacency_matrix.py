@@ -24,6 +24,30 @@ from typing import Iterable, Self, Any, Hashable
 from bitarray import bitarray
 
 
+class _NodeView:
+    """
+    Minimal node view compatible with the subset of the NetworkX API needed here.
+
+    It is both iterable (``for v in graph.nodes``) and callable
+    (``for v in graph.nodes()``), like NetworkX's NodeView.
+    """
+
+    def __init__(self, graph) -> None:
+        self._graph = graph
+
+    def __iter__(self):
+        return iter(self._graph.node_to_id)
+
+    def __len__(self) -> int:
+        return self._graph.num_nodes
+
+    def __contains__(self, node: Hashable) -> bool:
+        return node in self._graph.node_to_id
+
+    def __call__(self):
+        return self
+
+
 class HalfAdjacencyMatrix:
     """
     Implementation of an undirected, unweighted graph as a half-adjacency matrix: only the lower
@@ -44,7 +68,10 @@ class HalfAdjacencyMatrix:
         # switching to two structures instead of bidict
         self.node_to_id = dict()
         self.id_to_node = list()
-        self.nodes = self.node_to_id.keys()  # for nx algorithms that need to access this field
+        # Minimal NetworkX-compatible node view. In particular, tralda
+        # expects graph.nodes() to be callable, while other code uses graph.nodes
+        # as an iterable.
+        self.nodes = _NodeView(self)
 
         # store the number of nodes and edges so we can return them in constant time
         self.num_edges = 0
@@ -335,8 +362,7 @@ class HalfAdjacencyMatrix:
         """
         self.id_to_node = list(nodes)
         self.node_to_id = {v: i for i, v in enumerate(self.id_to_node)}
-        self.nodes = self.node_to_id.keys()
-        self.num_nodes = len(self.nodes)
+        self.num_nodes = len(self.node_to_id)
 
     @classmethod
     def from_graph(cls, graph: Any) -> Self:
@@ -379,7 +405,6 @@ class HalfAdjacencyMatrix:
         # copy selected nodes and build mappings
         result.node_to_id = {v: i for i, v in enumerate(old_nodes)}
         result.id_to_node = old_nodes
-        result.nodes = result.node_to_id.keys()
         result.num_nodes = k
         result.allocate_full_matrix()
 
