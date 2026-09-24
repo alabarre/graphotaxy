@@ -85,7 +85,7 @@ def is_polyhedral(graph: nx.Graph) -> bool:
     """
     # TODO returns False for K_{3}, which should be the correct answer but contradicts the
     #  inclusion 3-tree <= polyhedral in ISGCI; waiting for feedback from the authors 2026-05-16
-    return is_planar(graph) and nx.node_connectivity(graph) == 3
+    return is_planar(graph) and nx.node_connectivity(graph) >= 3
 
 
 @assign_inherited_fisc()
