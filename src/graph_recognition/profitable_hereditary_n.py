@@ -60,7 +60,7 @@ def is_co_forest(graph: nx.Graph) -> bool:
     :return:
     """
     # check that each component of the complement is a co_tree
-    return all(is_co_tree(graph.subgraph(cc)) for cc in co_connected_components(graph))
+    return all(is_co_cycle_free(graph.subgraph(cc)) for cc in co_connected_components(graph))
 
 
 @assign_fisc(["K_{3}", "C_{4}", "C_{5}", "C_{6}", "C_{7}", "C_{8}"])
@@ -1558,6 +1558,10 @@ def is_tree(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
 
     :type graph: networkx.Graph
     """
+    # TODO some tests are broken because "For inclusion purposes, ISGCI considers a graph in this
+    #  class iff every connected component is in this class.". This is mathematically incorrect, so
+    #  I'm keeping my version as is for the time being
+
     # artificially deciding that a graph without any node is a tree in order to avoid crashes when
     # function is called on empty subgraphs
     return not number_of_nodes(graph) or (
@@ -2187,7 +2191,7 @@ def is_caterpillar(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
     # A single non-leaf is a (degenerate) dominating path; this covers P_3 and stars.
     if len(non_leaves) <= 1:
         return True
-    
+
     # note: nx.is_path does not recognize paths ... so we check that pruned_graph is a tree with
     # degree sequence 2, 2, ... 2, 1, 1
     return sorted(
@@ -2260,9 +2264,9 @@ def is_p4_cycle_free(graph: nx.Graph) -> bool:
 )  # partial fisc: graph is co-cycle-free
 @assign_class_id("AUTO_2103")
 @lru_cache(maxsize=None)
-def is_co_tree(graph: nx.Graph) -> bool:
+def is_co_cycle_free(graph: nx.Graph) -> bool:
     """
-    A graph is a co-tree if its complement is a tree.
+    A graph is co-cycle-free if its complement contains no cycle..
 
     https://www.graphclasses.org/classes/AUTO_2103.html
 
@@ -2270,17 +2274,7 @@ def is_co_tree(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    n = number_of_nodes(graph)
-    if n == 1:
-        return True
-
-    # the complement must have n-1 edges in order to be a tree
-    num_co_edges = (n * (n - 1)) // 2 - number_of_edges(graph)
-    if num_co_edges != n - 1:
-        return False
-
-    # since the complement has n-1 edges, it is a tree iff it has no isolated vertices
-    return all(sum(1 for _ in nx.non_neighbors(graph, v)) for v in graph)
+    return online_is_forest(nx.non_edges(graph))
 
 
 # note: the FISC is incomplete, but these are the only odd co-cycles that are stored as smallgraphs

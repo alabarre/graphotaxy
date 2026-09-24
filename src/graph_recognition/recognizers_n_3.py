@@ -261,6 +261,7 @@ def is_modular(graph: nx.Graph) -> bool:
     """
     # alternative characterization that yields a faster recognition algorithm: connected,
     # triangle free, and pseudo-modular
+    # TODO see is_tree, same issue with ISGCI not following the same conventions
     return is_connected(graph) and is_triangle_free(graph) and is_pseudo_modular(graph)
 
 

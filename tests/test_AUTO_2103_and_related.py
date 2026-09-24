@@ -95,7 +95,7 @@ class Test_AUTO_2103_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.profitable_hereditary_n.is_co_tree(graph),
+                graph_recognition.profitable_hereditary_n.is_co_cycle_free(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "

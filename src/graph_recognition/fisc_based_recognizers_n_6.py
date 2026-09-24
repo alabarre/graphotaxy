@@ -611,7 +611,7 @@ def is_auto_1470(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    return is_house_free(graph) and is_p6_free(graph)
+    return is_house_free(graph) and is_c6_free(graph)
 
 
 @assign_class_id("AUTO_1767")
