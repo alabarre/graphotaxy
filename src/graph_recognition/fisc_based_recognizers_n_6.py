@@ -863,10 +863,7 @@ def is_gc_914(graph: nx.Graph) -> bool:
     Complexity of naïve matching: O(n^6)
     :type graph: networkx.Graph
     """
-    # check instead that the graph is both (triangle, P_{3})-free and 2P_{3}-free, since the former
-    # can be achieved in time O(m+n); in the worst-case, we'll have to check 2P_{3}-freeness too,
-    # but the running time will be the same as checking for (triangle, 2P_{3})-directly
-    return is_p3_triangle_free(graph) and is_2p3_free(graph)
+    return is_triangle_free(graph) and is_2p3_free(graph)
 
 
 @assign_class_id("AUTO_2154")

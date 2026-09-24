@@ -748,6 +748,7 @@ def is_geodetic(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
+    # TODO connectivity issues, same convention problem as ISGCI
     # if graph is disconnected, then some pairs of vertices are mutually unreachable
     if not is_connected(graph):
         return False

@@ -2318,6 +2318,7 @@ def is_binary_tree(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
+    # TODO same issue as is_tree
     return is_maximum_degree_3(graph) and is_tree(graph)
 
 
