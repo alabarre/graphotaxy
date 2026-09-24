@@ -244,7 +244,7 @@ def is_s3_co_cnplus4_co_claw_free(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    return is_co_chordal(graph) and is_claw_free(graph) and is_s3_free(graph)
+    return is_co_chordal(graph) and is_co_claw_free(graph) and is_s3_free(graph)
 
 
 @assign_inherited_fisc()
