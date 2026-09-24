@@ -382,96 +382,94 @@ def prepare_code_string(
         class_id: str,
         path: str,
         recognizers: Dict[str, Callable],
-        ancestors: Dict[str, str],
-        descendants: Dict[str, str],
+        ancestors: Dict[str, Set[str]],
+        descendants: Dict[str, Set[str]],
 ) -> str:
     """
-    Returns the code string for testing class_id and its ancestors. This code is intended to be
-    written to a test file that can later be loaded with unittest.
+    Returns the code for testing class_id, its ancestors, and excluded classes and their
+    descendants using the dataset identified by path.
 
-    @param class_id:
-    @param path:
-    @param recognizers:
-    @param ancestors:
-    @return:
+    Duplicate tests are avoided within this generated file. TEST_COVERAGE records global coverage
+    for reporting purposes only.
     """
-    # code cannot be written directly, because necessary imports must be written at the beginning
-    # of the file and are not known before we start; therefore, we:
+    # Code cannot be written directly, because necessary imports must appear
+    # at the beginning of the file and are not known before generation:
     #
-    #   1. write the test code to code_string,
-    #   2. gather all necessary imports as we go,
-    #   3. prepend code_string with those imports and then return it
+    # 1. build the test class;
+    # 2. generate test methods and gather imports;
+    # 3. prepend the imports.
 
-    # 1. write the test code: this is a class that inherits from unittest.TestCase, and whose
-    # methods will each correspond to testing either class_id or one of its ancestors, provided
-    # that that ancestor has not been tested yet and that a corresponding recognizer is available.
-    code_string = f"class Test_{class_id}{NAMING_SCHEME[1]}(unittest.TestCase):\n"
+    # 1. Create the unittest class and track tests generated in this file.
+    # A recognizer may still be tested in other files on other datasets.
+    generated_here = {"positive": set(), "negative": set()}
+
+    code_string = (
+        f"class Test_{class_id}{NAMING_SCHEME[1]}(unittest.TestCase):\n"
+    )
     code_string += (
             textwrap.fill(
-                f'    """A generic test case for class {class_id} and all its ancestors that have not '
-                f'already been covered by other tests."""',
+                f'    """Tests class {class_id} and related classes using '
+                f'the dataset identified by {path}."""',
                 width=WRAP_WIDTH,
                 subsequent_indent="    ",
             )
             + "\n"
     )
 
-    # write the setUpClass method, which initializes all data once for all tests in the class
+    # Initialize the data once for all test methods in this class.
     code_string += setupclass_method(class_id, path)
 
-    # 2: write test for class_id or an equivalent class, as well as all its ancestors; this is also
-    # where we gather all necessary imports as we go, since recognizers need to be imported from
-    # their modules when running the tests
+    # 2. Generate tests and collect the necessary imports.
     standard_imports = ["os", "sys", "unittest"]
     other_imports = {"networkx"}
 
-    # 2.1: write positive test for class_id if possible and not done in another file
-    if class_id in recognizers and class_id not in TEST_COVERAGE["positive"]:
-        code_string += f"# Generated test for base class {class_id}:"
+    # 2.1. Generate a positive test for the base class if possible.
+    if class_id in recognizers:
+        code_string += f"    # Generated test for base class {class_id}:\n"
         code_string += test_method(class_id, recognizers[class_id])
         other_imports.add(recognizers[class_id].__module__)
-        # print(f"    wrote positive test for {class_id}")
+        generated_here["positive"].add(class_id)
         TEST_COVERAGE["positive"].add(class_id)
-
     else:
-        reason = "a recognizer was found, but it has already been covered by other tests." \
-            if class_id in recognizers else "no recognizer was found."
-        code_string += textwrap.fill(
-            f"# No test was generated for base class {class_id}: {reason}",
-            width=WRAP_WIDTH,
-            subsequent_indent="    # ",
-        ) + "\n"
+        code_string += (
+                textwrap.fill(
+                    f"    # No test was generated for base class {class_id}: "
+                    "no recognizer was found.",
+                    width=WRAP_WIDTH,
+                    subsequent_indent="    # ",
+                )
+                + "\n"
+        )
 
-    # 2.2: write positive tests for ancestors of class_id
-    code_string += (f"    # Generated tests for ancestors of base class {class_id} not yet covered "
-                    f"by other tests:")
+    # 2.2. Generate positive tests for ancestors of the base class.
+    code_string += (
+        "    # Generated positive tests for ancestors of the base class:\n"
+    )
     for anc_id in ancestors[class_id]:
-        # generate test for ancestor class if it is recognizable and not done already
-        if anc_id in recognizers and anc_id not in TEST_COVERAGE["positive"]:
+        if anc_id in recognizers and anc_id not in generated_here["positive"]:
             code_string += test_method(anc_id, recognizers[anc_id], class_id)
             other_imports.add(recognizers[anc_id].__module__)
-            # print(f"    wrote positive test for ancestor {anc_id} of {class_id}")
+            generated_here["positive"].add(anc_id)
             TEST_COVERAGE["positive"].add(anc_id)
 
-    # 2.3: write negative tests for classes excluded by class_id, as well as for their descendants
+    # 2.3. Generate negative tests for excluded classes and their descendants.
     if class_id in EXCLUSION_GRAPH:
         for excluded in EXCLUSION_GRAPH.successors(class_id):
-            if excluded in recognizers and excluded not in TEST_COVERAGE["negative"]:
-                # by definition, a member of class_id is NOT a member of excluded, so we generate
-                # a negative test method for that class ...
+            if excluded in recognizers and excluded not in generated_here["negative"]:
                 code_string += test_method(
-                    excluded, recognizers[excluded], kind="negative"
+                    excluded,
+                    recognizers[excluded],
+                    kind="negative",
                 )
                 other_imports.add(recognizers[excluded].__module__)
-                # print(f"    wrote negative test for exclusion {excluded} of {class_id}")
+                generated_here["negative"].add(excluded)
                 TEST_COVERAGE["negative"].add(excluded)
 
-            # whether or not excluded is recognizable, no member of excluded can be a member of its
-            # descendants; generate tests for those classes too
-            # print(descendants)
+            # A graph outside an excluded class is also outside each of
+            # its subclasses, whether or not that excluded class itself
+            # has an implemented recognizer.
             for des_id in descendants[excluded]:
-                # generate negative test for ancestor class if it is recognizable
-                if des_id in recognizers and des_id not in TEST_COVERAGE["negative"]:
+                if des_id in recognizers and des_id not in generated_here["negative"]:
                     code_string += test_method(
                         des_id,
                         recognizers[des_id],
@@ -479,21 +477,22 @@ def prepare_code_string(
                         kind="negative",
                     )
                     other_imports.add(recognizers[des_id].__module__)
-                    # print(f"        wrote negative test for descendant {des_id} of {excluded}")
+                    generated_here["negative"].add(des_id)
                     TEST_COVERAGE["negative"].add(des_id)
 
-    # 3. prepend code_string with the necessary imports and return it
+    # 3. Prepend imports, placing third-party modules before local modules.
     code_string = (
             "# Imports ".ljust(WRAP_WIDTH - 1, "-")
             + "\n"
             + "\n".join(
         "import " + module
         for module in standard_imports
-        # the following sort ensures third-party modules are imported before mine
         + sorted(
             other_imports,
-            key=lambda mod: "site-packages" not in sys.modules[mod].__file__
-                            and "dist-packages" not in sys.modules[mod].__file__,
+            key=lambda mod: (
+                    "site-packages" not in sys.modules[mod].__file__
+                    and "dist-packages" not in sys.modules[mod].__file__
+            ),
         )
     )
             + "\nfrom readwrite import process_graphs\n"
