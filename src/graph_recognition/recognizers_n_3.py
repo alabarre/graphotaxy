@@ -565,10 +565,6 @@ def is_weakly_modular(graph: nx.Graph) -> bool:
     @param graph:
     @return:
     """
-    # weakly modular < triangle-free
-    if not is_triangle_free(graph):
-        return False
-
     # the recognition algorithm is based on definition 2 in the docstring
     # since we will be using neighborhoods a lot and decided not to cache the neighbors function,
     # we build our own cache here:
