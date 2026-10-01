@@ -263,10 +263,12 @@ class GraphAnalyzer:
                             stats["max"] = max(stats["max"], elapsed)
 
                 # for testing purposes:
+                '''
                 order = "by-id" if self.sort_recognizers_by_id else "smart"
                 self.export_classification_statuses(
                     f"classification-{order}-{self.num_graphs + 1}.json"
                 )
+                '''
                 # current graph has been classified, update stats:
                 self.update_classes_stats(self.classification)
                 if self.gss_crashed:
