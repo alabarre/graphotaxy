@@ -331,14 +331,14 @@ class GraphAnalyzer:
                 # them
                 for equiv_id in {eq_id for _, eq_id in self.equivalences[class_id]} | {class_id}:
                     if self.isgci_exclusion_graph.has_node(equiv_id):
-                        for successor in map(
+                        for excluded in map(
                                 self._get_stored_class_id,
-                                self.isgci_exclusion_graph.successors(equiv_id),
+                                self.isgci_exclusion_graph.neighbors(equiv_id),
                         ):
-                            if classification.has_open_node(successor):
+                            if classification.has_open_node(excluded):
                                 self.discarded_due_to_exclusion += len(
                                     classification.label_and_propagate(
-                                        successor,
+                                        excluded,
                                         False,
                                         f" successor of {equiv_id} in exclusion graph",
                                     )

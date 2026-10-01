@@ -44,6 +44,8 @@ from networkx.drawing.nx_pydot import read_dot
 from networkx.readwrite import json_graph
 from tqdm import tqdm
 
+from graph_recognition.undirected_graph import UndirectedGraph
+
 try:
     import htmlmin
 
@@ -348,13 +350,14 @@ def reduced_isgci_inclusion_graph(
     return result
 
 
-def isgci_exclusion_graph() -> DiGraph:
+def isgci_exclusion_graph() -> UndirectedGraph:
     """
-    Returns an exclusion digraph based on a subset of classes known to ISGCI: its vertices are the
-    classes in ISGCI, and an arc connects a class A to a class B if being a member of A implies NOT
-    being a member of B.
+    Returns an exclusion graph based on a subset of classes known to ISGCI: its vertices are the
+    classes in ISGCI, and edges connect separated classes, i.e., classes whose intersection is
+    empty. Alternatively, an edge {A, B} can be read as "if G is a member of A, then it is NOT a
+    member of B", or equivalently, "if G is a member of B, then it is NOT a member of A".
     """
-    return DiGraph(read_dot(join(ROOT, "exclusion-graph.dot")))
+    return UndirectedGraph(read_dot(join(ROOT, "exclusion-graph.dot")))
 
 
 def compute_class_equivalences(isgci_graph: DiGraph) -> DefaultDict[str, set]:

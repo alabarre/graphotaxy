@@ -1,5 +1,7 @@
 // TODO document each exclusion relationship
-digraph G {
+// TODO discard duplicates
+// TODO better documentation in the header
+graph G {
     node [shape=rect]
     // graph classes ----------------------------------------------------------
     gc_110  [label="outerplanar"]
