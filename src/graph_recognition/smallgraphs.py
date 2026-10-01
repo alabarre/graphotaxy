@@ -206,6 +206,11 @@ def build_inclusion_graph(graph_dictionary: Dict[int, set]) -> nx.DiGraph:
     :return:
     """
     inclusion_graph = nx.DiGraph()
+    inclusion_graph.add_nodes_from(
+        graph_name
+        for graphbunch in graph_dictionary.values()
+        for graph_name, _ in graphbunch
+    )
 
     # sorting is not required for the process to work, I only use it for reproducibility
     graph_dictionary = {key: sorted(val) for key, val in graph_dictionary.items()}
@@ -235,10 +240,10 @@ def build_inclusion_graph(graph_dictionary: Dict[int, set]) -> nx.DiGraph:
     ) as pbar:
         for lower_order, higher_order in combinations(sorted(graph_dictionary), 2):
             for smaller_graph_name, graph_1_g6 in graph_dictionary[lower_order]:
-                inclusion_graph.add_node(smaller_graph_name)
+                # inclusion_graph.add_node(smaller_graph_name)
                 smaller_graph = actual_graphs[graph_1_g6]
                 for larger_graph_name, graph_2_g6 in graph_dictionary[higher_order]:
-                    inclusion_graph.add_node(larger_graph_name)
+                    # inclusion_graph.add_node(larger_graph_name)
                     larger_graph = actual_graphs[graph_2_g6]
                     # if smaller_graph is an induced subgraph of larger_graph, add arc
                     # larger_graph_name -> smaller_graph_name

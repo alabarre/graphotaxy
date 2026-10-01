@@ -13,8 +13,9 @@ Depending on which recognizers have been implemented and which representative of
 class has been chosen, some class ids may have been substituted with equivalent ids according to
 ISGCI.
 
-Some of the ancestors may have been purposefully omitted from this file, either in order to avoid
-duplicating tests or because the needed recognizers were missing.
+Within this file, each class is tested at most once for each expected outcome, even when several
+relationships justify the same test. Tests are omitted when the corresponding recognizers are
+unavailable. Coverage in other test files does not prevent a test from being generated here.
 
 Check https://www.graphclasses.org/classes/gc_1367 for more information.
 """
@@ -24,13 +25,13 @@ import os
 import sys
 import unittest
 import networkx
-import graph_recognition.fisc_based_recognizers_n_7
 import graph_recognition.fisc_based_recognizers_n_4
-import graph_recognition.profitable_hereditary_n
-import graph_recognition.recognizers_n_2
 import graph_recognition.fisc_based_recognizers_n_5
-import graph_recognition.fisc_based_recognizers_n_8
+import graph_recognition.recognizers_n_2
 import graph_recognition.fisc_based_recognizers_n_6
+import graph_recognition.fisc_based_recognizers_n_8
+import graph_recognition.fisc_based_recognizers_n_7
+import graph_recognition.profitable_hereditary_n
 from readwrite import process_graphs
 
 
@@ -128,114 +129,6 @@ class Test_gc_1367_and_related(unittest.TestCase):
 
         print("done.")
 
-    def test_gc_43(self) -> None:
-        """Tests positive instances for class gc_43. gc_43 is an ancestor of gc_1367."""
-        print(
-            self._testMethodName.join("[]"),
-            "testing",
-            len(self.positive),
-            "graphs",
-            end=" ",
-        )
-        sys.stdout.flush()
-
-        # looping over enumerate so we can print failed instances
-        for num, graph in enumerate(self.positive):
-            self.assertTrue(
-                graph_recognition.profitable_hereditary_n.is_planar(graph),
-                "failed on graph number "
-                + str(num)
-                + " / "
-                + str(len(self.positive))
-                + " with node set "
-                + str(graph.nodes)
-                + " and edge set "
-                + str(graph.edges),
-            )
-
-        print("done.")
-
-    def test_AUTO_329(self) -> None:
-        """Tests positive instances for class AUTO_329. AUTO_329 is an ancestor of gc_1367."""
-        print(
-            self._testMethodName.join("[]"),
-            "testing",
-            len(self.positive),
-            "graphs",
-            end=" ",
-        )
-        sys.stdout.flush()
-
-        # looping over enumerate so we can print failed instances
-        for num, graph in enumerate(self.positive):
-            self.assertTrue(
-                graph_recognition.fisc_based_recognizers_n_7.is_co_p7_free(graph),
-                "failed on graph number "
-                + str(num)
-                + " / "
-                + str(len(self.positive))
-                + " with node set "
-                + str(graph.nodes)
-                + " and edge set "
-                + str(graph.edges),
-            )
-
-        print("done.")
-
-    def test_gc_1344(self) -> None:
-        """Tests positive instances for class gc_1344. gc_1344 is an ancestor of gc_1367."""
-        print(
-            self._testMethodName.join("[]"),
-            "testing",
-            len(self.positive),
-            "graphs",
-            end=" ",
-        )
-        sys.stdout.flush()
-
-        # looping over enumerate so we can print failed instances
-        for num, graph in enumerate(self.positive):
-            self.assertTrue(
-                graph_recognition.fisc_based_recognizers_n_6.is_k6_free(graph),
-                "failed on graph number "
-                + str(num)
-                + " / "
-                + str(len(self.positive))
-                + " with node set "
-                + str(graph.nodes)
-                + " and edge set "
-                + str(graph.edges),
-            )
-
-        print("done.")
-
-    def test_AUTO_2096(self) -> None:
-        """Tests positive instances for class AUTO_2096. AUTO_2096 is an ancestor of gc_1367."""
-        print(
-            self._testMethodName.join("[]"),
-            "testing",
-            len(self.positive),
-            "graphs",
-            end=" ",
-        )
-        sys.stdout.flush()
-
-        # looping over enumerate so we can print failed instances
-        for num, graph in enumerate(self.positive):
-            self.assertTrue(
-                graph_recognition.fisc_based_recognizers_n_8.is_auto_2096(graph),
-                "failed on graph number "
-                + str(num)
-                + " / "
-                + str(len(self.positive))
-                + " with node set "
-                + str(graph.nodes)
-                + " and edge set "
-                + str(graph.edges),
-            )
-
-        print("done.")
-
     def test_gc_1343(self) -> None:
         """Tests positive instances for class gc_1343. gc_1343 is an ancestor of gc_1367."""
         print(
@@ -251,6 +144,60 @@ class Test_gc_1367_and_related(unittest.TestCase):
         for num, graph in enumerate(self.positive):
             self.assertTrue(
                 graph_recognition.fisc_based_recognizers_n_7.is_gc_1343(graph),
+                "failed on graph number "
+                + str(num)
+                + " / "
+                + str(len(self.positive))
+                + " with node set "
+                + str(graph.nodes)
+                + " and edge set "
+                + str(graph.edges),
+            )
+
+        print("done.")
+
+    def test_gc_673(self) -> None:
+        """Tests positive instances for class gc_673. gc_673 is an ancestor of gc_1367."""
+        print(
+            self._testMethodName.join("[]"),
+            "testing",
+            len(self.positive),
+            "graphs",
+            end=" ",
+        )
+        sys.stdout.flush()
+
+        # looping over enumerate so we can print failed instances
+        for num, graph in enumerate(self.positive):
+            self.assertTrue(
+                graph_recognition.fisc_based_recognizers_n_5.is_co_k14_free(graph),
+                "failed on graph number "
+                + str(num)
+                + " / "
+                + str(len(self.positive))
+                + " with node set "
+                + str(graph.nodes)
+                + " and edge set "
+                + str(graph.edges),
+            )
+
+        print("done.")
+
+    def test_gc_43(self) -> None:
+        """Tests positive instances for class gc_43. gc_43 is an ancestor of gc_1367."""
+        print(
+            self._testMethodName.join("[]"),
+            "testing",
+            len(self.positive),
+            "graphs",
+            end=" ",
+        )
+        sys.stdout.flush()
+
+        # looping over enumerate so we can print failed instances
+        for num, graph in enumerate(self.positive):
+            self.assertTrue(
+                graph_recognition.profitable_hereditary_n.is_planar(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "
@@ -317,8 +264,8 @@ class Test_gc_1367_and_related(unittest.TestCase):
 
         print("done.")
 
-    def test_gc_1181(self) -> None:
-        """Tests positive instances for class gc_1181. gc_1181 is an ancestor of gc_1367."""
+    def test_AUTO_2096(self) -> None:
+        """Tests positive instances for class AUTO_2096. AUTO_2096 is an ancestor of gc_1367."""
         print(
             self._testMethodName.join("[]"),
             "testing",
@@ -331,7 +278,34 @@ class Test_gc_1367_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.recognizers_n_2.is_apex(graph),
+                graph_recognition.fisc_based_recognizers_n_8.is_auto_2096(graph),
+                "failed on graph number "
+                + str(num)
+                + " / "
+                + str(len(self.positive))
+                + " with node set "
+                + str(graph.nodes)
+                + " and edge set "
+                + str(graph.edges),
+            )
+
+        print("done.")
+
+    def test_gc_1344(self) -> None:
+        """Tests positive instances for class gc_1344. gc_1344 is an ancestor of gc_1367."""
+        print(
+            self._testMethodName.join("[]"),
+            "testing",
+            len(self.positive),
+            "graphs",
+            end=" ",
+        )
+        sys.stdout.flush()
+
+        # looping over enumerate so we can print failed instances
+        for num, graph in enumerate(self.positive):
+            self.assertTrue(
+                graph_recognition.fisc_based_recognizers_n_6.is_k6_free(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "
@@ -371,8 +345,8 @@ class Test_gc_1367_and_related(unittest.TestCase):
 
         print("done.")
 
-    def test_gc_673(self) -> None:
-        """Tests positive instances for class gc_673. gc_673 is an ancestor of gc_1367."""
+    def test_AUTO_329(self) -> None:
+        """Tests positive instances for class AUTO_329. AUTO_329 is an ancestor of gc_1367."""
         print(
             self._testMethodName.join("[]"),
             "testing",
@@ -385,7 +359,34 @@ class Test_gc_1367_and_related(unittest.TestCase):
         # looping over enumerate so we can print failed instances
         for num, graph in enumerate(self.positive):
             self.assertTrue(
-                graph_recognition.fisc_based_recognizers_n_5.is_co_k14_free(graph),
+                graph_recognition.fisc_based_recognizers_n_7.is_co_p7_free(graph),
+                "failed on graph number "
+                + str(num)
+                + " / "
+                + str(len(self.positive))
+                + " with node set "
+                + str(graph.nodes)
+                + " and edge set "
+                + str(graph.edges),
+            )
+
+        print("done.")
+
+    def test_gc_1181(self) -> None:
+        """Tests positive instances for class gc_1181. gc_1181 is an ancestor of gc_1367."""
+        print(
+            self._testMethodName.join("[]"),
+            "testing",
+            len(self.positive),
+            "graphs",
+            end=" ",
+        )
+        sys.stdout.flush()
+
+        # looping over enumerate so we can print failed instances
+        for num, graph in enumerate(self.positive):
+            self.assertTrue(
+                graph_recognition.recognizers_n_2.is_apex(graph),
                 "failed on graph number "
                 + str(num)
                 + " / "

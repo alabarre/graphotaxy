@@ -46,13 +46,16 @@ True) and negative tests (which are supposed to return False) that cover:
         ancestor Y of X must, by inclusion, return True for every member of X:
     3. all recognizers for classes excluded by X, since if being member of X implies not being a
         member of Z, then a recognizer for Z must return False for all members of X;
-    4. and by combining 2. and 3., all recognizers for the ancestors of all classes excluded by X.
+    4. all available recognizers for descendants of the excluded classes, since a graph outside a
+        class is also outside each of its subclasses.
 
-All positive and negative tests for these recognizers are gathered in a file test_X_and_related.py,
-which contains a single test class derived from unittest.Testcase. To avoid generating duplicated
-tests, which might occur since different classes might have common ancestors, we keep track of
-tests that have already been generated, which explains why some test files are far smaller than
-others.
+All positive and negative tests generated from the dataset associated with class X are gathered
+in a file test_X_and_related.py, which contains a single test class derived from unittest.TestCase.
+
+Within each generated file, a test for a given class and expected outcome is generated only once,
+even when several relationships justify it. The same recognizer may be tested again in other files
+using other datasets. Global positive and negative coverage is recorded separately for reporting
+purposes and does not restrict test generation.
 
 """
 # Imports -----------------------------------------------------------------------------------------
@@ -93,6 +96,8 @@ NAMING_SCHEME = ("test_", "_and_related")
 TEST_OUTPUT_DIR = os.path.join(os.pardir, "tests")
 TEST_DATA_DIR = os.path.join(TEST_OUTPUT_DIR, "test_data")
 WRAP_WIDTH = 100
+# Global coverage by class ID and expected outcome, used only for reporting.
+# These sets must not be used to suppress tests on other datasets.
 TEST_COVERAGE = {"positive": set(), "negative": set()}
 
 
@@ -545,8 +550,10 @@ def write_module_header(outfile: TextIO, class_id: str) -> None:
 
     outfile.write(
         textwrap.fill(
-            "Some of the ancestors may have been purposefully omitted from this file, either in "
-            "order to avoid duplicating tests or because the needed recognizers were missing.",
+            "Within this file, each class is tested at most once for each expected outcome, "
+            "even when several relationships justify the same test. Tests are omitted when "
+            "the corresponding recognizers are unavailable. Coverage in other test files "
+            "does not prevent a test from being generated here.",
             width=WRAP_WIDTH,
         )
         + "\n\n"
@@ -563,8 +570,15 @@ def write_module_header(outfile: TextIO, class_id: str) -> None:
 
 def generate_all_test_files() -> None:
     """
-    Generates test files for all classes for which we have a test dataset, as well as for all their
-    ancestors.
+    Generates a unittest file using the dataset in TEST_DATA_DIR/path.
+
+    The file contains positive tests for class_id and its ancestors, and negative tests for
+    excluded classes and their descendants, whenever the corresponding recognizers are available.
+
+    Duplicate tests are suppressed within this file only. Tests generated in other files do not
+    prevent the same recognizer from being tested on this dataset.
+
+    The output file is written to TEST_OUTPUT_DIR/test_CLASS_ID_and_related.py.
 
     @return:
     """
@@ -580,9 +594,8 @@ def generate_all_test_files() -> None:
     descendants = descendants_or_equivalent(set(ISGCI_GRAPH.nodes))
     # print(f"Found {len(ancestors)} ancestors of these classes")
 
-    # generate actual code; each class with id class_id for which we have a dataset yields a file
-    # named test_class_id_or_ancestors.py, which contains tests for the base class (if we have a
-    # recognizer) as well as for all ancestors
+    # generate one test file per class with a dataset, covering positive and negative instances for
+    # the relevant available recognizers
     for class_id, path in tqdm(
             all_classes_with_datasets.items(), desc="Generating test files", unit=" files"
     ):
@@ -663,9 +676,10 @@ def main() -> None:
     remove_useless_test_files()
     # print test statistics
     print(
-        f"\nThe generated files cover {sum(map(len, TEST_COVERAGE.values()))} classes, with "
-        f"{len(TEST_COVERAGE['positive'])} positive tests and {len(TEST_COVERAGE['negative'])} "
-        f"negative tests."
+        f"\nThe generated files cover "
+        f"{len(TEST_COVERAGE['positive'] | TEST_COVERAGE['negative'])} distinct class IDs, "
+        f"with positive tests for {len(TEST_COVERAGE['positive'])} "
+        f"and negative tests for {len(TEST_COVERAGE['negative'])}."
     )
     print("Done. You can now go to the project root and run python3 -m unittest")
 

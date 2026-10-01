@@ -13,8 +13,9 @@ Depending on which recognizers have been implemented and which representative of
 class has been chosen, some class ids may have been substituted with equivalent ids according to
 ISGCI.
 
-Some of the ancestors may have been purposefully omitted from this file, either in order to avoid
-duplicating tests or because the needed recognizers were missing.
+Within this file, each class is tested at most once for each expected outcome, even when several
+relationships justify the same test. Tests are omitted when the corresponding recognizers are
+unavailable. Coverage in other test files does not prevent a test from being generated here.
 
 Check https://www.graphclasses.org/classes/gc_1358 for more information.
 """
