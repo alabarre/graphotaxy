@@ -12,6 +12,7 @@ To use a GraphAnalyzer:
     analyzer.print_summary_of_findings()               # print results
 
 """
+import json
 # Imports -----------------------------------------------------------------------------------------
 # ----- Standard imports --------------------------------------------------------------------------
 import subprocess
@@ -261,6 +262,11 @@ class GraphAnalyzer:
                             stats["total"] += elapsed
                             stats["max"] = max(stats["max"], elapsed)
 
+                # for testing purposes:
+                order = "by-id" if self.sort_recognizers_by_id else "smart"
+                self.export_classification_statuses(
+                    f"classification-{order}-{self.num_graphs + 1}.json"
+                )
                 # current graph has been classified, update stats:
                 self.update_classes_stats(self.classification)
                 if self.gss_crashed:
@@ -278,6 +284,33 @@ class GraphAnalyzer:
                 self.active_progress_bars.pop().close()
 
         self.stop_refresh = True
+
+    def excluded_classes_from_membership(self, class_id: str) -> Set[str]:
+        """
+        Returns the stored class identifiers excluded by membership in class_id or any of its
+        superclasses, taking equivalent identifiers into account.
+        """
+        stored_id = self._get_stored_class_id(class_id)
+
+        # the transitive closure contains an arc from every superclass to each of its subclasses
+        positive_classes = {stored_id}
+        positive_classes.update(self.tc_isgci.predecessors(stored_id))
+
+        excluded_classes = set()
+
+        for positive_class in positive_classes:
+            # exclusions may be recorded under an equivalent identifier.
+            equivalent_ids = {positive_class}
+            equivalent_ids.update(eq_id for _, eq_id in self.equivalences.get(positive_class, ()))
+
+            for equivalent_id in equivalent_ids:
+                if equivalent_id in self.isgci_exclusion_graph:
+                    excluded_classes.update(
+                        self._get_stored_class_id(excluded_id)
+                        for excluded_id in self.isgci_exclusion_graph.neighbors(equivalent_id)
+                    )
+
+        return excluded_classes
 
     def recognize_graph_and_propagate_results(
             self,
@@ -331,16 +364,18 @@ class GraphAnalyzer:
                 # them
                 for equiv_id in {eq_id for _, eq_id in self.equivalences[class_id]} | {class_id}:
                     if self.isgci_exclusion_graph.has_node(equiv_id):
-                        for excluded in map(
-                                self._get_stored_class_id,
-                                self.isgci_exclusion_graph.neighbors(equiv_id),
+                        # use exclusions attached to this class, its superclasses, and their
+                        # equivalent identifiers; sort result to facilitate reproductibility
+                        for excluded_class in sorted(
+                                self.excluded_classes_from_membership(class_id)
                         ):
-                            if classification.has_open_node(excluded):
+                            if classification.has_open_node(excluded_class):
                                 self.discarded_due_to_exclusion += len(
                                     classification.label_and_propagate(
-                                        excluded,
+                                        excluded_class,
                                         False,
-                                        f" successor of {equiv_id} in exclusion graph",
+                                        f"excluded by membership in {class_id} "
+                                        "or one of its superclasses",
                                     )
                                 )
 
@@ -483,6 +518,40 @@ class GraphAnalyzer:
                 return eq_id
 
         raise ValueError(class_id + " not found, nor any equivalent id")
+
+    # only for testing purposes:
+    def export_classification_statuses(self, filename: str) -> None:
+        """Exports explicit and inferred statuses for the current graph."""
+        positive = set(self.classification.positive_nodes())
+        negative = set(self.classification.negative_nodes())
+
+        # Recover statuses of nodes removed by inclusion propagation.
+        known_positive = positive.copy()
+        for class_id in positive:
+            known_positive.update(self.tc_isgci.predecessors(class_id))
+
+        known_negative = negative.copy()
+        for class_id in negative:
+            known_negative.update(self.tc_isgci.successors(class_id))
+
+        contradictory = known_positive & known_negative
+        if contradictory:
+            raise ValueError(
+                f"Classes inferred both positive and negative: "
+                f"{sorted(contradictory)}"
+            )
+
+        statuses = {
+            class_id: (
+                "true" if class_id in known_positive
+                else "false" if class_id in known_negative
+                else "unknown"
+            )
+            for class_id in sorted(self.tc_isgci)
+        }
+
+        with open(filename, "w", encoding="utf-8") as output:
+            json.dump(statuses, output, indent=2)
 
     # Methods related to reporting results --------------------------------------------------------
     def print_summary_of_findings(

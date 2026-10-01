@@ -30,7 +30,7 @@ from graph_recognition.misc_algo import (
     is_connected,
     is_h_u_k1_free,
     co_connected_components, complement_as_adj_mat, connected_components, is_regular, is_complete, neighbors,
-    number_of_nodes, number_of_edges, non_neighbors, is_co_connected, induces_cycle, vertices_by_increasing_degree, )
+    number_of_nodes, number_of_edges, induces_cycle, vertices_by_increasing_degree, )
 from graph_recognition.online_algo import online_is_bipartite
 from graph_recognition.profitable_hereditary_n import (
     is_chordal,
@@ -901,47 +901,22 @@ def is_co_planar(graph: nx.Graph) -> bool:
 
 @assign_fisc(
     ["co(W_{4})", "co(W_{5})", "co(W_{6})", "co(W_{7})"]
-)  # fisc derived from complement class
+)
 @assign_class_id("AUTO_2465")
 @lru_cache(maxsize=None)
 def is_co_locally_chordal(graph: nx.Graph) -> bool:
     """
-
-    https://www.graphclasses.org/classes/AUTO_2465
-
-    @param graph:
-    @return:
+    Returns True iff the complement of graph is locally chordal.
     """
-    # note: conversion is worth it memory-wise on large graphs because we might have to examine
-    # many subgraphs
-    graph = HalfAdjacencyMatrix.from_graph(graph)
+    complement = nx.complement(graph)
 
-    # follows the characterization of locally chordal graphs: a graph is CO-locally chordal if the
-    # CO-neighborhood of each vertex never induces a CO-cycle of length > 3
-    def induces_co_cycle(subset):
-        """
-        Returns True iff subset induces a co-cycle in graph.
+    for vertex in complement:
+        neighbourhood = list(complement.neighbors(vertex))
 
-        :param subset:
-        :return:
-        """
-        k = len(subset)
-        # subset induces a co-cycle iff every vertex it contains has co-degree 2 in the
-        # corresponding subgraph and the subgraph is co-connected; to avoid building the subgraph,
-        # we check instead that each vertex in the subset has k-1-2 = k-3 neighbors in the subset,
-        # and only after that do we try to check co-connectedness
-        if not all(len(neighbors(graph, v) & subset) == k - 3 for v in subset):
-            return False
-
-        return is_co_connected(graph.subgraph(subset))
-
-    # co-cycles on 3 elements are allowed, but no larger co-cycle; so the co-neighborhood
-    # must have size at least 4, i.e. n - 1 - d(v) >= 4, hence d(v) <= n - 5
-    max_degree = number_of_nodes(graph) - 5
-
-    for v, d in graph.degree:
-        if d <= max_degree and induces_co_cycle(non_neighbors(graph, v)):
-            return False
+        # A graph on fewer than four vertices is necessarily chordal.
+        if len(neighbourhood) >= 4:
+            if not nx.is_chordal(complement.subgraph(neighbourhood)):
+                return False
 
     return True
 
