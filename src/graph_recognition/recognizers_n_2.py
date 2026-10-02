@@ -16,9 +16,9 @@ import networkx as nx
 from networkx.utils.misc import arbitrary_element
 from pyroaring import BitMap
 
+# ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.adjacency_matrix import HalfAdjacencyMatrix
 from graph_recognition.domination import dominates
-# ----- My imports --------------------------------------------------------------------------------
 from graph_recognition.misc_algo import (
     number_of_common_neighbors,
     degree_sequence,

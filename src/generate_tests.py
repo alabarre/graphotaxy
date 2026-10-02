@@ -459,7 +459,7 @@ def prepare_code_string(
 
     # 2.3. Generate negative tests for excluded classes and their descendants.
     if class_id in EXCLUSION_GRAPH:
-        for excluded in EXCLUSION_GRAPH.successors(class_id):
+        for excluded in EXCLUSION_GRAPH.neighbors(class_id):
             if excluded in recognizers and excluded not in generated_here["negative"]:
                 code_string += test_method(
                     excluded,
