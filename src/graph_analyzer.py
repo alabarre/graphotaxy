@@ -53,7 +53,7 @@ from readwrite import process_graphs, number_of_graphs_in_file
 class GraphAnalyzer:
     """The class responsible for classifying a bunch of undirected graphs."""
 
-    def __init__(self, run_exponential_algos=False) -> None:
+    def __init__(self, run_exponential_algos: bool=False) -> None:
         """
         Initializes all data structures.
         """

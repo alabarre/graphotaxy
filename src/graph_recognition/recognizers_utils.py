@@ -357,7 +357,7 @@ def undecorated_function(function: Callable) -> Callable:
     return func
 
 
-def disable_lru_cache(function: Callable):
+def disable_lru_cache(function: Callable) -> Callable:
     """
     Returns a version of func without caching but preserving the lru_cache API.
 

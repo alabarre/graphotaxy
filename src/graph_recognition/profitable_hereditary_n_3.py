@@ -285,7 +285,7 @@ def my_is_at_free(graph: nx.Graph | HalfAdjacencyMatrix) -> bool:
         return True
 
     @lru_cache(maxsize=None)
-    def my_component_structure(w: Hashable):
+    def my_component_structure(w: Hashable) -> dict:
         """
         An attempt at writing a more efficient component_structure computation function than what
         networkx has to offer. Instead of computing the whole component structure, we just compute
